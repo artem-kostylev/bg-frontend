@@ -1,0 +1,14 @@
+export { default as MinusIcon } from "./Minus.vue";
+export { default as PlusIcon } from "./Plus.vue";
+export { default as XIcon } from "./X.vue";
+export { default as UserIcon } from "./User.vue";
+export { default as CheckIcon } from "./Check.vue";
+export { default as CompassIcon } from "./Compass.vue";
+export { default as MoonIcon } from "./Moon.vue";
+export { default as SearchIcon } from "./Search.vue";
+export { default as HeartIcon } from "./Heart.vue";
+export { default as CalendarIcon } from "./Calendar.vue";
+export { default as AirplaneIcon } from "./Airplane.vue";
+export { default as ArrowLeftIcon } from "./ArrowLeft.vue";
+export { default as EyeOpenIcon } from "./EyeOpen.vue";
+export { default as EyeCloseIcon } from "./EyeClose.vue";

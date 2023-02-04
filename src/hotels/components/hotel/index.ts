@@ -1,2 +1,3 @@
-export * from "./HotelDetails";
-export * from "./HotelRooms";
+export * from "./Details";
+export * from "./RoomCard";
+export * from "./RoomList";

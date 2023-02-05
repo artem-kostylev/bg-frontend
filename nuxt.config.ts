@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 export default defineNuxtConfig({
     srcDir: "src",
 
-    extends: ["src/app", "src/tours", "src/hotels", "src/booking", "src/account", "src/page"],
+    extends: ["src/app", "src/tours", "src/hotels", "src/booking", "src/account", "src/page", "src/auth"],
 
     app: {
         head: {

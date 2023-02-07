@@ -8,6 +8,6 @@ export type FetchCompositionResponse = {
     transfers: Transfer[];
 };
 
-export const fetchComposition = async () => {
+export const fetchComposition = () => {
     return http<FetchCompositionResponse>("tour/detail");
 };

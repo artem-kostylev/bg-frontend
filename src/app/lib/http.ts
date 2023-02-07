@@ -4,7 +4,7 @@ const BASE_URL = "https://api.bgagent3.bgit.ru";
 
 type Options = { version?: number } & FetchOptions<"json">;
 
-const http = <T>(request: RequestInfo, options: Options = {}) => {
+export const http = <T>(request: RequestInfo, options: Options = {}) => {
     options.baseURL = `${BASE_URL}/v${options.version ?? 1}/`;
 
     const headers = new Headers(options.headers);
@@ -14,5 +14,3 @@ const http = <T>(request: RequestInfo, options: Options = {}) => {
 
     return $fetch<T>(request, options);
 };
-
-export default http;

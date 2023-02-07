@@ -6,9 +6,8 @@ type Options = { version?: number } & FetchOptions<"json">;
 
 const http = <T>(request: RequestInfo, options: Options = {}) => {
     options.baseURL = `${BASE_URL}/v${options.version ?? 1}/`;
-    !options.headers && (options.headers = {});
 
-    const headers = new Headers();
+    const headers = new Headers(options.headers);
     headers.set("Accept", "application/json");
 
     options.headers = headers;

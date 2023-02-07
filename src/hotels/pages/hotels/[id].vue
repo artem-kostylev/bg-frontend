@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { useLazyAsyncData, useRoute, computed, useHead } from "#imports";
+import { useLazyAsyncData, useHead } from "#imports";
+import { useParams } from "@/app/composables";
 import { Details, RoomList } from "@/hotels/components";
 import { fetchHotel } from "@/hotels/services";
 
-const route = useRoute();
+const params = useParams<{ id: string }>();
 
-const id = computed(() => route.params.id as string);
-
-const { data, pending } = useLazyAsyncData("hotel", () => fetchHotel(id.value));
+const { data, pending } = useLazyAsyncData("hotel", () => fetchHotel(params.value.id), {
+    server: false,
+});
 
 useHead({
     title: data.value?.meta.title,

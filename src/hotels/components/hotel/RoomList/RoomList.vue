@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { computed, useLazyAsyncData, useRoute } from "#imports";
+import { useLazyAsyncData } from "#imports";
+import { useParams } from "@/app/composables";
 import { RoomCard } from "@/hotels/components";
 import { fetchRooms } from "@/hotels/services";
 
-const route = useRoute();
+const params = useParams<{ id: string }>();
 
-const id = computed(() => route.params.id as string);
-
-const { data, pending } = useLazyAsyncData("rooms", () => fetchRooms(id.value), {
+const { data, pending } = useLazyAsyncData("rooms", () => fetchRooms(params.value.id), {
     server: false,
 });
 </script>

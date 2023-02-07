@@ -8,6 +8,18 @@ export type FetchCompositionResponse = {
     transfers: Transfer[];
 };
 
-export const fetchComposition = () => {
-    return http<FetchCompositionResponse>("tour/detail");
+export type FetchCompositionParams = {
+    ids: string[] | string;
+    tours_hash: string;
+};
+
+export const fetchComposition = (body: FetchCompositionParams) => {
+    const ids = Array.isArray(body.ids)
+        ? body.ids.map(item => item.split("@"))
+        : [body.ids.split("@")];
+
+    return http<FetchCompositionResponse>("tour/detail", {
+        method: "POST",
+        body: { ids, tours_hash: body.tours_hash },
+    });
 };

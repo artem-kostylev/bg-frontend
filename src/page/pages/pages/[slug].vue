@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { useLazyAsyncData, useRoute, computed, useHead } from "#imports";
+import { useLazyAsyncData, useHead } from "#imports";
+import { useParams } from "@/app/composables";
 import { fetchPage } from "@/page/services";
 
-const route = useRoute();
+const params = useParams<{ slug: string }>();
 
-const slug = computed(() => route.params.slug as string);
-
-const { data, pending } = useLazyAsyncData("page", () => fetchPage(slug.value));
+const { data, pending } = useLazyAsyncData("page", () => fetchPage(params.value.slug));
 
 useHead({
     title: data.value?.meta.title,

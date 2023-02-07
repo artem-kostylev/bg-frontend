@@ -5,7 +5,9 @@ import { fetchComposition, FetchCompositionParams } from "@/booking/services";
 
 const query = useQuery<FetchCompositionParams>();
 
-const { data, pending } = useLazyAsyncData("hotels", () => fetchComposition(query.value));
+const { data, pending } = useLazyAsyncData("booking-composition", () =>
+    fetchComposition(query.value)
+);
 
 useHead({
     title: "Состав тура",

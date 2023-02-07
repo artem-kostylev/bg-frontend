@@ -10,9 +10,7 @@ definePageMeta({
 
 const query = useQuery<FetchMovementsQuery>();
 
-const { data, pending } = useLazyAsyncData("booking-confirmation", () =>
-    fetchMovements(query.value)
-);
+const { data, pending } = useLazyAsyncData("booking-tickets", () => fetchMovements(query.value));
 
 useHead({
     title: "Билеты",

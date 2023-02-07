@@ -1,6 +1,5 @@
-import type { Ref } from "vue";
-import type { LocationQuery } from "vue-router";
-import { useRoute, toRef } from "#imports";
+import { toRef, type Ref } from "vue";
+import { useRoute, type LocationQuery } from "vue-router";
 
 export const useQuery = <T = LocationQuery>() => {
     const route = useRoute();

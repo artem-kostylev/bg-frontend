@@ -8,8 +8,12 @@
     "postinstall": "nuxt prepare",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
   },
+  "overrides": {
+    "vue": "latest"
+  },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.2.0",
+    "@types/lodash-es": "^4.17.6",
     "@types/node": "^18.11.18",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^11.0.2",
@@ -25,9 +29,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.4.6",
+    "lodash-es": "^4.17.21",
     "pinia": "^2.0.30"
-  },
-  "overrides": {
-    "vue": "latest"
   }
 }

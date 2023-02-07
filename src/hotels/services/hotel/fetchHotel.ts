@@ -10,8 +10,7 @@ export type FetchHotelResponse = {
 export const fetchHotel = async (id: string): Promise<FetchHotelResponse> => {
     // TODO: Возвращать meta с бэка
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response = await http<any>(`hotels/${id}`);
+    const response = await http<Hotel>(`hotels/${id}`);
 
     return { meta: { title: response.name, description: response.name }, hotel: response };
 };

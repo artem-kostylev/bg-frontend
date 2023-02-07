@@ -1,15 +1,23 @@
 <script setup lang="ts">
-import { Button } from "@ui/components";
+import { useLazyAsyncData, useHead } from "#imports";
+import { fetchHome } from "@/page/services";
+
+const { data, pending } = useLazyAsyncData("home", () => fetchHome());
+
+useHead({
+    title: "Библио-Глобус – туры, авиабилеты, билеты на поезд, бронирование отелей",
+    meta: [
+        {
+            name: "description",
+            content: "Библио-Глобус – туры, авиабилеты, билеты на поезд, бронирование отелей",
+        },
+    ],
+});
 </script>
 
 <template>
     <div>
-        <div>Home page</div>
-        <NuxtLink to="/tours">
-            <Button>Get tours</Button>
-        </NuxtLink>
-        <NuxtLink to="/tours?from=260">
-            <Button>Get tours with from</Button>
-        </NuxtLink>
+        <div v-if="pending">loading...</div>
+        <div v-else-if="data">{{ data }}</div>
     </div>
 </template>

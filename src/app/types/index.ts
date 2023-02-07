@@ -1,8 +1,2 @@
-export type Meta = {
-    title: string;
-    description: string;
-};
-
-export type Image = {
-    url: string;
-};
+export * from "./image";
+export * from "./meta";

@@ -1,26 +1,17 @@
 <script setup lang="ts">
-import { useHead, useLazyAsyncData } from "#imports";
+import { useLazyAsyncData } from "#imports";
 import { HotelCard } from "@/hotels/components";
 import { fetchTours } from "@/tours/services";
+import { Page } from "@/app/components";
 
 const { data, pending } = useLazyAsyncData("hotels", () => fetchTours());
-
-useHead({
-    title: data.value?.meta.title,
-    meta: [
-        {
-            name: "description",
-            content: data.value?.meta.description,
-        },
-    ],
-});
 </script>
 
 <template>
-    <div>
+    <Page :meta="data?.meta">
         <div v-if="pending">loading...</div>
         <div v-else-if="data" class="grid grid-cols-3 gap-5">
             <HotelCard v-for="tour in data.tours" :key="tour.hotel.id" :hotel="tour.hotel" />
         </div>
-    </div>
+    </Page>
 </template>

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useHead, useLazyAsyncData, definePageMeta } from "#imports";
+import { useLazyAsyncData, definePageMeta } from "#imports";
 import { useQuery } from "@/app/composables";
 import { hasKeys } from "@/app/lib";
+import { Page } from "@/app/components";
 import { TicketCard } from "@/booking/components";
 import { fetchMovements, FetchMovementsQuery } from "@/booking/services";
 
@@ -13,19 +14,14 @@ const query = useQuery<FetchMovementsQuery>();
 
 const { data, pending } = useLazyAsyncData("booking-tickets", () => fetchMovements(query.value));
 
-useHead({
+const meta = {
     title: "Билеты",
-    meta: [
-        {
-            name: "description",
-            content: "Описание страницы билеты",
-        },
-    ],
-});
+    description: "Описание страницы билеты",
+};
 </script>
 
 <template>
-    <div>
+    <Page :meta="meta">
         <div v-if="pending">loading...</div>
         <div v-else-if="data" class="grid grid-cols-3 gap-5">
             <TicketCard
@@ -34,5 +30,5 @@ useHead({
                 :movement="movement"
             />
         </div>
-    </div>
+    </Page>
 </template>

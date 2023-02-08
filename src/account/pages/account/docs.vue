@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useLazyAsyncData, useHead, definePageMeta } from "#imports";
+import { useLazyAsyncData, definePageMeta } from "#imports";
 import { fetchDocuments } from "@/account/services";
+import { Page } from "@/app/components";
 
 definePageMeta({
     middleware: "auth",
@@ -8,14 +9,15 @@ definePageMeta({
 
 const { data, pending } = useLazyAsyncData("account-documents", () => fetchDocuments());
 
-useHead({
+const meta = {
     title: "Документы туристов",
-});
+    description: "Описание страницы",
+};
 </script>
 
 <template>
-    <div>
+    <Page :meta="meta">
         <div v-if="pending">loading...</div>
         <div v-else-if="data">{{ data }}</div>
-    </div>
+    </Page>
 </template>

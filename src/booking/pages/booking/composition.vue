@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useHead, useLazyAsyncData, definePageMeta } from "#imports";
+import { useLazyAsyncData, definePageMeta } from "#imports";
 import { useQuery } from "@/app/composables";
+import { Page } from "@/app/components";
 import { fetchComposition, FetchCompositionQuery } from "@/booking/services";
 import { Selected } from "@/booking/components";
 
@@ -24,23 +25,18 @@ const { data, pending } = useLazyAsyncData("booking-composition", () =>
     fetchComposition(query.value)
 );
 
-useHead({
+const meta = {
     title: "Состав тура",
-    meta: [
-        {
-            name: "description",
-            content: "Описание состава тура",
-        },
-    ],
-});
+    description: "Описание состава тура",
+};
 </script>
 
 <template>
-    <div>
+    <Page :meta="meta">
         <div v-if="pending">loading...</div>
         <div v-else-if="data">
             <Selected />
             {{ data }}
         </div>
-    </div>
+    </Page>
 </template>

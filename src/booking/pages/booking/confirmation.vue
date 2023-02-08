@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useHead, useLazyAsyncData } from "#imports";
+import { useLazyAsyncData } from "#imports";
 import { useQuery } from "@/app/composables";
+import { Page } from "@/app/components";
 import { fetchConfirmation, FetchConfirmationQuery } from "@/booking/services";
 import { Selected } from "@/booking/components";
 
@@ -10,23 +11,18 @@ const { data, pending } = useLazyAsyncData("booking-confirmation", () =>
     fetchConfirmation(query.value)
 );
 
-useHead({
+const meta = {
     title: "Оформление тура",
-    meta: [
-        {
-            name: "description",
-            content: "Описание страницы оформления тура",
-        },
-    ],
-});
+    description: "Описание страницы оформления тура",
+};
 </script>
 
 <template>
-    <div>
+    <Page :meta="meta">
         <div v-if="pending">loading...</div>
         <div v-else-if="data">
             <Selected />
             {{ data }}
         </div>
-    </div>
+    </Page>
 </template>

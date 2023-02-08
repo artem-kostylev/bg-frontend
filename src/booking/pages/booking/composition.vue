@@ -2,6 +2,7 @@
 import { useHead, useLazyAsyncData, definePageMeta } from "#imports";
 import { useQuery } from "@/app/composables";
 import { fetchComposition, FetchCompositionQuery } from "@/booking/services";
+import { Selected } from "@/booking/components";
 
 definePageMeta({
     validate: route => {
@@ -37,6 +38,9 @@ useHead({
 <template>
     <div>
         <div v-if="pending">loading...</div>
-        <div v-else-if="data">{{ data }}</div>
+        <div v-else-if="data">
+            <Selected />
+            {{ data }}
+        </div>
     </div>
 </template>

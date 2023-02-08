@@ -2,6 +2,7 @@
 import { useHead, useLazyAsyncData } from "#imports";
 import { useQuery } from "@/app/composables";
 import { fetchConfirmation, FetchConfirmationQuery } from "@/booking/services";
+import { Selected } from "@/booking/components";
 
 const query = useQuery<FetchConfirmationQuery>();
 
@@ -23,6 +24,9 @@ useHead({
 <template>
     <div>
         <div v-if="pending">loading...</div>
-        <div v-else-if="data">{{ data }}</div>
+        <div v-else-if="data">
+            <Selected />
+            {{ data }}
+        </div>
     </div>
 </template>

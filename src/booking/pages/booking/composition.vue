@@ -13,9 +13,7 @@ definePageMeta({
             tour_type,
         }: Partial<FetchCompositionQuery> = route.query;
 
-        if (!tour_type) return false;
-
-        return has_movements ? !(ids && tours_hash) : !accommodations_unikey;
+        return tour_type ? (has_movements ? !(ids && tours_hash) : !accommodations_unikey) : false;
     },
 });
 

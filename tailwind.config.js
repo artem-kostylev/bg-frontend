@@ -2,7 +2,7 @@
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    content: ["./src/**/*.{vue,ts}", "./nuxt.config.{js,ts}"],
+    content: ["./packages/**/*.{vue,ts}", "./src/**/*.{vue,ts}", "./nuxt.config.{js,ts}"],
     theme: {
         extend: {
             fontSize: {

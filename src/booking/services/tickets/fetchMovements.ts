@@ -2,7 +2,9 @@ import { http } from "@/app/lib";
 import type { Movement } from "@/booking/types";
 
 export type FetchMovementsResponse = {
+    direction: string;
     movements: Movement[];
+    price: number;
 };
 
 export type FetchMovementsQuery = {
@@ -23,14 +25,14 @@ type FetchMovementsPayload = FetchMovementsQuery;
  * И можно ли сделать как-то проще
  */
 
-export const fetchMovements = (payload: FetchMovementsPayload) => {
+export const fetchMovements = async (payload: FetchMovementsPayload) => {
     const ids = payload.ids ? (Array.isArray(payload.ids) ? payload.ids : [payload.ids]) : [];
 
     const accommodations_unikey = Array.isArray(payload.accommodations_unikey)
         ? [payload.accommodations_unikey]
         : [[payload.accommodations_unikey]];
 
-    return http<FetchMovementsResponse>("tour/movements", {
+    const response = await http<FetchMovementsResponse>("tour/movements", {
         method: "POST",
         body: {
             ids,
@@ -40,4 +42,12 @@ export const fetchMovements = (payload: FetchMovementsPayload) => {
             package_tour_id: payload.package_tour_id,
         },
     });
+
+    /**
+     * TODO: Возвращать direction и price с бэка
+     */
+    response.direction = response.movements[0].direction;
+    response.price = Math.min(...response.movements.map(movement => movement.price));
+
+    return response;
 };

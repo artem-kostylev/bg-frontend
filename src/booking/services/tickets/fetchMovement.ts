@@ -11,7 +11,7 @@ export type FetchMovementQuery = {
     tour_from: string;
 };
 
-type FetchMovementPayload = FetchMovementQuery & { flight_hash: Movement["flight_hash"] };
+export type FetchMovementPayload = FetchMovementQuery & { flight_hash: Movement["flight_hash"] };
 
 /**
  * TODO: Те же замечания, что и в tour/movements (fetchMovements)

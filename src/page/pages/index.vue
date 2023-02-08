@@ -13,7 +13,6 @@ const meta = {
 
 <template>
     <Page :meta="meta">
-        <NuxtLink to="/tours">go to tours</NuxtLink>
         <div v-if="pending">loading...</div>
         <div v-else-if="data">{{ data }}</div>
     </Page>

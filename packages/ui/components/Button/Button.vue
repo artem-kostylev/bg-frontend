@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import type { Component } from "vue";
+import { computed, type Component } from "vue";
 import { Spin } from "../Spin";
 
 type Props = {
@@ -17,15 +16,12 @@ type Props = {
 
 const props = withDefaults(defineProps<Props>(), {
     size: "md",
-    loading: false,
     variant: "base",
     type: "button",
     justify: "center",
     startIcon: undefined,
     endIcon: undefined,
-    block: false,
-    disabled: false,
-    iconClass: "",
+    iconClass: undefined,
 });
 
 const endIcon = computed(() => {
@@ -34,8 +30,22 @@ const endIcon = computed(() => {
 </script>
 
 <template>
-    <button :type="type" :class="['btn', `btn--${variant}`, `btn--${size}`, `btn--${justify}`, block && `btn--block`]">
-        <component :is="startIcon" width="1em" height="1em" :class="['btn__start-icon', iconClass]" />
+    <button
+        :type="type"
+        :class="[
+            'btn',
+            `btn--${variant}`,
+            `btn--${size}`,
+            `btn--${justify}`,
+            block && `btn--block`,
+        ]"
+    >
+        <component
+            :is="startIcon"
+            width="1em"
+            height="1em"
+            :class="['btn__start-icon', iconClass]"
+        />
         <span class="truncate">
             <slot />
         </span>

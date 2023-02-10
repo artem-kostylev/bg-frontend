@@ -33,13 +33,15 @@ export const fetchRooms = (id: string) => {
         version: 2,
         body: {
             tour_type: "classic",
-            accommodations_unikey: [[]],
+            accommodations_unikey: [[], []],
             filters: {
                 "component.components.type": ["accommodation", "movement"],
                 "tour.is_multi_living": false,
                 tour_from: 260,
-                tour_to: { id: 15694, type: "location" },
-                tour_tourists: [{ adults: [36, 36], children: [], pet: false }],
+                tour_tourists: [
+                    { adults: [36, 36], children: [], pet: false },
+                    { adults: [36, 36], children: [], pet: false },
+                ],
             },
         },
     });

@@ -60,7 +60,7 @@ const fetchCompositionWithoutMovements = async (payload: FetchCompositionPayload
 };
 
 export const fetchComposition = async (payload: FetchCompositionPayload) => {
-    return payload.has_movements
-        ? await fetchCompositionWithoutMovements(payload)
-        : await fetchCompositionWithMovements(payload);
+    return payload.has_movements === "true"
+        ? await fetchCompositionWithMovements(payload)
+        : await fetchCompositionWithoutMovements(payload);
 };

@@ -9,5 +9,5 @@ defineProps<Props>();
 </script>
 
 <template>
-    <div>{{ hotel }}</div>
+    <div>{{ hotel.name }}</div>
 </template>

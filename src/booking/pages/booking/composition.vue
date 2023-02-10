@@ -2,7 +2,7 @@
 import { useLazyAsyncData, definePageMeta } from "#imports";
 import { useQuery } from "@/app/composables";
 import { Page } from "@/app/components";
-import { fetchComposition, FetchCompositionQuery } from "@/booking/services";
+import { fetchComposition, type FetchCompositionQuery } from "@/booking/services";
 import { Selected } from "@/booking/components";
 
 definePageMeta({

@@ -6,7 +6,8 @@ import { useQuery } from "@/app/composables";
 import { Button, Modal } from "@ui/components";
 import type { Movement } from "@/booking/types";
 import { MovementCard, RateModal } from "@/booking/components";
-import { fetchMovement, FetchMovementQuery, FetchMovementPayload } from "@/booking/services";
+import type { FetchMovementQuery, FetchMovementPayload } from "@/booking/services";
+import { fetchMovement } from "@/booking/services";
 
 type Props = {
     movement: Movement;

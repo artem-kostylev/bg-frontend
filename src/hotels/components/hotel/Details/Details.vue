@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Hotel } from "@/hotels/types";
+import type { Hotel } from "@/hotels/types";
 
 type Props = {
     hotel: Hotel;

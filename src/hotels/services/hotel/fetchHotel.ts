@@ -1,6 +1,6 @@
 import type { Meta } from "@/app/types";
 import { http } from "@/app/lib";
-import { Hotel } from "@/hotels/types";
+import type { Hotel } from "@/hotels/types";
 
 export type FetchHotelResponse = {
     meta: Meta;

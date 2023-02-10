@@ -2,7 +2,8 @@
 import { useLazyAsyncData } from "#imports";
 import { useQuery } from "@/app/composables";
 import { Page } from "@/app/components";
-import { fetchConfirmation, FetchConfirmationQuery } from "@/booking/services";
+import type { FetchConfirmationQuery } from "@/booking/services";
+import { fetchConfirmation } from "@/booking/services";
 import { Selected } from "@/booking/components";
 
 const query = useQuery<FetchConfirmationQuery>();

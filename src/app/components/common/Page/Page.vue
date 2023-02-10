@@ -16,7 +16,7 @@ useHead({
 </script>
 
 <template>
-    <Container>
+    <Container class="py-4 md:py-8 lg:py-12">
         <slot />
     </Container>
 </template>

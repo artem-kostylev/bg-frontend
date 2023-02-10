@@ -1,5 +1,5 @@
 import { http } from "@/app/lib";
-import { Document } from "@/account/types";
+import type { Document } from "@/account/types";
 
 type FetchAccountResponse = {
     data: Document[];

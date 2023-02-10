@@ -1,4 +1,4 @@
-import { PiniaPluginContext } from "pinia";
+import type { PiniaPluginContext } from "pinia";
 import { defineNuxtPlugin } from "#imports";
 import { cloneDeep } from "lodash-es";
 

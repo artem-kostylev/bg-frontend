@@ -29,7 +29,6 @@ onBeforeUnmount(() => roomsStore.$reset());
         <div v-if="pending">loading...</div>
         <div v-else-if="data">
             <template v-for="(group, index) in data.groups" :key="index">
-                {{ index }}
                 <template v-if="currentGroupIndex === index">
                     <div v-if="!group.rooms.length">Комнаты по заданным критериям не найдены</div>
                     <template v-else>

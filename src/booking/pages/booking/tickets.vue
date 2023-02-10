@@ -4,7 +4,8 @@ import { useQuery } from "@/app/composables";
 import { hasKeys } from "@/app/lib";
 import { Page } from "@/app/components";
 import { TicketCard } from "@/booking/components";
-import { fetchMovements, FetchMovementsQuery } from "@/booking/services";
+import type { FetchMovementsQuery } from "@/booking/services";
+import { fetchMovements } from "@/booking/services";
 
 definePageMeta({
     validate: route => hasKeys(route.query, ["accommodations_unikey", "tour_from"]),

@@ -1,5 +1,5 @@
 import { http } from "@/app/lib";
-import { Account } from "@/account/types";
+import type { Account } from "@/account/types";
 
 type FetchAccountResponse = {
     data: Account;

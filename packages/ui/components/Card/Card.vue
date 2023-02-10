@@ -6,6 +6,6 @@
 
 <style lang="postcss">
 .card {
-    @apply relative w-full rounded-xl flex flex-col bg-white shadow-md overflow-hidden;
+    @apply relative w-full rounded-xl flex flex-col bg-white shadow-primary overflow-hidden;
 }
 </style>

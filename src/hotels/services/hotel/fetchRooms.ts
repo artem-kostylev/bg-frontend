@@ -1,5 +1,5 @@
 import { http } from "@/app/lib";
-import { Room } from "@/hotels/types";
+import type { Room } from "@/hotels/types";
 
 type Group = {
     rooms: Room[];

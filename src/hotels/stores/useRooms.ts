@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
-import { AvailableDate } from "@/hotels/types";
+import type { AvailableDate } from "@/hotels/types";
 
 export const useRooms = defineStore("rooms", () => {
     const currentGroupIndex = ref(0);

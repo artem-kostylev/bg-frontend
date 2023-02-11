@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { useLazyAsyncData } from "#imports";
 import { TourCard } from "@/tours/components";
+import type { FetchToursQuery } from "@/tours/services";
 import { fetchTours } from "@/tours/services";
+import { useQuery } from "@/app/composables";
 import { Page } from "@/app/components";
 
-const { data, pending } = useLazyAsyncData("tours", () => fetchTours());
+const query = useQuery<FetchToursQuery>();
+
+const { data, pending } = useLazyAsyncData("tours", () => fetchTours(query.value));
 </script>
 
 <template>

@@ -1,5 +1,7 @@
 import { http } from "@/app/lib";
+import type { Filters } from "@/tours/types/filters";
 import type { Room } from "@/hotels/types";
+import type { TourType } from "@/tours/types";
 
 type Group = {
     rooms: Room[];
@@ -9,7 +11,9 @@ type FetchRoomsResponse = {
     groups: Group[];
 };
 
-export const fetchRooms = (id: string) => {
+export type FetchRoomsQuery = Filters & { tour_type: TourType };
+
+export const fetchRooms = (id: string, query: FetchRoomsQuery) => {
     /**
      * TODO: Вынести даты для каждого типа питания в отдельный endpoint
      */
@@ -26,23 +30,19 @@ export const fetchRooms = (id: string) => {
 
     /**
      * accommodations_unikey: [[]] костыль
+     * Если не передается этот параметр
+     * заполнять можно вот так - new Array(tour_tourists.length).fill([])
      */
+
+    const { tour_type, filters } = query;
 
     return http<FetchRoomsResponse>(`tour/hotel/${id}/rooms`, {
         method: "POST",
         version: 2,
         body: {
-            tour_type: "classic",
+            tour_type,
             accommodations_unikey: [[], []],
-            filters: {
-                "component.components.type": ["accommodation", "movement"],
-                "tour.is_multi_living": false,
-                tour_from: 260,
-                tour_tourists: [
-                    { adults: [36, 36], children: [], pet: false },
-                    { adults: [36, 36], children: [], pet: false },
-                ],
-            },
+            filters,
         },
     });
 };

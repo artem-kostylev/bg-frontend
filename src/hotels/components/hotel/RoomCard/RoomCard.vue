@@ -2,7 +2,7 @@
 import type { Room } from "@/hotels/types";
 import { Button, Card, CardBody } from "@ui/components";
 import { formatCurrency } from "@/app/lib";
-import { useRooms } from "@/hotels/stores";
+import { useRoomsStore } from "@/hotels/stores";
 
 type Props = {
     room: Room;
@@ -11,7 +11,7 @@ type Props = {
 
 defineProps<Props>();
 
-const roomsStore = useRooms();
+const roomsStore = useRoomsStore();
 const { selectDates } = roomsStore;
 </script>
 

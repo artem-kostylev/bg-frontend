@@ -4,17 +4,22 @@ import { storeToRefs } from "pinia";
 import { useLazyAsyncData } from "#imports";
 import { useParams } from "@/app/composables";
 import { RoomCard, AvailableDates } from "@/hotels/components";
+import type { FetchRoomsQuery } from "@/hotels/services";
 import { fetchRooms } from "@/hotels/services";
-import { useRooms } from "@/hotels/stores";
+import { useRoomsStore } from "@/hotels/stores";
 import { Modal } from "@ui/components";
+import { useQuery } from "@/app/composables";
 
 const params = useParams<{ id: string }>();
+const query = useQuery<FetchRoomsQuery>();
 
-const { data, pending } = useLazyAsyncData("rooms", () => fetchRooms(params.value.id), {
-    server: false,
-});
+const { data, pending } = useLazyAsyncData(
+    "rooms",
+    () => fetchRooms(params.value.id, query.value),
+    { server: false }
+);
 
-const roomsStore = useRooms();
+const roomsStore = useRoomsStore();
 const { currentGroupIndex, openModal } = storeToRefs(roomsStore);
 
 const isLastGroup = computed(() => {

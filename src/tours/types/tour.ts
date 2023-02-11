@@ -9,3 +9,5 @@ export type Tour = {
     insurance_included: boolean;
     transfer_included: boolean;
 };
+
+export type TourType = "classic" | "hotel" | "package";

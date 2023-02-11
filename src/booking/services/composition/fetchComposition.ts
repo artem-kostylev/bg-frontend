@@ -1,5 +1,6 @@
 import { http } from "@/app/lib";
 import type { Movement, Insurance, Transfer, General } from "@/booking/types";
+import type { TourType } from "@/tours/types";
 
 export type FetchCompositionResponse = {
     general: General;
@@ -11,7 +12,7 @@ export type FetchCompositionResponse = {
 export type FetchCompositionQuery = {
     ids: string[] | string;
     tours_hash: string;
-    tour_type: "hotel";
+    tour_type: TourType;
     has_movements: string;
     accommodations_unikey: string;
 };
@@ -39,7 +40,7 @@ const fetchCompositionWithoutMovements = async (payload: FetchCompositionPayload
         ? [payload.accommodations_unikey]
         : [[payload.accommodations_unikey]];
 
-    let ids: string[][] | undefined = undefined;
+    let ids: string[][] | undefined;
 
     if (!payload.ids) {
         const response = await http<{ tour_id: string[][] }>("tour/not_movement", {

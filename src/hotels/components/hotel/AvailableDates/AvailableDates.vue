@@ -1,9 +1,9 @@
 <script setup lang="ts">
 // import { useQuery } from "@/app/composables";
 // import type { AvailableDate, AvailableDateItem } from "@/hotels/types";
-import { useRooms } from "@/hotels/stores";
+import { useRoomsStore } from "@/hotels/stores";
 
-const { selectedDates } = useRooms();
+const { selectedDates } = useRoomsStore();
 
 // const query = useQuery<{ tour_from: number }>();
 

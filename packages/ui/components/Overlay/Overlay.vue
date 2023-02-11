@@ -43,6 +43,6 @@ onBeforeUnmount(() => {
 
 <style lang="postcss">
 .overlay {
-    @apply fixed top-0 left-0 w-screen h-screen bg-slate-900/90 backdrop-blur-sm backdrop-filter z-40;
+    @apply fixed top-0 left-0 w-screen h-screen bg-gray-900/90 backdrop-blur-sm backdrop-filter z-40;
 }
 </style>

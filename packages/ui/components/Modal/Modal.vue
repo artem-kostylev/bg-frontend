@@ -61,7 +61,7 @@ const slotProps = { onClick: open };
 </script>
 
 <template>
-    <slot name="trigger" :props="slotProps" />
+    <slot name="trigger" :vbind="slotProps" />
     <Teleport to="body">
         <Overlay :show="visible" :loading="loading">
             <div class="modal" @click.self.prevent="close">

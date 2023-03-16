@@ -7,7 +7,7 @@ export const useRoomsStore = defineStore("rooms", () => {
     const selectedDates = ref<AvailableDate[][]>([]);
     const openModal = ref(false);
 
-    const selectDates = (dates: AvailableDate[], isLastGroup: boolean | null) => {
+    const selectDates = (dates: AvailableDate[], isLastGroup: boolean) => {
         selectedDates.value[currentGroupIndex.value] = dates;
         isLastGroup ? (openModal.value = true) : currentGroupIndex.value++;
     };

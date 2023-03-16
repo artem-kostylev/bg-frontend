@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { Room } from "@/hotels/types";
-import { Button, Card, CardBody } from "@ui/components";
+import { Button, Card, CardBody, Typography } from "@ui/components";
 import { formatCurrency } from "@/app/lib";
 import { useRoomsStore } from "@/hotels/stores";
 
 type Props = {
     room: Room;
-    isLastGroup: boolean | null;
+    isLastGroup: boolean;
 };
 
 defineProps<Props>();
@@ -18,7 +18,7 @@ const { selectDates } = roomsStore;
 <template>
     <Card>
         <CardBody>
-            {{ room.name }}
+            <Typography variant="h4" as="h3">{{ room.name }}</Typography>
             <div v-for="food in room.food" :key="food.id">
                 {{ food.name }}
                 <Button @click="selectDates(food.dates, isLastGroup)">

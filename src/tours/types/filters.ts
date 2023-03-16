@@ -19,4 +19,4 @@ export type MainFilters = {
 
 export type AdvancedFilters = Record<string, string | number | boolean>;
 
-export type Filters = MainFilters & AdvancedFilters;
+export type Filters = AdvancedFilters & MainFilters;

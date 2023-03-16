@@ -26,16 +26,14 @@ type FetchMovementsPayload = FetchMovementsQuery;
  */
 
 export const fetchMovements = async (payload: FetchMovementsPayload) => {
-    const ids = payload.ids ? (Array.isArray(payload.ids) ? payload.ids : [payload.ids]) : [];
-
     const accommodations_unikey = Array.isArray(payload.accommodations_unikey)
-        ? [payload.accommodations_unikey]
-        : [[payload.accommodations_unikey]];
+        ? payload.accommodations_unikey
+        : [payload.accommodations_unikey];
 
     const response = await http<FetchMovementsResponse>("tour/movements", {
         method: "POST",
         body: {
-            ids,
+            ids: payload.ids ?? [],
             accommodations_unikey,
             tour_from: payload.tour_from,
             tour_type: payload.tour_type,

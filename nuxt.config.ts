@@ -2,6 +2,8 @@ import { defineNuxtConfig } from "nuxt/config";
 import { fileURLToPath } from "url";
 
 export default defineNuxtConfig({
+    ssr: false,
+
     srcDir: "src",
 
     extends: [
@@ -30,6 +32,7 @@ export default defineNuxtConfig({
 
     alias: {
         "@ui": fileURLToPath(new URL("./packages/ui", import.meta.url)),
+        "@querystring": fileURLToPath(new URL("./packages/querystring", import.meta.url)),
     },
 
     imports: {

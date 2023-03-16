@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import { useHead } from "#imports";
-import type { Meta } from "@/app/types";
+import type { Meta as IMeta } from "@/app/types";
 import { Container } from "@ui/components";
 
 type Props = {
-    meta?: Meta;
+    meta?: IMeta;
 };
 
-const props = defineProps<Props>();
-
-useHead({
-    title: props.meta?.title,
-    meta: [{ name: "description", content: props.meta?.description }],
-});
+defineProps<Props>();
 </script>
 
 <template>
-    <Container class="py-4 md:py-8 lg:py-12">
+    <Head>
+        <Title v-if="meta?.title">{{ meta?.title }}</Title>
+        <Meta v-if="meta?.description" name="description" :content="meta?.description" />
+    </Head>
+    <Container class="grid w-full py-4 md:py-8 lg:py-12">
         <slot />
     </Container>
 </template>

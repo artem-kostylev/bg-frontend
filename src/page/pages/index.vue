@@ -2,6 +2,7 @@
 import { useLazyAsyncData } from "#imports";
 import { fetchHome } from "@/page/services";
 import { Page } from "@/app/components";
+import { Spin } from "@ui/components";
 
 const { data, pending } = useLazyAsyncData("home", () => fetchHome());
 
@@ -13,7 +14,7 @@ const meta = {
 
 <template>
     <Page :meta="meta">
-        <div v-if="pending">loading...</div>
+        <Spin v-if="pending" color="primary" />
         <div v-else-if="data">{{ data }}</div>
     </Page>
 </template>

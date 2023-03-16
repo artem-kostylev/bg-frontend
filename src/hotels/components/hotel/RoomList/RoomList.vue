@@ -7,11 +7,14 @@ import { RoomCard, AvailableDates } from "@/hotels/components";
 import type { FetchRoomsQuery } from "@/hotels/services";
 import { fetchRooms } from "@/hotels/services";
 import { useRoomsStore } from "@/hotels/stores";
-import { Modal } from "@ui/components";
+import { Modal, Typography, Spin } from "@ui/components";
 import { useQuery } from "@/app/composables";
 
 const params = useParams<{ id: string }>();
 const query = useQuery<FetchRoomsQuery>();
+
+const roomsStore = useRoomsStore();
+const { currentGroupIndex, openModal } = storeToRefs(roomsStore);
 
 const { data, pending } = useLazyAsyncData(
     "rooms",
@@ -19,11 +22,8 @@ const { data, pending } = useLazyAsyncData(
     { server: false }
 );
 
-const roomsStore = useRoomsStore();
-const { currentGroupIndex, openModal } = storeToRefs(roomsStore);
-
 const isLastGroup = computed(() => {
-    return data.value && currentGroupIndex.value === data.value.groups.length - 1;
+    return currentGroupIndex.value + 1 === data.value?.groups.length;
 });
 
 onBeforeUnmount(() => roomsStore.$reset());
@@ -31,22 +31,32 @@ onBeforeUnmount(() => roomsStore.$reset());
 
 <template>
     <div>
-        <div v-if="pending">loading...</div>
-        <div v-else-if="data">
+        <Typography variant="h3" as="h2">Номера</Typography>
+        <Spin v-if="pending" class="py-5" color="primary" />
+        <div v-else-if="data" class="py-5">
             <template v-for="(group, index) in data.groups" :key="index">
-                <template v-if="currentGroupIndex === index">
-                    <div v-if="!group.rooms.length">Комнаты по заданным критериям не найдены</div>
-                    <template v-else>
-                        <div class="grid grid-cols-3 gap-5">
-                            <RoomCard
-                                v-for="room in group.rooms"
-                                :key="room.id"
-                                :room="room"
-                                :is-last-group="isLastGroup"
-                            />
+                <Transition
+                    mode="out-in"
+                    enter-active-class="transform transition ease-in-out duration-500"
+                    enter-from-class="translate-x-1/2"
+                    enter-to-class="translate-x-0"
+                >
+                    <template v-if="currentGroupIndex === index">
+                        <div v-if="!group.rooms.length">
+                            Комнаты по заданным критериям не найдены
                         </div>
+                        <template v-else>
+                            <div class="grid grid-cols-3 gap-5">
+                                <RoomCard
+                                    v-for="room in group.rooms"
+                                    :key="room.id"
+                                    :room="room"
+                                    :is-last-group="isLastGroup"
+                                />
+                            </div>
+                        </template>
                     </template>
-                </template>
+                </Transition>
             </template>
             <Modal v-model="openModal">
                 <AvailableDates />

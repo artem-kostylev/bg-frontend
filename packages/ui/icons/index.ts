@@ -12,3 +12,5 @@ export { default as AirplaneIcon } from "./Airplane.vue";
 export { default as ArrowLeftIcon } from "./ArrowLeft.vue";
 export { default as EyeOpenIcon } from "./EyeOpen.vue";
 export { default as EyeCloseIcon } from "./EyeClose.vue";
+export { default as AlertOctagonIcon } from "./AlertOctagon.vue";
+export { default as StarIcon } from "./Star.vue";

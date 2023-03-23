@@ -1,6 +1,7 @@
 import type { Meta } from "@/app/types";
 import { http } from "@/app/lib";
 import type { Hotel } from "@/hotels/types";
+import { showError } from "#imports";
 
 export type FetchHotelResponse = {
     meta: Meta;
@@ -8,9 +9,13 @@ export type FetchHotelResponse = {
 };
 
 export const fetchHotel = async (id: string): Promise<FetchHotelResponse> => {
-    // TODO: Возвращать meta с бэка
+    const response = await http<Hotel>(`hotels/${id}`, {
+        onResponseError: ({ response }) => {
+            showError({ statusCode: response.status });
+        },
+    });
 
-    const response = await http<Hotel>(`hotels/${id}`);
+    // TODO: Возвращать meta с бэка
 
     return { meta: { title: response.name, description: response.name }, hotel: response };
 };

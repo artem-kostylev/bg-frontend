@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { clearError } from "#imports";
+import { Button } from "@ui/components";
 import { Header, Footer, Page } from "@/app/components";
 
 type Error = {
@@ -18,6 +20,10 @@ const errors = {
 };
 
 const meta = computed(() => errors[props.error.statusCode]);
+
+const reset = () => {
+    clearError({ redirect: "/" });
+};
 </script>
 
 <template>
@@ -28,6 +34,9 @@ const meta = computed(() => errors[props.error.statusCode]);
                 <div class="flex flex-col items-center justify-center">
                     <h1 class="text-8xl font-semibold">{{ error.statusCode }}</h1>
                     <p class="text-2xl text-slate-500">{{ meta.title }}</p>
+                    <Button variant="primary" size="sm" class="mt-5" @click="reset">
+                        Перейти на главную
+                    </Button>
                 </div>
             </Page>
             <Footer />

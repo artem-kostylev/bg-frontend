@@ -9,32 +9,20 @@ export type FetchMovementsResponse = {
 
 export type FetchMovementsQuery = {
     tour_type?: string;
-    ids?: string[] | string;
+    ids?: string[];
     package_tour_id?: string;
-    accommodations_unikey: string[] | string;
+    accommodations_unikey: string[];
     tour_from: string;
 };
 
 type FetchMovementsPayload = FetchMovementsQuery;
 
-/**
- * TODO: Сложная логика прокидывания ids и accommodations_unikey
- * Если нету ids не отправлять пустой массив (Подправить на бэке)
- * Продумать как сделать проще
- * Понять для чего нужны accommodations_unikey, ids, package_tour_id, tour_type
- * И можно ли сделать как-то проще
- */
-
 export const fetchMovements = async (payload: FetchMovementsPayload) => {
-    const accommodations_unikey = Array.isArray(payload.accommodations_unikey)
-        ? payload.accommodations_unikey
-        : [payload.accommodations_unikey];
-
     const response = await http<FetchMovementsResponse>("tour/movements", {
         method: "POST",
         body: {
             ids: payload.ids ?? [],
-            accommodations_unikey,
+            accommodations_unikey: payload.accommodations_unikey,
             tour_from: payload.tour_from,
             tour_type: payload.tour_type,
             package_tour_id: payload.package_tour_id,

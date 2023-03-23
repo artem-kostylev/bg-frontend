@@ -1,3 +1,5 @@
+import type { Image } from "@/app/types";
+
 export type AvailableDateItem = {
     accommodation_unikey: string;
     begin_date: string[];
@@ -21,4 +23,6 @@ export type Room = {
     id: number;
     name: string;
     food: Food[];
+    size: number;
+    images: Image[];
 };

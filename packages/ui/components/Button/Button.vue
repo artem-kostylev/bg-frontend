@@ -1,30 +1,74 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import type { Component } from "vue";
+import { computed, type Component } from "vue";
 import type { RouteLocationRaw } from "vue-router";
+import { Spin } from "@ui/components";
+
+const sizes = {
+    xs: "px-3 py-2 text-sm",
+    sm: "px-3 py-2 text-md",
+    md: "px-3.5 py-[.563rem]",
+    lg: "px-5 py-3",
+};
+
+const variants = {
+    base: "bg-white border-slate-300 hover:border-slate-400 shadow-sm",
+    primary: "border-transparent bg-primary-500 hover:bg-primary-500/95 text-white shadow-sm",
+};
+
+const justifies = {
+    left: "justify-start",
+    right: "justify-end",
+    center: "justify-center",
+    between: "justify-between",
+};
 
 type Props = {
     type?: "button" | "reset" | "submit";
-    as?: string | Component | Object;
+    variant?: keyof typeof variants;
+    justify?: keyof typeof justifies;
+    size?: keyof typeof sizes;
+    endIcon?: Component;
+    startIcon?: Component;
+    block?: boolean;
     to?: RouteLocationRaw;
+    as?: Object | string | Component;
+    loading?: boolean;
+    disabled?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
     type: "button",
+    variant: "base",
+    size: "md",
+    justify: "center",
+    endIcon: undefined,
+    startIcon: undefined,
     as: "button",
     to: undefined,
 });
 
-const type = computed(() => (props.as === "button" ? props.type : undefined));
+const endIcon = computed(() => {
+    return props.loading ? Spin : props.endIcon;
+});
 </script>
 
 <template>
     <component
-        :type="type"
         :is="as"
+        :type="type"
         :to="to"
-        class="inline-flex bg-white border border-slate-300 px-3.5 py-2 rounded-xl shadow-sm"
+        :class="[
+            'inline-flex items-center font-medium rounded-xl border transition-colors duration-200 select-none',
+            sizes[size],
+            variants[variant],
+            justifies[justify],
+            block && 'w-full',
+            disabled && 'pointer-events-none opacity-60',
+        ]"
+        :disabled="disabled"
     >
+        <component :is="startIcon" width="1.2em" height="1.2em" class="mr-4" />
         <slot />
+        <component :is="endIcon" width="1.2em" height="1.2em" class="ml-4" />
     </component>
 </template>

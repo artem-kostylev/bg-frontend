@@ -1,7 +1,6 @@
 import { http } from "@/app/lib";
 import type { Room } from "@/hotels/types";
-import type { TourType } from "@/tours/types";
-import type { RawMainFilters } from "@/tours/lib";
+import type { TourType, FiltersRaw } from "@/tours/types";
 import { parseMainFilters } from "@/tours/lib";
 
 type Group = {
@@ -13,7 +12,7 @@ type FetchRoomsResponse = {
     has_movements: boolean;
 };
 
-export type FetchRoomsQuery = RawMainFilters & { tour_type: TourType };
+export type FetchRoomsQuery = FiltersRaw & { tour_type: TourType };
 
 export const fetchRooms = (id: string, query: FetchRoomsQuery) => {
     const { tour_type, ...filters } = query;

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useLazyAsyncData } from "#imports";
 import { useParams } from "@/app/composables";
-import { fetchPage } from "@/page/services";
+import { fetchPage } from "@/pages/services";
 import { Page } from "@/app/components";
 
 const params = useParams<{ slug: string }>();

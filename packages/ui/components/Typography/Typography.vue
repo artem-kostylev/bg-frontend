@@ -1,26 +1,22 @@
 <script setup lang="ts">
-type Heading = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+const variants = {
+    h1: "text-3xl font-semibold tracking-tight",
+    h2: "text-2xl font-semibold tracking-tight",
+    h3: "text-xl font-semibold tracking-tight",
+    h4: "text-lg font-semibold tracking-tight",
+    h5: "font-semibold",
+    description: "text-slate-500 text-sm",
+};
 
 type Props = {
-    as?: Heading | "div";
-    variant?: Heading | "description";
+    as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "div";
+    variant?: keyof typeof variants;
 };
 
 withDefaults(defineProps<Props>(), {
     as: "div",
-    color: undefined,
     variant: undefined,
 });
-
-const variants = {
-    h1: "text-4xl font-semibold",
-    h2: "text-3xl font-semibold",
-    h3: "text-2xl font-semibold",
-    h4: "text-xl font-semibold",
-    h5: "text-lg font-semibold",
-    h6: "font-semibold",
-    description: "text-slate-500",
-};
 </script>
 
 <template>

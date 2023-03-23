@@ -1,20 +1,11 @@
 import { defineNuxtConfig } from "nuxt/config";
-import { fileURLToPath } from "url";
+import { fileURLToPath } from "node:url";
+import { plugins } from "./postcss.config.js";
 
 export default defineNuxtConfig({
-    ssr: false,
+    srcDir: "src/app",
 
-    srcDir: "src",
-
-    extends: [
-        "src/app",
-        "src/tours",
-        "src/hotels",
-        "src/booking",
-        "src/account",
-        "src/page",
-        "src/auth",
-    ],
+    extends: ["src/tours", "src/hotels", "src/booking", "src/account", "src/pages", "src/auth"],
 
     app: {
         head: {
@@ -31,6 +22,7 @@ export default defineNuxtConfig({
     },
 
     alias: {
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
         "@ui": fileURLToPath(new URL("./packages/ui", import.meta.url)),
         "@querystring": fileURLToPath(new URL("./packages/querystring", import.meta.url)),
     },
@@ -51,17 +43,9 @@ export default defineNuxtConfig({
         },
     },
 
-    css: ["~/app/assets/css/tailwind.css"],
+    css: ["@/app/assets/css/tailwind.css"],
 
-    postcss: {
-        plugins: {
-            "tailwindcss/nesting": {},
-            tailwindcss: {},
-            autoprefixer: {},
-        },
-    },
-
-    sourcemap: false,
+    postcss: { plugins },
 
     modules: ["@pinia/nuxt"],
 });

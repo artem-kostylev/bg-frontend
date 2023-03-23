@@ -1,16 +1,26 @@
 import type { Meta } from "@/app/types";
-import type { Filters, Tour } from "@/tours/types";
+import type { FiltersRaw, Tour, Filters } from "@/tours/types";
 import { http } from "@/app/lib";
+import { parseMainFilters } from "../../lib/helpers";
 
 export type FetchToursResponse = {
     meta: Meta;
     tours: Tour[];
+    filters: Filters;
 };
 
-export type FetchToursQuery = Filters;
+export type FetchToursQuery = FiltersRaw;
 
 export type FetchToursPayload = FetchToursQuery & { page?: number };
 
 export const fetchTours = (payload: FetchToursPayload) => {
-    return http<FetchToursResponse>("tour/search", { method: "POST", body: payload });
+    const { page, ...filters } = payload;
+
+    return http<FetchToursResponse>("tour/search", {
+        method: "POST",
+        body: {
+            filters: parseMainFilters(filters),
+            page,
+        },
+    });
 };

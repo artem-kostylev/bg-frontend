@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { ref, computed, watch } from "vue";
+import { ref } from "vue";
 import { useLazyAsyncData } from "#imports";
 import { formatCurrency } from "@/app/lib";
 import { useQuery } from "@/app/composables";
 import { Button, Modal } from "@ui/components";
 import type { Movement } from "@/booking/types";
 import { MovementCard, RateModal } from "@/booking/components";
-import type { FetchMovementQuery, FetchMovementPayload } from "@/booking/services";
+import type { FetchMovementQuery } from "@/booking/services";
 import { fetchMovement } from "@/booking/services";
 
 type Props = {
@@ -15,31 +15,28 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const open = ref(false);
-
 const query = useQuery<FetchMovementQuery>();
 
-const payload = computed<FetchMovementPayload>(() => ({
-    ...query.value,
-    flight_hash: props.movement.flight_hash,
-}));
+const open = ref(false);
 
-const { data, pending, execute } = useLazyAsyncData(
-    "tickets-movement",
-    () => fetchMovement(payload.value),
-    {
-        server: false,
-        immediate: false,
-    }
-);
+const getMovement = () => {
+    return fetchMovement({
+        ...query.value,
+        flight_hash: props.movement.flight_hash,
+    });
+};
 
-watch(open, value => value && execute());
+const { data, pending } = useLazyAsyncData("tickets-movement", getMovement, {
+    watch: [open],
+    server: false,
+    immediate: false,
+});
 </script>
 
 <template>
     <MovementCard :movement="movement">
         <template #footer>
-            <Modal v-model="open" :loading="pending">
+            <Modal v-model="open" :loading="pending" title="Выбор тарифа">
                 <template #trigger="{ vbind }">
                     <Button v-bind="vbind">{{ formatCurrency(0) }}</Button>
                 </template>

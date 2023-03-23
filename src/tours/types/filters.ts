@@ -19,4 +19,13 @@ export type MainFilters = {
 
 export type AdvancedFilters = Record<string, string | number | boolean>;
 
-export type Filters = AdvancedFilters & MainFilters;
+export type Filters = MainFilters & AdvancedFilters;
+
+export type MainFiltersRaw = Omit<MainFilters, "tour_to" | "tour_tourists"> & {
+    tour_to: string;
+    tour_tourists: string[] | number[];
+};
+
+export type AdvancedFiltersRaw = AdvancedFilters;
+
+export type FiltersRaw = MainFiltersRaw & AdvancedFiltersRaw;

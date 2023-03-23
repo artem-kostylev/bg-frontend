@@ -1,4 +1,4 @@
 export type Meta = {
-    title: string;
+    title?: string;
     description?: string;
 };

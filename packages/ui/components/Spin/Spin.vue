@@ -1,7 +1,8 @@
 <script setup lang="ts">
 const colors = {
+    white: "text-white",
     current: "text-current",
-    primary: "text-blue-700",
+    primary: "text-primary-500",
 };
 
 type Props = {

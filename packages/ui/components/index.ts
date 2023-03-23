@@ -5,3 +5,7 @@ export * from "./Container";
 export * from "./Card";
 export * from "./Spin";
 export * from "./Typography";
+export * from "./Image";
+export * from "./Grid";
+export * from "./Drawer";
+export * from "./Stars";

@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { useLazyAsyncData, definePageMeta } from "#imports";
+import { useLazyAsyncData } from "#imports";
 import { useQuery } from "@/app/composables";
 import { Page } from "@/app/components";
 import { fetchComposition, type FetchCompositionQuery } from "@/booking/services";
 import { Selected } from "@/booking/components";
+import { Spin } from "@ui/components";
 
-definePageMeta({
-    validate: route => {
-        const {
-            has_movements,
-            ids,
-            accommodations_unikey,
-            tours_hash,
-            tour_type,
-        }: Partial<FetchCompositionQuery> = route.query;
-
-        return tour_type ? (has_movements ? !(ids && tours_hash) : !accommodations_unikey) : false;
-    },
-});
+// definePageMeta({
+//     validate: route => {
+//         const {
+//             has_movements,
+//             ids,
+//             accommodations_unikey,
+//             tours_hash,
+//             tour_type,
+//         }: Partial<FetchCompositionQuery> = route.query;
+//         return tour_type ? (has_movements ? !(ids && tours_hash) : !accommodations_unikey) : false;
+//     },
+// });
 
 const query = useQuery<FetchCompositionQuery>();
 
@@ -33,7 +33,7 @@ const meta = {
 
 <template>
     <Page :meta="meta">
-        <div v-if="pending">loading...</div>
+        <Spin v-if="pending" color="primary" />
         <div v-else-if="data">
             <Selected />
             {{ data }}

@@ -2,13 +2,13 @@
 import { useLazyAsyncData } from "#imports";
 import { HotelCard } from "@/hotels/components";
 import type { FetchToursQuery } from "@/tours/services";
-import { fetchTours } from "@/tours/services";
+import { fetchHotels } from "@/hotels/services";
 import { useQuery } from "@/app/composables";
 import { Page } from "@/app/components";
 
 const query = useQuery<FetchToursQuery>();
 
-const { data, pending } = useLazyAsyncData("hotels", () => fetchTours(query.value));
+const { data, pending } = useLazyAsyncData("hotels", () => fetchHotels(query.value));
 </script>
 
 <template>

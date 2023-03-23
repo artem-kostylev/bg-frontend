@@ -1,9 +1,11 @@
 <script setup lang="ts">
-import type { Tour } from "@/tours/types";
-import { Card, CardBody } from "@ui/components";
+import type { Tour, Filters } from "@/tours/types";
+import { Card } from "@ui/components";
+import { formatMainFilters } from "@/tours/lib";
 
 type Props = {
     tour: Tour;
+    filters: Filters;
 };
 
 defineProps<Props>();
@@ -11,10 +13,15 @@ defineProps<Props>();
 
 <template>
     <Card>
-        <CardBody>
-            <NuxtLink :to="{ name: 'tours-id', params: { id: tour.hotel.id } }">
-                {{ tour.hotel.name }}
-            </NuxtLink>
-        </CardBody>
+        <NuxtLink
+            :to="{
+                name: 'tours-id',
+                params: { id: tour.hotel.id },
+                query: formatMainFilters(filters),
+            }"
+            target="_blank"
+        >
+            {{ tour.hotel.name }}
+        </NuxtLink>
     </Card>
 </template>

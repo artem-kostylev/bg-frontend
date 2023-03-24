@@ -82,7 +82,6 @@ const vbind = { onClick: show };
                         ]"
                         header-class="-my-2"
                         :body-class="scrollable && 'overflow-y-auto'"
-                        :bordered="false"
                     >
                         <template #header>
                             <div class="flex items-center justify-between">

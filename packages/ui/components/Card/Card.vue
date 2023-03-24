@@ -5,24 +5,17 @@ type Props = {
     bodyClass?: HTMLAttributes["class"];
     headerClass?: HTMLAttributes["class"];
     footerClass?: HTMLAttributes["class"];
-    bordered?: boolean;
 };
 
 withDefaults(defineProps<Props>(), {
     bodyClass: "",
     headerClass: "",
     footerClass: "",
-    bordered: true,
 });
 </script>
 
 <template>
-    <div
-        :class="[
-            'shadow-sm rounded-xl bg-white flex flex-col',
-            bordered && 'border border-slate-300',
-        ]"
-    >
+    <div class="shadow-primary rounded-xl bg-white flex flex-col">
         <div v-if="$slots.cover" class="overflow-hidden rounded-t-xl">
             <slot name="cover" />
         </div>

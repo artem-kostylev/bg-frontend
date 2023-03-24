@@ -27,7 +27,15 @@ const NuxtLink = resolveComponent("NuxtLink");
         </template>
         <template #header>
             <Stars :stars="tour.hotel.stars" class="mb-1" />
-            <Typography variant="h3" as="h3" class="mb-1">{{ tour.hotel.name }}</Typography>
+            <NuxtLink
+                :to="{
+                    name: 'tours-id',
+                    params: { id: tour.hotel.id },
+                    query: formatMainFilters(filters),
+                }"
+            >
+                <Typography variant="h3" as="h3" class="mb-1">{{ tour.hotel.name }}</Typography>
+            </NuxtLink>
             <LocationList :location="tour.hotel.location" />
         </template>
         <template #footer>

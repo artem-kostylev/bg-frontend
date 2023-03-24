@@ -41,16 +41,6 @@ export default defineNuxtConfig({
 
     components: false,
 
-    hooks: {
-        "pages:extend": pages => {
-            pages.push({
-                name: "tours-id",
-                path: "/tours/:id",
-                file: "@/hotels/pages/hotels/[id].vue",
-            });
-        },
-    },
-
     css: ["@/app/assets/css/tailwind.css"],
 
     postcss: { plugins },

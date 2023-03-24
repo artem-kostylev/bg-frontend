@@ -1,4 +1,4 @@
-import type { PiniaPluginContext } from "pinia";
+import type { PiniaPluginContext, Pinia } from "pinia";
 import { defineNuxtPlugin } from "#imports";
 import { cloneDeep } from "lodash-es";
 
@@ -8,5 +8,5 @@ const resetStore = ({ store }: PiniaPluginContext) => {
 };
 
 export default defineNuxtPlugin(nuxtApp => {
-    nuxtApp.$pinia.use(resetStore);
+    (nuxtApp.$pinia as Pinia).use(resetStore);
 });

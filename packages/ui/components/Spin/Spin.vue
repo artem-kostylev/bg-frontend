@@ -19,7 +19,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <div class="flex justify-center items-center">
+    <div class="flex justify-center items-center flex-1">
         <svg
             :class="['animate-spin', colors[color]]"
             :width="width"

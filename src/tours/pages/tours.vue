@@ -5,11 +5,13 @@ import type { FetchToursQuery } from "@/tours/services";
 import { fetchTours } from "@/tours/services";
 import { useQuery } from "@/app/composables";
 import { Empty, Page } from "@/app/components";
-import { Spin, Typography } from "@ui/components";
+import { Spin, Typography, Grid } from "@ui/components";
 
 const query = useQuery<FetchToursQuery>();
 
-const { data, pending } = useLazyAsyncData("tours", () => fetchTours(query.value));
+const { data, pending } = useLazyAsyncData("tours", () => fetchTours(query.value), {
+    server: false,
+});
 </script>
 
 <template>
@@ -17,14 +19,14 @@ const { data, pending } = useLazyAsyncData("tours", () => fetchTours(query.value
         <Spin v-if="pending" color="primary" />
         <template v-else-if="data">
             <Typography variant="h1" as="h1" class="mb-5">{{ data.meta.title }}</Typography>
-            <div v-if="data.tours.length" class="grid grid-cols-3 gap-5">
+            <Grid v-if="data.tours.length" cols="3">
                 <TourCard
                     :filters="data.filters"
                     v-for="tour in data.tours"
                     :key="tour.hotel.id"
                     :tour="tour"
                 />
-            </div>
+            </Grid>
             <Empty v-else />
         </template>
     </Page>

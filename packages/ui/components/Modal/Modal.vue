@@ -85,15 +85,17 @@ const vbind = { onClick: show };
                         :bordered="false"
                     >
                         <template #header>
-                            <Typography variant="h3">
-                                {{ title }}
-                            </Typography>
-                            <button
-                                @click="hide"
-                                class="text-slate-500 p-2 -mr-2 hover:bg-slate-200 transition-colors rounded-full"
-                            >
-                                <XIcon width="1.4em" height="1.4em" />
-                            </button>
+                            <div class="flex items-center justify-between">
+                                <Typography variant="h3">
+                                    {{ title }}
+                                </Typography>
+                                <button
+                                    @click="hide"
+                                    class="text-slate-500 p-2 -mr-2 hover:bg-slate-200 transition-colors rounded-full"
+                                >
+                                    <XIcon width="1.4em" height="1.4em" />
+                                </button>
+                            </div>
                         </template>
                         <slot />
                     </Card>

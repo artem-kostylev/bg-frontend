@@ -4,9 +4,11 @@ import { Header, Footer } from "@/app/components";
 
 <template>
     <div>
-        <div class="min-h-screen grid grid-rows-[auto_1fr_auto] grid-cols-[100%]">
+        <div class="min-h-screen flex flex-col">
             <Header />
-            <slot />
+            <main class="flex-1 flex flex-col">
+                <slot />
+            </main>
             <Footer />
         </div>
     </div>

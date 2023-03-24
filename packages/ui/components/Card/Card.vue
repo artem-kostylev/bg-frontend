@@ -26,10 +26,7 @@ withDefaults(defineProps<Props>(), {
         <div v-if="$slots.cover" class="overflow-hidden rounded-t-xl">
             <slot name="cover" />
         </div>
-        <div
-            v-if="$slots.header"
-            :class="['relative p-5 flex items-center justify-between', headerClass]"
-        >
+        <div v-if="$slots.header" :class="['relative p-5 flex flex-col', headerClass]">
             <slot name="header" />
         </div>
         <div :class="['relative flex-1', bodyClass, $slots.header ? 'px-5 pb-5' : 'p-5']">

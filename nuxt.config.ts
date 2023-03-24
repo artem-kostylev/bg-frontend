@@ -5,7 +5,15 @@ import { plugins } from "./postcss.config.js";
 export default defineNuxtConfig({
     srcDir: "src/app",
 
-    extends: ["src/tours", "src/hotels", "src/booking", "src/account", "src/pages", "src/auth"],
+    extends: [
+        "src/tours",
+        "src/hotels",
+        "src/booking",
+        "src/account",
+        "src/pages",
+        "src/marketing",
+        "src/auth",
+    ],
 
     app: {
         head: {

@@ -24,8 +24,10 @@ const lastItemIndex = computed(() => items.length - 1);
                     <a
                         href="/tours"
                         :class="[
-                            'px-4 py-3 border-b-2 -mb-px font-medium border-transparent select-none',
-                            selected === item.value && 'text-primary-500 border-primary-500',
+                            'px-4 py-3 border-b-2 -mb-px font-medium select-none',
+                            selected === item.value
+                                ? 'text-primary-500 border-primary-500'
+                                : 'border-transparent',
                             selected < item.value && 'text-slate-500 pointer-events-none',
                         ]"
                     >

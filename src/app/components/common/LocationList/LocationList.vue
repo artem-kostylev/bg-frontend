@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Location } from "@/app/types";
-import { Typography } from "@ui/components";
 
 type Props = {
     location: Location[];
@@ -12,14 +11,20 @@ defineProps<Props>();
 <template>
     <div class="flex">
         <NuxtLink
-            v-for="item in location"
+            v-for="(item, index) in location"
             :key="item.id"
             :to="{ name: 'locations-id', params: { id: item.id } }"
             target="_blank"
+            class="text-sm text-slate-500 hover:text-slate-900"
         >
-            <Typography variant="description">
+            <div
+                :class="[
+                    index !== 0 &&
+                        `before:relative before:pr-1 before:content-[','] before:text-slate-500`,
+                ]"
+            >
                 {{ item.name }}
-            </Typography>
+            </div>
         </NuxtLink>
     </div>
 </template>

@@ -12,7 +12,9 @@ definePageMeta({
 
 const params = useParams<{ id: string }>();
 
-const { data, pending } = useLazyAsyncData("hotel", () => fetchHotel(params.value.id));
+const { data, pending } = useLazyAsyncData("hotel", () => fetchHotel(params.value.id), {
+    server: false,
+});
 </script>
 
 <template>

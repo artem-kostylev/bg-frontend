@@ -19,7 +19,9 @@ const errors = {
     500: { title: "Что-то пошло не так" },
 };
 
-const meta = computed(() => errors[props.error.statusCode]);
+const meta = computed(() => {
+    return errors[props.error.statusCode] || errors[500];
+});
 
 const reset = () => {
     clearError({ redirect: "/" });

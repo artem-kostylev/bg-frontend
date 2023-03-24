@@ -33,6 +33,7 @@ const NuxtLink = resolveComponent("NuxtLink");
                     params: { id: tour.hotel.id },
                     query: formatMainFilters(filters),
                 }"
+                target="_blank"
             >
                 <Typography variant="h3" as="h3" class="mb-1">{{ tour.hotel.name }}</Typography>
             </NuxtLink>

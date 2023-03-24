@@ -9,9 +9,7 @@ import { Spin, Typography, Grid } from "@ui/components";
 
 const query = useQuery<FetchToursQuery>();
 
-const { data, pending } = useLazyAsyncData("tours", () => fetchTours(query.value), {
-    server: false,
-});
+const { data, pending } = useLazyAsyncData("tours", () => fetchTours(query.value));
 </script>
 
 <template>

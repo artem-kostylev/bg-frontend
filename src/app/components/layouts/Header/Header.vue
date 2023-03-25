@@ -10,10 +10,16 @@ import { UserIcon, HeartIcon } from "@ui/icons";
                 <Image src="/images/logo.svg" alt="Библио глобус" width="185" height="33" />
             </NuxtLink>
             <div class="flex items-center space-x-4 text-slate-500">
-                <button class="text-slate-500 hover:text-slate-600 duration-300">
+                <button
+                    class="text-slate-500 hover:text-slate-600 duration-300"
+                    aria-label="Мои избранные"
+                >
                     <HeartIcon width="1.6em" height="1.6em" />
                 </button>
-                <button class="text-slate-500 hover:text-slate-600 duration-300">
+                <button
+                    class="text-slate-500 hover:text-slate-600 duration-300"
+                    aria-label="Авторизация"
+                >
                     <UserIcon width="1.6em" height="1.6em" />
                 </button>
             </div>

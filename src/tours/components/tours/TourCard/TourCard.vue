@@ -59,7 +59,7 @@ const getTo = (hotelId: number) => {
                 :as="NuxtLink"
                 :to="getTo(tour.hotel.id)"
                 variant="primary"
-                :target="props.type === 'standart' && '_blank'"
+                :target="props.type === 'standart' ? '_blank' : ''"
                 block
             >
                 от {{ formatCurrency(tour.price) }}

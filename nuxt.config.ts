@@ -3,6 +3,8 @@ import { fileURLToPath } from "node:url";
 import { plugins } from "./postcss.config.js";
 
 export default defineNuxtConfig({
+    ssr: process.env.NODE_ENV === "development",
+
     srcDir: "src/app",
 
     extends: [

@@ -5,15 +5,37 @@ import { formatMainFilters } from "@/tours/lib";
 import { Button, Card, Typography, Image, Stars } from "@ui/components";
 import { LocationList } from "@/app/components";
 import { formatCurrency } from "@/app/lib";
+import { useRoute } from "#imports";
+
+const route = useRoute();
 
 type Props = {
     tour: Tour;
     filters: Filters;
+    type?: "standart" | "multi" | "excursion" | "hotel";
 };
 
-defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    type: "standart",
+});
 
 const NuxtLink = resolveComponent("NuxtLink");
+
+const getTo = (hotelId: number) => {
+    const query = formatMainFilters(props.filters);
+
+    if (props.type === "standart") {
+        return { name: "tours-id", params: { id: hotelId }, query };
+    }
+
+    if (props.type === "multi") {
+        return {
+            name: "tours-multi-id",
+            params: { id: route.params.id },
+            query: { ...query, hotel_id: hotelId },
+        };
+    }
+};
 </script>
 
 <template>
@@ -27,14 +49,7 @@ const NuxtLink = resolveComponent("NuxtLink");
         </template>
         <template #header>
             <Stars :stars="tour.hotel.stars" class="mb-1" />
-            <NuxtLink
-                :to="{
-                    name: 'tours-id',
-                    params: { id: tour.hotel.id },
-                    query: formatMainFilters(filters),
-                }"
-                target="_blank"
-            >
+            <NuxtLink :to="getTo(tour.hotel.id)" target="_blank">
                 <Typography variant="h3" as="h3" class="mb-1">{{ tour.hotel.name }}</Typography>
             </NuxtLink>
             <LocationList :location="tour.hotel.location" />
@@ -42,13 +57,9 @@ const NuxtLink = resolveComponent("NuxtLink");
         <template #footer>
             <Button
                 :as="NuxtLink"
-                :to="{
-                    name: 'tours-id',
-                    params: { id: tour.hotel.id },
-                    query: formatMainFilters(filters),
-                }"
+                :to="getTo(tour.hotel.id)"
                 variant="primary"
-                target="_blank"
+                :target="props.type === 'standart' && '_blank'"
                 block
             >
                 от {{ formatCurrency(tour.price) }}

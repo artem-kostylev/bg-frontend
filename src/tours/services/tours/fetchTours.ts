@@ -1,7 +1,7 @@
 import type { Meta } from "@/app/types";
 import type { FiltersRaw, Tour, Filters } from "@/tours/types";
 import { http } from "@/app/lib";
-import { parseMainFilters } from "../../lib/helpers";
+import { parseMainFilters } from "@/tours/lib";
 
 export type FetchToursResponse = {
     meta: Meta;

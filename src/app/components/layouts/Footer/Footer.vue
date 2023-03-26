@@ -5,18 +5,18 @@ import { Container, Typography } from "@ui/components";
 <template>
     <footer class="bg-slate-50">
         <Container>
-            <div class="flex flex-wrap -mx-4 py-8">
-                <div class="w-1/4 px-4 space-y-1.5">
+            <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-5 py-8">
+                <div class="space-y-1.5">
                     <Typography variant="h3">8 800 775 25 00</Typography>
                     <Typography variant="description">Звонок по России бесплатный</Typography>
                 </div>
-                <div class="w-1/4 px-4 space-y-2.5 flex flex-col">
+                <div class="space-y-2.5 flex flex-col">
                     <NuxtLink to="#" class="hover:text-primary-500">О компании</NuxtLink>
                     <NuxtLink to="#" class="hover:text-primary-500">Вакансии</NuxtLink>
                     <NuxtLink to="#" class="hover:text-primary-500">Визы и паспорта</NuxtLink>
                     <NuxtLink to="#" class="hover:text-primary-500">Документы</NuxtLink>
                 </div>
-                <div class="w-1/4 px-4 space-y-2.5 flex flex-col">
+                <div class="space-y-2.5 flex flex-col">
                     <NuxtLink to="#" class="hover:text-primary-500">
                         Акции и спецпредложения
                     </NuxtLink>
@@ -24,7 +24,7 @@ import { Container, Typography } from "@ui/components";
                     <NuxtLink to="#" class="hover:text-primary-500">Реквизиты</NuxtLink>
                     <NuxtLink to="#" class="hover:text-primary-500">Контакты</NuxtLink>
                 </div>
-                <div class="w-1/4 px-4 space-y-2.5 flex flex-col">
+                <div class="space-y-2.5 flex flex-col">
                     <NuxtLink to="#" class="hover:text-primary-500">Кабинет агентства</NuxtLink>
                     <NuxtLink to="#" class="hover:text-primary-500">Сотрудничество</NuxtLink>
                     <NuxtLink to="#" class="hover:text-primary-500">Франчайзинг</NuxtLink>

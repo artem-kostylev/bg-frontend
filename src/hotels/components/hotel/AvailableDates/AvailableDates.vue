@@ -3,9 +3,9 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
+import { resolveComponent } from "#imports";
 import { useRoomsStore } from "@/hotels/stores";
 import { Button } from "@ui/components";
-import { resolveComponent } from "#imports";
 
 const { selectedDates } = storeToRefs(useRoomsStore());
 

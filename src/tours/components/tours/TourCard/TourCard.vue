@@ -1,38 +1,45 @@
 <script setup lang="ts">
-import { resolveComponent } from "#imports";
+import { resolveComponent, useRoute } from "#imports";
 import type { Tour, Filters } from "@/tours/types";
 import { formatMainFilters } from "@/tours/lib";
 import { Button, Card, Typography, Image, Stars } from "@ui/components";
 import { LocationList } from "@/app/components";
 import { formatCurrency } from "@/app/lib";
-import { useRoute } from "#imports";
 
 const route = useRoute();
 
 type Props = {
     tour: Tour;
     filters: Filters;
-    type?: "standart" | "multi" | "excursion" | "hotel";
+    variant?: "standart" | "multi" | "excursion" | "hotel";
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    type: "standart",
+    variant: "standart",
 });
 
 const NuxtLink = resolveComponent("NuxtLink");
 
-const getTo = (hotelId: number) => {
+const getTo = (id: number) => {
     const query = formatMainFilters(props.filters);
 
-    if (props.type === "standart") {
-        return { name: "tours-id", params: { id: hotelId }, query };
+    if (props.variant === "standart") {
+        return { name: "tours-id", params: { id }, query };
     }
 
-    if (props.type === "multi") {
+    if (props.variant === "multi") {
         return {
             name: "tours-multi-id",
             params: { id: route.params.id },
-            query: { ...query, hotel_id: hotelId },
+            query: { ...query, hotel_id: id, tour_type: "package" },
+        };
+    }
+
+    if (props.variant === "excursion") {
+        return {
+            name: "tours-excursion-id",
+            params: { id: route.params.id },
+            query: { ...query, hotel_id: id, tour_type: "package" },
         };
     }
 };
@@ -42,6 +49,7 @@ const getTo = (hotelId: number) => {
     <Card>
         <template #cover>
             <Image
+                v-if="tour.hotel.images[0]"
                 :src="tour.hotel.images[0].url"
                 :alt="tour.hotel.name"
                 class="w-full h-[14rem] object-cover"
@@ -59,7 +67,7 @@ const getTo = (hotelId: number) => {
                 :as="NuxtLink"
                 :to="getTo(tour.hotel.id)"
                 variant="primary"
-                :target="props.type === 'standart' ? '_blank' : ''"
+                :target="props.variant === 'standart' ? '_blank' : ''"
                 block
             >
                 от {{ formatCurrency(tour.price) }}

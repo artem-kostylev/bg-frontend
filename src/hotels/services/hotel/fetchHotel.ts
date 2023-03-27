@@ -8,7 +8,7 @@ export type FetchHotelResponse = {
     hotel: Hotel;
 };
 
-export const fetchHotel = async (id: string): Promise<FetchHotelResponse> => {
+export const fetchHotel = async (id: number | string): Promise<FetchHotelResponse> => {
     const response = await http<Hotel>(`hotels/${id}`, {
         onResponseError: ({ response }) => {
             showError({ statusCode: response.status });

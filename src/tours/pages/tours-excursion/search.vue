@@ -5,11 +5,13 @@ import { useQuery } from "@/app/composables";
 import { Page, Empty } from "@/app/components";
 import { TourPackageCard } from "@/tours/components";
 import type { FetchToursQuery } from "@/tours/services";
-import { fetchToursMulti } from "@/tours/services";
+import { FetchToursExcursion } from "@/tours/services";
 
 const query = useQuery<FetchToursQuery>();
 
-const { data, pending } = useLazyAsyncData("tours-multi", () => fetchToursMulti(query.value));
+const { data, pending } = useLazyAsyncData("tours-excursion", () =>
+    FetchToursExcursion(query.value)
+);
 </script>
 
 <template>
@@ -19,11 +21,11 @@ const { data, pending } = useLazyAsyncData("tours-multi", () => fetchToursMulti(
             <Typography variant="h1" as="h1" class="mb-5">{{ data.meta.title }}</Typography>
             <Grid v-if="data.packages.length" cols="3">
                 <TourPackageCard
-                    :filters="data.filters"
                     v-for="tour in data.packages"
+                    :filters="data.filters"
                     :key="tour.id"
                     :tour="tour"
-                    type="multi"
+                    type="excursion"
                 />
             </Grid>
             <Empty v-else />

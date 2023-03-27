@@ -11,7 +11,7 @@ export type Tour = {
     excursion_included?: boolean;
 };
 
-export type TourType = "classic" | "hotel" | "package";
+export type TourType = "hotel" | "package";
 
 export type TourPackage = {
     id: number;
@@ -19,6 +19,7 @@ export type TourPackage = {
     price: number;
     images: Image[];
     location: Location[];
+    description?: string;
     flight_included?: boolean;
     instant_booking?: boolean;
     transfer_included?: boolean;

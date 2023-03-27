@@ -18,6 +18,7 @@ const { selectDates } = useRoomsStore();
     <Card>
         <template #cover>
             <Image
+                v-if="room.images[0]"
                 :src="room.images[0].url"
                 :alt="room.name"
                 class="w-full h-[14rem] object-cover"

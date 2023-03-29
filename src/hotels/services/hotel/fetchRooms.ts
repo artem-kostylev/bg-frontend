@@ -9,30 +9,36 @@ type Group = {
 
 type FetchRoomsResponse = {
     groups: Group[];
+    has_next: boolean;
     has_movements: boolean;
 };
 
 export type FetchRoomsQuery = FiltersRaw & {
     tour_type?: TourType;
-    hotel_id?: number;
+    hotel_id?: number[];
     accommodations_unikey?: string[][];
 };
 
-export const fetchRooms = (id: string, query: FetchRoomsQuery) => {
+export const fetchRooms = (id: number, query: FetchRoomsQuery) => {
     const { tour_type, hotel_id, accommodations_unikey, ...filters } = query;
 
-    const param = tour_type === "package" ? hotel_id : id;
+    const isPackage = tour_type === "package";
 
-    return http<FetchRoomsResponse>(`tour/hotel/${param}/rooms`, {
-        method: "POST",
-        version: 2,
-        body: {
-            tour_type,
-            accommodations_unikey:
-                accommodations_unikey ?? new Array(query.tour_tourists.length).fill([]),
-            package_tour_id: tour_type === "package" ? id : undefined,
-            number_in_order: tour_type === "package" ? 1 : undefined,
-            filters: parseMainFilters(filters),
-        },
-    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const body = {} as Record<string, any>;
+    body.tour_type = tour_type;
+    body.accommodations_unikey =
+        accommodations_unikey ?? new Array(query.tour_tourists.length).fill([]);
+    isPackage && (body.package_tour_id = id);
+    isPackage && (body.number_in_order = body.accommodations_unikey[0].length + 1);
+    body.filters = parseMainFilters(filters);
+
+    return http<FetchRoomsResponse>(
+        `tour/hotel/${isPackage ? hotel_id![hotel_id!.length - 1] : id}/rooms`,
+        {
+            method: "POST",
+            version: 2,
+            body,
+        }
+    );
 };

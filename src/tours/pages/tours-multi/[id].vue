@@ -14,6 +14,13 @@ const query = useQuery<FetchTourMultiQuery>();
 </script>
 
 <template>
-    <HotelContainer v-if="query.hotel_id" :id="query.hotel_id" />
-    <ToursMultiContainer v-else :id="params.id" />
+    <ToursMultiContainer
+        v-if="
+            (!query.hotel_id && !query.accommodations_unikey) ||
+            (query.accommodations_unikey &&
+                query.accommodations_unikey.length === query.hotel_id.length)
+        "
+        :id="params.id"
+    />
+    <HotelContainer v-else :id="query.hotel_id[query.hotel_id.length - 1]" />
 </template>

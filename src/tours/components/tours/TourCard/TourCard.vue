@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { resolveComponent, useRoute } from "#imports";
+import { resolveComponent } from "#imports";
 import type { Tour, Filters } from "@/tours/types";
 import { formatMainFilters } from "@/tours/lib";
 import { Button, Card, Typography, Image, Stars } from "@ui/components";
 import { LocationList } from "@/app/components";
 import { formatCurrency } from "@/app/lib";
+import { useParams, useQuery } from "@/app/composables";
 
-const route = useRoute();
+const params = useParams<{ id: string }>();
+const query = useQuery<{ accommodations_unikey?: string[][]; hotel_id?: number[] }>();
 
 type Props = {
     tour: Tour;
@@ -21,25 +23,24 @@ const props = withDefaults(defineProps<Props>(), {
 const NuxtLink = resolveComponent("NuxtLink");
 
 const getTo = (id: number) => {
-    const query = formatMainFilters(props.filters);
+    const filters = formatMainFilters(props.filters);
 
     if (props.variant === "standart") {
         return { name: "tours-id", params: { id }, query };
     }
 
-    if (props.variant === "multi") {
-        return {
-            name: "tours-multi-id",
-            params: { id: route.params.id },
-            query: { ...query, hotel_id: id, tour_type: "package" },
-        };
-    }
+    if (props.variant === "multi" || props.variant === "excursion") {
+        const hotel_id = Array.isArray(query.value.hotel_id) ? [...query.value.hotel_id, id] : [id];
 
-    if (props.variant === "excursion") {
         return {
-            name: "tours-excursion-id",
-            params: { id: route.params.id },
-            query: { ...query, hotel_id: id, tour_type: "package" },
+            name: `tours-${props.variant}-id`,
+            params: { id: params.value.id },
+            query: {
+                ...filters,
+                hotel_id,
+                tour_type: "package",
+                accommodations_unikey: query.value.accommodations_unikey,
+            },
         };
     }
 };
@@ -57,7 +58,10 @@ const getTo = (id: number) => {
         </template>
         <template #header>
             <Stars :stars="tour.hotel.stars" class="mb-1" />
-            <NuxtLink :to="getTo(tour.hotel.id)" target="_blank">
+            <NuxtLink
+                :to="getTo(tour.hotel.id)"
+                :target="props.variant === 'standart' ? '_blank' : ''"
+            >
                 <Typography variant="h3" as="h3" class="mb-1">{{ tour.hotel.name }}</Typography>
             </NuxtLink>
             <LocationList :location="tour.hotel.location" />

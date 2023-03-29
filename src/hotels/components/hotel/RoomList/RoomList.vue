@@ -18,7 +18,7 @@ const { currentGroupIndex, openModal } = storeToRefs(roomsStore);
 
 const { data, pending, error } = useLazyAsyncData(
     "rooms",
-    () => fetchRooms(params.value.id, query.value),
+    () => fetchRooms(Number(params.value.id), query.value),
     { server: false }
 );
 
@@ -56,7 +56,7 @@ onBeforeUnmount(() => roomsStore.$reset());
                 </Transition>
             </template>
             <Modal v-model="openModal" title="Даты проживания и количество ночей">
-                <AvailableDates :has-movements="data.has_movements" />
+                <AvailableDates :has-next="data.has_next" />
             </Modal>
         </div>
     </div>

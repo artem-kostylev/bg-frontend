@@ -12,6 +12,7 @@ export type FetchTourMultiResponse = {
 
 export type FetchTourMultiQuery = FiltersRaw & {
     accommodations_unikey?: string[][];
+    hotel_id: number[];
 };
 
 export const fetchTourMulti = async (package_tour_id: string, query: FetchTourMultiQuery) => {
@@ -32,9 +33,9 @@ export const fetchTourMulti = async (package_tour_id: string, query: FetchTourMu
         },
     });
 
-    const { title, description, location } = response.meta;
+    const { title, description, location, images } = response.meta;
 
-    response.package = { name: title, description, location };
+    response.package = { name: title, description, location, images };
     response.meta = { title, description };
 
     return response as FetchTourMultiResponse;

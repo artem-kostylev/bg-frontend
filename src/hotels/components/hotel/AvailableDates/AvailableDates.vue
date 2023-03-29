@@ -6,6 +6,18 @@ import { storeToRefs } from "pinia";
 import { resolveComponent } from "#imports";
 import { useRoomsStore } from "@/hotels/stores";
 import { Button } from "@ui/components";
+import type { RouteLocationNamedRaw } from "vue-router";
+import { useParams, useQuery } from "@/app/composables";
+import type { FiltersRaw } from "@/tours/types";
+
+const params = useParams<{ id: number }>();
+const query = useQuery<FiltersRaw & { accommodations_unikey?: string[][] }>();
+
+type Props = {
+    hasNext: boolean;
+};
+
+const props = defineProps<Props>();
 
 const { selectedDates } = storeToRefs(useRoomsStore());
 
@@ -64,6 +76,28 @@ const availableDates = computed(() => {
 });
 
 const NuxtLink = resolveComponent("NuxtLink");
+
+const getTo = (item: any) => {
+    const to = {} as RouteLocationNamedRaw;
+
+    to.query = {
+        ...query.value,
+        accommodations_unikey: [
+            ...(query.value.accommodations_unikey || ""),
+            ...item.accommodations_unikey,
+        ],
+    };
+
+    if (props.hasNext) {
+        to.name = "tours-multi-id";
+        to.params = { id: params.value.id };
+    } else {
+        to.name = "booking-tickets";
+        to.query.package_tour_id = Number(params.value.id);
+    }
+
+    return to;
+};
 </script>
 
 <template>
@@ -72,16 +106,7 @@ const NuxtLink = resolveComponent("NuxtLink");
             <div class="font-semibold">{{ key }}</div>
             <div v-for="(item, k) in availableDate" :key="k" class="mb-4">
                 {{ item.begin_date }} / {{ item.duration }}
-                <Button
-                    :as="NuxtLink"
-                    :to="{
-                        name: 'booking-tickets',
-                        query: {
-                            ...$route.query,
-                            accommodations_unikey: item.accommodations_unikey,
-                        },
-                    }"
-                >
+                <Button :as="NuxtLink" :to="getTo(item)">
                     {{ item.price }}
                 </Button>
             </div>

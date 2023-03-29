@@ -1,5 +1,6 @@
 import { http } from "@/app/lib";
 import type { Movement } from "@/booking/types";
+import { showError } from "#imports";
 
 export type FetchMovementsResponse = {
     direction: string;
@@ -26,6 +27,9 @@ export const fetchMovements = async (payload: FetchMovementsPayload) => {
             tour_from: payload.tour_from,
             tour_type: payload.tour_type,
             package_tour_id: payload.package_tour_id,
+        },
+        onResponseError: ({ response }) => {
+            showError({ statusCode: response.status });
         },
     });
 

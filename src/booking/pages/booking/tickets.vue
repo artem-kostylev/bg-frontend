@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import { whenever } from "@vueuse/core";
 import { useLazyAsyncData, definePageMeta } from "#imports";
 import { useQuery } from "@/app/composables";
 import { hasKeys } from "@/app/lib";
@@ -15,14 +16,19 @@ definePageMeta({
 
 const query = useQuery<FetchMovementsQuery>();
 
-const { data, pending } = useLazyAsyncData("booking-tickets", () => fetchMovements(query.value), {
-    watch: [() => query.value.ids],
-});
+const { data, pending, execute } = useLazyAsyncData("booking-tickets", () =>
+    fetchMovements(query.value)
+);
 
 const meta = computed(() => ({
     title: data.value?.direction,
     description: "Описание страницы билеты",
 }));
+
+whenever(
+    () => query.value.ids,
+    value => !Array.isArray(value[0]) && execute()
+);
 </script>
 
 <template>
@@ -30,7 +36,7 @@ const meta = computed(() => ({
         <Spin v-if="pending" color="primary" />
         <div v-else-if="data">
             <Typography variant="h1" as="h1" class="mb-5">{{ data.direction }}</Typography>
-            <div class="grid grid-cols-3 gap-5">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <TicketCard
                     v-for="(movement, index) in data.movements"
                     :key="index"

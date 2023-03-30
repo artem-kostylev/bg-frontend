@@ -2,9 +2,11 @@ import type { Image } from "@/app/types";
 
 export type AvailableDateItem = {
     accommodation_unikey: string;
+    accommodations_unikey?: string[];
     begin_date: string[];
     duration: number;
     price: number;
+    index?: number;
 };
 
 export type AvailableDate = {

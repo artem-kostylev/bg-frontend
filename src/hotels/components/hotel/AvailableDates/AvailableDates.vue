@@ -1,20 +1,25 @@
 <!-- eslint-disable @typescript-eslint/no-explicit-any -->
 
+<!-- 
+     TODO: Про типизировать
+-->
+
 <script setup lang="ts">
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { resolveComponent } from "#imports";
 import { useRoomsStore } from "@/hotels/stores";
-import { Button } from "@ui/components";
 import type { RouteLocationNamedRaw } from "vue-router";
 import { useParams, useQuery } from "@/app/composables";
 import type { FiltersRaw } from "@/tours/types";
+import { formatCurrency, formatDates, formatDate } from "@/app/lib";
+import { Button } from "@ui/components";
 
 const params = useParams<{ id: number }>();
 const query = useQuery<FiltersRaw & { accommodations_unikey?: string[][] }>();
 
 type Props = {
-    hasNext: boolean;
+    hasNext: boolean | null;
 };
 
 const props = defineProps<Props>();
@@ -93,7 +98,10 @@ const getTo = (item: any) => {
         to.params = { id: params.value.id };
     } else {
         to.name = "booking-tickets";
-        to.query.package_tour_id = Number(params.value.id);
+
+        if (["tours-multi-id", "tours-excursion-id"].includes(to.name)) {
+            to.query.package_tour_id = Number(params.value.id);
+        }
     }
 
     return to;
@@ -101,13 +109,17 @@ const getTo = (item: any) => {
 </script>
 
 <template>
-    <div>
+    <div class="space-y-4">
         <div v-for="(availableDate, key) in availableDates" :key="key">
-            <div class="font-semibold">{{ key }}</div>
-            <div v-for="(item, k) in availableDate" :key="k" class="mb-4">
-                {{ item.begin_date }} / {{ item.duration }}
-                <Button :as="NuxtLink" :to="getTo(item)">
-                    {{ item.price }}
+            <div class="font-semibold mb-2">{{ formatDate(key as any) }}</div>
+            <div
+                v-for="(item, k) in availableDate"
+                :key="k"
+                class="border-t border-slate-200 border-dashed py-1.5 last:pb-0 flex items-center justify-between"
+            >
+                {{ formatDates(item.begin_date) }} / {{ item.duration }}
+                <Button variant="primary" size="sm" :as="NuxtLink" :to="getTo(item)">
+                    от {{ formatCurrency(item.price) }}
                 </Button>
             </div>
         </div>

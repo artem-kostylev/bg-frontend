@@ -18,12 +18,18 @@ const NuxtLink = resolveComponent("NuxtLink");
     <Page :meta="meta">
         <Spin v-if="pending" color="primary" />
         <div v-else-if="data">
-            <div class="mb-5 grid grid-flow-col gap-2.5">
+            <div class="mb-5 grid gap-2.5">
                 <Button
                     :as="NuxtLink"
                     to="/tours/search?tour_from=260&tour_to=208_location&tour_begin_date[0]=2023-02-01&tour_begin_date[1]=2023-04-30&tour_duration[0]=1&tour_duration[1]=28&tour_tourists[0]=36,36"
                 >
                     Стандартные туры
+                </Button>
+                <Button
+                    :as="NuxtLink"
+                    to="/tours/search?tour_from=260&tour_to=7_location&tour_begin_date[0]=2022-05-01&tour_begin_date[1]=2023-06-30&tour_duration[0]=1&tour_duration[1]=28&tour_tourists[0]=36,36&tour_tourists[1]=36,36"
+                >
+                    Стандартные туры с несколькими проживаниями
                 </Button>
                 <Button
                     :as="NuxtLink"
@@ -42,6 +48,12 @@ const NuxtLink = resolveComponent("NuxtLink");
                     to="/tours-excursion/search?tour_from=260&tour_to=208_location&tour_begin_date[0]=2022-11-01&tour_begin_date[1]=2023-06-30&tour_duration[0]=1&tour_duration[1]=28&tour_tourists[0]=36,36"
                 >
                     Экскурсионные туры
+                </Button>
+                <Button
+                    :as="NuxtLink"
+                    to="/tours-excursion/search?tour_from=260&tour_to=208_location&tour_begin_date[0]=2023-03-31&tour_begin_date[1]=2023-06-30&tour_duration[0]=1&tour_duration[1]=28&tour_tourists[0]=36,36&tour_tourists[1]=36,36"
+                >
+                    Экскурсионные туры с несколькими проживаниями
                 </Button>
             </div>
             {{ data }}

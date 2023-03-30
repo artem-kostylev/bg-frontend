@@ -11,7 +11,9 @@ defineProps<Props>();
 
 <template>
     <Card>
-        {{ movement.transport_company }}
+        <div v-for="(company, index) in movement.transport_company" :key="index">
+            {{ company.name }}
+        </div>
         <slot name="footer" />
     </Card>
 </template>

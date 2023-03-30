@@ -6,6 +6,10 @@ export type FetchMovementsResponse = {
     direction: string;
     movements: Movement[];
     price: number;
+    general: {
+        qty_hotels: number;
+        qty_movements: number;
+    };
 };
 
 export type FetchMovementsQuery = {

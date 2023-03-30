@@ -26,12 +26,20 @@ const isLastGroup = computed(() => {
     return currentGroupIndex.value + 1 === data.value?.groups.length;
 });
 
+const title = computed(() => {
+    if (!data.value) return;
+
+    return data.value.groups.length > 1
+        ? `Номера для ${currentGroupIndex.value + 1} группы`
+        : "Номера";
+});
+
 onBeforeUnmount(() => roomsStore.$reset());
 </script>
 
 <template>
     <div>
-        <Typography variant="h2" as="h2">Номера</Typography>
+        <Typography variant="h2" as="h2">{{ title }}</Typography>
         <Spin v-if="pending" class="py-5" color="primary" />
         <Empty v-else-if="error" />
         <div v-else-if="data" class="py-5">

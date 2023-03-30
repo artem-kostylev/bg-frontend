@@ -7,6 +7,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
+import { useRoute } from "vue-router";
 import { resolveComponent } from "#imports";
 import { useRoomsStore } from "@/hotels/stores";
 import type { RouteLocationNamedRaw } from "vue-router";
@@ -15,6 +16,7 @@ import type { FiltersRaw } from "@/tours/types";
 import { formatCurrency, formatDates, formatDate } from "@/app/lib";
 import { Button } from "@ui/components";
 
+const route = useRoute();
 const params = useParams<{ id: number }>();
 const query = useQuery<FiltersRaw & { accommodations_unikey?: string[][] }>();
 
@@ -99,7 +101,7 @@ const getTo = (item: any) => {
     } else {
         to.name = "booking-tickets";
 
-        if (["tours-multi-id", "tours-excursion-id"].includes(to.name)) {
+        if (["tours-multi-id", "tours-excursion-id"].includes(route.name as string)) {
             to.query.package_tour_id = Number(params.value.id);
         }
     }

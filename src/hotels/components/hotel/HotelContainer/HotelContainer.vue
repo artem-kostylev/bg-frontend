@@ -17,7 +17,7 @@ const { data, pending } = useLazyAsyncData("hotel", () => fetchHotel(props.id));
 <template>
     <Page :meta="data?.meta">
         <Spin v-if="pending" color="primary" />
-        <HotelDetails v-else-if="data" :hotel="data.hotel" />
+        <HotelDetails v-else-if="data" :hotel="data.hotel" class="mb-4" />
         <RoomList v-show="!pending" />
     </Page>
 </template>

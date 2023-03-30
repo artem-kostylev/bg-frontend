@@ -17,7 +17,7 @@ const isShowPackage = computed(() => {
     return (
         (!query.value.hotel_ids && !query.value.accommodations_unikey) ||
         (query.value.accommodations_unikey &&
-            query.value.accommodations_unikey.length >= query.value.hotel_ids.length)
+            query.value.accommodations_unikey[0].length >= query.value.hotel_ids.length)
     );
 });
 </script>

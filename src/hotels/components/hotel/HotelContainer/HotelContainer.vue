@@ -6,7 +6,7 @@ import { fetchHotel } from "@/hotels/services";
 import { Spin } from "@ui/components";
 
 type Props = {
-    id: number;
+    id: number | string;
 };
 
 const props = defineProps<Props>();

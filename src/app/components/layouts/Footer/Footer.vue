@@ -11,7 +11,12 @@ import { Container, Typography } from "@ui/components";
                     <Typography variant="description">Звонок по России бесплатный</Typography>
                 </div>
                 <div class="space-y-2.5 flex flex-col">
-                    <NuxtLink to="#" class="hover:text-primary-500">О компании</NuxtLink>
+                    <NuxtLink
+                        :to="{ name: 'pages-slug', params: { slug: 'contacts' } }"
+                        class="hover:text-primary-500"
+                    >
+                        О компании
+                    </NuxtLink>
                     <NuxtLink to="#" class="hover:text-primary-500">Вакансии</NuxtLink>
                     <NuxtLink to="#" class="hover:text-primary-500">Визы и паспорта</NuxtLink>
                     <NuxtLink to="#" class="hover:text-primary-500">Документы</NuxtLink>

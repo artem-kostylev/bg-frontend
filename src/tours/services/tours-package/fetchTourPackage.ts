@@ -2,6 +2,7 @@ import { http } from "@/app/lib";
 import { parseMainFilters } from "@/tours/lib";
 import type { Meta } from "@/app/types";
 import type { FiltersRaw, TourPackage, Filters, Tour } from "@/tours/types";
+import { showError } from "#imports";
 
 export type FetchTourPackageResponse = {
     meta: Meta;
@@ -30,6 +31,9 @@ export const fetchTourPackage = async (package_tour_id: string, query: FetchTour
             accommodations_unikey,
             number_in_order,
             filters: parseMainFilters(query),
+        },
+        onResponseError: ({ response }) => {
+            showError({ statusCode: response.status });
         },
     });
 

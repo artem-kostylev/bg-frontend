@@ -2,6 +2,7 @@ import type { Meta } from "@/app/types";
 import type { FiltersRaw, Tour, Filters } from "@/tours/types";
 import { http } from "@/app/lib";
 import { parseMainFilters } from "@/tours/lib";
+import { showError } from "#imports";
 
 export type FetchToursResponse = {
     meta: Meta;
@@ -21,6 +22,9 @@ export const fetchTours = (payload: FetchToursPayload) => {
         body: {
             filters: parseMainFilters(filters),
             page,
+        },
+        onResponseError: ({ response }) => {
+            showError({ statusCode: response.status });
         },
     });
 };

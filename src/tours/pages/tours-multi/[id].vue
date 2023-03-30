@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { definePageMeta } from "#imports";
 import { HotelContainer } from "@/hotels/components";
 import { useParams, useQuery } from "@/app/composables";
@@ -11,16 +12,17 @@ definePageMeta({
 
 const params = useParams<{ id: string }>();
 const query = useQuery<FetchTourMultiQuery>();
+
+const isShowPackage = computed(() => {
+    return (
+        (!query.value.hotel_ids && !query.value.accommodations_unikey) ||
+        (query.value.accommodations_unikey &&
+            query.value.accommodations_unikey.length >= query.value.hotel_ids.length)
+    );
+});
 </script>
 
 <template>
-    <ToursMultiContainer
-        v-if="
-            (!query.hotel_id && !query.accommodations_unikey) ||
-            (query.accommodations_unikey &&
-                query.accommodations_unikey.length === query.hotel_id.length)
-        "
-        :id="params.id"
-    />
-    <HotelContainer v-else :id="query.hotel_id[query.hotel_id.length - 1]" />
+    <ToursMultiContainer v-if="isShowPackage" :id="params.id" />
+    <HotelContainer v-else :id="query.hotel_ids[query.hotel_ids.length - 1]" />
 </template>

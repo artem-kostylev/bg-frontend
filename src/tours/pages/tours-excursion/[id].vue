@@ -8,6 +8,12 @@ definePageMeta({
 });
 
 const params = useParams<{ id: string }>();
+
+/**
+ * TODO: Обьединить кодовую базу с мультитурами
+ * ToursExcursionContainer и ToursMultiContainer в ToursPackageContainer
+ * а так-же fetchToursMulti и fetchToursExcursion в fetchToursPackage и подставлять нужный урл
+ */
 </script>
 
 <template>

@@ -15,14 +15,15 @@ type FetchRoomsResponse = {
 
 export type FetchRoomsQuery = FiltersRaw & {
     tour_type?: TourType;
-    hotel_id?: number[];
+    hotel_ids?: number[];
     accommodations_unikey?: string[][];
 };
 
 export const fetchRooms = (id: number, query: FetchRoomsQuery) => {
-    const { tour_type, hotel_id, accommodations_unikey, ...filters } = query;
+    const { tour_type, hotel_ids, accommodations_unikey, ...filters } = query;
 
     const isPackage = tour_type === "package";
+    const param = isPackage ? hotel_ids![hotel_ids!.length - 1] : id;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const body = {} as Record<string, any>;
@@ -33,12 +34,9 @@ export const fetchRooms = (id: number, query: FetchRoomsQuery) => {
     isPackage && (body.number_in_order = body.accommodations_unikey[0].length + 1);
     body.filters = parseMainFilters(filters);
 
-    return http<FetchRoomsResponse>(
-        `tour/hotel/${isPackage ? hotel_id![hotel_id!.length - 1] : id}/rooms`,
-        {
-            method: "POST",
-            version: 2,
-            body,
-        }
-    );
+    return http<FetchRoomsResponse>(`tour/hotel/${param}/rooms`, {
+        method: "POST",
+        version: 2,
+        body,
+    });
 };

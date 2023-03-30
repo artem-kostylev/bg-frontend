@@ -8,7 +8,7 @@ import { formatCurrency } from "@/app/lib";
 import { useParams, useQuery } from "@/app/composables";
 
 const params = useParams<{ id: string }>();
-const query = useQuery<{ accommodations_unikey?: string[][]; hotel_id?: number[] }>();
+const query = useQuery<{ accommodations_unikey?: string[][]; hotel_ids?: number[] }>();
 
 type Props = {
     tour: Tour;
@@ -26,18 +26,20 @@ const getTo = (id: number) => {
     const filters = formatMainFilters(props.filters);
 
     if (props.variant === "standart") {
-        return { name: "tours-id", params: { id }, query };
+        return { name: "tours-id", params: { id }, query: filters };
     }
 
     if (props.variant === "multi" || props.variant === "excursion") {
-        const hotel_id = Array.isArray(query.value.hotel_id) ? [...query.value.hotel_id, id] : [id];
+        const hotel_ids = Array.isArray(query.value.hotel_ids)
+            ? [...query.value.hotel_ids, id]
+            : [id];
 
         return {
             name: `tours-${props.variant}-id`,
             params: { id: params.value.id },
             query: {
                 ...filters,
-                hotel_id,
+                hotel_ids,
                 tour_type: "package",
                 accommodations_unikey: query.value.accommodations_unikey,
             },

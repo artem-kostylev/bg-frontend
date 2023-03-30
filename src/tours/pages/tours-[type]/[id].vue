@@ -3,15 +3,15 @@ import { computed } from "vue";
 import { definePageMeta } from "#imports";
 import { HotelContainer } from "@/hotels/components";
 import { useParams, useQuery } from "@/app/composables";
-import { ToursMultiContainer } from "@/tours/components";
-import type { FetchTourMultiQuery } from "@/tours/services";
+import { ToursPackageContainer } from "@/tours/components";
+import type { FetchTourPackageQuery } from "@/tours/services";
 
 definePageMeta({
     validate: ({ params }) => /^\d+$/.test(params.id as string),
 });
 
-const params = useParams<{ id: string }>();
-const query = useQuery<FetchTourMultiQuery>();
+const params = useParams<{ type: "activity" | "multi"; id: string }>();
+const query = useQuery<FetchTourPackageQuery>();
 
 const isShowPackage = computed(() => {
     return (
@@ -23,6 +23,6 @@ const isShowPackage = computed(() => {
 </script>
 
 <template>
-    <ToursMultiContainer v-if="isShowPackage" :id="params.id" />
+    <ToursPackageContainer :type="params.type" v-if="isShowPackage" :id="params.id" />
     <HotelContainer v-else :id="query.hotel_ids[query.hotel_ids.length - 1]" />
 </template>

@@ -3,20 +3,23 @@ import type { FiltersRaw, TourPackage, Filters } from "@/tours/types";
 import { http } from "@/app/lib";
 import { parseMainFilters } from "@/tours/lib";
 
-export type FetchToursMultiResponse = {
+export type FetchToursPackageResponse = {
     meta: Meta;
     packages: TourPackage[];
     filters: Filters;
 };
 
-export type FetchToursMultiQuery = FiltersRaw;
+export type FetchToursPackageQuery = FiltersRaw;
 
-export type FetchToursMultiPayload = FetchToursMultiQuery & { page?: number };
+export type FetchToursPackagePayload = FetchToursPackageQuery & { page?: number };
 
-export const fetchToursMulti = (payload: FetchToursMultiPayload) => {
+export const fetchToursPackage = (
+    payload: FetchToursPackagePayload,
+    type: "activity" | "multi"
+) => {
     const { page, ...filters } = payload;
 
-    return http<FetchToursMultiResponse>("tour/multi", {
+    return http<FetchToursPackageResponse>(`tour/${type}`, {
         method: "POST",
         body: {
             filters: parseMainFilters(filters),

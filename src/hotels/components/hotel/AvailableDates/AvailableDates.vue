@@ -17,7 +17,7 @@ import { formatCurrency, formatDates, formatDate } from "@/app/lib";
 import { Button } from "@ui/components";
 
 const route = useRoute();
-const params = useParams<{ id: number }>();
+const params = useParams<{ id: number; type: "activity" | "multi" }>();
 const query = useQuery<FiltersRaw & { accommodations_unikey?: string[][] }>();
 
 type Props = {
@@ -96,12 +96,12 @@ const getTo = (item: any) => {
     };
 
     if (props.hasNext) {
-        to.name = "tours-multi-id";
-        to.params = { id: params.value.id };
+        to.name = "tours-type-id";
+        to.params = { id: params.value.id, type: params.value.type };
     } else {
         to.name = "booking-tickets";
 
-        if (["tours-multi-id", "tours-excursion-id"].includes(route.name as string)) {
+        if (route.name === "tours-type-id") {
             to.query.package_tour_id = Number(params.value.id);
         }
     }

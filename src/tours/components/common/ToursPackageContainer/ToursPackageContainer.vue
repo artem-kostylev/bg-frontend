@@ -3,20 +3,21 @@ import { computed } from "vue";
 import { useLazyAsyncData } from "#imports";
 import { useQuery } from "@/app/composables";
 import { Page, LocationList } from "@/app/components";
-import { fetchTourMulti } from "@/tours/services";
-import type { FetchTourMultiQuery } from "@/tours/services";
+import { fetchTourPackage } from "@/tours/services";
+import type { FetchTourPackageQuery } from "@/tours/services";
 import { Spin, Typography, Grid, Image } from "@ui/components";
 import { TourCard } from "@/tours/components";
 
 type Props = {
     id: string;
+    type: "activity" | "multi";
 };
 
 const props = defineProps<Props>();
-const query = useQuery<FetchTourMultiQuery & { accommodations_unikey?: string[][] }>();
+const query = useQuery<FetchTourPackageQuery & { accommodations_unikey?: string[][] }>();
 
-const { data, pending } = useLazyAsyncData("tours-multi-id", () =>
-    fetchTourMulti(props.id, query.value)
+const { data, pending } = useLazyAsyncData(`tours-${props.type}-id`, () =>
+    fetchTourPackage(props.id, query.value)
 );
 
 const hotelNumber = computed(() => {
@@ -51,7 +52,7 @@ const hotelNumber = computed(() => {
                     :key="tour.hotel.id"
                     :filters="data.filters"
                     :tour="tour"
-                    variant="multi"
+                    :type="type"
                 />
             </Grid>
         </template>

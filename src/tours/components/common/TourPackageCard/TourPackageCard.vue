@@ -10,7 +10,7 @@ import type { RouteLocationNamedRaw } from "vue-router";
 type Props = {
     tour: TourPackage;
     filters: Filters;
-    type: "multi" | "excursion";
+    type: "multi" | "activity";
 };
 
 const props = defineProps<Props>();
@@ -19,14 +19,11 @@ const NuxtLink = resolveComponent("NuxtLink");
 
 const getTo = (id: number) => {
     const query = formatMainFilters(props.filters);
-    const payload = { params: { id }, query } as RouteLocationNamedRaw;
-
-    payload.name =
-        props.type === "multi"
-            ? "tours-multi-id"
-            : props.type === "excursion"
-            ? "tours-excursion-id"
-            : undefined;
+    const payload = {
+        name: "tours-type-id",
+        params: { id, type: props.type },
+        query,
+    } as RouteLocationNamedRaw;
 
     return payload;
 };

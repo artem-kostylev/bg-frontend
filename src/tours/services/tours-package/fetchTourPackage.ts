@@ -1,21 +1,21 @@
-import type { Meta } from "@/app/types";
-import type { FiltersRaw, TourPackage, Filters, Tour } from "@/tours/types";
 import { http } from "@/app/lib";
 import { parseMainFilters } from "@/tours/lib";
+import type { Meta } from "@/app/types";
+import type { FiltersRaw, TourPackage, Filters, Tour } from "@/tours/types";
 
-export type FetchTourMultiResponse = {
+export type FetchTourPackageResponse = {
     meta: Meta;
     package: TourPackage;
     filters: Filters;
     tours: Tour[];
 };
 
-export type FetchTourMultiQuery = FiltersRaw & {
+export type FetchTourPackageQuery = FiltersRaw & {
     accommodations_unikey?: string[][];
     hotel_ids: number[];
 };
 
-export const fetchTourMulti = async (package_tour_id: string, query: FetchTourMultiQuery) => {
+export const fetchTourPackage = async (package_tour_id: string, query: FetchTourPackageQuery) => {
     let { accommodations_unikey } = query;
 
     accommodations_unikey = accommodations_unikey ?? new Array(query.tour_tourists.length).fill([]);
@@ -38,5 +38,5 @@ export const fetchTourMulti = async (package_tour_id: string, query: FetchTourMu
     response.package = { name: title, description, location, images };
     response.meta = { title, description };
 
-    return response as FetchTourMultiResponse;
+    return response as FetchTourPackageResponse;
 };

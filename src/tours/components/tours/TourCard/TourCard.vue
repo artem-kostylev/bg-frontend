@@ -7,36 +7,38 @@ import { LocationList } from "@/app/components";
 import { formatCurrency } from "@/app/lib";
 import { useParams, useQuery } from "@/app/composables";
 
-const params = useParams<{ id: string }>();
+const params = useParams<{ id: string; type: "multi" | "activity" }>();
 const query = useQuery<{ accommodations_unikey?: string[][]; hotel_ids?: number[] }>();
 
 type Props = {
     tour: Tour;
     filters: Filters;
-    variant?: "standart" | "multi" | "excursion" | "hotel";
+    type?: "standart" | "multi" | "activity" | "hotel";
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    variant: "standart",
+    type: "standart",
 });
 
 const NuxtLink = resolveComponent("NuxtLink");
 
-const getTo = (id: number) => {
+// TODO: fix this
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getTo = (id: number): any => {
     const filters = formatMainFilters(props.filters);
 
-    if (props.variant === "standart") {
+    if (props.type === "standart") {
         return { name: "tours-id", params: { id }, query: filters };
     }
 
-    if (props.variant === "multi" || props.variant === "excursion") {
+    if (props.type === "activity" || props.type === "multi") {
         const hotel_ids = Array.isArray(query.value.hotel_ids)
             ? [...query.value.hotel_ids, id]
             : [id];
 
         return {
-            name: `tours-${props.variant}-id`,
-            params: { id: params.value.id },
+            name: `tours-type-id`,
+            params: { id: params.value.id, type: params.value.type },
             query: {
                 ...filters,
                 hotel_ids,
@@ -60,10 +62,7 @@ const getTo = (id: number) => {
         </template>
         <template #header>
             <Stars :stars="tour.hotel.stars" class="mb-1" />
-            <NuxtLink
-                :to="getTo(tour.hotel.id)"
-                :target="props.variant === 'standart' ? '_blank' : ''"
-            >
+            <NuxtLink :to="getTo(tour.hotel.id)" :target="type === 'standart' ? '_blank' : ''">
                 <Typography variant="h3" as="h3" class="mb-1">{{ tour.hotel.name }}</Typography>
             </NuxtLink>
             <LocationList :location="tour.hotel.location" />
@@ -73,7 +72,7 @@ const getTo = (id: number) => {
                 :as="NuxtLink"
                 :to="getTo(tour.hotel.id)"
                 variant="primary"
-                :target="props.variant === 'standart' ? '_blank' : ''"
+                :target="type === 'standart' ? '_blank' : ''"
                 block
             >
                 от {{ formatCurrency(tour.price) }}

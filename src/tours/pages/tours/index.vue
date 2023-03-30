@@ -45,13 +45,13 @@ const NuxtLink = resolveComponent("NuxtLink");
                 </Button>
                 <Button
                     :as="NuxtLink"
-                    to="/tours-excursion/search?tour_from=260&tour_to=208_location&tour_begin_date[0]=2022-11-01&tour_begin_date[1]=2023-06-30&tour_duration[0]=1&tour_duration[1]=28&tour_tourists[0]=36,36"
+                    to="/tours-activity/search?tour_from=260&tour_to=208_location&tour_begin_date[0]=2022-11-01&tour_begin_date[1]=2023-06-30&tour_duration[0]=1&tour_duration[1]=28&tour_tourists[0]=36,36"
                 >
                     Экскурсионные туры
                 </Button>
                 <Button
                     :as="NuxtLink"
-                    to="/tours-excursion/search?tour_from=260&tour_to=208_location&tour_begin_date[0]=2023-03-31&tour_begin_date[1]=2023-06-30&tour_duration[0]=1&tour_duration[1]=28&tour_tourists[0]=36,36&tour_tourists[1]=36,36"
+                    to="/tours-activity/search?tour_from=260&tour_to=208_location&tour_begin_date[0]=2023-03-31&tour_begin_date[1]=2023-06-30&tour_duration[0]=1&tour_duration[1]=28&tour_tourists[0]=36,36&tour_tourists[1]=36,36"
                 >
                     Экскурсионные туры с несколькими проживаниями
                 </Button>

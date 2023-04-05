@@ -15,13 +15,13 @@ const { selectDates } = useRoomsStore();
 </script>
 
 <template>
-    <Card>
+    <Card cover-class="h-[14rem] bg-slate-100">
         <template #cover>
             <Image
                 v-if="room.images[0]"
                 :src="room.images[0].url"
                 :alt="room.name"
-                class="w-full h-[14rem] object-cover"
+                class="w-full h-full object-cover"
             />
         </template>
         <template #header>

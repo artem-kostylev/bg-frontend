@@ -2,12 +2,14 @@
 import type { HTMLAttributes } from "vue";
 
 type Props = {
+    coverClass?: HTMLAttributes["class"];
     bodyClass?: HTMLAttributes["class"];
     headerClass?: HTMLAttributes["class"];
     footerClass?: HTMLAttributes["class"];
 };
 
 withDefaults(defineProps<Props>(), {
+    coverClass: "",
     bodyClass: "",
     headerClass: "",
     footerClass: "",
@@ -16,7 +18,7 @@ withDefaults(defineProps<Props>(), {
 
 <template>
     <div class="shadow-primary rounded-xl bg-white flex flex-col">
-        <div v-if="$slots.cover" class="overflow-hidden rounded-t-xl">
+        <div v-if="$slots.cover" :class="['relative overflow-hidden rounded-t-xl', coverClass]">
             <slot name="cover" />
         </div>
         <div v-if="$slots.header" :class="['relative p-5 flex flex-col', headerClass]">

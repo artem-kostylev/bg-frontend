@@ -55,13 +55,13 @@ const getTo = (id: number) => {
 </script>
 
 <template>
-    <Card>
+    <Card cover-class="h-[14rem] bg-slate-100">
         <template #cover>
             <Image
                 v-if="tour.hotel.images[0]"
                 :src="tour.hotel.images[0].url"
                 :alt="tour.hotel.name"
-                class="w-full h-[14rem] object-cover"
+                class="w-full h-full object-cover"
             />
         </template>
         <template #header>

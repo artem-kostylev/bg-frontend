@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue";
 import { useLazyAsyncData } from "#imports";
 import { formatCurrency } from "@/app/lib";
 import { useQuery } from "@/app/composables";

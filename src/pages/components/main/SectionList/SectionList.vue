@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { Typography } from "@ui/components";
 import type { Section } from "@/pages/types";
-import { RecommendedTourCard, CountryCard, PromotionCard } from "@/pages/components";
+import {
+    RecommendedTourCard,
+    CountryCard,
+    PromotionCard,
+    RecommendedHotelCard,
+} from "@/pages/components";
 
 type Props = {
     sections: Section[];
@@ -12,6 +17,7 @@ defineProps<Props>();
 const types = {
     standart_block_1: "grid-cols-1",
     standart_block_3: "grid-cols-3 gap-5",
+    hotel_block_3: "grid-cols-3 gap-5",
     location_5: "grid-cols-5 gap-5",
 };
 
@@ -19,6 +25,7 @@ const components = {
     location_5: CountryCard,
     standart_block_1: PromotionCard,
     standart_block_3: RecommendedTourCard,
+    hotel_block_3: RecommendedHotelCard,
 };
 </script>
 

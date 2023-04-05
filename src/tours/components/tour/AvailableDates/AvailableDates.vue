@@ -17,6 +17,7 @@ const query = useQuery<FiltersRaw & { accommodations_unikey?: string[][] }>();
 
 type Props = {
     hasNext: boolean | null;
+    hasMovements: boolean | null;
 };
 
 const props = defineProps<Props>();
@@ -44,7 +45,12 @@ const getTo = (item: MergedSelectedDateItem) => {
         to.name = route.name as string;
         to.params = { id: params.value.id };
     } else {
-        to.name = "booking-tickets";
+        if (!props.hasMovements) {
+            to.name = "booking-composition";
+            to.query.has_movements = "false";
+        } else {
+            to.name = "booking-tickets";
+        }
 
         if (route.name === "tours-multi-id" || route.name === "tours-activity-id") {
             to.query!.package_tour_id = Number(params.value.id);

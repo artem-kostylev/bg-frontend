@@ -68,7 +68,7 @@ onBeforeUnmount(() => roomsStore.$reset());
                 </Transition>
             </template>
             <Modal v-model="openModal" title="Даты проживания и количество ночей">
-                <AvailableDates :has-next="data.has_next" />
+                <AvailableDates :has-movements="data.has_movements" :has-next="data.has_next" />
             </Modal>
         </div>
     </div>

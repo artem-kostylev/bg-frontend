@@ -13,16 +13,11 @@ export type FetchCompositionQuery = {
     ids: string[];
     tours_hash: string;
     tour_type: TourType;
-    has_movements?: string;
+    has_movements?: "false";
     accommodations_unikey: string;
 };
 
 type FetchCompositionPayload = FetchCompositionQuery;
-
-/**
- * TODO: Так как у нас может пропускаться шаг с выбором билетов
- * поэтому нужно запрашивать параметр tour_id
- */
 
 const fetchCompositionWithMovements = async (payload: FetchCompositionPayload) => {
     return await http<FetchCompositionResponse>("tour/detail", {
@@ -31,35 +26,34 @@ const fetchCompositionWithMovements = async (payload: FetchCompositionPayload) =
     });
 };
 
-// const fetchCompositionWithoutMovements = async (payload: FetchCompositionPayload) => {
-//     const accommodations_unikey = Array.isArray(payload.accommodations_unikey)
-//         ? [payload.accommodations_unikey]
-//         : [[payload.accommodations_unikey]];
+const fetchCompositionWithoutMovements = async (payload: FetchCompositionPayload) => {
+    let ids: string[][] | undefined;
 
-//     let ids: string[][] | undefined;
+    /**
+     * Так как у нас может пропускаться шаг с выбором билетов
+     * поэтому нужно запрашивать параметр tour_id
+     */
 
-//     if (!payload.ids) {
-//         const response = await http<{ tour_id: string[][] }>("tour/not_movement", {
-//             method: "POST",
-//             body: {
-//                 accommodations_unikey,
-//                 tour_type: payload.tour_type,
-//             },
-//         });
+    if (!payload.ids) {
+        const response = await http<{ tour_id: string[][] }>("tour/not_movement", {
+            method: "POST",
+            body: {
+                accommodations_unikey: payload.accommodations_unikey,
+                tour_type: payload.tour_type,
+            },
+        });
 
-//         ids = response.tour_id;
-//     }
+        ids = response.tour_id;
+    }
 
-//     return await http<FetchCompositionResponse>("tour/detail", {
-//         method: "POST",
-//         body: { ids: ids ?? payload.ids },
-//     });
-// };
+    return await http<FetchCompositionResponse>("tour/detail", {
+        method: "POST",
+        body: { ids: ids ?? payload.ids },
+    });
+};
 
 export const fetchComposition = async (payload: FetchCompositionPayload) => {
-    // return payload.has_movements === "true"
-    //     ? await fetchCompositionWithMovements(payload)
-    //     : await fetchCompositionWithoutMovements(payload);
-
-    return await fetchCompositionWithMovements(payload);
+    return payload.has_movements === "false"
+        ? await fetchCompositionWithoutMovements(payload)
+        : await fetchCompositionWithMovements(payload);
 };

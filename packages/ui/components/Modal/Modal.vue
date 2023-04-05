@@ -12,7 +12,7 @@ const sizes = {
 };
 
 type Props = {
-    modelValue: boolean;
+    modelValue?: boolean | null;
     scrollable?: boolean;
     size?: keyof typeof sizes;
     title?: string;
@@ -22,9 +22,14 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {
     size: "md",
     title: "",
+    modelValue: null,
 });
 
-const emit = defineEmits<{ (e: "update:modelValue", value: boolean): void }>();
+const emit = defineEmits<{
+    (e: "update:modelValue", value: boolean): void;
+    (e: "open"): void;
+    (e: "close"): void;
+}>();
 
 const isLocked = useScrollLock(document.body);
 
@@ -35,10 +40,12 @@ const visible = computed(() => props.modelValue || open.value);
 
 const show = () => {
     props.modelValue === null ? (open.value = true) : emit("update:modelValue", true);
+    emit("open");
 };
 
 const hide = () => {
     props.modelValue === null ? (open.value = false) : emit("update:modelValue", false);
+    emit("close");
 };
 
 watch(visible, value => (isLocked.value = value));

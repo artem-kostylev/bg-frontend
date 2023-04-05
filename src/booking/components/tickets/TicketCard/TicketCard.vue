@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { whenever } from "@vueuse/core";
 import { useLazyAsyncData } from "#imports";
 import { formatCurrency } from "@/app/lib";
 import { useQuery } from "@/app/composables";
@@ -18,8 +17,6 @@ const props = defineProps<Props>();
 
 const query = useQuery<FetchMovementQuery>();
 
-const open = ref(false);
-
 const getMovement = () => {
     return fetchMovement({
         ...query.value,
@@ -31,14 +28,12 @@ const { data, pending, execute } = useLazyAsyncData("tickets-movement", getMovem
     server: false,
     immediate: false,
 });
-
-whenever(open, () => execute());
 </script>
 
 <template>
     <MovementCard :movement="movement">
         <template #footer>
-            <Modal v-model="open" :loading="pending" size="lg" title="Выбор тарифа">
+            <Modal :loading="pending" @open="execute" size="lg" title="Выбор тарифа">
                 <template #trigger="{ vbind }">
                     <Button v-bind="vbind">{{ formatCurrency(0) }}</Button>
                 </template>

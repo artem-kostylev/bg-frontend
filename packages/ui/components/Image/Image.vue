@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { ref } from "vue";
+import { useIntersectionObserver } from "@vueuse/core";
 
 type Props = {
     src: string;
@@ -10,19 +11,29 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
+    alt: "",
     width: "",
     height: "",
     loading: "lazy",
-    alt: undefined,
 });
 
-const src = computed(() => {
-    return props.src.startsWith("image")
-        ? `https://static.stage.bgit.ru/public/${props.src}`
-        : props.src;
+const targetRef = ref<HTMLImageElement>();
+
+const { stop } = useIntersectionObserver(targetRef, ([{ isIntersecting }]) => {
+    if (isIntersecting && targetRef.value) {
+        targetRef.value.src = props.src;
+        targetRef.value.onload = () => targetRef.value?.classList.add("opacity-100");
+        stop();
+    }
 });
 </script>
 
 <template>
-    <img :src="src" :loading="loading" :alt="alt" :width="width" :height="height" />
+    <img
+        ref="targetRef"
+        class="transition-opacity duration-300 opacity-0"
+        :alt="alt"
+        :width="width"
+        :height="height"
+    />
 </template>

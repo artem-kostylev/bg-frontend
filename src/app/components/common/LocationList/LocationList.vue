@@ -9,7 +9,7 @@ defineProps<Props>();
 </script>
 
 <template>
-    <div class="flex">
+    <div class="flex truncate">
         <NuxtLink
             v-for="(item, index) in location"
             :key="item.id"

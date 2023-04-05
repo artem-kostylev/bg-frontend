@@ -1,18 +1,23 @@
 <script setup lang="ts">
-import { AlertOctagonIcon } from "@ui/icons";
+import { Typography } from "@ui/components";
 
 type Props = {
+    title?: string;
     description?: string;
 };
 
 withDefaults(defineProps<Props>(), {
+    title: "Ничего не найдено",
     description: "По вашему запросу ничего не найдено",
 });
 </script>
 
 <template>
-    <div class="flex flex-col items-center justify-center text-slate-500">
-        <AlertOctagonIcon width="2em" height="2em" class="mb-3" stroke-width="1.3" />
-        <p class="text-xl">По вашему запросу ничего не найдено</p>
+    <div class="flex flex-col items-center justify-center">
+        <div class="max-w-[550px] mx-auto space-y-2.5 text-center">
+            <Typography v-if="title" variant="h2">{{ title }}</Typography>
+            <p class="text-slate-500">{{ description }}</p>
+            <slot name="actions" />
+        </div>
     </div>
 </template>

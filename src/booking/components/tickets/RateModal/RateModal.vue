@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { resolveComponent } from "#imports";
 import type { Movement, Fare } from "@/booking/types";
-import type { FiltersRaw } from "@/tours/types";
+import type { FiltersRaw } from "@/app/types";
 import { Card, Button, Typography } from "@ui/components";
 import { useQuery } from "@/app/composables";
 import { formatCurrency } from "@/app/lib";

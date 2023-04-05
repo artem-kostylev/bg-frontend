@@ -1,2 +1,3 @@
 export * from "./account";
-export * from "./docs";
+export * from "./documents";
+export * from "./trips";

@@ -44,7 +44,6 @@ const hide = () => {
 watch(visible, value => (isLocked.value = value));
 
 onClickOutside(target, () => {
-    console.log("Hi");
     hide();
 });
 

@@ -1,2 +1,2 @@
-export * from "./tours";
-export * from "./tours-package";
+export * from "./tour";
+export * from "./search";

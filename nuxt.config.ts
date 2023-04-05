@@ -3,19 +3,16 @@ import { fileURLToPath } from "node:url";
 import { plugins } from "./postcss.config.js";
 
 export default defineNuxtConfig({
-    // ssr: process.env.NODE_ENV === "development",
-
     ssr: false,
 
     srcDir: "src/app",
 
     extends: [
         "src/tours",
-        "src/hotels",
+        "src/pages",
+        "src/attractions",
         "src/booking",
         "src/account",
-        "src/pages",
-        "src/marketing",
         "src/auth",
     ],
 
@@ -79,6 +76,12 @@ export default defineNuxtConfig({
         workbox: {
             navigateFallback: null,
             globPatterns: ["**/*.{js,css,html,png,svg,ico}"],
+        },
+    },
+
+    runtimeConfig: {
+        public: {
+            apiBase: "https://api.bgagent1.bgit.ru",
         },
     },
 });

@@ -8,11 +8,6 @@ import { Spin } from "@ui/components";
 const params = useParams<{ slug: string }>();
 
 const { data, pending } = useLazyAsyncData("page", () => fetchPage(params.value.slug));
-
-/**
- * Для того что бы донастроить стили есть инструкция в документации к плагину tailwindcss/typography
- * https://tailwindcss.com/docs/typography-plugin
- */
 </script>
 
 <template>

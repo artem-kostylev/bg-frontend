@@ -1,5 +1,4 @@
-import type { Image, Location } from "@/app/types";
-import type { Hotel } from "@/hotels/types";
+import type { Hotel } from "@/tours/types";
 
 export type Tour = {
     hotel: Hotel;
@@ -12,17 +11,3 @@ export type Tour = {
 };
 
 export type TourType = "hotel" | "package";
-
-export type TourPackage = {
-    id: number;
-    name: string;
-    price: number;
-    images: Image[];
-    location: Location[];
-    description?: string;
-    flight_included?: boolean;
-    instant_booking?: boolean;
-    transfer_included?: boolean;
-    excursion_included?: boolean;
-    insurance_included?: boolean;
-};

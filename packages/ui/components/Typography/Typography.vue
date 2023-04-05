@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const variants = {
-    h1: "text-3xl font-semibold tracking-tight",
+    h1: "text-2xl md:text-3xl font-semibold tracking-tight",
     h2: "text-2xl font-semibold tracking-tight",
     h3: "text-xl font-semibold tracking-tight",
     h4: "text-lg font-semibold tracking-tight",

@@ -1,15 +1,25 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { useLazyAsyncData } from "#imports";
 import { TourCard } from "@/tours/components";
-import type { FetchToursQuery } from "@/tours/services";
 import { fetchTours } from "@/tours/services";
 import { useQuery } from "@/app/composables";
 import { Empty, Page } from "@/app/components";
 import { Spin, Typography, Grid } from "@ui/components";
+import type { FiltersRaw } from "@/app/types";
+import { useRoute } from "vue-router";
+import { formatFilters } from "@/app/lib";
 
-const query = useQuery<FetchToursQuery>();
+const route = useRoute();
+const query = useQuery<FiltersRaw>();
 
-const { data, pending } = useLazyAsyncData("tours", () => fetchTours(query.value));
+const name = computed(() => route.name as string);
+
+const { data, pending } = useLazyAsyncData("tours", () => fetchTours(query.value, name.value));
+
+const filters = computed(() => {
+    return formatFilters(data.value!.filters);
+});
 </script>
 
 <template>
@@ -19,10 +29,12 @@ const { data, pending } = useLazyAsyncData("tours", () => fetchTours(query.value
             <Typography variant="h1" as="h1" class="mb-5">{{ data.meta.title }}</Typography>
             <Grid v-if="data.tours.length" cols="3">
                 <TourCard
-                    :filters="data.filters"
                     v-for="tour in data.tours"
                     :key="tour.hotel.id"
                     :tour="tour"
+                    :filters="filters"
+                    :variant="name"
+                    target="_blank"
                 />
             </Grid>
             <Empty v-else />

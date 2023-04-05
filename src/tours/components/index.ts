@@ -1,2 +1,2 @@
-export * from "./tours";
-export * from "./common";
+export * from "./tour";
+export * from "./search";

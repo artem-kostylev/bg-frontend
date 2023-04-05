@@ -1,3 +1,24 @@
+<script setup lang="ts">
+import { useLazyAsyncData, definePageMeta } from "#imports";
+import { fetchTrips } from "@/account/services";
+import { Page } from "@/app/components";
+import { Spin } from "@ui/components";
+
+definePageMeta({
+    middleware: "auth",
+});
+
+const { data, pending } = useLazyAsyncData("account-trips", () => fetchTrips());
+
+const meta = {
+    title: "Мои отзывы",
+    description: "Описание страницы",
+};
+</script>
+
 <template>
-    <div>Trips page</div>
+    <Page :meta="meta">
+        <Spin v-if="pending" />
+        <div v-else-if="data">{{ data }}</div>
+    </Page>
 </template>

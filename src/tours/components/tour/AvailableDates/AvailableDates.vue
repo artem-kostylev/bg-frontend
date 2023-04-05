@@ -64,7 +64,6 @@ const getTo = (item: MergedSelectedDateItem) => {
                 :key="index"
                 class="border-t border-slate-200 border-dashed py-1.5 last:pb-0 flex items-center justify-between"
             >
-                {{ getTo(item).query?.accommodations_unikey }}
                 {{ formatDates(item.begin_date) }} / {{ item.duration }}
                 <Button variant="primary" size="sm" :as="NuxtLink" :to="getTo(item)">
                     от {{ formatCurrency(item.price) }}

@@ -9,6 +9,10 @@ type Group = {
 
 type FetchRoomsResponse = {
     groups: Group[];
+    general: {
+        qty_movements: number;
+        qty_hotels: number;
+    };
     has_next: boolean;
     has_movements: boolean;
 };

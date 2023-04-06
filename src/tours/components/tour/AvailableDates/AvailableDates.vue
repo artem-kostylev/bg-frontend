@@ -16,8 +16,8 @@ const params = useParams<{ id: number; type: "activity" | "multi" }>();
 const query = useQuery<FiltersRaw & { accommodations_unikey?: string[][] }>();
 
 type Props = {
-    hasNext: boolean | null;
-    hasMovements: boolean | null;
+    hasNext: boolean;
+    hasMovements: boolean;
 };
 
 const props = defineProps<Props>();

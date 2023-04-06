@@ -39,10 +39,19 @@ const title = computed(() => {
 });
 
 onBeforeUnmount(() => roomsStore.$reset());
+
+const hasNext = computed(() => {
+    if (!data.value) return false;
+
+    return query.value.hotel_ids
+        ? data.value.general.qty_hotels === query.value.hotel_ids.length + 1
+        : false;
+});
 </script>
 
 <template>
     <div>
+        {{ hasNext }}
         <Typography variant="h2" as="h2">{{ title }}</Typography>
         <Spin v-if="pending" class="py-5" color="primary" />
         <Empty v-else-if="error" />
@@ -68,7 +77,7 @@ onBeforeUnmount(() => roomsStore.$reset());
                 </Transition>
             </template>
             <Modal v-model="openModal" title="Даты проживания и количество ночей">
-                <AvailableDates :has-movements="data.has_movements" :has-next="data.has_next" />
+                <AvailableDates :has-movements="!!data.general.qty_movements" :has-next="hasNext" />
             </Modal>
         </div>
     </div>

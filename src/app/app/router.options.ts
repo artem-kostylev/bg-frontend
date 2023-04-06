@@ -22,9 +22,8 @@ export default <RouterConfig>{
             component: () => import("@/tours/pages/tours/search.vue"),
         },
         {
-            name: "tours",
             path: "/tours",
-            component: () => import("@/pages/pages/index.vue"),
+            redirect: { name: "index" },
         },
         {
             name: "hotels",

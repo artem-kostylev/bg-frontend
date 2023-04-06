@@ -8,17 +8,10 @@ import { RoomCard, AvailableDates } from "@/tours/components";
 import { fetchRooms } from "@/tours/services";
 import { useRoomsStore } from "@/tours/stores";
 import { Empty } from "@/app/components";
-import type { TourType } from "@/tours/types";
-import type { FiltersRaw } from "@/app/types";
+import type { FetchRoomsQuery } from "@/tours/services";
 
 const params = useParams<{ id: string }>();
-const query = useQuery<
-    FiltersRaw & {
-        tour_type?: TourType;
-        hotel_ids?: number[];
-        accommodations_unikey?: string[][];
-    }
->();
+const query = useQuery<FetchRoomsQuery>();
 
 const roomsStore = useRoomsStore();
 const { currentGroupIndex, openModal } = storeToRefs(roomsStore);

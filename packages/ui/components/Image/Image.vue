@@ -6,7 +6,6 @@ type Props = {
     src: string;
     width?: string;
     height?: string;
-    loading?: "lazy" | "eager";
     alt?: string;
 };
 
@@ -14,7 +13,6 @@ const props = withDefaults(defineProps<Props>(), {
     alt: "",
     width: "",
     height: "",
-    loading: "lazy",
 });
 
 const targetRef = ref<HTMLImageElement>();

@@ -19,10 +19,18 @@ export type Food = {
     dates: AvailableDate[];
 };
 
+export type Bed = {
+    label: string;
+    key: string;
+    qty: number;
+};
+
 export type Room = {
     id: number;
     name: string;
     food: Food[];
     size: number;
+    beds: Bed[];
     images: Image[];
+    max_number_of_tourists: number;
 };

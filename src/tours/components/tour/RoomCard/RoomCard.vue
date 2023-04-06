@@ -1,17 +1,23 @@
 <script setup lang="ts">
 import type { Room } from "@/tours/types";
-import { Button, Card, Typography, Image } from "@ui/components";
-import { formatCurrency } from "@/app/lib";
+import { formatCurrency, pluralize } from "@/app/lib";
 import { useRoomsStore } from "@/tours/stores";
+import { Button, Card, Typography, Image } from "@ui/components";
+import { formatBeds } from "@/tours/lib";
+import { computed } from "vue";
 
 type Props = {
     room: Room;
     isLastGroup: boolean;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const { selectDates } = useRoomsStore();
+
+const maxNumberOfTourists = computed(() => {
+    return pluralize(props.room.max_number_of_tourists, ["человека", "человек", "человек"]);
+});
 </script>
 
 <template>
@@ -28,7 +34,7 @@ const { selectDates } = useRoomsStore();
             <div>
                 <Typography variant="h3" as="h3" class="mb-1">{{ room.name }}</Typography>
                 <Typography variant="description">
-                    Большая двуспальная кровать, {{ room.size }} м²
+                    {{ formatBeds(room.beds) }}, {{ room.size }} м², до {{ maxNumberOfTourists }}
                 </Typography>
             </div>
         </template>

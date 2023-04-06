@@ -1,4 +1,5 @@
-import type { AvailableDate, AvailableDateItem } from "@/tours/types";
+import { formatList } from "@/app/lib";
+import type { AvailableDate, AvailableDateItem, Bed } from "@/tours/types";
 
 export type MergedSelectedDateItem = Omit<AvailableDateItem, "accommodation_unikey"> & {
     accommodation_unikey: string[][];
@@ -60,4 +61,10 @@ export const mergeSelectedDates = (selectedDates: AvailableDate[][]) => {
     });
 
     return result;
+};
+
+export const formatBeds = (beds: Bed[]) => {
+    const arr = beds.map(item => (item.qty > 1 ? `${item.label} - ${item.qty}` : `${item.label}`));
+
+    return formatList(arr);
 };

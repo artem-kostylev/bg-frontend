@@ -25,7 +25,7 @@ export const fetchAttraction = async (id: string, name: keyof typeof paths) => {
     const locationId = response.entity.location_id || response.entity.parent_id;
     const locationName = response.entity.location || response.entity.parent;
 
-    response.entity.location = [{ id: locationId, name: locationName }];
+    locationId && (response.entity.location = [{ id: locationId, name: locationName }]);
 
     return response as FetchAttractionResponse;
 };

@@ -21,7 +21,7 @@ defineProps<Props>();
     <div>
         <Stars v-if="entity.stars" :stars="entity.stars" class="mb-2" />
         <Typography variant="h1" as="h1">{{ entity.name }}</Typography>
-        <LocationList v-if="entity.location?.length" :location="entity.location" />
+        <LocationList v-if="entity.location?.length" :location="entity.location" class="mt-1.5" />
         <ImageGrid :images="entity.images" :alt="entity.name" class="mt-6" />
     </div>
 </template>

@@ -23,6 +23,7 @@ export default defineNuxtConfig({
                 class: "antialiased text-gray-900",
             },
             viewport: "width=device-width,initial-scale=1,viewport-fit=cover",
+            link: [{ rel: "icon", type: "image/svg+xml", href: "/favicon.svg" }],
         },
     },
 

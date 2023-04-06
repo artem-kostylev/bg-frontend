@@ -1,4 +1,5 @@
 /* eslint-env node */
+const plugin = require("tailwindcss/plugin");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -27,5 +28,23 @@ module.exports = {
             },
         },
     },
-    plugins: [require("@tailwindcss/typography")],
+    plugins: [
+        require("@tailwindcss/typography"),
+        plugin(({ addUtilities }) => {
+            addUtilities({
+                ".scrollbar-hidden": {
+                    " -ms-overflow-style": "none",
+                    "scrollbar-width": "none",
+                    " -webkit-overflow-scrolling": "touch",
+                    "&::-webkit-scrollbar": {
+                        display: "none",
+                    },
+                },
+                ".safe-area": {
+                    "padding-top": "env(safe-area-inset-top)",
+                    "padding-bottom": "env(safe-area-inset-bottom)",
+                },
+            });
+        }),
+    ],
 };

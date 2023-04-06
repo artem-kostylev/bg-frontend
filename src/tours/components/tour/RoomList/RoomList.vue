@@ -51,7 +51,6 @@ const hasNext = computed(() => {
 
 <template>
     <div>
-        {{ hasNext }}
         <Typography variant="h2" as="h2">{{ title }}</Typography>
         <Spin v-if="pending" class="py-5" color="primary" />
         <Empty v-else-if="error" />

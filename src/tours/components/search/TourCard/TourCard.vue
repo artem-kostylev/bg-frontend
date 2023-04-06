@@ -69,7 +69,7 @@ const getTo = (id: number) => {
             <NuxtLink :to="getTo(tour.hotel.id)" :target="target">
                 <Typography variant="h3" as="h3" class="mb-1">{{ tour.hotel.name }}</Typography>
             </NuxtLink>
-            <LocationList :location="tour.hotel.location" />
+            <LocationList target="_blank" :location="tour.hotel.location" />
         </template>
         <template #footer>
             <Button

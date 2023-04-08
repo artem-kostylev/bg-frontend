@@ -38,14 +38,14 @@ const filters = computed(() => {
     <Page :meta="data?.meta">
         <Spin v-if="pending" color="primary" />
         <template v-else-if="data">
-            <template v-if="hotelNumber === 1">
+            <div v-if="hotelNumber === 1" class="mb-6">
                 <DetailsHeader :entity="data.package" />
                 <div
                     v-if="data.package.description"
                     v-html="data.package.description"
-                    class="prose max-w-none"
+                    class="prose max-w-none mt-6"
                 />
-            </template>
+            </div>
             <Typography variant="h2" as="h2"> Выбор отеля № {{ hotelNumber }}</Typography>
             <Grid cols="3" class="py-5">
                 <TourCard

@@ -32,7 +32,7 @@ const { selectDates } = useRoomsStore();
 </script>
 
 <template>
-    <Card cover-class="h-[14rem] bg-slate-100">
+    <Card cover-class="h-[14rem] bg-slate-100" body-class="flex flex-col justify-end">
         <template #cover>
             <Image
                 v-if="room.images[0]"
@@ -49,22 +49,22 @@ const { selectDates } = useRoomsStore();
                 </Typography>
             </div>
         </template>
-        <div class="flex flex-wrap -mx-2.5 -mb-2.5">
-            <div v-for="facility in room.facilities" :key="facility.key" class="px-2.5 mb-2.5">
-                <IconFilled :icon="icons[facility.key]" :label="facility.label" />
+        <div class="mb-4">
+            <div class="flex flex-wrap -mx-2.5 -mb-2.5">
+                <div v-for="facility in room.facilities" :key="facility.key" class="px-2.5 mb-2.5">
+                    <IconFilled :icon="icons[facility.key]" :label="facility.label" />
+                </div>
             </div>
         </div>
-        <template #footer>
-            <div
-                v-for="food in room.food"
-                :key="food.id"
-                class="border-t border-slate-200 border-dashed py-1.5 last:pb-0 flex items-center justify-between"
-            >
-                <Typography>{{ food.name }}</Typography>
-                <Button variant="primary" size="xs" @click="selectDates(food.dates, isLastGroup)">
-                    от {{ formatCurrency(food.price) }}
-                </Button>
-            </div>
-        </template>
+        <div
+            v-for="food in room.food"
+            :key="food.id"
+            class="border-t border-slate-200 border-dashed py-1.5 last:pb-0 flex items-center justify-between"
+        >
+            <Typography>{{ food.name }}</Typography>
+            <Button variant="primary" size="xs" @click="selectDates(food.dates, isLastGroup)">
+                от {{ formatCurrency(food.price) }}
+            </Button>
+        </div>
     </Card>
 </template>

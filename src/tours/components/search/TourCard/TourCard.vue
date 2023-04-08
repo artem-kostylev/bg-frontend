@@ -70,26 +70,34 @@ const getTo = (id: number) => {
         <template #header>
             <Stars v-if="tour.hotel.stars" :stars="tour.hotel.stars" class="mb-1" />
             <NuxtLink :to="getTo(tour.hotel.id)" :target="target">
-                <Typography variant="h3" as="h2" class="mb-1">{{ tour.hotel.name }}</Typography>
+                <Typography
+                    variant="h3"
+                    as="h2"
+                    class="mb-1 hover:text-primary-500 duration-200 transition-colors"
+                >
+                    {{ tour.hotel.name }}
+                </Typography>
             </NuxtLink>
             <LocationList target="_blank" :location="tour.hotel.location" />
         </template>
-        <div class="flex space-x-4 mb-4" v-if="tour.hotel.food">
-            <IconFilled
-                v-if="tour.hotel.food"
-                :icon="ForkAndKnifeIcon"
-                :label="formatFood(tour.hotel.food)"
-            />
-            <IconFilled
-                v-if="tour.hotel.beach_remoteness"
-                :icon="UmbrellaIcon"
-                :label="formatDistance(tour.hotel.beach_remoteness)"
-            />
-            <IconFilled
-                v-if="tour.hotel.airport_remoteness"
-                :icon="AirplaneIcon"
-                :label="formatDistance(tour.hotel.airport_remoteness)"
-            />
+        <div class="mb-4" v-if="tour.hotel.food">
+            <div class="flex flex-wrap -mx-2.5 -mb-2.5">
+                <div v-if="tour.hotel.airport_remoteness" class="px-2.5 mb-2.5">
+                    <IconFilled
+                        :icon="AirplaneIcon"
+                        :label="`${formatDistance(tour.hotel.airport_remoteness)}`"
+                    />
+                </div>
+                <div v-if="tour.hotel.beach_remoteness" class="px-2.5 mb-2.5">
+                    <IconFilled
+                        :icon="UmbrellaIcon"
+                        :label="`${formatDistance(tour.hotel.beach_remoteness)}`"
+                    />
+                </div>
+                <div v-if="tour.hotel.food" class="px-2.5 mb-2.5">
+                    <IconFilled :icon="ForkAndKnifeIcon" :label="formatFood(tour.hotel.food)" />
+                </div>
+            </div>
         </div>
         <Divider dashed class="mb-4" />
         <TourIncluded v-bind="tour" class="mb-4" />

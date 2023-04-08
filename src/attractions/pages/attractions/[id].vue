@@ -21,7 +21,7 @@ const { data, pending } = useLazyAsyncData("attraction", () =>
             <div
                 v-if="data.entity.description"
                 v-html="data.entity.description"
-                class="prose max-w-none"
+                class="prose max-w-none mt-6"
             />
         </template>
     </Page>

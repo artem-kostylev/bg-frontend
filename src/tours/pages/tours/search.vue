@@ -27,7 +27,7 @@ const filters = computed(() => {
         <Spin v-if="pending" color="primary" />
         <template v-else-if="data">
             <Typography variant="h1" as="h1" class="mb-5">{{ data.meta.title }}</Typography>
-            <Grid v-if="data.tours.length" cols="3">
+            <Grid v-if="data.tours.length" cols="3" gap="5">
                 <TourCard
                     v-for="tour in data.tours"
                     :key="tour.hotel.id"

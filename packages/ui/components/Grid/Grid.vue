@@ -18,7 +18,7 @@ type Props = {
 
 withDefaults(defineProps<Props>(), {
     cols: undefined,
-    gap: "5",
+    gap: undefined,
 });
 </script>
 

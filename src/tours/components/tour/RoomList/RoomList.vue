@@ -56,7 +56,7 @@ const hasNext = computed(() => {
                     enter-to-class="translate-x-0"
                 >
                     <template v-if="currentGroupIndex === index">
-                        <Grid cols="3" v-if="group.rooms.length">
+                        <Grid cols="3" gap="5" v-if="group.rooms.length">
                             <RoomCard
                                 v-for="room in group.rooms"
                                 :key="room.id"

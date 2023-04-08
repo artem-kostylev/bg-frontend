@@ -47,7 +47,7 @@ const filters = computed(() => {
                 />
             </div>
             <Typography variant="h2" as="h2"> Выбор отеля № {{ hotelNumber }}</Typography>
-            <Grid cols="3" class="py-5">
+            <Grid cols="3" gap="5" class="py-5">
                 <TourCard
                     v-for="tour in data.tours"
                     :key="tour.hotel.id"

@@ -33,12 +33,18 @@ const dates = computed(() => {
 <template>
     <div>
         <Typography variant="h2" as="h2" class="mb-4">Выбранный состав</Typography>
-        <div class="flex space-x-6 mb-4">
-            <IconFilled :icon="AirplaneTakeoffIcon" :label="general.from" />
-            <IconFilled :icon="CalendarIcon" :label="dates" />
-            <IconFilled :icon="UsersIcon" :label="tourists" />
+        <div class="flex flex-wrap -mx-2.5 -mb-2.5">
+            <div class="px-2.5 mb-2.5">
+                <IconFilled :icon="AirplaneTakeoffIcon" :label="general.from" />
+            </div>
+            <div class="px-2.5 mb-2.5">
+                <IconFilled :icon="CalendarIcon" :label="dates" />
+            </div>
+            <div class="px-2.5 mb-2.5">
+                <IconFilled :icon="UsersIcon" :label="tourists" />
+            </div>
         </div>
-        <Grid cols="4">
+        <Grid cols="4" class="gap-2.5 md:gap-5 mt-4">
             <Button :end-icon="ChevronRightIcon" justify="between">
                 <div class="flex items-center">
                     <BuildingsIcon width="1.2em" height="1.2em" />

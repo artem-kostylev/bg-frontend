@@ -34,7 +34,7 @@ const to = computed(() => {
     <Page :meta="meta">
         <Spin v-if="pending" color="primary" />
         <div v-else-if="data">
-            <Grid gap="8">
+            <Grid class="gap-4 md:gap-8">
                 <Typography variant="h1" as="h1">Состав</Typography>
                 <Selected v-bind="data" />
                 <Divider dashed />
@@ -42,7 +42,7 @@ const to = computed(() => {
                 <InsuranceList v-if="data.insurances?.length" :insurances="data.insurances" />
                 <Divider dashed />
                 <div>
-                    <Button :as="NuxtLink" :to="to" variant="primary">
+                    <Button :as="NuxtLink" :to="to" variant="primary" class="w-full md:w-auto">
                         Перейти к оформлению
                     </Button>
                 </div>

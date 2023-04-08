@@ -13,7 +13,7 @@ defineProps<Props>();
 
 <template>
     <div>
-        <Card footer-class="flex justify-end">
+        <Card footer-class="md:items-end">
             <template #header>
                 <Typography variant="h3" as="h3">{{ transfer.route }}</Typography>
             </template>

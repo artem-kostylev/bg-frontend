@@ -11,13 +11,13 @@ import { UserIcon, HeartIcon } from "@ui/icons";
             </NuxtLink>
             <div class="flex items-center space-x-4 text-slate-500">
                 <button
-                    class="text-slate-500 hover:text-slate-600 duration-300"
+                    class="text-slate-500 hover:text-slate-600 transition-colors duration-300"
                     aria-label="Мои избранные"
                 >
                     <HeartIcon width="1.6em" height="1.6em" />
                 </button>
                 <button
-                    class="text-slate-500 hover:text-slate-600 duration-300"
+                    class="text-slate-500 hover:text-slate-600 transition-colors duration-300"
                     aria-label="Авторизация"
                 >
                     <UserIcon width="1.6em" height="1.6em" />

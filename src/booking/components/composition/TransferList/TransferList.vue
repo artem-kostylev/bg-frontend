@@ -13,7 +13,7 @@ defineProps<Props>();
 <template>
     <div>
         <Typography variant="h2" as="h2" class="mb-4">Трансферы</Typography>
-        <Grid cols="2">
+        <Grid cols="2" gap="5">
             <TransferCard v-for="transfer in transfers" :key="transfer.id" :transfer="transfer" />
         </Grid>
     </div>

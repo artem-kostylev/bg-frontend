@@ -6,6 +6,10 @@ export type HotelFood = {
     description: string;
 };
 
+export type HotelGeneral = {
+    description: string;
+};
+
 export type Hotel = {
     id: number;
     name: string;
@@ -17,4 +21,5 @@ export type Hotel = {
     airport_remoteness?: number;
     beach_remoteness?: number;
     food: HotelFood[];
+    general?: HotelGeneral;
 };

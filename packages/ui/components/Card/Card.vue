@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { HTMLAttributes, Slots } from "vue";
+import type { HTMLAttributes } from "vue";
 
 type Props = {
     coverClass?: HTMLAttributes["class"];

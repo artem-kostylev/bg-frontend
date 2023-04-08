@@ -12,7 +12,7 @@ export type AvailableDate = {
     items: AvailableDateItem[];
 };
 
-export type Food = {
+export type RoomFood = {
     id: number;
     name: string;
     price: number;
@@ -28,7 +28,7 @@ export type Bed = {
 export type Room = {
     id: number;
     name: string;
-    food: Food[];
+    food: RoomFood[];
     size: number;
     beds: Bed[];
     images: Image[];

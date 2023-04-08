@@ -1,5 +1,11 @@
 import type { Image, Location } from "@/app/types";
 
+export type HotelFood = {
+    id: number;
+    name: string;
+    description: string;
+};
+
 export type Hotel = {
     id: number;
     name: string;
@@ -8,4 +14,7 @@ export type Hotel = {
     reviews: number;
     images: Image[];
     location: Location[];
+    airport_remoteness?: number;
+    beach_remoteness?: number;
+    food: HotelFood[];
 };

@@ -63,3 +63,8 @@ export const pluralize = (count: number | string, words: string[]) => {
         words[count % 100 > 4 && count % 100 < 20 ? 2 : cases[Math.min(count % 10, 5)]]
     );
 };
+
+// TODO: Добавить пример
+export const formatDistance = (distance: number) => {
+    return distance < 1000 ? `${distance} м` : `${Math.round(distance / 1000)} км`;
+};

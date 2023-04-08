@@ -54,7 +54,7 @@ export default defineNuxtConfig({
         manifest: {
             name: "Библио Глобус",
             short_name: "Библио Глобус",
-            theme_color: "#2b60ac",
+            theme_color: "#fff",
             icons: [
                 {
                     src: "pwa-192x192.png",

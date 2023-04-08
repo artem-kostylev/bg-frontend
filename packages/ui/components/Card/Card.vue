@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue";
+import type { HTMLAttributes, Slots } from "vue";
 
 type Props = {
     coverClass?: HTMLAttributes["class"];
@@ -24,7 +24,14 @@ withDefaults(defineProps<Props>(), {
         <div v-if="$slots.header" :class="['relative p-5 flex flex-col', headerClass]">
             <slot name="header" />
         </div>
-        <div :class="['relative flex-1', bodyClass, $slots.header ? 'px-5 pb-5' : 'p-5']">
+        <div
+            :class="[
+                'relative flex-1 px-5',
+                bodyClass,
+                !$slots.header && 'pt-5',
+                !$slots.footer && 'pb-5',
+            ]"
+        >
             <slot />
         </div>
         <div v-if="$slots.footer" :class="['relative p-5 flex', footerClass]">

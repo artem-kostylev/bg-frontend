@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { whenever } from "@vueuse/core";
 import { useLazyAsyncData, definePageMeta } from "#imports";
 import { useQuery } from "@/app/composables";
-import { hasKeys } from "@/app/lib";
+import { formatCurrency, hasKeys } from "@/app/lib";
 import { Page } from "@/app/components";
 import { TicketCard } from "@/booking/components";
 import type { FetchMovementsQuery } from "@/booking/services";
@@ -34,13 +34,14 @@ whenever(
 <template>
     <Page :meta="meta">
         <Spin v-if="pending" color="primary" />
-        <div v-else-if="data">
+        <div v-else-if="data" class="relative">
             <Typography variant="h1" as="h1" class="mb-5">{{ data.direction }}</Typography>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <TicketCard
                     v-for="(movement, index) in data.movements"
                     :key="index"
                     :movement="movement"
+                    :price="data.price"
                 />
             </div>
         </div>

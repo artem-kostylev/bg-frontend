@@ -10,6 +10,7 @@ import { fetchMovement } from "@/booking/services";
 
 type Props = {
     movement: Movement;
+    price: number;
 };
 
 const props = defineProps<Props>();
@@ -32,9 +33,11 @@ const { data, pending, execute } = useLazyAsyncData("tickets-movement", getMovem
 <template>
     <MovementCard :movement="movement">
         <template #footer>
-            <Modal :loading="pending" @open="execute" size="lg" title="Выбор тарифа">
+            <Modal :loading="pending" @open="execute()" size="lg" title="Выбор тарифа">
                 <template #trigger="{ vbind }">
-                    <Button v-bind="vbind">{{ formatCurrency(0) }}</Button>
+                    <Button v-bind="vbind" block variant="primary">
+                        + {{ formatCurrency(movement.price - price) }}
+                    </Button>
                 </template>
                 <RateModal v-if="data" :movement="data" />
             </Modal>

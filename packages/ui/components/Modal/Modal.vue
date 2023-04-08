@@ -71,7 +71,7 @@ const vbind = { onClick: show };
         >
             <div
                 ref="target"
-                class="fixed top-0 left-0 w-full h-full overflow-x-hidden overflow-y-auto"
+                class="fixed top-0 left-0 w-full h-full overflow-x-hidden overflow-y-auto pointer-events-none"
             >
                 <div
                     :class="[

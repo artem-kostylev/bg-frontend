@@ -21,7 +21,7 @@ export type Movement = {
     direction: string;
     duration: number;
     flight_hash: string;
-    is_regular: string;
+    is_regular: "regular" | "charter" | "virtual";
     is_route_last: boolean;
     price: number;
     priority_status: string | null;
@@ -30,5 +30,8 @@ export type Movement = {
     time_arrival: string;
     time_departure: string;
     tour_id: string;
+    fare: {
+        name: string;
+    };
     transport_company: TransportCompany[];
 };

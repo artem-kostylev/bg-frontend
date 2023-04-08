@@ -83,7 +83,7 @@ const getTo = (id: number) => {
         <template #header>
             <Stars v-if="tour.hotel.stars" :stars="tour.hotel.stars" class="mb-1" />
             <NuxtLink :to="getTo(tour.hotel.id)" :target="target">
-                <Typography variant="h3" as="h3" class="mb-1">{{ tour.hotel.name }}</Typography>
+                <Typography variant="h3" as="h2" class="mb-1">{{ tour.hotel.name }}</Typography>
             </NuxtLink>
             <LocationList target="_blank" :location="tour.hotel.location" />
         </template>

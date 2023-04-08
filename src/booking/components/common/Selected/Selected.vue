@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Button, Grid, Typography } from "@ui/components";
+import { Button, Grid, Typography, IconFilled } from "@ui/components";
 import {
     BuildingsIcon,
     AirplaneIcon,
@@ -22,44 +22,32 @@ const duration = computed(() => pluralize(props.general.duration, ["ночь", "
 const tourists = computed(() =>
     pluralize(props.general.qty_tourists, ["турист", "туриста", "туристов"])
 );
+
+const dates = computed(() => {
+    return `
+    ${formatDate(props.general.date_start)} 
+    - ${formatDate(props.general.date_finish)} (${duration.value})`;
+});
 </script>
 
 <template>
     <div>
         <Typography variant="h2" as="h2" class="mb-4">Выбранный состав</Typography>
         <div class="flex space-x-6 mb-4">
-            <div class="flex items-center space-x-2">
-                <div class="p-1.5 rounded-xl border border-slate-300">
-                    <AirplaneTakeoffIcon width="1.1em" height="1.1em" />
-                </div>
-                <span>{{ general.from }}</span>
-            </div>
-            <div class="flex items-center space-x-2">
-                <div class="p-1.5 rounded-xl border border-slate-300">
-                    <CalendarIcon width="1.1em" height="1.1em" />
-                </div>
-                <span>
-                    {{ formatDate(general.date_start) }}
-                    - {{ formatDate(general.date_finish) }} ({{ duration }})
-                </span>
-            </div>
-            <div class="flex items-center space-x-2">
-                <div class="p-1.5 rounded-xl border border-slate-300">
-                    <UsersIcon width="1.1em" height="1.1em" />
-                </div>
-                <span>{{ tourists }}</span>
-            </div>
+            <IconFilled :icon="AirplaneTakeoffIcon" :label="general.from" />
+            <IconFilled :icon="CalendarIcon" :label="dates" />
+            <IconFilled :icon="UsersIcon" :label="tourists" />
         </div>
         <Grid cols="4">
             <Button :end-icon="ChevronRightIcon" justify="between">
                 <div class="flex items-center">
-                    <BuildingsIcon width="1.1em" height="1.1em" />
+                    <BuildingsIcon width="1.2em" height="1.2em" />
                     <span class="ml-2.5">Проживание</span>
                 </div>
             </Button>
             <Button :end-icon="ChevronRightIcon" justify="between">
                 <div class="flex items-center">
-                    <AirplaneIcon width="1.1em" height="1.1em" />
+                    <AirplaneIcon width="1.2em" height="1.2em" />
                     <span class="ml-2.5">Билеты</span>
                 </div>
             </Button>

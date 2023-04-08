@@ -1,9 +1,25 @@
 <script setup lang="ts">
+import type { Component } from "vue";
 import type { Room } from "@/tours/types";
 import { formatCurrency } from "@/app/lib";
 import { useRoomsStore } from "@/tours/stores";
-import { Button, Card, Typography, Image } from "@ui/components";
+import { Button, Card, Typography, Image, IconFilled } from "@ui/components";
 import { formatBeds } from "@/tours/lib";
+import {
+    AirConditioningIcon,
+    BalconyIcon,
+    FreeWifiIcon,
+    TerraceIcon,
+    KitchenIcon,
+} from "@ui/icons";
+
+const icons: Record<string, Component> = {
+    air_conditioning: AirConditioningIcon,
+    balcony: BalconyIcon,
+    free_wifi: FreeWifiIcon,
+    terrace: TerraceIcon,
+    kitchen: KitchenIcon,
+};
 
 type Props = {
     room: Room;
@@ -33,15 +49,22 @@ const { selectDates } = useRoomsStore();
                 </Typography>
             </div>
         </template>
-        <div
-            v-for="food in room.food"
-            :key="food.id"
-            class="border-t border-slate-200 border-dashed py-1.5 last:pb-0 flex items-center justify-between"
-        >
-            <Typography>{{ food.name }}</Typography>
-            <Button variant="primary" size="xs" @click="selectDates(food.dates, isLastGroup)">
-                от {{ formatCurrency(food.price) }}
-            </Button>
+        <div class="flex flex-wrap -mx-2.5 -mb-2.5">
+            <div v-for="facility in room.facilities" :key="facility.key" class="px-2.5 mb-2.5">
+                <IconFilled :icon="icons[facility.key]" :label="facility.label" />
+            </div>
         </div>
+        <template #footer>
+            <div
+                v-for="food in room.food"
+                :key="food.id"
+                class="border-t border-slate-200 border-dashed py-1.5 last:pb-0 flex items-center justify-between"
+            >
+                <Typography>{{ food.name }}</Typography>
+                <Button variant="primary" size="xs" @click="selectDates(food.dates, isLastGroup)">
+                    от {{ formatCurrency(food.price) }}
+                </Button>
+            </div>
+        </template>
     </Card>
 </template>

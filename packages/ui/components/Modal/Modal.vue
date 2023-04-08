@@ -71,7 +71,10 @@ const vbind = { onClick: show };
         >
             <div
                 ref="target"
-                class="fixed top-0 left-0 w-full h-full overflow-x-hidden overflow-y-auto pointer-events-none"
+                :class="[
+                    'fixed top-0 left-0 w-full h-full overflow-x-hidden overflow-y-auto',
+                    scrollable ? 'pointer-events-none' : 'pointer-events-auto',
+                ]"
             >
                 <div
                     :class="[
@@ -91,7 +94,7 @@ const vbind = { onClick: show };
                     >
                         <template #header>
                             <div class="flex items-center justify-between">
-                                <Typography variant="h3">
+                                <Typography variant="h3" class="truncate">
                                     {{ title }}
                                 </Typography>
                                 <button

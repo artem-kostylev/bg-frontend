@@ -15,6 +15,7 @@ module.exports = {
     rules: {
         "no-console": "warn",
         "vue/multi-word-component-names": "off",
+        "vue/prop-name-casing": "off",
         "@typescript-eslint/no-explicit-any": "error",
         "@typescript-eslint/no-unused-vars": "error",
         "@typescript-eslint/consistent-type-imports": "error",

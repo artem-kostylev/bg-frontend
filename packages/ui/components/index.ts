@@ -10,3 +10,4 @@ export * from "./Image";
 export * from "./Grid";
 export * from "./Stars";
 export * from "./Divider";
+export * from "./IconFilled";

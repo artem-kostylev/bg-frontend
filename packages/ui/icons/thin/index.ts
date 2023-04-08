@@ -14,3 +14,6 @@ export { default as ChevronRightIcon } from "./ChevronRight.vue";
 export { default as AirplaneTakeoffIcon } from "./AirplaneTakeoff.vue";
 export { default as CalendarIcon } from "./Calendar.vue";
 export { default as UsersIcon } from "./Users.vue";
+export { default as BalconyIcon } from "./Balcony.vue";
+export { default as FreeWifiIcon } from "./FreeWifi.vue";
+export { default as KitchenIcon } from "./Kitchen.vue";

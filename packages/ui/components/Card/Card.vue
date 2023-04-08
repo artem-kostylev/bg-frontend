@@ -34,7 +34,7 @@ withDefaults(defineProps<Props>(), {
         >
             <slot />
         </div>
-        <div v-if="$slots.footer" :class="['relative p-5 flex', footerClass]">
+        <div v-if="$slots.footer" :class="['relative p-5 flex flex-col', footerClass]">
             <slot name="footer" />
         </div>
     </div>

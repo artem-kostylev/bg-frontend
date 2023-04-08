@@ -25,6 +25,11 @@ export type Bed = {
     qty: number;
 };
 
+export type Facility = {
+    key: string;
+    label: string;
+};
+
 export type Room = {
     id: number;
     name: string;
@@ -32,5 +37,6 @@ export type Room = {
     size: number;
     beds: Bed[];
     images: Image[];
+    facilities: Facility[];
     max_number_of_tourists: number;
 };

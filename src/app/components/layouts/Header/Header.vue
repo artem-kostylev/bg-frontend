@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Container, Image } from "@ui/components";
-import { UserIcon, HeartIcon, AirplaneIcon } from "@ui/icons";
+import { UserIcon, HeartIcon } from "@ui/icons";
 </script>
 
 <template>
-    <header class="border-b border-slate-200 bg-white">
+    <header class="border-b border-slate-200 bg-white sticky md:static top-0 z-30">
         <Container class="flex items-center justify-between py-3.5">
             <NuxtLink :to="{ name: 'index' }">
                 <Image src="/images/logo.svg" alt="Библио глобус" width="185" height="33" />

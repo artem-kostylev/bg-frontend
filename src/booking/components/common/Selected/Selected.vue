@@ -9,7 +9,7 @@ import {
     UsersIcon,
 } from "@ui/icons";
 import type { General } from "@/booking/types";
-import { formatDate, pluralize } from "@/app/lib";
+import { formatDates, pluralize } from "@/app/lib";
 import { computed } from "vue";
 
 type Props = {
@@ -24,9 +24,8 @@ const tourists = computed(() =>
 );
 
 const dates = computed(() => {
-    return `
-    ${formatDate(props.general.date_start)} 
-    - ${formatDate(props.general.date_finish)} (${duration.value})`;
+    return `${formatDates([props.general.date_start, props.general.date_finish])} 
+    (${duration.value})`;
 });
 </script>
 

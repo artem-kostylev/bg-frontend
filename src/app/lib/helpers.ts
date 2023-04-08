@@ -28,23 +28,31 @@ export const formatCurrency = (num: number, currency = "RUB") => {
 };
 
 /**
- *  Форматирует строку в дату
- * @example formatDate('2023-04-30') // 30.04.2023
+ *  Форматирует дату
+ * @example formatDate('2023-04-30', 'month:short|day:numeric') // 30.04.2023
  */
-export const formatDate = (date: string, options?: Intl.DateTimeFormatOptions) => {
+export const formatDate = (
+    date: string | number,
+    format: string = "month:numeric|day:numeric|year:numeric"
+) => {
+    const options = format
+        .split("|")
+        .reduce((previousValue: Record<string, string>, currentValue) => {
+            const [key, value] = currentValue.split(":");
+            previousValue[key] = value;
+
+            return previousValue;
+        }, {});
+
     return new Intl.DateTimeFormat("ru-RU", options).format(new Date(date));
 };
 
 /**
  *  Форматирует массив строк в дату
- * @example formatDate(['2023-04-30', '2023-04-31']) // ['30.04.2023', '31.04.2023']
+ * @example formatDate(['2023-04-30', '2023-04-31']) // 30.04.2023 - 31.04.2023
  */
-export const formatDates = (
-    dates: string[],
-    separator: string = " - ",
-    options?: Intl.DateTimeFormatOptions
-) => {
-    return dates.map(date => formatDate(date, options)).join(separator);
+export const formatDates = (dates: string[], separator: string = " - ", format?: string) => {
+    return dates.map(date => formatDate(date, format)).join(separator);
 };
 
 // TODO: Добавить пример

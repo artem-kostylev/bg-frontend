@@ -3,7 +3,7 @@ import { computed } from "vue";
 import { whenever } from "@vueuse/core";
 import { useLazyAsyncData, definePageMeta } from "#imports";
 import { useQuery } from "@/app/composables";
-import { formatCurrency, hasKeys } from "@/app/lib";
+import { hasKeys } from "@/app/lib";
 import { Page } from "@/app/components";
 import { TicketCard } from "@/booking/components";
 import type { FetchMovementsQuery } from "@/booking/services";

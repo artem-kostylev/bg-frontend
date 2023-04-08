@@ -22,7 +22,7 @@ const meta = {
     <Page :meta="meta">
         <div v-if="pending">loading...</div>
         <div v-else-if="data">
-            <Selected />
+            <Selected v-bind="data" />
             {{ data }}
         </div>
     </Page>

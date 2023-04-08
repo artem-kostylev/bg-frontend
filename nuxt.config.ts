@@ -48,7 +48,7 @@ export default defineNuxtConfig({
 
     postcss: { plugins },
 
-    modules: ["@pinia/nuxt", "@vite-pwa/nuxt"],
+    modules: ["@pinia/nuxt", "@vite-pwa/nuxt", "@nuxtjs/critters"],
 
     pwa: {
         registerType: "autoUpdate",

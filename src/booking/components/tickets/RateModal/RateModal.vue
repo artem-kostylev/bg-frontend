@@ -6,6 +6,7 @@ import { Card, Button, Typography, Divider } from "@ui/components";
 import { RubleIcon, CheckIcon } from "@ui/icons";
 import { useQuery } from "@/app/composables";
 import { formatCurrency } from "@/app/lib";
+import type { RouteLocationNamedRaw, LocationQuery } from "vue-router";
 
 const query = useQuery<FiltersRaw & { ids: string[] }>();
 
@@ -18,9 +19,9 @@ const props = defineProps<Props>();
 const NuxtLink = resolveComponent("NuxtLink");
 
 const getTo = (fare: Fare) => {
-    // TODO: fix this
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const to = { query: { ...query.value } } as any;
+    const to = {} as RouteLocationNamedRaw;
+
+    to.query = { ...query.value } as LocationQuery;
 
     if (props.movement.is_route_last) {
         to.name = "booking-composition";

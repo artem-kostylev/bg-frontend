@@ -39,7 +39,7 @@ const { data, pending, execute } = useLazyAsyncData("tickets-movement", getMovem
                         + {{ formatCurrency(movement.price - price) }}
                     </Button>
                 </template>
-                <RateModal v-if="data" :movement="data" />
+                <RateModal v-if="data" :movement="data" :price="price" />
             </Modal>
         </template>
     </MovementCard>

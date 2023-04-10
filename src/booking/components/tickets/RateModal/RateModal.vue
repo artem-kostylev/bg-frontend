@@ -12,6 +12,7 @@ const query = useQuery<FiltersRaw & { ids: string[] }>();
 
 type Props = {
     movement: Movement;
+    price: number;
 };
 
 const props = defineProps<Props>();
@@ -78,7 +79,7 @@ const getTo = (fare: Fare) => {
             </div>
             <template #footer>
                 <Button variant="primary" :as="NuxtLink" :to="getTo(fare)" block>
-                    + {{ formatCurrency(0) }}
+                    + {{ formatCurrency(fare.price - price) }}
                 </Button>
             </template>
         </Card>

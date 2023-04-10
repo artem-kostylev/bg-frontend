@@ -3,7 +3,7 @@ import { ref } from "vue";
 import { useIntersectionObserver } from "@vueuse/core";
 
 type Props = {
-    src: string;
+    src?: string;
     width?: string;
     height?: string;
     alt?: string;
@@ -11,6 +11,7 @@ type Props = {
 
 const props = withDefaults(defineProps<Props>(), {
     alt: "",
+    src: "",
     width: "",
     height: "",
 });

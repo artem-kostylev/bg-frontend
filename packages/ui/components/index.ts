@@ -11,3 +11,4 @@ export * from "./Grid";
 export * from "./Stars";
 export * from "./Divider";
 export * from "./IconFilled";
+export * from "./Avatar";

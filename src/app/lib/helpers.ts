@@ -31,18 +31,13 @@ export const formatCurrency = (num: number, currency = "RUB") => {
  *  Форматирует дату
  * @example formatDate('2023-04-30', 'month:short|day:numeric') // 30.04.2023
  */
-export const formatDate = (
-    date: string | number,
-    format: string = "month:numeric|day:numeric|year:numeric"
-) => {
-    const options = format
-        .split("|")
-        .reduce((previousValue: Record<string, string>, currentValue) => {
-            const [key, value] = currentValue.split(":");
-            previousValue[key] = value;
+export const formatDate = (date: string | number, format?: string) => {
+    const options: Record<string, string> = {};
 
-            return previousValue;
-        }, {});
+    format?.split("|").forEach(option => {
+        const [key, value] = option.split(":");
+        options[key] = value;
+    });
 
     return new Intl.DateTimeFormat("ru-RU", options).format(new Date(date));
 };

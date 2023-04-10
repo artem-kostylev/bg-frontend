@@ -11,6 +11,12 @@ export type Fare = {
     tour_id: string;
     tours_hash: string;
     price: number;
+    baggage: { key: string; label: string };
+    carryon: { key: string; label: string };
+    ticket_refund: { key: string; label: string };
+    ticket_exchange: { key: string; label: string };
+    // TODO:  Не отобржается на сайте !! замокан на бэке
+    seat_selection: { key: string; label: string };
 };
 
 export type Movement = {

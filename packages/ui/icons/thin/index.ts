@@ -17,3 +17,4 @@ export { default as UsersIcon } from "./Users.vue";
 export { default as BalconyIcon } from "./Balcony.vue";
 export { default as FreeWifiIcon } from "./FreeWifi.vue";
 export { default as KitchenIcon } from "./Kitchen.vue";
+export { default as RubleIcon } from "./Ruble.vue";

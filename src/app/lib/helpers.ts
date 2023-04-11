@@ -71,3 +71,11 @@ export const pluralize = (count: number | string, words: string[]) => {
 export const formatDistance = (distance: number) => {
     return distance < 1000 ? `${distance} м` : `${Math.round(distance / 1000)} км`;
 };
+
+export const formatMinutes = (duration: number) => {
+    const days = Math.floor(duration / 1440);
+    const hours = Math.floor((duration % 1440) / 60);
+    const minutes = duration % 60;
+
+    return `${days ? `${days}д` : ""} ${hours ? `${hours}ч ` : ""}${minutes ? `${minutes}м` : ""}`;
+};

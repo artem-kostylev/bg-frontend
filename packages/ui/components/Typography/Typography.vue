@@ -5,6 +5,7 @@ const variants = {
     h3: "text-xl font-semibold tracking-tight",
     h4: "text-lg font-semibold tracking-tight",
     h5: "font-semibold",
+    secondary: "text-slate-500",
     description: "text-slate-500 text-sm",
 };
 

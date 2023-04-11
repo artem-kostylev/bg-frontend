@@ -43,5 +43,13 @@ export const fetchMovements = async (payload: FetchMovementsPayload) => {
     response.direction = response.movements[0].direction;
     response.price = Math.min(...response.movements.map(movement => movement.price));
 
+    /**
+     * TODO: Исправить на бэке
+     */
+    response.movements.forEach(movement => {
+        movement.time_departure = movement.time_departure.slice(0, -3);
+        movement.time_arrival = movement.time_arrival.slice(0, -3);
+    });
+
     return response;
 };

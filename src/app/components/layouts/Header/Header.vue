@@ -7,7 +7,13 @@ import { UserIcon, HeartIcon } from "@ui/icons";
     <header class="border-b border-slate-200 bg-white sticky md:static top-0 z-30">
         <Container class="flex items-center justify-between py-3.5">
             <NuxtLink :to="{ name: 'index' }">
-                <Image src="/images/logo.svg" alt="Библио глобус" width="185" height="33" />
+                <img
+                    src="@/app/assets/images/logo.svg"
+                    loading="lazy"
+                    alt="Библио глобус"
+                    width="185"
+                    height="33"
+                />
             </NuxtLink>
             <div class="flex items-center space-x-4 text-slate-500">
                 <button

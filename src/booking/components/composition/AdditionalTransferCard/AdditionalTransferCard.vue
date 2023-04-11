@@ -26,10 +26,10 @@ const price = computed(() => {
         return `${label}${formatCurrency(additionalTransfer.price)}`;
     }
 
-    if (!transfer.price) return `+${formatCurrency(additionalTransfer.price)}`;
+    if (!transfer.price) return `+ ${formatCurrency(additionalTransfer.price)}`;
 
     const diff = additionalTransfer.price - transfer.price;
-    return diff > 0 ? `+${formatCurrency(diff)}` : formatCurrency(diff);
+    return diff > 0 ? `+ ${formatCurrency(diff)}` : `- ${formatCurrency(diff * -1)}`;
 });
 </script>
 

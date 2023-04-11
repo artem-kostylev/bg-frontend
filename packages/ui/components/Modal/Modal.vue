@@ -17,6 +17,8 @@ type Props = {
     size?: keyof typeof sizes;
     title?: string;
     loading?: boolean;
+    // TODO: нужно сделать
+    fullscreen?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { Grid } from "@ui/components";
 import type { Transfer } from "@/booking/types";
-import { Typography, Grid } from "@ui/components";
 import { TransferCard } from "@/booking/components";
 
 type Props = {
@@ -11,10 +11,7 @@ defineProps<Props>();
 </script>
 
 <template>
-    <div>
-        <Typography variant="h2" as="h2" class="mb-4">Трансферы</Typography>
-        <Grid cols="2" gap="5">
-            <TransferCard v-for="transfer in transfers" :key="transfer.id" :transfer="transfer" />
-        </Grid>
-    </div>
+    <Grid cols="2" gap="5">
+        <TransferCard v-for="(transfer, index) in transfers" :key="index" :transfer="transfer" />
+    </Grid>
 </template>

@@ -10,4 +10,5 @@ export type Transfer = {
     to: string;
     type: string;
     vehicle: string;
+    price: number;
 };

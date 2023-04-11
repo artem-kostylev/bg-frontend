@@ -38,8 +38,14 @@ const to = computed(() => {
                 <Typography variant="h1" as="h1">Состав</Typography>
                 <Selected v-bind="data" />
                 <Divider dashed />
-                <TransferList v-if="data.transfers?.length" :transfers="data.transfers" />
-                <InsuranceList v-if="data.insurances?.length" :insurances="data.insurances" />
+                <div v-if="data.transfers?.length">
+                    <Typography variant="h2" as="h2" class="mb-4">Трансферы</Typography>
+                    <TransferList :transfers="data.transfers" />
+                </div>
+                <div v-if="data.insurances?.length">
+                    <Typography variant="h2" as="h2" class="mb-4">Страховка</Typography>
+                    <InsuranceList :insurances="data.insurances" />
+                </div>
                 <Divider dashed />
                 <div>
                     <Button :as="NuxtLink" :to="to" variant="primary" class="w-full md:w-auto">

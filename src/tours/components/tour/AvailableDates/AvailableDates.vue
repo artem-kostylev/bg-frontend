@@ -7,7 +7,7 @@ import { useRoomsStore } from "@/tours/stores";
 import type { RouteLocationNamedRaw, LocationQueryValueRaw } from "vue-router";
 import { useParams, useQuery } from "@/app/composables";
 import type { FiltersRaw } from "@/app/types";
-import { formatCurrency, formatDates, formatDate } from "@/app/lib";
+import { formatCurrency, formatDates, formatDate, pluralize } from "@/app/lib";
 import { Button } from "@ui/components";
 import { mergeSelectedDates, type MergedSelectedDateItem } from "@/tours/lib";
 
@@ -73,7 +73,7 @@ const getTo = (item: MergedSelectedDateItem) => {
                 class="border-t border-slate-200 border-dashed py-1.5 last:pb-0 flex items-center justify-between"
             >
                 {{ formatDates(item.begin_date, " - ", "month:numeric|day:numeric") }} /
-                {{ item.duration }}
+                {{ pluralize(item.duration, ["ночь", "ночи", "ночей"]) }}
                 <Button variant="primary" size="sm" :as="NuxtLink" :to="getTo(item)">
                     от {{ formatCurrency(item.price) }}
                 </Button>

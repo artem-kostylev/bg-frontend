@@ -1,2 +1,4 @@
-export * from "./TicketCard";
-export * from "./RateModal";
+export * from "./MovementCard";
+export * from "./MovementList";
+export * from "./FareCard";
+export * from "./FareList";

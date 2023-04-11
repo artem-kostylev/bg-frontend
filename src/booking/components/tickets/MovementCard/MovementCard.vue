@@ -4,7 +4,7 @@ import { formatCurrency } from "@/app/lib";
 import { useQuery } from "@/app/composables";
 import { Button, Modal } from "@ui/components";
 import type { Movement } from "@/booking/types";
-import { MovementCard, RateModal } from "@/booking/components";
+import { FareList, MovementBox } from "@/booking/components";
 import type { FetchMovementQuery } from "@/booking/services";
 import { fetchMovement } from "@/booking/services";
 
@@ -31,7 +31,7 @@ const { data, pending, execute } = useLazyAsyncData("tickets-movement", getMovem
 </script>
 
 <template>
-    <MovementCard :movement="movement">
+    <MovementBox :movement="movement">
         <template #footer>
             <Modal :loading="pending" @open="execute()" size="lg" title="Выбор тарифа">
                 <template #trigger="{ vbind }">
@@ -39,8 +39,13 @@ const { data, pending, execute } = useLazyAsyncData("tickets-movement", getMovem
                         + {{ formatCurrency(movement.price - price) }}
                     </Button>
                 </template>
-                <RateModal v-if="data" :movement="data" :price="price" />
+                <FareList
+                    v-if="data"
+                    :fares="data.fares"
+                    :is-route-last="data.is_route_last"
+                    :price="price"
+                />
             </Modal>
         </template>
-    </MovementCard>
+    </MovementBox>
 </template>

@@ -1,0 +1,65 @@
+<script setup lang="ts">
+import { watch, ref } from "vue";
+import { useLazyAsyncData } from "#imports";
+import { Button, Modal } from "@ui/components";
+import { PencilIcon } from "@ui/icons";
+import type { Transfer } from "@/booking/types";
+import { fetchTransfer } from "@/booking/services";
+import { AdditionalTransferList, TransferBox } from "@/booking/components";
+
+type Props = {
+    transfer: Transfer;
+};
+
+const props = defineProps<Props>();
+
+const { data, pending, execute } = useLazyAsyncData(
+    `transfer-${props.transfer.id}`,
+    () => fetchTransfer(props.transfer),
+    {
+        server: false,
+        immediate: false,
+    }
+);
+
+const show = ref(false);
+
+const open = () => !data.value && execute();
+
+watch(
+    () => props.transfer,
+    () => (show.value = false),
+    { deep: true }
+);
+</script>
+
+<template>
+    <TransferBox :transfer="transfer">
+        <template #footer>
+            <Modal
+                v-if="transfer.has_additional"
+                v-model="show"
+                title="Изменить трансфер"
+                size="lg"
+                :loading="pending"
+                @open="open"
+                fullscreen
+            >
+                <template #trigger="{ vbind }">
+                    <Button
+                        v-bind="vbind"
+                        :start-icon="PencilIcon"
+                        :disabled="!transfer.has_additional"
+                    >
+                        Изменить
+                    </Button>
+                </template>
+                <AdditionalTransferList
+                    v-if="data"
+                    :transfer="transfer"
+                    :additional-transfers="data.allowed"
+                />
+            </Modal>
+        </template>
+    </TransferBox>
+</template>

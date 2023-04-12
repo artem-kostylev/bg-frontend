@@ -37,7 +37,7 @@ const price = computed(() => {
     <TransferBox
         :transfer="additionalTransfer"
         :show-name="false"
-        :class="['border', selected ? 'border-green-600' : 'border-transparent']"
+        :class="['border-2', selected ? 'border-green-600' : 'border-transparent']"
     >
         <template #footer>
             <Button @click="select" :disabled="selected" :variant="selected ? 'base' : 'primary'">

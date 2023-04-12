@@ -22,12 +22,8 @@ type FetchConfirmationPayload = FetchConfirmationQuery;
  */
 
 export const fetchConfirmation = (payload: FetchConfirmationPayload) => {
-    const ids = Array.isArray(payload.ids)
-        ? payload.ids.map(item => item.split("@"))
-        : [payload.ids.split("@")];
-
     return http<FetchConfirmationResponse>("tour/confirmation", {
         method: "POST",
-        body: { ids, tours_hash: payload.tours_hash },
+        body: { ids: payload.ids[0], tours_hash: payload.tours_hash },
     });
 };

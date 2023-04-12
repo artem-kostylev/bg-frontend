@@ -31,7 +31,6 @@ const dates = computed(() => {
 
 <template>
     <div>
-        <Typography variant="h2" as="h2" class="mb-4">Выбранный состав</Typography>
         <div class="flex flex-wrap -mx-2.5 -mb-2.5">
             <div class="px-2.5 mb-2.5">
                 <IconFilled :icon="AirplaneTakeoffIcon" :label="general.from" />

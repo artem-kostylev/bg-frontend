@@ -32,8 +32,8 @@ const letters = computed(() => {
 <template>
     <div
         :class="[
-            'inline-flex items-center justify-center bg-slate-200',
-            shape === 'rounded' && 'rounded-2xl',
+            'inline-flex items-center justify-center bg-slate-200 overflow-hidden',
+            shape === 'rounded' && 'rounded-xl',
             shape === 'square' && 'rounded-full',
         ]"
         :style="{ width, height }"

@@ -5,7 +5,7 @@ import { FareCard } from "@/booking/components";
 
 type Props = {
     fares: Fare[];
-    price: number;
+    price: number | null;
     isRouteLast: boolean;
 };
 

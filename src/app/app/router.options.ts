@@ -58,5 +58,15 @@ export default <RouterConfig>{
             path: "/activities/:id",
             component: () => import("@/attractions/pages/attractions/[id].vue"),
         },
+        {
+            name: "avia",
+            path: "/avia",
+            component: () => import("@/pages/pages/index.vue"),
+        },
+        {
+            name: "avia-search",
+            path: "/avia/search",
+            component: () => import("@/booking/pages/booking/tickets.vue"),
+        },
     ],
 };

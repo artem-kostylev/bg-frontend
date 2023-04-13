@@ -5,6 +5,7 @@ import { Page } from "@/app/components";
 import type { FetchConfirmationQuery } from "@/booking/services";
 import { fetchConfirmation } from "@/booking/services";
 import { Selected } from "@/booking/components";
+import { Spin, Typography } from "@ui/components";
 
 const query = useQuery<FetchConfirmationQuery>();
 
@@ -13,17 +14,17 @@ const { data, pending } = useLazyAsyncData("booking-confirmation", () =>
 );
 
 const meta = {
-    title: "Оформление тура",
-    description: "Описание страницы оформления тура",
+    title: "Оформление",
+    description: "Описание страницы оформления",
 };
 </script>
 
 <template>
     <Page :meta="meta">
-        <div v-if="pending">loading...</div>
+        <Spin v-if="pending" color="primary" />
         <div v-else-if="data">
-            <Selected v-bind="data" />
-            {{ data }}
+            <Typography variant="h1" as="h1">Оформление</Typography>
+            <Selected v-bind="data" class="my-4 md:my-6" />
         </div>
     </Page>
 </template>

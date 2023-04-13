@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onBeforeUnmount, computed } from "vue";
 import { storeToRefs } from "pinia";
-import { useLazyAsyncData } from "#imports";
+import { clearNuxtData, useLazyAsyncData } from "#imports";
 import { useParams, useQuery } from "@/app/composables";
 import { Modal, Typography, Spin, Grid } from "@ui/components";
 import { RoomCard, AvailableDates } from "@/tours/components";
@@ -31,7 +31,10 @@ const title = computed(() => {
     return `Номера для ${currentGroupIndex.value + 1} группы`;
 });
 
-onBeforeUnmount(() => roomsStore.$reset());
+onBeforeUnmount(() => {
+    roomsStore.$reset();
+    clearNuxtData("rooms");
+});
 
 const hasNext = computed(() => {
     if (!data.value) return false;

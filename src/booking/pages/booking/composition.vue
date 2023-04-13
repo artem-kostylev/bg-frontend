@@ -4,8 +4,8 @@ import { resolveComponent, useLazyAsyncData } from "#imports";
 import { useQuery } from "@/app/composables";
 import { Page } from "@/app/components";
 import { fetchComposition, type FetchCompositionQuery } from "@/booking/services";
-import { InsuranceList, TransferList, Selected } from "@/booking/components";
-import { Spin, Typography, Grid, Button, Divider } from "@ui/components";
+import { Selected } from "@/booking/components";
+import { Spin, Typography, Grid, Button } from "@ui/components";
 import type { RouteLocationNamedRaw } from "vue-router";
 
 const query = useQuery<FetchCompositionQuery>();
@@ -34,25 +34,11 @@ const to = computed(() => {
     <Page :meta="meta">
         <Spin v-if="pending" color="primary" />
         <div v-else-if="data">
-            <Grid class="gap-4 md:gap-8">
-                <Typography variant="h1" as="h1">Состав</Typography>
-                <Selected v-bind="data" />
-                <Divider dashed />
-                <div v-if="data.transfers?.length">
-                    <Typography variant="h2" as="h2" class="mb-4">Трансферы</Typography>
-                    <TransferList :transfers="data.transfers" />
-                </div>
-                <div v-if="data.insurances?.length">
-                    <Typography variant="h2" as="h2" class="mb-4">Страховка</Typography>
-                    <InsuranceList :insurances="data.insurances" />
-                </div>
-                <Divider dashed />
-                <div>
-                    <Button :as="NuxtLink" :to="to" variant="primary" class="w-full md:w-auto">
-                        Перейти к оформлению
-                    </Button>
-                </div>
-            </Grid>
+            <Typography variant="h1" as="h1">Состав</Typography>
+            <Selected v-bind="data" class="my-4 md:my-6" />
+            <Button :as="NuxtLink" :to="to" variant="primary" class="w-full md:w-auto">
+                Перейти к оформлению
+            </Button>
         </div>
     </Page>
 </template>

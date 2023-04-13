@@ -18,3 +18,4 @@ export { default as BalconyIcon } from "./Balcony.vue";
 export { default as FreeWifiIcon } from "./FreeWifi.vue";
 export { default as KitchenIcon } from "./Kitchen.vue";
 export { default as RubleIcon } from "./Ruble.vue";
+export { default as ChevronDownIcon } from "./ChevronDown.vue";

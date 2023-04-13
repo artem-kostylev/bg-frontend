@@ -10,7 +10,7 @@ defineProps<Props>();
 </script>
 
 <template>
-    <div class="h-56 relative rounded-2xl overflow-hidden bg-slate-100">
+    <div class="h-56 relative rounded-xl overflow-hidden bg-slate-100">
         <Image :src="child.images[0].url" :alt="child.name" class="w-full h-full object-cover" />
     </div>
 </template>

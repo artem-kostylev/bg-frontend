@@ -7,16 +7,17 @@ import { useName } from "@/app/composables";
 import { fetchSections } from "@/pages/services";
 import { SectionList } from "@/pages/components";
 import { Spin, Tabs, Button } from "@ui/components";
-import { PalmIcon, BuildingsIcon } from "@ui/icons";
+import { PalmIcon, BuildingsIcon, AirplaneIcon } from "@ui/icons";
 
 const router = useRouter();
 const name = useName<"index" | "tours" | "hotels">();
 
-const { data, pending } = useLazyAsyncData("tours", () => fetchSections(name.value));
+const { data, pending } = useLazyAsyncData("index-page", () => fetchSections(name.value));
 
 const tabs = [
     { value: "index", label: "Туры", startIcon: PalmIcon },
     { value: "hotels", label: "Отели", startIcon: BuildingsIcon },
+    { value: "avia", label: "Авиабилеты", startIcon: AirplaneIcon },
 ];
 
 const currentTab = ref(name.value);
@@ -76,6 +77,12 @@ const NuxtLink = resolveComponent("NuxtLink");
                 to="/tours-activity/search?tour_from=260&tour_to=3_location&tour_begin_date[0]=2023-02-01&tour_begin_date[1]=2023-08-31&tour_duration[0]=1&tour_duration[1]=28&tour_tourists[0]=36,36&tour_tourists[1]=36,36"
             >
                 Экскурсионные туры с несколькими проживаниями
+            </Button>
+            <Button
+                :as="NuxtLink"
+                to="/avia/search?tour_from=260&tour_to=208_location&tour_begin_date[0]=2023-05-01&tour_tourists[0]=36"
+            >
+                Авиабилеты
             </Button>
         </div>
         <Tabs v-model="currentTab" :tabs="tabs" class="mb-8" />

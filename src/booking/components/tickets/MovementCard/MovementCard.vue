@@ -1,42 +1,62 @@
 <script setup lang="ts">
-import { useLazyAsyncData } from "#imports";
+import { computed } from "vue";
+import { useLazyAsyncData, useName, clearNuxtData } from "#imports";
 import { formatCurrency } from "@/app/lib";
 import { useQuery } from "@/app/composables";
 import { Button, Modal } from "@ui/components";
+import { fetchMovement } from "@/booking/services";
 import type { Movement } from "@/booking/types";
 import { FareList, MovementBox } from "@/booking/components";
 import type { FetchMovementQuery } from "@/booking/services";
-import { fetchMovement } from "@/booking/services";
+import { onBeforeUnmount } from "vue";
 
 type Props = {
     movement: Movement;
-    price: number;
+    price: number | null;
 };
 
 const props = defineProps<Props>();
 
+const name = useName<"booking-tickets" | "avia-search">();
 const query = useQuery<FetchMovementQuery>();
 
 const getMovement = () => {
-    return fetchMovement({
-        ...query.value,
-        flight_hash: props.movement.flight_hash,
-    });
+    return fetchMovement(
+        {
+            ...query.value,
+            flight_hash: props.movement.flight_hash,
+        },
+        name.value
+    );
 };
 
-const { data, pending, execute } = useLazyAsyncData("tickets-movement", getMovement, {
-    server: false,
-    immediate: false,
+const { data, pending, execute } = useLazyAsyncData(
+    `movement-${props.movement.flight_hash}`,
+    getMovement,
+    {
+        server: false,
+        immediate: false,
+    }
+);
+
+const open = () => !data.value && execute();
+
+onBeforeUnmount(() => clearNuxtData(`movement-${props.movement.flight_hash}`));
+
+const formattedPrice = computed(() => {
+    return name.value === "booking-tickets"
+        ? `+ ${formatCurrency(props.movement.price - (props.price ?? 0))}`
+        : `${formatCurrency(props.movement.price)}`;
 });
 </script>
 
 <template>
     <MovementBox :movement="movement">
         <template #footer>
-            <Modal :loading="pending" @open="execute()" size="lg" title="Выбор тарифа">
+            <Modal :loading="pending" @open="open" size="lg" title="Выбор тарифа">
                 <template #trigger="{ vbind }">
                     <Button v-bind="vbind" block variant="primary">
-                        + {{ formatCurrency(movement.price - price) }}
+                        {{ formattedPrice }}
                     </Button>
                 </template>
                 <FareList

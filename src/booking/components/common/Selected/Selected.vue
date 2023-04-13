@@ -1,19 +1,29 @@
+<script lang="ts">
+export default {
+    inheritAttrs: false,
+};
+</script>
+
 <script setup lang="ts">
-import { Button, Grid, Typography, IconFilled } from "@ui/components";
+import { computed } from "vue";
+import { formatDates, pluralize } from "@/app/lib";
+import { InsuranceList, TransferList, TicketList } from "@/booking/components";
+import type { Insurance, Transfer, General, Movement } from "@/booking/types";
+import { Divider, Collapse, Grid, IconFilled } from "@ui/components";
 import {
-    BuildingsIcon,
-    AirplaneIcon,
-    ChevronRightIcon,
+    BusIcon,
+    ShildIcon,
     AirplaneTakeoffIcon,
+    AirplaneIcon,
     CalendarIcon,
     UsersIcon,
 } from "@ui/icons";
-import type { General } from "@/booking/types";
-import { formatDates, pluralize } from "@/app/lib";
-import { computed } from "vue";
 
 type Props = {
     general: General;
+    transfers: Transfer[];
+    insurances: Insurance[];
+    movements: Movement[];
 };
 
 const props = defineProps<Props>();
@@ -30,7 +40,7 @@ const dates = computed(() => {
 </script>
 
 <template>
-    <div>
+    <Grid class="gap-4 md:gap-6" :class="$attrs.class" :style="$attrs.style">
         <div class="flex flex-wrap -mx-2.5 -mb-2.5">
             <div class="px-2.5 mb-2.5">
                 <IconFilled :icon="AirplaneTakeoffIcon" :label="general.from" />
@@ -42,19 +52,16 @@ const dates = computed(() => {
                 <IconFilled :icon="UsersIcon" :label="tourists" />
             </div>
         </div>
-        <Grid cols="4" class="gap-2.5 md:gap-5 mt-4">
-            <Button :end-icon="ChevronRightIcon" justify="between">
-                <div class="flex items-center">
-                    <BuildingsIcon width="1.2em" height="1.2em" />
-                    <span class="ml-2.5">Проживание</span>
-                </div>
-            </Button>
-            <Button :end-icon="ChevronRightIcon" justify="between">
-                <div class="flex items-center">
-                    <AirplaneIcon width="1.2em" height="1.2em" />
-                    <span class="ml-2.5">Билеты</span>
-                </div>
-            </Button>
-        </Grid>
-    </div>
+        <Divider dashed />
+        <Collapse v-if="movements?.length" :start-icon="AirplaneIcon" title="Билеты">
+            <TicketList :movements="movements" />
+        </Collapse>
+        <Collapse v-if="transfers?.length" :start-icon="BusIcon" title="Трансферы">
+            <TransferList :transfers="transfers" />
+        </Collapse>
+        <Collapse v-if="insurances?.length" :start-icon="ShildIcon" title="Страховки">
+            <InsuranceList :insurances="insurances" />
+        </Collapse>
+        <Divider dashed />
+    </Grid>
 </template>

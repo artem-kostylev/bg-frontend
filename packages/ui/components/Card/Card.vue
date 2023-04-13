@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from "vue";
+import { Paper } from "@ui/components";
 
 type Props = {
     coverClass?: HTMLAttributes["class"];
@@ -17,7 +18,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <div class="shadow-primary rounded-xl bg-white flex flex-col">
+    <Paper class="flex flex-col">
         <div v-if="$slots.cover" :class="['relative overflow-hidden rounded-t-xl', coverClass]">
             <slot name="cover" />
         </div>
@@ -37,5 +38,5 @@ withDefaults(defineProps<Props>(), {
         <div v-if="$slots.footer" :class="['relative p-5 flex flex-col', footerClass]">
             <slot name="footer" />
         </div>
-    </div>
+    </Paper>
 </template>

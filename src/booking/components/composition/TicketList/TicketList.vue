@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { Grid } from "@ui/components";
-import { MovementCard } from "@/booking/components";
 import type { Movement } from "@/booking/types";
+import { TicketCard } from "@/booking/components";
 
 type Props = {
     movements: Movement[];
-    price: number | null;
 };
 
 defineProps<Props>();
@@ -13,11 +12,6 @@ defineProps<Props>();
 
 <template>
     <Grid cols="3" gap="5">
-        <MovementCard
-            v-for="(movement, index) in movements"
-            :key="index"
-            :movement="movement"
-            :price="price"
-        />
+        <TicketCard v-for="(movement, index) in movements" :key="index" :movement="movement" />
     </Grid>
 </template>

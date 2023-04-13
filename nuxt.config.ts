@@ -48,7 +48,12 @@ export default defineNuxtConfig({
 
     postcss: { plugins },
 
-    modules: ["@pinia/nuxt", "@vite-pwa/nuxt", "@nuxtjs/critters"],
+    modules: [
+        "@pinia/nuxt",
+        "@vite-pwa/nuxt",
+        "@nuxtjs/critters",
+        import.meta.env.NUXT_DEVTOOLS === "true" && "@nuxt/devtools",
+    ],
 
     pwa: {
         registerType: "autoUpdate",
@@ -83,7 +88,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            apiBase: "https://api.bgagent1.bgit.ru",
+            apiBaseUrl: "https://api.bgagent1.bgit.ru",
         },
     },
 });

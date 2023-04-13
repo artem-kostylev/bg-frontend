@@ -18,7 +18,7 @@ const name = computed(() => route.name as string);
 const props = defineProps<Props>();
 const query = useQuery<FetchTourPackageQuery>();
 
-const { data, pending } = useLazyAsyncData("qweqweq", () =>
+const { data, pending } = useLazyAsyncData("tour-package", () =>
     fetchTourPackage(props.id, query.value)
 );
 

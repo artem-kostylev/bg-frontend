@@ -18,10 +18,8 @@ withDefaults(defineProps<Props>(), {
         <template v-if="showName" #header>
             <Typography variant="h3" as="h3">{{ transfer.route }}</Typography>
         </template>
-        <div class="mb-4" v-if="showName">
-            {{ transfer.name }}
-        </div>
-        <ul class="list-disc list-inside marker:text-slate-400">
+        <ul class="list-disc list-inside marker:text-slate-400 space-y-0.5">
+            <li>{{ transfer.from }} - {{ transfer.to }}</li>
             <li>{{ transfer.type }}</li>
             <li>{{ transfer.vehicle }}</li>
             <li>{{ pluralize(transfer.capacity, ["пассажир", "пассажира", "пассажиров"]) }}</li>

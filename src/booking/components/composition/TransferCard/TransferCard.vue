@@ -40,7 +40,6 @@ onBeforeUnmount(() => clearNuxtData(`transfer-${props.transfer.id}`));
     <TransferBox :transfer="transfer">
         <template #footer>
             <Modal
-                v-if="transfer.has_additional"
                 v-model="show"
                 title="Изменить трансфер"
                 size="lg"

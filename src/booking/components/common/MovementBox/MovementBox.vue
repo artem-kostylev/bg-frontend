@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import type { Movement } from "@/booking/types";
-import { Avatar, Card, Typography, Divider } from "@ui/components";
+import type { Movement, Stop } from "@/booking/types";
+import { Avatar, Card, Typography, Divider, Tooltip } from "@ui/components";
 import { formatMinutes, formatDate } from "@/app/lib";
 import { AirplaneIcon } from "@ui/icons";
 
@@ -16,6 +16,10 @@ const props = defineProps<Props>();
 const virtual = computed(() => {
     return props.movement.is_regular === "virtual";
 });
+
+const getStopTooltip = (stop: Stop) => {
+    return `${stop.transport_hub.name} - пересадка ${formatMinutes(stop.duration)}`;
+};
 </script>
 
 <template>
@@ -39,26 +43,29 @@ const virtual = computed(() => {
                     height="52px"
                     :src="movement.transport_company[0].key"
                     :initials="movement.transport_company[0].name"
-                    shape="rounded"
                     class="border-2 border-white"
                 />
                 <Typography variant="h3" as="h2">
                     {{ movement.transport_company[0].name }}
                 </Typography>
             </div>
-            <div v-else class="flex items-center -space-x-2">
+            <div v-else class="flex items-center -space-x-4">
                 <div
                     v-for="(company, index) in movement.transport_company.slice(0, 3)"
                     :key="index"
                 >
-                    <Avatar
-                        width="52px"
-                        height="52px"
-                        :src="company.key"
-                        :initials="company.name"
-                        shape="rounded"
-                        class="border-2 border-white"
-                    />
+                    <Tooltip :text="company.name">
+                        <template #trigger="{ vbind }">
+                            <Avatar
+                                v-bind="vbind"
+                                width="52px"
+                                height="52px"
+                                :src="company.key"
+                                :initials="company.name"
+                                class="border-2 border-white"
+                            />
+                        </template>
+                    </Tooltip>
                 </div>
                 <div
                     v-if="movement.transport_company.length > 3"
@@ -83,11 +90,23 @@ const virtual = computed(() => {
             </ul>
             <div class="space-y-2.5">
                 <div class="flex items-center justify-between">
-                    <div>{{ movement.transport_hub_departure.code }}</div>
+                    <Tooltip :text="movement.transport_hub_departure.name">
+                        <template #trigger="{ vbind }">
+                            <span v-bind="vbind">{{ movement.transport_hub_departure.code }}</span>
+                        </template>
+                    </Tooltip>
                     <div v-for="stop in movement.stops" :key="stop.transport_hub.id">
-                        {{ stop.transport_hub.code }}
+                        <Tooltip :text="getStopTooltip(stop)">
+                            <template #trigger="{ vbind }">
+                                <span v-bind="vbind">{{ stop.transport_hub.code }}</span>
+                            </template>
+                        </Tooltip>
                     </div>
-                    <div>{{ movement.transport_hub_arrival.code }}</div>
+                    <Tooltip :text="movement.transport_hub_arrival.name">
+                        <template #trigger="{ vbind }">
+                            <span v-bind="vbind">{{ movement.transport_hub_arrival.code }}</span>
+                        </template>
+                    </Tooltip>
                 </div>
                 <div class="flex items-center justify-between relative">
                     <Divider dashed class="absolute" />

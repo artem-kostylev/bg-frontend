@@ -15,3 +15,4 @@ export * from "./Avatar";
 export * from "./CollapseTransition";
 export * from "./Collapse";
 export * from "./Paper";
+export * from "./Tooltip";

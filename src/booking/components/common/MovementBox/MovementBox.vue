@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import type { Movement } from "@/booking/types";
 import { Avatar, Card, Typography, Divider } from "@ui/components";
 import { formatMinutes, formatDate } from "@/app/lib";
+import { AirplaneIcon } from "@ui/icons";
 
 const STATUSES = { regular: "Регулярный", charter: "Чартерный", virtual: "Виртуальный" };
 
@@ -9,13 +11,29 @@ type Props = {
     movement: Movement;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+const virtual = computed(() => {
+    return props.movement.is_regular === "virtual";
+});
 </script>
 
 <template>
     <Card>
         <template #header>
-            <div v-if="movement.transport_company.length === 1" class="flex items-center space-x-3">
+            <div v-if="virtual" class="flex items-center space-x-3">
+                <div
+                    class="inline-flex items-center justify-center rounded-xl border border-slate-300"
+                    style="width: 48px; height: 48px"
+                >
+                    <AirplaneIcon />
+                </div>
+                <Typography variant="h3" as="h2">Рейс не конкретизирован</Typography>
+            </div>
+            <div
+                v-else-if="movement.transport_company.length === 1"
+                class="flex items-center space-x-3"
+            >
                 <Avatar
                     width="52px"
                     height="52px"
@@ -58,7 +76,8 @@ defineProps<Props>();
             </div>
         </template>
         <div class="space-y-5">
-            <ul class="list-disc list-inside marker:text-slate-400">
+            <p v-if="virtual">Время вылета, рейс и аэропорт появятся за 1-5 дней до вылета</p>
+            <ul v-else class="list-disc list-inside marker:text-slate-400">
                 <li>{{ STATUSES[movement.is_regular] }}</li>
                 <li>{{ movement.fare.name }}</li>
             </ul>
@@ -81,9 +100,16 @@ defineProps<Props>();
                     <div class="rounded-full bg-slate-400 w-1.5 h-1.5 z-10" />
                 </div>
             </div>
-            <div class="flex items-center justify-between">
+            <div v-if="virtual" class="flex justify-center">
+                <Typography variant="h3">
+                    {{ formatDate(movement.date_departure, "day:numeric|month:long") }}
+                </Typography>
+            </div>
+            <div v-else class="flex items-center justify-between">
                 <div>
-                    <Typography variant="h3">{{ movement.time_departure.slice(0, -3) }}</Typography>
+                    <Typography variant="h3">
+                        {{ movement.time_departure?.slice(0, -3) }}
+                    </Typography>
                     <Typography variant="secondary">
                         {{ formatDate(movement.date_departure, "day:numeric|month:long") }}
                     </Typography>
@@ -92,7 +118,7 @@ defineProps<Props>();
                     {{ formatMinutes(movement.duration) }} в пути
                 </Typography>
                 <div class="text-right">
-                    <Typography variant="h3">{{ movement.time_arrival.slice(0, -3) }}</Typography>
+                    <Typography variant="h3">{{ movement.time_arrival?.slice(0, -3) }}</Typography>
                     <Typography variant="secondary">
                         {{ formatDate(movement.date_arrival, "day:numeric|month:long") }}
                     </Typography>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useLazyAsyncData, useName, clearNuxtData } from "#imports";
+import { computed, onBeforeUnmount } from "vue";
+import type { RouteLocationNamedRaw } from "vue-router";
+import { useLazyAsyncData, useName, clearNuxtData, resolveComponent } from "#imports";
 import { formatCurrency } from "@/app/lib";
 import { useQuery } from "@/app/composables";
 import { Button, Modal } from "@ui/components";
@@ -8,7 +9,6 @@ import { fetchMovement } from "@/booking/services";
 import type { Movement } from "@/booking/types";
 import { FareList, MovementBox } from "@/booking/components";
 import type { FetchMovementQuery } from "@/booking/services";
-import { onBeforeUnmount } from "vue";
 
 type Props = {
     movement: Movement;
@@ -41,13 +41,27 @@ const { data, pending, execute } = useLazyAsyncData(
 
 const open = () => !data.value && execute();
 
-onBeforeUnmount(() => clearNuxtData(`movement-${props.movement.flight_hash}`));
-
 const formattedPrice = computed(() => {
     return name.value === "booking-tickets"
         ? `+ ${formatCurrency(props.movement.price - (props.price ?? 0))}`
         : `${formatCurrency(props.movement.price)}`;
 });
+
+const NuxtLink = resolveComponent("NuxtLink");
+
+const to = computed(() => {
+    const route: RouteLocationNamedRaw = {};
+    route.query = query.value;
+
+    if (props.movement.is_route_last) {
+        route.name = "booking-composition";
+        route.query.tours_hash = props.movement.flight_hash;
+    }
+
+    return route;
+});
+
+onBeforeUnmount(() => clearNuxtData(`movement-${props.movement.flight_hash}`));
 </script>
 
 <template>
@@ -59,8 +73,11 @@ const formattedPrice = computed(() => {
                         {{ formattedPrice }}
                     </Button>
                 </template>
+                <Button :as="NuxtLink" :to="to" v-if="movement.is_regular === 'virtual'">
+                    + 0 ₽
+                </Button>
                 <FareList
-                    v-if="data"
+                    v-else-if="data"
                     :fares="data.fares"
                     :is-route-last="data.is_route_last"
                     :price="price"

@@ -16,8 +16,12 @@ const collapsed = ref(props.defaultOpen);
 </script>
 
 <template>
-    <Paper>
-        <button @click="collapsed = !collapsed" class="text-left px-5 py-4 flex items-center">
+    <div>
+        <Paper
+            as="button"
+            @click="collapsed = !collapsed"
+            class="text-left px-5 py-4 flex items-center w-full"
+        >
             <component :is="startIcon" width="1.3em" height="1.3em" class="mr-2.5" />
             <Typography variant="h3" class="flex-1">{{ title }}</Typography>
             <ChevronDownIcon
@@ -25,9 +29,9 @@ const collapsed = ref(props.defaultOpen);
                 width="1.3em"
                 height="1.3em"
             />
-        </button>
-        <CollapseTransition :show="collapsed" class="border-t border-slate-200 p-5">
+        </Paper>
+        <CollapseTransition :show="collapsed" class="py-5">
             <slot />
         </CollapseTransition>
-    </Paper>
+    </div>
 </template>

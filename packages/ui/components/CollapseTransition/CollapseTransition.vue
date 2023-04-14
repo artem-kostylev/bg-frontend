@@ -39,7 +39,7 @@ defineProps<Props>();
 <template>
     <!-- <Transition :css="false" @enter="enter" @leave="leave"> -->
     <Transition :css="false">
-        <div v-if="show" class="overflow-hidden">
+        <div v-if="show">
             <slot />
         </div>
     </Transition>

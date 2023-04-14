@@ -30,7 +30,7 @@ const collapsed = ref(props.defaultOpen);
                 height="1.3em"
             />
         </Paper>
-        <CollapseTransition :show="collapsed" class="py-5">
+        <CollapseTransition :show="collapsed" class="pt-5">
             <slot />
         </CollapseTransition>
     </div>

@@ -22,7 +22,7 @@ const price = computed(() => {
     const { additionalTransfer, transfer } = props;
 
     if (selected.value) {
-        const label = additionalTransfer.price ? "" : "В составе тура - ";
+        const label = additionalTransfer.price ? "" : "В составе - ";
         return `${label}${formatCurrency(additionalTransfer.price)}`;
     }
 

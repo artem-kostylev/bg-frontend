@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Movement } from "@/booking/types";
-import { Avatar, Card, Typography } from "@ui/components";
+import { Avatar, Card, Typography, Divider } from "@ui/components";
 import { formatMinutes, formatDate } from "@/app/lib";
 
 const STATUSES = { regular: "Регулярный", charter: "Чартерный", virtual: "Виртуальный" };
@@ -57,11 +57,30 @@ defineProps<Props>();
                 Рекомендуем
             </div>
         </template>
-        <div class="space-y-3">
+        <div class="space-y-5">
             <ul class="list-disc list-inside marker:text-slate-400">
                 <li>{{ STATUSES[movement.is_regular] }}</li>
                 <li>{{ movement.fare.name }}</li>
             </ul>
+            <div class="space-y-2.5">
+                <div class="flex items-center justify-between">
+                    <div>{{ movement.transport_hub_departure.code }}</div>
+                    <div v-for="stop in movement.stops" :key="stop.transport_hub.id">
+                        {{ stop.transport_hub.code }}
+                    </div>
+                    <div>{{ movement.transport_hub_arrival.code }}</div>
+                </div>
+                <div class="flex items-center justify-between relative">
+                    <Divider dashed class="absolute" />
+                    <div class="rounded-full bg-slate-400 w-1.5 h-1.5 z-10" />
+                    <div
+                        v-for="i in movement.stops.length"
+                        :key="i"
+                        class="rounded-full bg-slate-400 w-1.5 h-1.5 z-10"
+                    />
+                    <div class="rounded-full bg-slate-400 w-1.5 h-1.5 z-10" />
+                </div>
+            </div>
             <div class="flex items-center justify-between">
                 <div>
                     <Typography variant="h3">{{ movement.time_departure.slice(0, -3) }}</Typography>
@@ -72,7 +91,7 @@ defineProps<Props>();
                 <Typography variant="description">
                     {{ formatMinutes(movement.duration) }} в пути
                 </Typography>
-                <div>
+                <div class="text-right">
                     <Typography variant="h3">{{ movement.time_arrival.slice(0, -3) }}</Typography>
                     <Typography variant="secondary">
                         {{ formatDate(movement.date_arrival, "day:numeric|month:long") }}

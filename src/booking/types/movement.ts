@@ -15,8 +15,21 @@ export type Fare = {
     carryon: { key: string; label: string };
     ticket_refund: { key: string; label: string };
     ticket_exchange: { key: string; label: string };
-    // TODO:  Не отобржается на сайте !! замокан на бэке
-    seat_selection: { key: string; label: string };
+};
+
+export type TransportHub = {
+    id: number;
+    name: string;
+    code: string;
+};
+
+export type Stop = {
+    date_end: string;
+    date_start: string;
+    duration: number;
+    time_end: string;
+    time_start: string;
+    transport_hub: TransportHub;
 };
 
 export type Movement = {
@@ -36,8 +49,9 @@ export type Movement = {
     time_arrival: string;
     time_departure: string;
     tour_id: string;
-    fare: {
-        name: string;
-    };
+    stops: Stop[];
+    transport_hub_arrival: TransportHub;
+    transport_hub_departure: TransportHub;
+    fare: { name: string };
     transport_company: TransportCompany[];
 };

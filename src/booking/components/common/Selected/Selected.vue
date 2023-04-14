@@ -24,6 +24,7 @@ type Props = {
     transfers: Transfer[];
     insurances: Insurance[];
     movements: Movement[];
+    defaultOpen?: boolean;
 };
 
 const props = defineProps<Props>();
@@ -53,13 +54,28 @@ const dates = computed(() => {
             </div>
         </div>
         <Divider dashed />
-        <Collapse v-if="movements?.length" :start-icon="AirplaneIcon" title="Билеты">
+        <Collapse
+            v-if="movements?.length"
+            :start-icon="AirplaneIcon"
+            :default-open="defaultOpen"
+            title="Билеты"
+        >
             <TicketList :movements="movements" />
         </Collapse>
-        <Collapse v-if="transfers?.length" :start-icon="BusIcon" title="Трансферы">
+        <Collapse
+            v-if="transfers?.length"
+            :start-icon="BusIcon"
+            :default-open="defaultOpen"
+            title="Трансферы"
+        >
             <TransferList :transfers="transfers" />
         </Collapse>
-        <Collapse v-if="insurances?.length" :start-icon="ShildIcon" title="Страховки">
+        <Collapse
+            v-if="insurances?.length"
+            :start-icon="ShildIcon"
+            :default-open="defaultOpen"
+            title="Страховки"
+        >
             <InsuranceList :insurances="insurances" />
         </Collapse>
         <Divider dashed />

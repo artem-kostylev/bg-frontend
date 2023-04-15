@@ -6,3 +6,4 @@ export * from "./InsuranceList";
 export * from "./InsuranceCard";
 export * from "./AdditionalTransferList";
 export * from "./AdditionalTransferCard";
+export * from "./ActivityList";

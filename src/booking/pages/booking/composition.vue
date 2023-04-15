@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed } from "vue";
+import type { RouteLocationNamedRaw } from "vue-router";
 import { resolveComponent, useLazyAsyncData } from "#imports";
 import { useQuery } from "@/app/composables";
 import { Page } from "@/app/components";
+import { Spin, Typography, Button, Divider, Grid } from "@ui/components";
 import { fetchComposition, type FetchCompositionQuery } from "@/booking/services";
-import { Selected } from "@/booking/components";
-import { Spin, Typography, Button } from "@ui/components";
-import type { RouteLocationNamedRaw } from "vue-router";
+import { Selected, ActivityList } from "@/booking/components";
 
 const query = useQuery<FetchCompositionQuery>();
 
@@ -33,12 +33,19 @@ const to = computed(() => {
 <template>
     <Page :meta="meta">
         <Spin v-if="pending" color="primary" />
-        <div v-else-if="data">
+        <Grid gap="5" v-else-if="data">
             <Typography variant="h1" as="h1">Состав</Typography>
-            <Selected v-bind="data" :default-open="true" class="my-4 md:my-6" />
-            <Button :as="NuxtLink" :to="to" variant="primary" class="w-full md:w-auto">
-                Перейти к оформлению
-            </Button>
-        </div>
+            <Selected v-bind="data" :default-open="true" />
+            <template v-if="data.included_activities">
+                <Typography variant="h2" as="h2">Чем заняться</Typography>
+                <ActivityList :included-activities="data.included_activities" />
+                <Divider dashed />
+            </template>
+            <div>
+                <Button :as="NuxtLink" :to="to" variant="primary" class="w-full md:w-auto">
+                    Перейти к оформлению
+                </Button>
+            </div>
+        </Grid>
     </Page>
 </template>

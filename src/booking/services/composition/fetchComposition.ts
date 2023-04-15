@@ -1,5 +1,5 @@
 import { http } from "@/app/lib";
-import type { Movement, Insurance, Transfer, General } from "@/booking/types";
+import type { Movement, Insurance, Transfer, General, IncludedActivity } from "@/booking/types";
 import type { TourType } from "@/tours/types";
 
 export type FetchCompositionResponse = {
@@ -7,6 +7,7 @@ export type FetchCompositionResponse = {
     movements: Movement[];
     insurances: Insurance[];
     transfers: Transfer[];
+    included_activities: IncludedActivity[];
 };
 
 export type FetchCompositionQuery = {

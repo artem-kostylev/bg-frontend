@@ -15,15 +15,11 @@ export type FetchConfirmationQuery = {
 
 type FetchConfirmationPayload = FetchConfirmationQuery;
 
-/**
- * TODO: Можно обьединить с endpoint tour/detail
- * так как отличия только в том что мы дополнительно передаем выбранные transfers и activities
- * и соответсвенно они обогощаются данными и возвращаются
- */
-
-export const fetchConfirmation = (payload: FetchConfirmationPayload) => {
-    return http<FetchConfirmationResponse>("tour/confirmation", {
+export const fetchConfirmation = async (payload: FetchConfirmationPayload) => {
+    const response = await http<FetchConfirmationResponse>("tour/confirmation", {
         method: "POST",
         body: { ids: payload.ids[0], tours_hash: payload.tours_hash },
     });
+
+    return response;
 };

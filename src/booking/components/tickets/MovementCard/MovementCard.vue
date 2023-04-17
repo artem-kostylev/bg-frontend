@@ -70,7 +70,7 @@ onBeforeUnmount(() => clearNuxtData(`movement-${props.movement.flight_hash}`));
             <Button :as="NuxtLink" :to="to" v-if="movement.is_regular === 'virtual'">
                 + 0 ₽
             </Button>
-            <Modal v-else :loading="pending" @open="open" size="lg" title="Выбор тарифа">
+            <Modal v-else :loading="pending" @open="open" size="lg" title="Тарифы">
                 <template #trigger="{ vbind }">
                     <Button v-bind="vbind" block variant="primary">
                         {{ formattedPrice }}

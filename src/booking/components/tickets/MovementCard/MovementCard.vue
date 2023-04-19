@@ -44,7 +44,7 @@ const open = () => !data.value && execute();
 const formattedPrice = computed(() => {
     return name.value === "booking-tickets"
         ? `+ ${formatCurrency(props.movement.price - (props.price ?? 0))}`
-        : `${formatCurrency(props.movement.price)}`;
+        : `от ${formatCurrency(props.movement.price)}`;
 });
 
 const NuxtLink = resolveComponent("NuxtLink");

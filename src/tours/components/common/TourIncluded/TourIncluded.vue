@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconFilled } from "@ui/components";
+import { IconFilled, Tooltip } from "@ui/components";
 import {
     AirplaneIcon,
     BuildingsIcon,
@@ -22,11 +22,35 @@ defineProps<Props>();
 
 <template>
     <div class="flex space-x-3">
-        <IconFilled v-if="flight_included" :icon="AirplaneIcon" variant="primary" />
-        <IconFilled :icon="BuildingsIcon" variant="primary" />
-        <IconFilled v-if="transfer_included" :icon="BusIcon" variant="primary" />
-        <IconFilled v-if="insurance_included" :icon="ShildIcon" variant="primary" />
-        <IconFilled v-if="excursion_included" :icon="MountainIcon" variant="primary" />
-        <IconFilled v-if="instant_booking" :icon="LightingIcon" variant="warning" />
+        <Tooltip v-if="flight_included" text="Перелет включен">
+            <template #trigger="{ vbind }">
+                <IconFilled v-bind="vbind" :icon="AirplaneIcon" variant="primary" />
+            </template>
+        </Tooltip>
+        <Tooltip text="Проживание включено">
+            <template #trigger="{ vbind }">
+                <IconFilled v-bind="vbind" :icon="BuildingsIcon" variant="primary" />
+            </template>
+        </Tooltip>
+        <Tooltip v-if="transfer_included" text="Транспорт включен">
+            <template #trigger="{ vbind }">
+                <IconFilled v-bind="vbind" :icon="BusIcon" variant="primary" />
+            </template>
+        </Tooltip>
+        <Tooltip v-if="insurance_included" text="Страховка включена">
+            <template #trigger="{ vbind }">
+                <IconFilled v-bind="vbind" :icon="ShildIcon" variant="primary" />
+            </template>
+        </Tooltip>
+        <Tooltip v-if="excursion_included" text="Экскурсия включена">
+            <template #trigger="{ vbind }">
+                <IconFilled v-bind="vbind" :icon="MountainIcon" variant="primary" />
+            </template>
+        </Tooltip>
+        <Tooltip v-if="instant_booking" text="Мгновенное бронирование">
+            <template #trigger="{ vbind }">
+                <IconFilled v-bind="vbind" :icon="LightingIcon" variant="warning" />
+            </template>
+        </Tooltip>
     </div>
 </template>

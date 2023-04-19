@@ -74,7 +74,7 @@ const dates = computed(() => {
             v-if="insurances?.length"
             :start-icon="ShildIcon"
             :default-open="defaultOpen"
-            title="Страховки"
+            title="Страховка"
         >
             <InsuranceList :insurances="insurances" />
         </Collapse>

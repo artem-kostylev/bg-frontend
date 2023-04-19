@@ -4,7 +4,7 @@ import { useQuery } from "@/app/composables";
 import type { FetchTourPackageQuery } from "@/tours/services";
 import { fetchTourPackage } from "@/tours/services";
 import { Page, DetailsHeader } from "@/app/components";
-import { Spin, Typography, Grid } from "@ui/components";
+import { Spin, Typography, Grid, Card, Tabs } from "@ui/components";
 import { formatFilters } from "@/app/lib";
 import { useRoute } from "vue-router";
 import { TourCard } from "@/tours/components";
@@ -40,11 +40,12 @@ const filters = computed(() => {
         <template v-else-if="data">
             <div v-if="hotelNumber === 1" class="mb-6">
                 <DetailsHeader :entity="data.package" />
-                <div
-                    v-if="data.package.description"
-                    v-html="data.package.description"
-                    class="prose max-w-none mt-6"
-                />
+                <Card v-if="data.package.description" class="mt-6" header-class="!pt-0">
+                    <template #header>
+                        <Tabs :model-value="1" :tabs="[{ label: 'Описание', value: 1 }]" />
+                    </template>
+                    <div v-html="data.package.description" class="prose max-w-none" />
+                </Card>
             </div>
             <Typography variant="h2" as="h2"> Выбор отеля № {{ hotelNumber }}</Typography>
             <Grid cols="3" gap="5" class="py-5">

@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { resolveComponent } from "#imports";
 import type { RouteLocationNamedRaw, LocationQuery } from "vue-router";
 import type { Fare } from "@/booking/types";
 import { Card, Typography, Button, Divider } from "@ui/components";
 import { RubleIcon, CheckIcon } from "@ui/icons";
-import { useQuery } from "@/app/composables";
+import { useQuery, useName } from "@/app/composables";
 import type { FiltersRaw } from "@/app/types";
 import { formatCurrency } from "@/app/lib";
 
+const name = useName();
 const query = useQuery<FiltersRaw & { ids: string[] }>();
 
 type Props = {
@@ -37,6 +39,12 @@ const getTo = (fare: Fare) => {
 
     return to;
 };
+
+const price = computed(() => {
+    return name.value === "booking-tickets"
+        ? `+ ${formatCurrency(props.fare.price - (props.price ?? 0))}`
+        : `от ${formatCurrency(props.fare.price - (props.price ?? 0))}`;
+});
 </script>
 
 <template>
@@ -79,7 +87,7 @@ const getTo = (fare: Fare) => {
         </div>
         <template #footer>
             <Button variant="primary" :as="NuxtLink" :to="getTo(fare)" block>
-                + {{ formatCurrency(fare.price - (price ?? 0)) }}
+                {{ price }}
             </Button>
         </template>
     </Card>

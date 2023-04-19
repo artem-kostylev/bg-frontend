@@ -51,7 +51,7 @@ const vbind = { onMouseenter: show, onMouseleave: hide, ref: referenceRef };
             <div
                 v-if="open"
                 :style="{ top: `${y}px`, left: `${x}px` }"
-                class="absolute bg-slate-900/95 text-sm rounded-xl px-2.5 py-1.5 text-white w-max z-50"
+                class="absolute bg-slate-900/90 text-sm rounded-xl px-2.5 py-1.5 text-white w-max z-50"
                 ref="floatingRef"
             >
                 {{ text }}

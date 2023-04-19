@@ -52,6 +52,10 @@ export type Movement = {
     stops: Stop[];
     transport_hub_arrival: TransportHub;
     transport_hub_departure: TransportHub;
-    fare: { name: string };
+    fare: {
+        name: string;
+        baggage: { key: string; label: string; weights: number[] };
+        carryon: { key: string; label: string; weights: number[] };
+    };
     transport_company: TransportCompany[];
 };

@@ -13,4 +13,7 @@ export { default as EyeOpenIcon } from "./EyeOpen.vue";
 export { default as EyeCloseIcon } from "./EyeClose.vue";
 export { default as AlertOctagonIcon } from "./AlertOctagon.vue";
 export { default as StarIcon } from "./Star.vue";
+export { default as CarrionIcon } from "./Carryon.vue";
+export { default as SuitcaseIcon } from "./Suitcase.vue";
+export { default as InfoIcon } from "./Info.vue";
 export * from "./thin";

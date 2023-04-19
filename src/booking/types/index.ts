@@ -4,3 +4,4 @@ export * from "./insurance";
 export * from "./transfer";
 export * from "./all-activity";
 export * from "./included-activity";
+export * from "./questionnary";

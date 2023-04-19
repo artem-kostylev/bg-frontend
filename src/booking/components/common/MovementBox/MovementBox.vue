@@ -3,7 +3,7 @@ import { computed } from "vue";
 import type { Movement, Stop } from "@/booking/types";
 import { Avatar, Card, Typography, Divider, Tooltip } from "@ui/components";
 import { formatMinutes, formatDate } from "@/app/lib";
-import { AirplaneIcon } from "@ui/icons";
+import { AirplaneIcon, SuitcaseIcon, CarrionIcon } from "@ui/icons";
 
 const STATUSES = { regular: "Регулярный", charter: "Чартерный", virtual: "Виртуальный" };
 
@@ -84,10 +84,41 @@ const getStopTooltip = (stop: Stop) => {
         </template>
         <div class="space-y-5">
             <p v-if="virtual">Время вылета, рейс и аэропорт появятся за 1-5 дней до вылета</p>
-            <ul v-else class="list-disc list-inside marker:text-slate-400">
-                <li>{{ STATUSES[movement.is_regular] }}</li>
-                <li>{{ movement.fare.name }}</li>
-            </ul>
+            <div v-else class="flex items-start justify-between">
+                <ul class="list-disc list-inside marker:text-slate-400">
+                    <li>{{ STATUSES[movement.is_regular] }}</li>
+                    <li>{{ movement.fare.name }}</li>
+                    <li>{{ movement.stops.length ? "С пересадками" : "Прямой" }}</li>
+                </ul>
+                <div class="flex items-end space-x-1.5">
+                    <template v-if="movement.fare.carryon.key === 'is_free'">
+                        <Tooltip
+                            v-for="(weight, index) in movement.fare.carryon.weights"
+                            :key="`carryon-${index}`"
+                            :text="`Ручная кладь - ${weight} кг`"
+                        >
+                            <template #trigger="{ vbind }">
+                                <CarrionIcon v-bind="vbind" :text="weight" class="text-slate-500" />
+                            </template>
+                        </Tooltip>
+                    </template>
+                    <template v-if="movement.fare.baggage.key === 'is_free'">
+                        <Tooltip
+                            v-for="(weight, index) in movement.fare.baggage.weights"
+                            :key="`suitcase-${index}`"
+                            :text="`Чемодан - ${weight} кг`"
+                        >
+                            <template #trigger="{ vbind }">
+                                <SuitcaseIcon
+                                    v-bind="vbind"
+                                    :text="weight"
+                                    class="text-slate-500"
+                                />
+                            </template>
+                        </Tooltip>
+                    </template>
+                </div>
+            </div>
             <div class="space-y-2.5">
                 <div class="flex items-center justify-between">
                     <Tooltip :text="movement.transport_hub_departure.name">

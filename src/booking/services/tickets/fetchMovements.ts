@@ -56,19 +56,5 @@ export const fetchMovements = async (
         },
     });
 
-    /**
-     * TODO: Возвращать direction и price с бэка
-     */
-    response.direction = response.movements[0].direction;
-    response.price = Math.min(...response.movements.map(movement => movement.price));
-
-    /**
-     * TODO: Возвращать meta из бэка
-     */
-    response.meta = {
-        title: response.direction,
-        description: response.direction,
-    };
-
     return response;
 };

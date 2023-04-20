@@ -2,7 +2,7 @@
 import { whenever } from "@vueuse/core";
 import { useLazyAsyncData, useName } from "#imports";
 import { useQuery } from "@/app/composables";
-import { Page } from "@/app/components";
+import { Page, Empty } from "@/app/components";
 import { MovementList } from "@/booking/components";
 import type { FetchMovementsQuery } from "@/booking/services";
 import { fetchMovements } from "@/booking/services";
@@ -25,8 +25,13 @@ whenever(
     <Page :meta="data?.meta">
         <Spin v-if="pending" color="primary" />
         <div v-else-if="data" class="relative">
-            <Typography variant="h1" as="h1" class="mb-5">{{ data.direction }}</Typography>
-            <MovementList :movements="data.movements" :price="data.price" />
+            <Typography variant="h1" as="h1" class="mb-5">{{ data.meta.title }}</Typography>
+            <MovementList
+                v-if="data.movements.length"
+                :movements="data.movements"
+                :price="data.price"
+            />
+            <Empty v-else />
         </div>
     </Page>
 </template>

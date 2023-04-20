@@ -45,10 +45,13 @@ export const formatTo = (to: MainFiltersTo) => {
 
 export const formatTourists = (tourists: MainFiltersTourist[]) => {
     return tourists.map(item => {
-        return Object.values(item)
-            .filter(item => (Array.isArray(item) ? item.length : Boolean(item)))
-            .map(i => (i === true ? "pet" : i))
-            .join(",");
+        const result = [];
+
+        item.pet && result.push("pet");
+        item.adults.length && result.push(...item.adults);
+        item.children.length && result.push(...item.children);
+
+        return result.join(",");
     });
 };
 

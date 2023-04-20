@@ -32,9 +32,7 @@ onMounted(() => {
     form.questionnaries = props.general.groups.flatMap(({ tourists, tour_id }) =>
         tourists.map(({ description }) => ({
             label: description,
-            form: {
-                service_insurance_id: props.insurances[0].id,
-            },
+            form: { service_insurance_id: props.insurances[0].id },
             tour_id,
         }))
     );

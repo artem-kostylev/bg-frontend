@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Container, Image } from "@ui/components";
+import { Container } from "@ui/components";
 import { UserIcon, HeartIcon } from "@ui/icons";
 </script>
 

@@ -25,7 +25,7 @@ whenever(
     <Page :meta="data?.meta">
         <Spin v-if="pending" color="primary" />
         <div v-else-if="data" class="relative">
-            <Typography variant="h1" as="h1" class="mb-5">{{ data.meta.title }}</Typography>
+            <Typography variant="h1" as="h1" class="mb-5">{{ data.direction }}</Typography>
             <MovementList
                 v-if="data.movements.length"
                 :movements="data.movements"

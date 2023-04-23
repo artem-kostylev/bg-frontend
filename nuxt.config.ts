@@ -30,6 +30,12 @@ export default defineNuxtConfig({
 
     typescript: {
         shim: false,
+        tsConfig: {
+            compilerOptions: {
+                types: ["vite/client"],
+            },
+            exclude: ["**/*.stories.ts"],
+        },
     },
 
     alias: {
@@ -52,7 +58,7 @@ export default defineNuxtConfig({
         "@pinia/nuxt",
         "@vite-pwa/nuxt",
         "@nuxtjs/critters",
-        import.meta.env.NUXT_DEVTOOLS === "true" && "@nuxt/devtools",
+        process.env.NUXT_DEVTOOLS === "true" && "@nuxt/devtools",
     ],
 
     pwa: {

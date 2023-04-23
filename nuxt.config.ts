@@ -30,12 +30,6 @@ export default defineNuxtConfig({
 
     typescript: {
         shim: false,
-        tsConfig: {
-            compilerOptions: {
-                types: ["vite/client"],
-            },
-            exclude: ["**/*.stories.ts"],
-        },
     },
 
     alias: {

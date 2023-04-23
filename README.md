@@ -1,42 +1,26 @@
-# Nuxt 3 Minimal Starter
+# bg-frontend
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install the dependencies:
-
+Устанавливаем зависимости
 ```bash
-# yarn
-yarn install
-
-# npm
-npm install
-
-# pnpm
-pnpm install
+pnpm i
 ```
+Создаем .env файл в корне проекта по подобию .env.example
 
-## Development Server
-
-Start the development server on `http://localhost:3000`
-
+Для запуска dev используем
 ```bash
 npm run dev
 ```
-
-## Production
-
-Build the application for production:
-
+Для запуска storybook
 ```bash
-npm run build
+npm run dev:storybook
 ```
 
-Locally preview production build:
-
+Так же доступы команды для проветки lint 
 ```bash
-npm run preview
+npm run lint
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+и типов typescript
+```bash
+npm run typecheck
+```

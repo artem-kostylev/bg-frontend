@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { resolveComponent } from "#imports";
+import { resolveComponent } from "vue";
 import type { RouteLocationNamedRaw } from "vue-router";
 import type { FiltersRaw } from "@/app/types";
 import { LocationList } from "@/app/components";

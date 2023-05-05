@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, resolveComponent } from "vue";
 import type { RouteLocationNamedRaw } from "vue-router";
-import { resolveComponent, useLazyAsyncData } from "#imports";
+import { useLazyAsyncData } from "#imports";
 import { useQuery } from "@/app/composables";
 import { Page } from "@/app/components";
 import { Spin, Typography, Button, Divider, Grid } from "@ui/components";

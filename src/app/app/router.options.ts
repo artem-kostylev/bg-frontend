@@ -4,9 +4,7 @@ import { parseQuery, stringifyQuery } from "@querystring";
 export default <RouterConfig>{
     parseQuery,
     stringifyQuery,
-    scrollBehavior: (_, __, savedPosition) => {
-        return savedPosition || { top: 0 };
-    },
+    scrollBehavior: (_, __, savedPosition) => savedPosition || { top: 0 },
     routes: routes => [
         ...routes,
         {

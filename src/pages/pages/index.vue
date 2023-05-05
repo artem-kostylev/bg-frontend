@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, resolveComponent } from "vue";
 import { useRouter } from "vue-router";
-import { useLazyAsyncData, resolveComponent } from "#imports";
+import { useLazyAsyncData } from "#imports";
 import { Page } from "@/app/components";
 import { useName } from "@/app/composables";
 import { fetchSections } from "@/pages/services";

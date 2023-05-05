@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
-import { resolveComponent } from "#imports";
+import { resolveComponent } from "vue";
 import { useRoomsStore } from "@/tours/stores";
 import type { RouteLocationNamedRaw, LocationQueryValueRaw } from "vue-router";
 import { useParams, useQuery } from "@/app/composables";

@@ -11,9 +11,9 @@ import { Spin, Typography } from "@ui/components";
 const name = useName<"booking-tickets" | "avia-search">();
 const query = useQuery<FetchMovementsQuery>();
 
-const { data, pending, execute } = useLazyAsyncData("booking-tickets", () =>
-    fetchMovements(query.value, name.value)
-);
+const { data, pending, execute } = useLazyAsyncData("booking-tickets", () => {
+    return fetchMovements(query.value, name.value);
+});
 
 whenever(
     () => query.value.ids,

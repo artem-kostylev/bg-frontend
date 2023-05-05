@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { resolveComponent } from "#imports";
+import { computed, resolveComponent } from "vue";
 import type { RouteLocationNamedRaw, LocationQuery } from "vue-router";
 import type { Fare } from "@/booking/types";
 import { Card, Typography, Button, Divider } from "@ui/components";

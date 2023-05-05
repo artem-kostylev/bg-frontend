@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount } from "vue";
+import { computed, onBeforeUnmount, resolveComponent } from "vue";
 import type { RouteLocationNamedRaw } from "vue-router";
-import { useLazyAsyncData, useName, clearNuxtData, resolveComponent } from "#imports";
+import { useLazyAsyncData, useName, clearNuxtData } from "#imports";
 import { formatCurrency } from "@/app/lib";
 import { useQuery } from "@/app/composables";
 import { Button, Modal } from "@ui/components";
@@ -33,10 +33,7 @@ const getMovement = () => {
 const { data, pending, execute } = useLazyAsyncData(
     `movement-${props.movement.flight_hash}`,
     getMovement,
-    {
-        server: false,
-        immediate: false,
-    }
+    { server: false, immediate: false }
 );
 
 const open = () => !data.value && execute();
@@ -51,11 +48,16 @@ const NuxtLink = resolveComponent("NuxtLink");
 
 const to = computed(() => {
     const route: RouteLocationNamedRaw = {};
-    route.query = query.value;
+    route.query = { ...query.value };
 
     if (props.movement.is_route_last) {
         route.name = "booking-composition";
         route.query.tours_hash = props.movement.flight_hash;
+        route.query.ids = [[props.movement.tour_id]];
+
+    } else {
+        route.name = "booking-tickets";
+        route.query.ids = [props.movement.route_id];
     }
 
     return route;
@@ -67,7 +69,12 @@ onBeforeUnmount(() => clearNuxtData(`movement-${props.movement.flight_hash}`));
 <template>
     <MovementBox :movement="movement">
         <template #footer>
-            <Button :as="NuxtLink" :to="to" v-if="movement.is_regular === 'virtual'">
+            <Button
+                variant="primary"
+                :as="NuxtLink"
+                :to="to"
+                v-if="movement.is_regular === 'virtual'"
+            >
                 + 0 ₽
             </Button>
             <Modal v-else :loading="pending" @open="open" size="lg" title="Тарифы">

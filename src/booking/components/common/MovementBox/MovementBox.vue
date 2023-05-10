@@ -27,7 +27,7 @@ const getStopTooltip = (stop: Stop) => {
         <template #header>
             <div v-if="virtual" class="flex items-center space-x-3">
                 <div
-                    class="inline-flex items-center justify-center rounded-xl border border-slate-300"
+                    class="inline-flex items-center justify-center rounded-full border border-slate-300"
                     style="width: 48px; height: 48px"
                 >
                     <AirplaneIcon />

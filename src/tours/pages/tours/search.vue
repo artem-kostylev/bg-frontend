@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useLazyAsyncData } from "#imports";
-import { TourList } from "@/tours/components";
+import { TourList, TourFilters } from "@/tours/components";
 import { fetchTours } from "@/tours/services";
 import { Spin, Typography } from "@ui/components";
 import type { FiltersRaw } from "@/app/types";
@@ -22,6 +22,7 @@ const filters = computed(() => formatFilters(data.value!.filters));
         <Spin v-if="pending" color="primary" />
         <template v-else-if="data">
             <Typography variant="h1" as="h1" class="mb-5">{{ data.meta.title }}</Typography>
+            <TourFilters class="mb-5" />
             <TourList
                 v-if="data.tours.length"
                 :tours="data.tours"

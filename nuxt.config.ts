@@ -88,7 +88,7 @@ export default defineNuxtConfig({
 
     runtimeConfig: {
         public: {
-            apiBaseUrl: "https://api.bgagent1.bgit.ru",
+            apiBaseUrl: "",
         },
     },
 });

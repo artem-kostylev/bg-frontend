@@ -17,10 +17,7 @@ const props = defineProps<Props>();
 const { data, pending, execute } = useLazyAsyncData(
     `transfer-${props.transfer.id}`,
     () => fetchTransfer(props.transfer),
-    {
-        server: false,
-        immediate: false,
-    }
+    { server: false, immediate: false }
 );
 
 const show = ref(false);

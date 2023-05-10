@@ -1,7 +1,7 @@
 import { markRaw } from "vue";
 import type { Meta, StoryObj } from "@storybook/vue3";
 import { Button } from "@ui/components";
-import { SearchIcon } from "@ui/icons";
+import { UsersIcon } from "@ui/icons";
 
 const meta: Meta<typeof Button> = {
     title: "Ui/Button",
@@ -90,12 +90,12 @@ export const Disabled: StoryObj<typeof Button> = {
 
 export const StartIcon: StoryObj<typeof Button> = {
     args: {
-        startIcon: markRaw(SearchIcon),
+        startIcon: markRaw(UsersIcon),
     },
 };
 
 export const EndIcon: StoryObj<typeof Button> = {
     args: {
-        endIcon: markRaw(SearchIcon),
+        endIcon: markRaw(UsersIcon),
     },
 };

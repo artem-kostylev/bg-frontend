@@ -18,13 +18,18 @@ const props = withDefaults(defineProps<Props>(), {
 
 const targetRef = ref<HTMLImageElement>();
 
-const { stop } = useIntersectionObserver(targetRef, ([{ isIntersecting }]) => {
-    if (isIntersecting && targetRef.value) {
-        targetRef.value.src = props.src;
-        targetRef.value.onload = () => targetRef.value?.classList.add("opacity-100");
-        stop();
-    }
-});
+const { stop } = useIntersectionObserver(
+    targetRef,
+    ([{ intersectionRatio }]) => {
+        if (intersectionRatio === 1 && targetRef.value) {
+            stop();
+
+            targetRef.value.src = props.src;
+            targetRef.value.onload = () => targetRef.value?.classList.add("opacity-100");
+        }
+    },
+    { threshold: 1.0 }
+);
 </script>
 
 <template>

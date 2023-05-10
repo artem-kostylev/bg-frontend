@@ -12,6 +12,7 @@ type Props = {
 defineProps<Props>();
 
 // TODO: FIX This
+// Проблема если мы в тело добавляем overflow hidden то shadow обрезается у элеметов
 
 // const enter = (element: HTMLElement, done: () => void) => {
 //     const initialHeight = element.style.height;

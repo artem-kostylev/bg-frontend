@@ -36,6 +36,7 @@ export const fetchTours = async (payload: FetchToursPayload, name: string) => {
     });
 
     if (response.packages) {
+        // TODO: Исправить это на бэке, привести к единому формату
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         response.tours = response.packages.map((item: any) => ({
             excursion_included: item.excursion_included,

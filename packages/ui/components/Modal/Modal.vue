@@ -52,9 +52,7 @@ const hide = () => {
 
 watch(visible, value => (isLocked.value = value));
 
-onClickOutside(target, () => {
-    hide();
-});
+onClickOutside(target, hide);
 
 const vbind = { onClick: show };
 </script>

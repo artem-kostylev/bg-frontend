@@ -53,8 +53,9 @@ const to = computed(() => {
     if (props.movement.is_route_last) {
         route.name = "booking-composition";
         route.query.tours_hash = props.movement.flight_hash;
-        route.query.ids = [[props.movement.tour_id]];
-
+        // TODO: Fix this
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        route.query.ids = [[props.movement.tour_id]] as any;
     } else {
         route.name = "booking-tickets";
         route.query.ids = [props.movement.route_id];

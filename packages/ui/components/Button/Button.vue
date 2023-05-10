@@ -68,8 +68,18 @@ const endIcon = computed(() => {
         ]"
         :disabled="disabled"
     >
-        <component :is="startIcon" width="1.2em" height="1.2em" class="mr-2.5" />
+        <component
+            :is="startIcon"
+            width="1.2em"
+            height="1.2em"
+            :class="['mr-2.5', variant === 'base' && 'text-primary-500']"
+        />
         <slot />
-        <component :is="endIcon" width="1.2em" height="1.2em" class="ml-2.5" />
+        <component
+            :is="endIcon"
+            width="1.2em"
+            height="1.2em"
+            :class="['ml-2.5', variant === 'base' && 'text-primary-500']"
+        />
     </component>
 </template>

@@ -21,8 +21,8 @@ const filters = computed(() => formatFilters(data.value!.filters));
     <Page :meta="data?.meta">
         <Spin v-if="pending" color="primary" />
         <template v-else-if="data">
-            <Typography variant="h1" as="h1" class="mb-5">{{ data.meta.title }}</Typography>
-            <TourFilters class="mb-5" />
+            <Typography variant="h1" as="h1" class="md:mb-2.5">{{ data.meta.title }}</Typography>
+            <TourFilters class="mb-8" />
             <TourList
                 v-if="data.tours.length"
                 :tours="data.tours"

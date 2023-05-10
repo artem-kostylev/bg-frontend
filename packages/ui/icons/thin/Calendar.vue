@@ -1,18 +1,8 @@
 <template>
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-    >
-        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-        <line x1="16" y1="2" x2="16" y2="6"></line>
-        <line x1="8" y1="2" x2="8" y2="6"></line>
-        <line x1="3" y1="10" x2="21" y2="10"></line>
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 256 256">
+        <path
+            fill="currentColor"
+            d="M208 34h-26V24a6 6 0 0 0-12 0v10H86V24a6 6 0 0 0-12 0v10H48a14 14 0 0 0-14 14v160a14 14 0 0 0 14 14h160a14 14 0 0 0 14-14V48a14 14 0 0 0-14-14ZM48 46h26v10a6 6 0 0 0 12 0V46h84v10a6 6 0 0 0 12 0V46h26a2 2 0 0 1 2 2v34H46V48a2 2 0 0 1 2-2Zm160 164H48a2 2 0 0 1-2-2V94h164v114a2 2 0 0 1-2 2Zm-82-46a22.1 22.1 0 0 1-22 22a21.8 21.8 0 0 1-15.5-6.4a6 6 0 0 1-.1-8.5a5.9 5.9 0 0 1 8.5 0a9.9 9.9 0 0 0 7.1 2.9a10 10 0 0 0 0-20a6 6 0 0 1-5.4-3.4a6.2 6.2 0 0 1 .7-6.4l8.2-10.2H92a6 6 0 0 1 0-12h28a6 6 0 0 1 4.7 9.7l-10.3 12.9A22 22 0 0 1 126 164Zm40-36v52a6 6 0 0 1-12 0v-40l-6.4 4.8a6 6 0 0 1-8.4-1.2a5.9 5.9 0 0 1 1.2-8.4l16-12a6 6 0 0 1 9.6 4.8Z"
+        />
     </svg>
 </template>

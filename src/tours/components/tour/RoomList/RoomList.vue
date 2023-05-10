@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia";
 import { clearNuxtData, useLazyAsyncData } from "#imports";
 import { useParams, useQuery } from "@/app/composables";
 import { Modal, Typography, Spin, Grid } from "@ui/components";
-import { RoomCard, AvailableDates } from "@/tours/components";
+import { RoomCard, AvailableDates, RoomFilters } from "@/tours/components";
 import { fetchRooms } from "@/tours/services";
 import { useRoomsStore } from "@/tours/stores";
 import { Empty } from "@/app/components";
@@ -47,7 +47,14 @@ const hasNext = computed(() => {
 
 <template>
     <div>
-        <Typography variant="h2" as="h2">{{ title }}</Typography>
+        <div class="flex flex-wrap items-center -mx-5 -mb-5">
+            <div class="px-5 flex-1 mb-5">
+                <Typography variant="h2" as="h2">{{ title }}</Typography>
+            </div>
+            <div class="px-5 w-full md:w-auto mb-5">
+                <RoomFilters />
+            </div>
+        </div>
         <Spin v-if="pending" class="py-5" color="primary" />
         <Empty v-else-if="error" />
         <div v-else-if="data" class="py-5">

@@ -32,7 +32,7 @@ const getMovement = () => {
 const { data, pending, execute } = useLazyAsyncData(
     `movement-${props.movement.flight_hash}`,
     getMovement,
-    { server: false, immediate: false }
+    { immediate: false }
 );
 
 const open = () => !data.value && execute();

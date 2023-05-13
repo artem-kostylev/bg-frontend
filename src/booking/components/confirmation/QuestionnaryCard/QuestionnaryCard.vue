@@ -1,24 +1,25 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
 import { useVuelidate } from "@vuelidate/core";
-import { Card } from "@ui/components";
-import type { Questionnary } from "@/booking/types";
+import { Card, Input, Button } from "@ui/components";
+import type { Questionnary, QuestionnaryForm } from "@/booking/types";
 import { required } from "@/app/lib";
+import { AutocompleteModal } from "../AutocompleteModal";
 
 type Props = {
     questionnary: Questionnary;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
-const rules = computed(() => ({
+const rules = {
     first_name: { required },
     last_name: { required },
-}));
+    birthday: { required },
+    sex: { required },
+    service_insurance_id: { required },
+};
 
-const form = ref({});
-
-const v$ = useVuelidate(rules, form as never);
+const v$ = useVuelidate(rules, props.questionnary.form as QuestionnaryForm);
 
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
@@ -26,9 +27,30 @@ const submit = async () => {
 </script>
 
 <template>
-    <Card>
-        <input v-model="v$.last_name.$model" />
-        <input v-model="v$.first_name.$model" />
-        <button @click="submit">qwewqe</button>
+    <Card body-class="grid gap-5">
+        <div class="flex justify-end">
+            <AutocompleteModal />
+        </div>
+        <div class="grid grid-cols-4 gap-5">
+            <Input
+                placeholder="Фамилия"
+                v-model="v$.first_name.$model"
+                :error="v$.first_name.$errors[0]?.$message"
+            />
+            <Input
+                placeholder="Имя"
+                v-model="v$.last_name.$model"
+                :error="v$.last_name.$errors[0]?.$message"
+            />
+            <Input
+                placeholder="Дата рождения"
+                v-model="v$.birthday.$model"
+                :error="v$.birthday.$errors[0]?.$message"
+            />
+            <Input placeholder="Пол" v-model="v$.sex.$model" :error="v$.sex.$errors[0]?.$message" />
+        </div>
+        <div class="flex space-x-2.5">
+            <Button variant="primary" @click="submit">Перейти к следущей анкете</Button>
+        </div>
     </Card>
 </template>

@@ -1,11 +1,12 @@
 import { http } from "@/app/lib";
-import type { Movement, Insurance, Transfer, General } from "@/booking/types";
+import type { Movement, Insurance, Transfer, General, Accommodation } from "@/booking/types";
 
 export type FetchConfirmationResponse = {
     general: General;
+    transfers: Transfer[];
     movements: Movement[];
     insurances: Insurance[];
-    transfers: Transfer[];
+    accommodations: Accommodation[];
 };
 
 export type FetchConfirmationQuery = {

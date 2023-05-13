@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, resolveComponent } from "vue";
-import type { RouteLocationNamedRaw } from "vue-router";
+import { computed, onBeforeUnmount } from "vue";
 import { useLazyAsyncData, useName, clearNuxtData } from "#imports";
 import { formatCurrency } from "@/app/lib";
 import { useQuery } from "@/app/composables";
-import { Button } from "@ui/components";
+import { Button, Modal } from "@ui/components";
 import { fetchMovement } from "@/booking/services";
 import type { Movement } from "@/booking/types";
-import { FareModal, MovementBox } from "@/booking/components";
+import { FareCard, FareList } from "@/booking/components";
 import type { FetchMovementQuery } from "@/booking/services";
 
 type Props = {
@@ -44,41 +43,37 @@ const formattedPrice = computed(() => {
         : `от ${formatCurrency(props.movement.price)}`;
 });
 
-const NuxtLink = resolveComponent("NuxtLink");
-
-const to = computed(() => {
-    const route: RouteLocationNamedRaw = {};
-    route.query = { ...query.value };
-
-    if (props.movement.is_route_last) {
-        route.name = "booking-composition";
-        route.query.tours_hash = props.movement.flight_hash;
-        // TODO: Fix this
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        route.query.ids = [[props.movement.tour_id]] as any;
-    } else {
-        route.name = "booking-tickets";
-        route.query.ids = [props.movement.route_id];
-    }
-
-    return route;
-});
+const isMulti = computed(() => (data.value?.fares.length ?? 0) > 1);
 
 onBeforeUnmount(() => clearNuxtData(`movement-${props.movement.flight_hash}`));
 </script>
 
 <template>
-    <MovementBox :movement="movement">
-        <template #footer>
-            <Button
-                variant="primary"
-                :as="NuxtLink"
-                :to="to"
-                v-if="movement.is_regular === 'virtual'"
-            >
-                + 0 ₽
+    <Modal
+        :loading="pending"
+        @open="open"
+        :size="isMulti ? 'lg' : 'sm'"
+        :title="isMulti ? 'Тарифы' : data?.fares[0].fare_name"
+    >
+        <template #trigger="{ vbind }">
+            <Button v-bind="vbind" block variant="primary">
+                {{ formattedPrice }}
             </Button>
-            <FareModal v-else :price="price" :movement="movement" />
         </template>
-    </MovementBox>
+        <template v-if="data">
+            <FareList
+                v-if="isMulti"
+                :fares="data.fares"
+                :is-route-last="data.is_route_last"
+                :price="price"
+            />
+            <FareCard
+                v-else
+                :fare="data.fares[0]"
+                :is-route-last="data.is_route_last"
+                :price="price"
+                variant="simple"
+            />
+        </template>
+    </Modal>
 </template>

@@ -20,6 +20,8 @@ export const formatNumber = (num: number, options?: Intl.NumberFormatOptions) =>
  * @example formatCurrency(1000) // 1 000
  */
 export const formatCurrency = (num: number, currency = "RUB") => {
+    currency === "RUR" && (currency = "RUB");
+
     return formatNumber(num, {
         style: "currency",
         currency,

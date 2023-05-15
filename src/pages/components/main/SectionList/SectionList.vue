@@ -18,11 +18,9 @@ const types = {
     standart_block_1: "grid-cols-1",
     standart_block_3: "grid-cols-3 gap-5",
     hotel_block_3: "grid-cols-3 gap-5",
-    location_5: "grid-cols-5 gap-5",
 };
 
 const components = {
-    location_5: CountryCard,
     standart_block_1: PromotionCard,
     standart_block_3: RecommendedTourCard,
     hotel_block_3: RecommendedHotelCard,
@@ -40,6 +38,16 @@ const components = {
                     :is="components[section.type]"
                     :child="child"
                 />
+                <div
+                    v-if="section.type === 'location_5'"
+                    class="flex flex-wrap justify-between gap-y-2"
+                >
+                    <CountryCard
+                        v-for="location in section.children"
+                        :key="location"
+                        :data="location"
+                    />
+                </div>
             </div>
         </div>
     </div>

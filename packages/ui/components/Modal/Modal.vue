@@ -5,7 +5,7 @@ import { Overlay, Card, Typography } from "@ui/components";
 import { XIcon } from "@ui/icons";
 
 const sizes = {
-    sm: "max-w-xs",
+    sm: "max-w-sm",
     md: "max-w-lg",
     lg: "max-w-3xl",
     xl: "max-w-7xl",

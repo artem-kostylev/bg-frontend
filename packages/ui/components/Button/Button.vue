@@ -72,14 +72,14 @@ const endIcon = computed(() => {
             :is="startIcon"
             width="1.2em"
             height="1.2em"
-            :class="['mr-2.5', variant === 'base' && 'text-primary-500']"
+            :class="['mr-2.5', variant === 'base' && 'text-slate-500']"
         />
         <slot />
         <component
             :is="endIcon"
             width="1.2em"
             height="1.2em"
-            :class="['ml-2.5', variant === 'base' && 'text-primary-500']"
+            :class="['ml-2.5', variant === 'base' && 'text-slate-500']"
         />
     </component>
 </template>

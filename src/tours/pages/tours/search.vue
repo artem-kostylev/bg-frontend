@@ -24,14 +24,15 @@ const filters = computed(() => formatFilters(data.value!.filters));
         <Spin v-if="pending" color="primary" />
         <template v-else-if="data">
             <Typography variant="h1" as="h1" class="md:mb-2.5">{{ data.meta.title }}</Typography>
-            <TourFilters class="mb-8" />
+            <TourFilters />
             <TourList
                 v-if="data.tours.length"
                 :tours="data.tours"
                 :name="name"
                 :filters="filters"
+                class="mt-8"
             />
-            <Empty v-else />
+            <Empty v-else class="mt-12" />
         </template>
     </Page>
 </template>

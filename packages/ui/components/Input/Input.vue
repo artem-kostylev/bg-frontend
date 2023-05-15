@@ -7,7 +7,7 @@ export default {
 <script setup lang="ts">
 import type { Component, Ref } from "vue";
 import { ref, computed, useAttrs } from "vue";
-import { Spin } from "@ui/components";
+import { Spin, Field } from "@ui/components";
 
 type Props = {
     type?: "text" | "password";
@@ -18,6 +18,9 @@ type Props = {
     loading?: boolean;
     disabled?: boolean;
     readonly?: boolean;
+    label?: string;
+    required?: boolean;
+    hint?: string;
     error?: string | boolean | null | Ref<string>;
 };
 
@@ -25,6 +28,8 @@ const props = withDefaults(defineProps<Props>(), {
     type: "text",
     placeholder: "",
     modelValue: "",
+    label: "",
+    hint: "",
     startIcon: undefined,
     endIcon: undefined,
     error: undefined,
@@ -33,7 +38,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{ (e: "update:modelValue", value: string): void }>();
 
 const { class: classes, ...attrs } = useAttrs();
-const inputRef = ref<HTMLInputElement>();
+const element = ref<HTMLInputElement>();
 
 const inputPaddingClass = computed(() => {
     const classes = [];
@@ -51,17 +56,17 @@ const onInput = (event: Event) => {
 
 const endIcon = computed(() => (props.loading ? Spin : props.endIcon));
 
-defineExpose({ inputRef });
+defineExpose({ element });
 </script>
 
 <template>
-    <div>
+    <Field :label="label" :required="required" :error="error" :hint="hint">
         <div :class="['relative inline-flex w-full', classes]">
             <div
                 v-if="startIcon"
                 class="absolute inset-y-0 left-0 flex items-center justify-center pl-4 pointer-events-none"
             >
-                <component :is="startIcon" width="1em" height="1em" class="text-base-500" />
+                <component :is="startIcon" width="1.2em" height="1.2em" class="text-slate-500" />
             </div>
             <input
                 v-bind="attrs"
@@ -71,7 +76,7 @@ defineExpose({ inputRef });
                 @input="onInput"
                 :disabled="disabled"
                 :readonly="readonly"
-                ref="inputRef"
+                ref="element"
                 :class="[
                     'inline-flex items-center bg-white border px-3.5 py-[.535rem] rounded-xl transition-colors duration-200 w-full',
                     error
@@ -85,9 +90,8 @@ defineExpose({ inputRef });
                 v-if="endIcon"
                 class="absolute inset-y-0 right-0 flex items-center justify-center pr-4 pointer-events-none"
             >
-                <component :is="endIcon" width="1em" height="1em" class="text-slate-500" />
+                <component :is="endIcon" width="1.2em" height="1.2em" class="text-slate-500" />
             </div>
         </div>
-        <div v-if="typeof error === 'string'" class="text-red-500 text-sm mt-1">{{ error }}</div>
-    </div>
+    </Field>
 </template>

@@ -25,7 +25,7 @@ const isVirtual = computed(() => {
         <template #header>
             <div class="flex items-start justify-between">
                 <Title :transport-company="movement.transport_company" :is-virtual="isVirtual" />
-                <DetailsModal :movement="movement" />
+                <DetailsModal v-if="!isVirtual" :movement="movement" />
             </div>
             <div
                 v-if="movement.priority_status"

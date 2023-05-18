@@ -20,7 +20,7 @@ export type FetchMovementPayload = FetchMovementQuery & { flight_hash: Movement[
 type FetchMovementBody = Omit<FetchMovementPayload, "tour_tourists" | "tour_to"> &
     Pick<Filters, "tour_tourists"> & { tour_to?: number | string };
 
-export const fetchMovement = (
+export const fetchMovement = async (
     payload: FetchMovementPayload,
     name: "booking-tickets" | "avia-search"
 ) => {
@@ -39,8 +39,18 @@ export const fetchMovement = (
         body.tour_tourists = payload.tour_tourists && parseTourists(payload.tour_tourists);
     }
 
-    return http<FetchMovementResponse>("tour/movement", {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response = await http<any>("tour/movement", {
         method: "POST",
         body,
     });
+
+    // TODO: возвращать с бэка
+    response.transport_hub_departure = response.segments[0].transport_hub_departure;
+    response.transport_hub_arrival =
+        response.segments[response.segments.length - 1].transport_hub_arrival;
+
+    // response.fares = [...response.fares, ...response.fares];
+
+    return response;
 };

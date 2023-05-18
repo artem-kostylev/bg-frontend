@@ -32,6 +32,25 @@ export type Stop = {
     transport_hub: TransportHub;
 };
 
+export type Segment = {
+    carrier_company: string;
+    date_arrival: string;
+    date_departure: string;
+    duration: number;
+    flight_number: string;
+    id: number;
+    is_regular: string;
+    priority_status: string;
+    time_arrival: string;
+    time_departure: string;
+    transport: string;
+    transport_company: TransportCompany;
+    transport_hub_arrival: TransportHub;
+    transport_hub_departure: TransportHub;
+    type: string;
+    voyage_type: string;
+};
+
 export type Movement = {
     fares: Fare[];
     type: string;
@@ -52,6 +71,7 @@ export type Movement = {
     stops: Stop[];
     transport_hub_arrival: TransportHub;
     transport_hub_departure: TransportHub;
+    segments: Segment[];
     fare: {
         name: string;
         baggage: { key: string; label: string; weights: number[] };

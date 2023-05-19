@@ -49,9 +49,9 @@ const price = computed(() => {
 
 <template>
     <Card
-        :class="variant === 'simple' && 'shadow-none'"
-        :body-class="variant === 'simple' && 'px-0 pt-0'"
-        :footer-class="variant === 'simple' && 'px-0 pb-0'"
+        :class="variant === 'simple' && '!shadow-none'"
+        :body-class="variant === 'simple' && '!px-0 !pt-0'"
+        :footer-class="variant === 'simple' && '!px-0 !pb-0'"
     >
         <template v-if="variant !== 'simple'" #header>
             <Typography variant="h3">

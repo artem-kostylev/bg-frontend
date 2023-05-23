@@ -49,8 +49,8 @@ defineProps<Props>();
         </div>
         <div
             v-if="transportCompany.length > 3"
-            class="inline-flex items-center justify-center bg-slate-100 rounded-xl border-2 border-white"
-            style="width: 52px; height: 52px"
+            class="inline-flex items-center justify-center bg-slate-100 rounded-xl"
+            style="width: 47px; height: 47px"
         >
             <div class="text-slate-500 font-medium">+ 1</div>
         </div>

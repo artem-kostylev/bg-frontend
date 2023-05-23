@@ -14,6 +14,7 @@ defineProps<Props>();
     <Card>
         <Typography variant="h3" as="h3" class="mb-2">{{ insurance.name }}</Typography>
         <Typography class="leading-4">
+            Страховая сумма:
             {{ formatCurrency(insurance.description.sum, insurance.description.currency) }}
         </Typography>
     </Card>

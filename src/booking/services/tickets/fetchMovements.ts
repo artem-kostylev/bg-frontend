@@ -41,12 +41,12 @@ export const fetchMovements = async (
         tour_from: payload.tour_from,
         tour_type: name === "avia-search" ? "avia" : payload.tour_type,
         package_tour_id: payload.package_tour_id,
+        tour_begin_date: payload.tour_begin_date?.[0],
     };
 
     if (name === "avia-search") {
         body.tour_to = payload.tour_to && parseTo(payload.tour_to).id;
         body.tour_tourists = payload.tour_tourists && parseTourists(payload.tour_tourists);
-        body.tour_begin_date = payload.tour_begin_date?.[0];
         body.tour_return_date = payload.tour_begin_date?.[1];
     }
 

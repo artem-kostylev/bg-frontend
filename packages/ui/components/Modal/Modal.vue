@@ -6,7 +6,8 @@ import { XIcon } from "@ui/icons";
 
 const sizes = {
     sm: "max-w-sm",
-    md: "max-w-lg",
+    md: "max-w-md",
+    lg: "max-w-lg",
     xl: "max-w-xl",
     "2xl": "max-w-3xl",
     "3xl": "max-w-7xl",

@@ -32,7 +32,7 @@ export type Stop = {
     transport_hub: TransportHub;
 };
 
-export type Segment = {
+export type SegmentMovement = {
     carrier_company: string;
     date_arrival: string;
     date_departure: string;
@@ -47,9 +47,23 @@ export type Segment = {
     transport_company: TransportCompany;
     transport_hub_arrival: TransportHub;
     transport_hub_departure: TransportHub;
-    type: string;
+    type: "movement";
     voyage_type: string;
 };
+
+export type SegmentTransfer = {
+    date_arrival: string;
+    date_departure: string;
+    duration: number;
+    is_visa: boolean;
+    time_arrival: string;
+    time_departure: string;
+    transfer_type: string;
+    transport_hub_transfer: { id: number; name: string; code: string };
+    type: "transfer";
+};
+
+export type Segment = SegmentMovement | SegmentTransfer;
 
 export type Movement = {
     fares: Fare[];

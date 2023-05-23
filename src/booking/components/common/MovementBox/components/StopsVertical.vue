@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { Segment } from "@/booking/types";
+import type { SegmentMovement } from "@/booking/types";
 import { formatDate } from "@/app/lib";
-import { Typography } from "~~/packages/ui/components";
+import { Typography } from "@ui/components";
 
 type Props = {
-    segment: Segment;
+    segment: SegmentMovement;
 };
 
 defineProps<Props>();

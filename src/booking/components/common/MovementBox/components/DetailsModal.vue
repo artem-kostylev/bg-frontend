@@ -6,7 +6,8 @@ import type { Movement } from "@/booking/types";
 import { Modal, Tooltip } from "@ui/components";
 import { InfoIcon } from "@ui/icons";
 import StopsHorizontal from "./StopsHorizontal.vue";
-import SegmentCard from "./SegmentCard.vue";
+import SegmentMovementCard from "./SegmentMovementCard.vue";
+import SegmentTransferCard from "./SegmentTransferCard.vue";
 
 type Props = {
     movement: Movement;
@@ -26,7 +27,7 @@ onBeforeUnmount(() => clearNuxtData(`voyage-${props.movement.flight_hash}`));
 </script>
 
 <template>
-    <Modal :loading="pending" @open="open" title="Детали перемещения">
+    <Modal :loading="pending" @open="open" size="xl" title="Детали перемещения">
         <template #trigger="{ vbind }">
             <button v-bind="vbind" class="text-slate-500 mt-4">
                 <Tooltip text="Детали перемещения">
@@ -38,12 +39,11 @@ onBeforeUnmount(() => clearNuxtData(`voyage-${props.movement.flight_hash}`));
         </template>
         <template v-if="data">
             <StopsHorizontal :movement="data" />
-            <div class="grid gap-5 mt-5">
-                <SegmentCard
-                    v-for="segment in data.segments"
-                    :key="segment.id"
-                    :segment="segment"
-                />
+            <div class="grid mt-5 rounded-xl bg-slate-100 -mb-2.5 -mx-2.5">
+                <template v-for="(segment, index) in data.segments" :key="index">
+                    <SegmentMovementCard v-if="segment.type === 'movement'" :segment="segment" />
+                    <SegmentTransferCard v-else :segment="segment" />
+                </template>
             </div>
         </template>
     </Modal>

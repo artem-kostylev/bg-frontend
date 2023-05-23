@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import type { Segment } from "@/booking/types";
+import type { SegmentMovement } from "@/booking/types";
 import { Typography } from "@ui/components";
 import { formatMinutes } from "@/app/lib";
 import Title from "./Title.vue";
 import StopsVertical from "./StopsVertical.vue";
 
 type Props = {
-    segment: Segment;
+    segment: SegmentMovement;
 };
 
 const props = defineProps<Props>();
@@ -18,7 +18,7 @@ const isVirtual = computed(() => {
 </script>
 
 <template>
-    <div class="p-5 rounded-xl bg-slate-100 -mx-2.5 -mb-2.5">
+    <div class="p-5">
         <div class="flex justify-between">
             <Title :transport-company="[segment.transport_company]" :is-virtual="isVirtual" />
             <div class="text-right">

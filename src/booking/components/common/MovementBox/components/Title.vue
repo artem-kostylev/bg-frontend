@@ -14,8 +14,8 @@ defineProps<Props>();
 <template>
     <div v-if="isVirtual" class="flex items-center space-x-3">
         <div
-            class="inline-flex items-center justify-center rounded-full border border-slate-300"
-            style="width: 48px; height: 48px"
+            class="inline-flex items-center justify-center rounded-full ring-1 ring-slate-300"
+            style="width: 47px; height: 47px"
         >
             <AirplaneIcon />
         </div>
@@ -23,11 +23,10 @@ defineProps<Props>();
     </div>
     <div v-else-if="transportCompany.length === 1" class="flex items-center space-x-3">
         <Avatar
-            width="52px"
-            height="52px"
+            width="47px"
+            height="47px"
             :src="transportCompany[0].key"
             :initials="transportCompany[0].name"
-            class="border-2 border-white"
         />
         <Typography variant="h3" as="h2">
             {{ transportCompany[0].name }}
@@ -39,11 +38,11 @@ defineProps<Props>();
                 <template #trigger="{ vbind }">
                     <Avatar
                         v-bind="vbind"
-                        width="52px"
-                        height="52px"
+                        width="47px"
+                        height="47px"
                         :src="company.key"
                         :initials="company.name"
-                        class="border-2 border-white"
+                        class="ring-2 ring-white"
                     />
                 </template>
             </Tooltip>

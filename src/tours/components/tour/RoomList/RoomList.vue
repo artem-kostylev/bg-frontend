@@ -40,7 +40,7 @@ const hasNext = computed(() => {
     if (!data.value) return false;
 
     return query.value.hotel_ids
-        ? data.value.general.qty_hotels === query.value.hotel_ids.length + 1
+        ? data.value.general.qty_hotels >= query.value.hotel_ids.length + 1
         : false;
 });
 </script>

@@ -50,7 +50,5 @@ export const fetchMovement = async (
     response.transport_hub_arrival =
         response.segments[response.segments.length - 1].transport_hub_arrival;
 
-    // response.fares = [...response.fares, ...response.fares];
-
     return response;
 };

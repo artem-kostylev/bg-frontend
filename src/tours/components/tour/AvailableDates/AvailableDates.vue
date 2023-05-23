@@ -4,16 +4,17 @@ import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 import { resolveComponent } from "vue";
 import { useRoomsStore } from "@/tours/stores";
-import type { RouteLocationNamedRaw, LocationQueryValueRaw } from "vue-router";
+import type { RouteLocationNamedRaw } from "vue-router";
 import { useParams, useQuery } from "@/app/composables";
 import type { FiltersRaw } from "@/app/types";
 import { formatCurrency, formatDates, formatDate, pluralize } from "@/app/lib";
 import { Button } from "@ui/components";
-import { mergeSelectedDates, type MergedSelectedDateItem } from "@/tours/lib";
+import { mergeSelectedDates, formatAccommodationUnikey } from "@/tours/lib";
+import type { MergedSelectedDateItem } from "@/tours/lib";
 
 const route = useRoute();
 const params = useParams<{ id: number; type: "activity" | "multi" }>();
-const query = useQuery<FiltersRaw & { accommodations_unikey?: string[][] }>();
+const query = useQuery<FiltersRaw & { accommodations_unikey?: string[][]; hotel_ids: number[] }>();
 
 type Props = {
     hasNext: boolean;
@@ -33,12 +34,15 @@ const NuxtLink = resolveComponent("NuxtLink");
 const getTo = (item: MergedSelectedDateItem) => {
     const to = {} as RouteLocationNamedRaw;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const accommodations_unikey: any = formatAccommodationUnikey(
+        item.accommodation_unikey,
+        query.value.accommodations_unikey
+    );
+
     to.query = {
         ...query.value,
-        accommodations_unikey: [
-            ...(query.value.accommodations_unikey || ""),
-            ...item.accommodation_unikey,
-        ] as LocationQueryValueRaw[],
+        accommodations_unikey,
     };
 
     if (props.hasNext) {
@@ -65,14 +69,14 @@ const getTo = (item: MergedSelectedDateItem) => {
     <div class="space-y-4">
         <div v-for="date in availableDates" :key="date.begin_date">
             <div class="font-semibold mb-2">
-                {{ formatDate(date.begin_date, "month:numeric|day:numeric") }}
+                {{ formatDate(date.begin_date, "day:numeric|month:numeric") }}
             </div>
             <div
                 v-for="(item, index) in date.items"
                 :key="index"
                 class="border-t border-slate-200 border-dashed py-1.5 last:pb-0 flex items-center justify-between"
             >
-                {{ formatDates(item.begin_date, " - ", "month:numeric|day:numeric") }} /
+                {{ formatDates(item.begin_date, " - ", "day:numeric|month:numeric") }} /
                 {{ pluralize(item.duration, ["ночь", "ночи", "ночей"]) }}
                 <Button variant="primary" size="sm" :as="NuxtLink" :to="getTo(item)">
                     от {{ formatCurrency(item.price) }}

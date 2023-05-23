@@ -4,7 +4,7 @@ import type { Room } from "@/tours/types";
 import { formatCurrency } from "@/app/lib";
 import { useRoomsStore } from "@/tours/stores";
 import { Button, Card, Typography, Image, IconFilled } from "@ui/components";
-import { formatBeds } from "@/tours/lib";
+import { formatBeds, formatView } from "@/tours/lib";
 import {
     AirConditioningIcon,
     BalconyIcon,
@@ -12,6 +12,7 @@ import {
     TerraceIcon,
     KitchenIcon,
 } from "@ui/icons";
+import DetailsModal from "./components/DetailsModal.vue";
 
 const icons: Record<string, Component> = {
     air_conditioning: AirConditioningIcon,
@@ -43,9 +44,13 @@ const { selectDates } = useRoomsStore();
         </template>
         <template #header>
             <div>
-                <Typography variant="h3" as="h3" class="mb-1">{{ room.name }}</Typography>
+                <div class="flex items-start justify-between space-x-5 mb-1">
+                    <Typography variant="h3" as="h3">{{ room.name }}</Typography>
+                    <DetailsModal :id="room.id" />
+                </div>
                 <Typography variant="description">
-                    {{ formatBeds(room.beds) }}, {{ room.size }} м²
+                    {{ formatBeds(room.beds) }}, вид на {{ formatView(room.views) }},
+                    {{ room.size }} м²
                 </Typography>
             </div>
         </template>

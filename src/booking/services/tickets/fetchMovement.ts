@@ -11,6 +11,7 @@ export type FetchMovementQuery = {
     accommodations_unikey: string[];
     tour_from: string;
     tour_begin_date?: string;
+    tour_return_date?: string;
     tour_to?: string;
     tour_tourists?: string[];
 };
@@ -36,6 +37,7 @@ export const fetchMovement = async (
     if (name === "avia-search") {
         body.tour_to = payload.tour_to && parseTo(payload.tour_to).id;
         body.tour_begin_date = payload.tour_begin_date?.[0];
+        body.tour_return_date = payload.tour_begin_date?.[1];
         body.tour_tourists = payload.tour_tourists && parseTourists(payload.tour_tourists);
     }
 

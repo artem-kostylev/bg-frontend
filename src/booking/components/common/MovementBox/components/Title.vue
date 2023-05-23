@@ -33,7 +33,11 @@ defineProps<Props>();
         </Typography>
     </div>
     <div v-else class="flex items-center -space-x-4">
-        <div v-for="(company, index) in transportCompany.slice(0, 3)" :key="index">
+        <div
+            v-for="(company, index) in transportCompany.slice(0, 3)"
+            :key="index"
+            class="flex items-center"
+        >
             <Tooltip :text="company.name">
                 <template #trigger="{ vbind }">
                     <Avatar

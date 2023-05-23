@@ -1,17 +1,10 @@
 <script setup lang="ts">
 import { onBeforeUnmount } from "vue";
-import type { Component } from "vue";
 import { clearNuxtData, computed, useLazyAsyncData } from "#imports";
 import { fetchRoom } from "@/tours/services";
-import { Modal, Tooltip, IconFilled } from "@ui/components";
-import {
-    AirConditioningIcon,
-    BalconyIcon,
-    FreeWifiIcon,
-    InfoIcon,
-    KitchenIcon,
-    TerraceIcon,
-} from "@ui/icons";
+import { Modal, Tooltip } from "@ui/components";
+import FacilityList from "./FacilityList.vue";
+import { InfoIcon } from "@ui/icons";
 import { formatView } from "@/tours/lib";
 import { formatList, pluralize } from "@/app/lib";
 
@@ -28,14 +21,6 @@ const { data, pending, execute } = useLazyAsyncData(`room-${props.id}`, () => fe
 
 const open = () => !data.value && execute();
 
-const icons: Record<string, Component> = {
-    air_conditioning: AirConditioningIcon,
-    balcony: BalconyIcon,
-    free_wifi: FreeWifiIcon,
-    terrace: TerraceIcon,
-    kitchen: KitchenIcon,
-};
-
 onBeforeUnmount(() => clearNuxtData(`room-${props.id}`));
 
 const roomLocation = computed(() => {
@@ -46,7 +31,7 @@ const roomLocation = computed(() => {
 </script>
 
 <template>
-    <Modal :loading="pending" @open="open" :title="data?.name">
+    <Modal :loading="pending" @open="open" size="2xl" :title="data?.name">
         <template #trigger="{ vbind }">
             <button v-bind="vbind" class="text-slate-500">
                 <Tooltip text="Подробная информация">
@@ -57,17 +42,7 @@ const roomLocation = computed(() => {
             </button>
         </template>
         <div v-if="data" class="space-y-3.5">
-            <div>
-                <div class="flex flex-wrap -mx-2.5 -mb-2.5">
-                    <div
-                        v-for="facility in data.facilities"
-                        :key="facility.key"
-                        class="px-2.5 mb-2.5"
-                    >
-                        <IconFilled :icon="icons[facility.key]" :label="facility.label" />
-                    </div>
-                </div>
-            </div>
+            <FacilityList :facilities="data.facilities" />
             <div class="space-y-1.5">
                 <div v-if="data.size">Площадь — {{ data.size }} м²</div>
                 <div v-if="data.views?.length">Вид из номера — {{ formatView(data.views) }}</div>
@@ -81,7 +56,7 @@ const roomLocation = computed(() => {
                 </div>
                 <div v-if="data.facilities_for_description?.length">
                     <div class="mb-2">Услуги и удобства:</div>
-                    <ul class="list-disc list-inside marker:text-slate-400">
+                    <ul class="list-disc list-inside marker:text-slate-400 grid grid-cols-2">
                         <li
                             v-for="(facility, index) in data.facilities_for_description"
                             :key="index"

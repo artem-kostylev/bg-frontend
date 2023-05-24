@@ -52,7 +52,7 @@ onBeforeUnmount(() => clearNuxtData(`movement-${props.movement.flight_hash}`));
     <Modal
         :loading="pending"
         @open="open"
-        :size="isMulti ? 'lg' : 'sm'"
+        :size="isMulti ? '3xl' : 'sm'"
         :title="isMulti ? 'Тарифы' : data?.fares[0].fare_name"
     >
         <template #trigger="{ vbind }">

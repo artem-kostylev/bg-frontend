@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Image as IImage } from "@/app/types";
-import { Image } from "@ui/components";
+import type { Image as IImage } from '@/app/types';
+import { Image } from '@ui/components';
 
 type Props = {
     images: IImage[];

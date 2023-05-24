@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { SegmentTransfer } from "@/booking/types";
-import { formatMinutes } from "@/app/lib";
+import type { SegmentTransfer } from '@/booking/types';
+import { formatMinutes } from '@/app/lib';
 
 type Props = {
     segment: SegmentTransfer;

@@ -1,8 +1,8 @@
-import { defineStore } from "pinia";
-import { ref } from "vue";
-import type { AvailableDate } from "@/tours/types";
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
+import type { AvailableDate } from '@/tours/types';
 
-export const useRoomsStore = defineStore("rooms", () => {
+export const useRoomsStore = defineStore('rooms', () => {
     const currentGroupIndex = ref(0);
     const selectedDates = ref<AvailableDate[][]>([]);
     const openModal = ref(false);

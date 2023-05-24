@@ -1,1 +1,1 @@
-export { default as QuestionnaryCard } from "./QuestionnaryCard.vue";
+export { default as QuestionnaryCard } from './QuestionnaryCard.vue';

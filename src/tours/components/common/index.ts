@@ -1,1 +1,1 @@
-export * from "./TourIncluded";
+export * from './TourIncluded';

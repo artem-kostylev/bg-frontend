@@ -1,9 +1,9 @@
 // import { h } from "vue";
-import type { Meta, StoryObj } from "@storybook/vue3";
-import { Button, Modal } from "@ui/components";
+import type { Meta, StoryObj } from '@storybook/vue3';
+import { Button, Modal } from '@ui/components';
 
 const meta: Meta<typeof Modal> = {
-    title: "Ui/Modal",
+    title: 'Ui/Modal',
     component: Modal,
 };
 

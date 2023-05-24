@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { useVuelidate } from "@vuelidate/core";
-import { Card } from "@ui/components";
-import type { Questionnary } from "@/booking/types";
-import { required } from "@/app/lib";
+import { ref, computed } from 'vue';
+import { useVuelidate } from '@vuelidate/core';
+import { Card } from '@ui/components';
+import type { Questionnary } from '@/booking/types';
+import { required } from '@/app/lib';
 
 type Props = {
     questionnary: Questionnary;

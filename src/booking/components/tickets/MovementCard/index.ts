@@ -1,1 +1,1 @@
-export { default as MovementCard } from "./MovementCard.vue";
+export { default as MovementCard } from './MovementCard.vue';

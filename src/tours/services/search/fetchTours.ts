@@ -1,9 +1,9 @@
-import { showError } from "#imports";
-import { http } from "@/app/lib";
-import type { Meta } from "@/app/types";
-import type { Filters, FiltersRaw } from "@/app/types";
-import { parseFilters } from "@/app/lib";
-import type { Tour } from "@/tours/types";
+import { showError } from '#imports';
+import { http } from '@/app/lib';
+import type { Meta } from '@/app/types';
+import type { Filters, FiltersRaw } from '@/app/types';
+import { parseFilters } from '@/app/lib';
+import type { Tour } from '@/tours/types';
 
 export type FetchToursResponse = {
     meta: Meta;
@@ -14,10 +14,10 @@ export type FetchToursResponse = {
 export type FetchToursPayload = FiltersRaw & { page?: number };
 
 const path: Record<string, string> = {
-    "tours-multi-search": "tour/multi",
-    "tours-activity-search": "tour/activity",
-    "tours-search": "tour/search",
-    "hotels-search": "hotel/search",
+    'tours-multi-search': 'tour/multi',
+    'tours-activity-search': 'tour/activity',
+    'tours-search': 'tour/search',
+    'hotels-search': 'hotel/search',
 };
 
 export const fetchTours = async (payload: FetchToursPayload, name: string) => {
@@ -25,7 +25,7 @@ export const fetchTours = async (payload: FetchToursPayload, name: string) => {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response = await http<any>(path[name], {
-        method: "POST",
+        method: 'POST',
         body: {
             filters: parseFilters(filters),
             page,

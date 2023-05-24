@@ -1,10 +1,10 @@
-import { http } from "@/app/lib";
-import { parseFilters } from "@/app/lib";
-import type { Meta } from "@/app/types";
-import type { TourPackage, Tour } from "@/tours/types";
-import type { FiltersRaw, Filters } from "@/app/types";
-import { showError } from "#imports";
-import { omit } from "lodash-es";
+import { http } from '@/app/lib';
+import { parseFilters } from '@/app/lib';
+import type { Meta } from '@/app/types';
+import type { TourPackage, Tour } from '@/tours/types';
+import type { FiltersRaw, Filters } from '@/app/types';
+import { showError } from '#imports';
+import { omit } from 'lodash-es';
 
 export type FetchTourPackageResponse = {
     meta: Meta;
@@ -22,15 +22,15 @@ export const fetchTourPackage = async (
     package_tour_id: string | number,
     query: FetchTourPackageQuery
 ) => {
-    const filters = omit(query, ["accommodations_unikey", "hotel_ids", "tour_type"]);
+    const filters = omit(query, ['accommodations_unikey', 'hotel_ids', 'tour_type']);
 
     const uniKey = query.accommodations_unikey ?? new Array(query.tour_tourists!.length).fill([]);
     const number_in_order = uniKey[0].length + 1;
 
     // TODO: Исправить формат на бэке
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response = await http<any>("tour/hotels", {
-        method: "POST",
+    const response = await http<any>('tour/hotels', {
+        method: 'POST',
         body: {
             package_tour_id: +package_tour_id,
             accommodations_unikey: uniKey,
@@ -43,8 +43,8 @@ export const fetchTourPackage = async (
     });
 
     // TODO: Не присылать с бэка
-    response.filters["component.tour.package_id"] = undefined;
-    response.filters["tour.is_multi_living"] = undefined;
+    response.filters['component.tour.package_id'] = undefined;
+    response.filters['tour.is_multi_living'] = undefined;
 
     const { title, description, location, images } = response.meta;
 

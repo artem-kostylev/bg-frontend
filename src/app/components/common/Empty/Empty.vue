@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Typography } from "@ui/components";
+import { Typography } from '@ui/components';
 
 type Props = {
     title?: string;
@@ -7,9 +7,9 @@ type Props = {
 };
 
 withDefaults(defineProps<Props>(), {
-    title: "По вашему запросу ничего не нашлось",
+    title: 'По вашему запросу ничего не нашлось',
     description:
-        "Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры",
+        'Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры',
 });
 </script>
 

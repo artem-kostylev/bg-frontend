@@ -1,2 +1,2 @@
-export * from "./QuestionnaryList";
-export * from "./QuestionnaryCard";
+export * from './QuestionnaryList';
+export * from './QuestionnaryCard';

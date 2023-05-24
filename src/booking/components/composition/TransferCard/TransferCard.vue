@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { watch, ref, onBeforeUnmount } from "vue";
-import { useLazyAsyncData } from "#imports";
-import { Button, Modal } from "@ui/components";
-import { PencilIcon } from "@ui/icons";
-import type { Transfer } from "@/booking/types";
-import { fetchTransfer } from "@/booking/services";
-import { AdditionalTransferList, TransferBox } from "@/booking/components";
-import { clearNuxtData } from "#app";
+import { watch, ref, onBeforeUnmount } from 'vue';
+import { useLazyAsyncData } from '#imports';
+import { Button, Modal } from '@ui/components';
+import { PencilIcon } from '@ui/icons';
+import type { Transfer } from '@/booking/types';
+import { fetchTransfer } from '@/booking/services';
+import { AdditionalTransferList, TransferBox } from '@/booking/components';
+import { clearNuxtData } from '#app';
 
 type Props = {
     transfer: Transfer;

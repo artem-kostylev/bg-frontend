@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { SegmentMovement } from "@/booking/types";
-import { formatDate } from "@/app/lib";
-import { Typography } from "@ui/components";
+import type { SegmentMovement } from '@/booking/types';
+import { formatDate } from '@/app/lib';
+import { Typography } from '@ui/components';
 
 type Props = {
     segment: SegmentMovement;
@@ -26,7 +26,7 @@ defineProps<Props>();
                         {{ segment.time_departure.slice(0, -3) }}
                     </Typography>
                     <Typography variant="description">
-                        {{ formatDate(segment.date_departure, "day:numeric|month:long") }}
+                        {{ formatDate(segment.date_departure, 'day:numeric|month:long') }}
                     </Typography>
                 </div>
                 <div>
@@ -38,7 +38,7 @@ defineProps<Props>();
                 <div class="flex items-center space-x-2.5">
                     <Typography variant="h5">{{ segment.time_arrival.slice(0, -3) }}</Typography>
                     <Typography variant="description">
-                        {{ formatDate(segment.date_arrival, "day:numeric|month:long") }}
+                        {{ formatDate(segment.date_arrival, 'day:numeric|month:long') }}
                     </Typography>
                 </div>
                 <div>

@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { definePageMeta, useLazyAsyncData } from "#imports";
-import { Page } from "@/app/components";
-import { useName } from "@/app/composables";
-import { fetchSections } from "@/pages/services";
-import { SectionList } from "@/pages/components";
-import { Spin } from "@ui/components";
+import { definePageMeta, useLazyAsyncData } from '#imports';
+import { Page } from '@/app/components';
+import { useName } from '@/app/composables';
+import { fetchSections } from '@/pages/services';
+import { SectionList } from '@/pages/components';
+import { Spin } from '@ui/components';
 
 definePageMeta({ filters: true });
 
-const name = useName<"index" | "tours" | "hotels">();
+const name = useName<'index' | 'tours' | 'hotels'>();
 
-const { data, pending } = useLazyAsyncData("index-page", () => fetchSections(name.value));
+const { data, pending } = useLazyAsyncData('index-page', () => fetchSections(name.value));
 </script>
 
 <template>

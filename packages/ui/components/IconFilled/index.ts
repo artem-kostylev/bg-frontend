@@ -1,1 +1,1 @@
-export { default as IconFilled } from "./IconFilled.vue";
+export { default as IconFilled } from './IconFilled.vue';

@@ -1,4 +1,4 @@
-import type { AllActivity } from "@/booking/types";
+import type { AllActivity } from '@/booking/types';
 
 export type IncludedActivity = {
     price: number;

@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from "@storybook/vue3";
-import { Divider } from "@ui/components";
+import type { Meta, StoryObj } from '@storybook/vue3';
+import { Divider } from '@ui/components';
 
 const meta: Meta<typeof Divider> = {
-    title: "Ui/Divider",
+    title: 'Ui/Divider',
 
     component: Divider,
 
     argTypes: {
-        dashed: { control: "boolean", defaultValue: false },
+        dashed: { control: 'boolean', defaultValue: false },
     },
 };
 

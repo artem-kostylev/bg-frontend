@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { Component } from "vue";
+import type { Component } from 'vue';
 
 type Props = {
     as?: string | Component;
 };
 
 withDefaults(defineProps<Props>(), {
-    as: "div",
+    as: 'div',
 });
 </script>
 

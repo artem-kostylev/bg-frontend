@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { SectionChild } from "@/pages/types";
-import { Image } from "@ui/components";
+import type { SectionChild } from '@/pages/types';
+import { Image } from '@ui/components';
 
 type Props = {
     child: SectionChild;

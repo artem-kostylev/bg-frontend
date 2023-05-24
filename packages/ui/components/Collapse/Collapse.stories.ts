@@ -1,14 +1,14 @@
-import { markRaw } from "vue";
-import type { Meta, StoryObj } from "@storybook/vue3";
-import { Collapse } from "@ui/components";
-import { AirplaneIcon } from "@ui/icons";
+import { markRaw } from 'vue';
+import type { Meta, StoryObj } from '@storybook/vue3';
+import { Collapse } from '@ui/components';
+import { AirplaneIcon } from '@ui/icons';
 
 const meta: Meta<typeof Collapse> = {
-    title: "Ui/Collapse",
+    title: 'Ui/Collapse',
     component: Collapse,
     args: {
-        title: "Билеты",
-        default: "Body",
+        title: 'Билеты',
+        default: 'Body',
     },
 };
 

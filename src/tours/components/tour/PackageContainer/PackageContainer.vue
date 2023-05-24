@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useLazyAsyncData, computed } from "#imports";
-import { useQuery } from "@/app/composables";
-import type { FetchTourPackageQuery } from "@/tours/services";
-import { fetchTourPackage } from "@/tours/services";
-import { Page, DetailsHeader } from "@/app/components";
-import { Spin, Typography, Grid, Card, Tabs } from "@ui/components";
-import { formatFilters } from "@/app/lib";
-import { useRoute } from "vue-router";
-import { TourCard } from "@/tours/components";
+import { useLazyAsyncData, computed } from '#imports';
+import { useQuery } from '@/app/composables';
+import type { FetchTourPackageQuery } from '@/tours/services';
+import { fetchTourPackage } from '@/tours/services';
+import { Page, DetailsHeader } from '@/app/components';
+import { Spin, Typography, Grid, Card, Tabs } from '@ui/components';
+import { formatFilters } from '@/app/lib';
+import { useRoute } from 'vue-router';
+import { TourCard } from '@/tours/components';
 
 type Props = {
     id: string | number;
@@ -18,7 +18,7 @@ const name = computed(() => route.name as string);
 const props = defineProps<Props>();
 const query = useQuery<FetchTourPackageQuery>();
 
-const { data, pending } = useLazyAsyncData("tour-package", () =>
+const { data, pending } = useLazyAsyncData('tour-package', () =>
     fetchTourPackage(props.id, query.value)
 );
 

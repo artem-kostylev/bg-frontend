@@ -1,1 +1,1 @@
-export { default as CountryCard } from "./CountryCard.vue";
+export { default as CountryCard } from './CountryCard.vue';

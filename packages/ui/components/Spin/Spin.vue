@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const colors = {
-    white: "text-white",
-    current: "text-current",
-    primary: "text-primary-500",
+    white: 'text-white',
+    current: 'text-current',
+    primary: 'text-primary-500',
 };
 
 type Props = {
@@ -12,9 +12,9 @@ type Props = {
 };
 
 withDefaults(defineProps<Props>(), {
-    width: "2.5em",
-    height: "2.5em",
-    color: "current",
+    width: '2.5em',
+    height: '2.5em',
+    color: 'current',
 });
 </script>
 

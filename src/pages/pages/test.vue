@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { resolveComponent } from "vue";
-import { Button } from "@ui/components";
+import { resolveComponent } from 'vue';
+import { Button } from '@ui/components';
 
-const NuxtLink = resolveComponent("NuxtLink");
+const NuxtLink = resolveComponent('NuxtLink');
 </script>
 
 <template>

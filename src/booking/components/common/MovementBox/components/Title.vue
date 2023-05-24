@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { TransportCompany } from "@/booking/types";
-import { Typography, Avatar, Tooltip } from "@ui/components";
-import { AirplaneIcon } from "@ui/icons";
+import type { TransportCompany } from '@/booking/types';
+import { Typography, Avatar, Tooltip } from '@ui/components';
+import { AirplaneIcon } from '@ui/icons';
 
 type Props = {
     isVirtual?: boolean;

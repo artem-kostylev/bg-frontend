@@ -1,30 +1,30 @@
 <script setup lang="ts">
-import { computed, type Component } from "vue";
-import type { RouteLocationRaw } from "vue-router";
-import { Spin } from "@ui/components";
+import { computed, type Component } from 'vue';
+import type { RouteLocationRaw } from 'vue-router';
+import { Spin } from '@ui/components';
 
 const sizes = {
-    xs: "px-3 py-2 text-sm",
-    sm: "px-3 py-2 text-md",
-    md: "px-3.5 py-[.535rem]",
-    lg: "px-5 py-3",
+    xs: 'px-3 py-2 text-sm',
+    sm: 'px-3 py-2 text-md',
+    md: 'px-3.5 py-[.535rem]',
+    lg: 'px-5 py-3',
 };
 
 const variants = {
-    base: "bg-white border-slate-300 hover:border-slate-400 shadow-sm",
-    secondary: "border-transparent bg-slate-200 hover:bg-slate-300 text-slate-700",
-    primary: "border-transparent bg-primary-500 hover:bg-primary-500/95 text-white shadow-sm",
+    base: 'bg-white border-slate-300 hover:border-slate-400 shadow-sm',
+    secondary: 'border-transparent bg-slate-200 hover:bg-slate-300 text-slate-700',
+    primary: 'border-transparent bg-primary-500 hover:bg-primary-500/95 text-white shadow-sm',
 };
 
 const justifies = {
-    left: "justify-start",
-    right: "justify-end",
-    center: "justify-center",
-    between: "justify-between",
+    left: 'justify-start',
+    right: 'justify-end',
+    center: 'justify-center',
+    between: 'justify-between',
 };
 
 type Props = {
-    type?: "button" | "reset" | "submit";
+    type?: 'button' | 'reset' | 'submit';
     variant?: keyof typeof variants;
     justify?: keyof typeof justifies;
     size?: keyof typeof sizes;
@@ -38,13 +38,13 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    type: "button",
-    variant: "base",
-    size: "md",
-    justify: "center",
+    type: 'button',
+    variant: 'base',
+    size: 'md',
+    justify: 'center',
     endIcon: undefined,
     startIcon: undefined,
-    as: "button",
+    as: 'button',
     to: undefined,
 });
 

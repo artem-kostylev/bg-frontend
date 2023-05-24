@@ -59,9 +59,9 @@
     "typescript": "^5.0.4"
   },
   "lint-staged": {
-    "**/*.{ts,vue,js}": [
+    "**/*.{ts,vue}": [
       "npm run lint",
-      "npm run typecheck"
+      "bash -c 'npm run typecheck'"
     ]
   }
 }

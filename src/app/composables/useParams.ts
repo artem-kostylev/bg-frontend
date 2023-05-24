@@ -1,5 +1,7 @@
-import { toRef, type Ref } from "vue";
-import { useRoute, type RouteParams } from "vue-router";
+import { toRef } from "vue";
+import type { Ref } from "vue";
+import { useRoute } from "vue-router";
+import type { RouteParams } from "vue-router";
 
 export const useParams = <T = RouteParams>() => {
     const route = useRoute();

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useFloating, offset, flip, shift, type Placement } from "@floating-ui/vue";
+import { computed, ref } from 'vue';
+import { useFloating, offset, flip, shift, type Placement } from '@floating-ui/vue';
 
 type Props = {
     placement?: Placement;
@@ -8,8 +8,8 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    placement: "top",
-    text: "",
+    placement: 'top',
+    text: '',
 });
 
 const open = ref(false);

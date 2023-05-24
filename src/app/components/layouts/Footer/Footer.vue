@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Container, Typography } from "@ui/components";
+import { Container, Typography } from '@ui/components';
 </script>
 
 <template>

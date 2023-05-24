@@ -1,1 +1,1 @@
-export { default as Paper } from "./Paper.vue";
+export { default as Paper } from './Paper.vue';

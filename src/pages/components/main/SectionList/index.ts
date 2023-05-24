@@ -1,1 +1,1 @@
-export { default as SectionList } from "./SectionList.vue";
+export { default as SectionList } from './SectionList.vue';

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Button } from "@ui/components";
-import type { Transfer } from "@/booking/types";
-import { TransferBox } from "@/booking/components";
-import { formatCurrency } from "@/app/lib";
-import { computed } from "vue";
+import { Button } from '@ui/components';
+import type { Transfer } from '@/booking/types';
+import { TransferBox } from '@/booking/components';
+import { formatCurrency } from '@/app/lib';
+import { computed } from 'vue';
 
 type Props = {
     additionalTransfer: Transfer;
@@ -22,7 +22,7 @@ const price = computed(() => {
     const { additionalTransfer, transfer } = props;
 
     if (selected.value) {
-        const label = additionalTransfer.price ? "" : "В составе - ";
+        const label = additionalTransfer.price ? '' : 'В составе - ';
         return `${label}${formatCurrency(additionalTransfer.price)}`;
     }
 

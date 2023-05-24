@@ -1,1 +1,1 @@
-export { default as QuestionnaryList } from "./QuestionnaryList.vue";
+export { default as QuestionnaryList } from './QuestionnaryList.vue';

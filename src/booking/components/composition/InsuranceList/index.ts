@@ -1,1 +1,1 @@
-export { default as InsuranceList } from "./InsuranceList.vue";
+export { default as InsuranceList } from './InsuranceList.vue';

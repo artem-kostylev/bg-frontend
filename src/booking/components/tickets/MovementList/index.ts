@@ -1,1 +1,1 @@
-export { default as MovementList } from "./MovementList.vue";
+export { default as MovementList } from './MovementList.vue';

@@ -1,1 +1,1 @@
-export { default } from "./Footer.vue";
+export { default } from './Footer.vue';

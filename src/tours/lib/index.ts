@@ -1,2 +1,2 @@
-export * from "./rooms";
-export * from "./tours";
+export * from './rooms';
+export * from './tours';

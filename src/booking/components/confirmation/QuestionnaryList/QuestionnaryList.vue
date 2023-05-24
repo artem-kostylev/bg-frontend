@@ -5,11 +5,11 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { reactive, onMounted } from "vue";
-import type { General, Insurance } from "@/booking/types";
-import { Typography, Collapse } from "@ui/components";
-import { QuestionnaryCard } from "@/booking/components";
-import type { Questionnary } from "@/booking/types";
+import { reactive, onMounted } from 'vue';
+import type { General, Insurance } from '@/booking/types';
+import { Typography, Collapse } from '@ui/components';
+import { QuestionnaryCard } from '@/booking/components';
+import type { Questionnary } from '@/booking/types';
 
 type Form = {
     clientId: number | null;

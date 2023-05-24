@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Component } from "vue";
+import type { Component } from 'vue';
 
 type Value = string | number;
 
@@ -17,10 +17,10 @@ type Props = {
 };
 
 const props = defineProps<Props>();
-const emit = defineEmits<{ (event: "update:modelValue", value: Value): void }>();
+const emit = defineEmits<{ (event: 'update:modelValue', value: Value): void }>();
 
 const select = (tab: Tab) => {
-    emit("update:modelValue", tab.value);
+    emit('update:modelValue', tab.value);
 };
 
 const selected = (tab: Tab) => {

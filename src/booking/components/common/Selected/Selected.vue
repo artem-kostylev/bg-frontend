@@ -5,11 +5,11 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { formatDates, pluralize } from "@/app/lib";
-import { InsuranceList, TransferList, TicketList } from "@/booking/components";
-import type { Insurance, Transfer, General, Movement } from "@/booking/types";
-import { Divider, Collapse, Grid, IconFilled } from "@ui/components";
+import { computed } from 'vue';
+import { formatDates, pluralize } from '@/app/lib';
+import { InsuranceList, TransferList, TicketList } from '@/booking/components';
+import type { Insurance, Transfer, General, Movement } from '@/booking/types';
+import { Divider, Collapse, Grid, IconFilled } from '@ui/components';
 import {
     BusIcon,
     ShildIcon,
@@ -17,7 +17,7 @@ import {
     AirplaneIcon,
     CalendarIcon,
     UsersIcon,
-} from "@ui/icons";
+} from '@ui/icons';
 
 type Props = {
     general: General;
@@ -29,9 +29,9 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const duration = computed(() => pluralize(props.general.duration, ["ночь", "ночи", "ночей"]));
+const duration = computed(() => pluralize(props.general.duration, ['ночь', 'ночи', 'ночей']));
 const tourists = computed(() =>
-    pluralize(props.general.qty_tourists, ["турист", "туриста", "туристов"])
+    pluralize(props.general.qty_tourists, ['турист', 'туриста', 'туристов'])
 );
 
 const dates = computed(() => {

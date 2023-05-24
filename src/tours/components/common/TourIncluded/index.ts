@@ -1,1 +1,1 @@
-export { default as TourIncluded } from "./TourIncluded.vue";
+export { default as TourIncluded } from './TourIncluded.vue';

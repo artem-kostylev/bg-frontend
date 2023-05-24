@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Grid } from "@ui/components";
-import type { Movement } from "@/booking/types";
-import { TicketCard } from "@/booking/components";
+import { Grid } from '@ui/components';
+import type { Movement } from '@/booking/types';
+import { TicketCard } from '@/booking/components';
 
 type Props = {
     movements: Movement[];

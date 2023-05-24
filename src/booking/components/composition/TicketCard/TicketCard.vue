@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Movement } from "@/booking/types";
-import { MovementBox } from "@/booking/components";
+import type { Movement } from '@/booking/types';
+import { MovementBox } from '@/booking/components';
 
 type Props = {
     movement: Movement;

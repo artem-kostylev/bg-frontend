@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import type { Component } from "vue";
-import { Paper, CollapseTransition, Typography } from "@ui/components";
-import { ChevronDownIcon } from "@ui/icons";
+import { ref } from 'vue';
+import type { Component } from 'vue';
+import { Paper, CollapseTransition, Typography } from '@ui/components';
+import { ChevronDownIcon } from '@ui/icons';
 
 type Props = {
     title: string;

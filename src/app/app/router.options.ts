@@ -10,16 +10,19 @@ export default <RouterConfig>{
         {
             name: "hotels-search",
             path: "/hotels/search",
+            meta: { filters: true },
             component: () => import("@/tours/pages/tours/search.vue"),
         },
         {
             name: "tours-multi-search",
             path: "/tours-multi/search",
+            meta: { filters: true },
             component: () => import("@/tours/pages/tours/search.vue"),
         },
         {
             name: "tours-activity-search",
             path: "/tours-activity/search",
+            meta: { filters: true },
             component: () => import("@/tours/pages/tours/search.vue"),
         },
         {
@@ -29,6 +32,7 @@ export default <RouterConfig>{
         {
             name: "hotels",
             path: "/hotels",
+            meta: { filters: true },
             component: () => import("@/pages/pages/index.vue"),
         },
         {
@@ -59,11 +63,13 @@ export default <RouterConfig>{
         {
             name: "avia",
             path: "/avia",
+            meta: { filters: true },
             component: () => import("@/pages/pages/index.vue"),
         },
         {
             name: "avia-search",
             path: "/avia/search",
+            meta: { filters: true },
             component: () => import("@/booking/pages/booking/tickets.vue"),
         },
     ],

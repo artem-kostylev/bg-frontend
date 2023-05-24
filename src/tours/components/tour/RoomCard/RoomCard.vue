@@ -1,25 +1,11 @@
 <script setup lang="ts">
-import type { Component } from "vue";
 import type { Room } from "@/tours/types";
 import { formatCurrency } from "@/app/lib";
 import { useRoomsStore } from "@/tours/stores";
-import { Button, Card, Typography, Image, IconFilled } from "@ui/components";
-import { formatBeds } from "@/tours/lib";
-import {
-    AirConditioningIcon,
-    BalconyIcon,
-    FreeWifiIcon,
-    TerraceIcon,
-    KitchenIcon,
-} from "@ui/icons";
-
-const icons: Record<string, Component> = {
-    air_conditioning: AirConditioningIcon,
-    balcony: BalconyIcon,
-    free_wifi: FreeWifiIcon,
-    terrace: TerraceIcon,
-    kitchen: KitchenIcon,
-};
+import { Button, Card, Typography, Image } from "@ui/components";
+import { formatBeds, formatView } from "@/tours/lib";
+import FacilityList from "./components/FacilityList.vue";
+import DetailsModal from "./components/DetailsModal.vue";
 
 type Props = {
     room: Room;
@@ -43,18 +29,18 @@ const { selectDates } = useRoomsStore();
         </template>
         <template #header>
             <div>
-                <Typography variant="h3" as="h3" class="mb-1">{{ room.name }}</Typography>
+                <div class="flex items-start justify-between space-x-5 mb-1">
+                    <Typography variant="h3" as="h3">{{ room.name }}</Typography>
+                    <DetailsModal :id="room.id" />
+                </div>
                 <Typography variant="description">
-                    {{ formatBeds(room.beds) }}, {{ room.size }} м²
+                    {{ formatBeds(room.beds) }}, вид на {{ formatView(room.views) }},
+                    {{ room.size }} м²
                 </Typography>
             </div>
         </template>
         <div class="mb-4">
-            <div class="flex flex-wrap -mx-2.5 -mb-2.5">
-                <div v-for="facility in room.facilities" :key="facility.key" class="px-2.5 mb-2.5">
-                    <IconFilled :icon="icons[facility.key]" :label="facility.label" />
-                </div>
-            </div>
+            <FacilityList :facilities="room.facilities" />
         </div>
         <div
             v-for="food in room.food"

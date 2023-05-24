@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useLazyAsyncData } from "#imports";
+import { useLazyAsyncData, definePageMeta } from "#imports";
 import { TourList, TourFilters } from "@/tours/components";
 import { fetchTours } from "@/tours/services";
 import { Spin, Typography } from "@ui/components";
@@ -8,6 +8,8 @@ import type { FiltersRaw } from "@/app/types";
 import { formatFilters } from "@/app/lib";
 import { useQuery, useName } from "@/app/composables";
 import { Empty, Page } from "@/app/components";
+
+definePageMeta({ filters: true });
 
 const name = useName<string>();
 const query = useQuery<FiltersRaw>();

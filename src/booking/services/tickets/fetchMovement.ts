@@ -11,6 +11,7 @@ export type FetchMovementQuery = {
     accommodations_unikey: string[];
     tour_from: string;
     tour_begin_date?: string;
+    tour_return_date?: string;
     tour_to?: string;
     tour_tourists?: string[];
 };
@@ -20,7 +21,7 @@ export type FetchMovementPayload = FetchMovementQuery & { flight_hash: Movement[
 type FetchMovementBody = Omit<FetchMovementPayload, "tour_tourists" | "tour_to"> &
     Pick<Filters, "tour_tourists"> & { tour_to?: number | string };
 
-export const fetchMovement = (
+export const fetchMovement = async (
     payload: FetchMovementPayload,
     name: "booking-tickets" | "avia-search"
 ) => {
@@ -36,11 +37,20 @@ export const fetchMovement = (
     if (name === "avia-search") {
         body.tour_to = payload.tour_to && parseTo(payload.tour_to).id;
         body.tour_begin_date = payload.tour_begin_date?.[0];
+        body.tour_return_date = payload.tour_begin_date?.[1];
         body.tour_tourists = payload.tour_tourists && parseTourists(payload.tour_tourists);
     }
 
-    return http<FetchMovementResponse>("tour/movement", {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response = await http<any>("tour/movement", {
         method: "POST",
         body,
     });
+
+    // TODO: возвращать с бэка
+    response.transport_hub_departure = response.segments[0].transport_hub_departure;
+    response.transport_hub_arrival =
+        response.segments[response.segments.length - 1].transport_hub_arrival;
+
+    return response;
 };

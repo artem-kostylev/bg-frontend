@@ -2,9 +2,9 @@
 import { Typography } from "@ui/components";
 import type { Section } from "@/pages/types";
 import {
-    RecommendedTourCard,
     CountryCard,
     PromotionCard,
+    RecommendedTourCard,
     RecommendedHotelCard,
 } from "@/pages/components";
 

@@ -17,6 +17,7 @@ import {
     AirplaneIcon,
     CalendarIcon,
     UsersIcon,
+    BuildingsIcon,
 } from "@ui/icons";
 
 type Props = {
@@ -54,6 +55,14 @@ const dates = computed(() => {
             </div>
         </div>
         <Divider dashed />
+        <Collapse
+            v-if="movements?.length"
+            :start-icon="BuildingsIcon"
+            :default-open="defaultOpen"
+            title="Проживание"
+        >
+            <TicketList :movements="movements" />
+        </Collapse>
         <Collapse
             v-if="movements?.length"
             :start-icon="AirplaneIcon"

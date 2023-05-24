@@ -12,10 +12,6 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "prepare": "husky install"
   },
-  "pre-commit": [
-    "lint",
-    "typecheck"
-  ],
   "overrides": {
     "vue": "latest"
   },

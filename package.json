@@ -58,7 +58,7 @@
     "tailwindcss": "^3.3.2",
     "typescript": "^5.0.4"
   },
-  "lint-staged":{
+  "lint-staged": {
     "**/*.{ts,vue,js}": [
       "npm run lint",
       "npm run typecheck"

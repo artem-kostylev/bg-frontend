@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { onBeforeUnmount } from "vue";
-import { clearNuxtData, computed, useLazyAsyncData } from "#imports";
-import { fetchRoom } from "@/tours/services";
-import { Modal, Tooltip } from "@ui/components";
-import FacilityList from "./FacilityList.vue";
-import { InfoIcon } from "@ui/icons";
-import { formatView } from "@/tours/lib";
-import { formatList, pluralize } from "@/app/lib";
+import { onBeforeUnmount } from 'vue';
+import { clearNuxtData, computed, useLazyAsyncData } from '#imports';
+import { fetchRoom } from '@/tours/services';
+import { Modal, Tooltip } from '@ui/components';
+import FacilityList from './FacilityList.vue';
+import { InfoIcon } from '@ui/icons';
+import { formatView } from '@/tours/lib';
+import { formatList, pluralize } from '@/app/lib';
 
 type Props = {
     id: number;
@@ -52,7 +52,7 @@ const roomLocation = computed(() => {
                 <div v-if="data.rooms">Количество комнат — {{ data.rooms }}</div>
                 <div v-if="data.max_number_of_tourists">
                     Вместимость — до
-                    {{ pluralize(data.max_number_of_tourists, ["человека", "человек", "человек"]) }}
+                    {{ pluralize(data.max_number_of_tourists, ['человека', 'человек', 'человек']) }}
                 </div>
                 <div v-if="data.facilities_for_description?.length">
                     <div class="mb-2">Услуги и удобства:</div>

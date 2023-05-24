@@ -1,6 +1,6 @@
-import type { Meta } from "@/app/types";
-import { http } from "@/app/lib";
-import type { Page } from "@/pages/types";
+import type { Meta } from '@/app/types';
+import { http } from '@/app/lib';
+import type { Page } from '@/pages/types';
 
 export type FetchPageResponse = {
     meta: Meta;

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useLazyAsyncData } from "#imports";
-import { Page } from "@/app/components";
-import { HotelDetails, RoomList } from "@/tours/components";
-import { fetchHotel } from "@/tours/services";
-import { Spin } from "@ui/components";
+import { useLazyAsyncData } from '#imports';
+import { Page } from '@/app/components';
+import { HotelDetails, RoomList } from '@/tours/components';
+import { fetchHotel } from '@/tours/services';
+import { Spin } from '@ui/components';
 
 type Props = {
     id: string | number;
@@ -11,7 +11,7 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const { data, pending } = useLazyAsyncData("hotel", () => fetchHotel(props.id));
+const { data, pending } = useLazyAsyncData('hotel', () => fetchHotel(props.id));
 </script>
 
 <template>

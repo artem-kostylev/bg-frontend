@@ -1,7 +1,7 @@
-import type { FiltersRaw, MainFiltersTo, MainFiltersTourist, Filters } from "@/app/types";
+import type { FiltersRaw, MainFiltersTo, MainFiltersTourist, Filters } from '@/app/types';
 
 export const parseTo = (to: string) => {
-    const [id, type] = to.split("_");
+    const [id, type] = to.split('_');
 
     return { id: +id, type } as MainFiltersTo;
 };
@@ -10,10 +10,10 @@ export const parseTourists = (tourists: string[] | number[]) => {
     return tourists.map(item =>
         item
             .toString()
-            .split(",")
+            .split(',')
             .reduce(
                 (previousValue: MainFiltersTourist, currentValue: string) => {
-                    if (currentValue === "pet") {
+                    if (currentValue === 'pet') {
                         previousValue.pet = true;
                         return previousValue;
                     }
@@ -47,11 +47,11 @@ export const formatTourists = (tourists: MainFiltersTourist[]) => {
     return tourists.map(item => {
         const result = [];
 
-        item.pet && result.push("pet");
+        item.pet && result.push('pet');
         item.adults.length && result.push(...item.adults);
         item.children.length && result.push(...item.children);
 
-        return result.join(",");
+        return result.join(',');
     });
 };
 

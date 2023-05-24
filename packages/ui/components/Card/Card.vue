@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from "vue";
-import { Paper } from "@ui/components";
+import type { HTMLAttributes } from 'vue';
+import { Paper } from '@ui/components';
 
 type Props = {
-    coverClass?: HTMLAttributes["class"];
-    bodyClass?: HTMLAttributes["class"];
-    headerClass?: HTMLAttributes["class"];
-    footerClass?: HTMLAttributes["class"];
+    coverClass?: HTMLAttributes['class'];
+    bodyClass?: HTMLAttributes['class'];
+    headerClass?: HTMLAttributes['class'];
+    footerClass?: HTMLAttributes['class'];
 };
 
 withDefaults(defineProps<Props>(), {
-    coverClass: "",
-    bodyClass: "",
-    headerClass: "",
-    footerClass: "",
+    coverClass: '',
+    bodyClass: '',
+    headerClass: '',
+    footerClass: '',
 });
 </script>
 

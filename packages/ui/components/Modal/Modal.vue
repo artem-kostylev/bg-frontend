@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { computed, ref, watch } from "vue";
-import { useScrollLock, onClickOutside } from "@vueuse/core";
-import { Overlay, Card, Typography } from "@ui/components";
-import { XIcon } from "@ui/icons";
+import { computed, ref, watch } from 'vue';
+import { useScrollLock, onClickOutside } from '@vueuse/core';
+import { Overlay, Card, Typography } from '@ui/components';
+import { XIcon } from '@ui/icons';
 
 const sizes = {
-    sm: "max-w-sm",
-    md: "max-w-md",
-    lg: "max-w-lg",
-    xl: "max-w-xl",
-    "2xl": "max-w-2xl",
-    "3xl": "max-w-7xl",
+    sm: 'max-w-sm',
+    md: 'max-w-md',
+    lg: 'max-w-lg',
+    xl: 'max-w-xl',
+    '2xl': 'max-w-2xl',
+    '3xl': 'max-w-7xl',
 };
 
 type Props = {
@@ -24,15 +24,15 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    size: "md",
-    title: "",
+    size: 'md',
+    title: '',
     modelValue: null,
 });
 
 const emit = defineEmits<{
-    (e: "update:modelValue", value: boolean): void;
-    (e: "open"): void;
-    (e: "close"): void;
+    (e: 'update:modelValue', value: boolean): void;
+    (e: 'open'): void;
+    (e: 'close'): void;
 }>();
 
 const isLocked = useScrollLock(document.body);
@@ -43,13 +43,13 @@ const targetRef = ref<HTMLDivElement>();
 const visible = computed(() => props.modelValue || open.value);
 
 const show = () => {
-    props.modelValue === null ? (open.value = true) : emit("update:modelValue", true);
-    emit("open");
+    props.modelValue === null ? (open.value = true) : emit('update:modelValue', true);
+    emit('open');
 };
 
 const hide = () => {
-    props.modelValue === null ? (open.value = false) : emit("update:modelValue", false);
-    emit("close");
+    props.modelValue === null ? (open.value = false) : emit('update:modelValue', false);
+    emit('close');
 };
 
 watch(visible, value => (isLocked.value = value));

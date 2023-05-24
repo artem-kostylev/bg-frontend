@@ -1,8 +1,8 @@
-import { http } from "@/app/lib";
-import type { Section } from "@/pages/types";
+import { http } from '@/app/lib';
+import type { Section } from '@/pages/types';
 
 export const fetchSections = async (name: string) => {
-    const path = name === "index" ? "tours" : name;
+    const path = name === 'index' ? 'tours' : name;
 
     // TODO: Вытащить секции из extra и возвращать их на бэке
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

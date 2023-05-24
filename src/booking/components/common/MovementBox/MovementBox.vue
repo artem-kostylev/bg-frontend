@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import type { Movement } from "@/booking/types";
-import { Card, Tooltip } from "@ui/components";
-import { SuitcaseIcon, CarrionIcon } from "@ui/icons";
-import DetailsModal from "./components/DetailsModal.vue";
-import Title from "./components/Title.vue";
-import StopsHorizontal from "./components/StopsHorizontal.vue";
+import { computed } from 'vue';
+import type { Movement } from '@/booking/types';
+import { Card, Tooltip } from '@ui/components';
+import { SuitcaseIcon, CarrionIcon } from '@ui/icons';
+import DetailsModal from './components/DetailsModal.vue';
+import Title from './components/Title.vue';
+import StopsHorizontal from './components/StopsHorizontal.vue';
 
-const STATUSES = { regular: "Регулярный", charter: "Чартерный", virtual: "Виртуальный" };
+const STATUSES = { regular: 'Регулярный', charter: 'Чартерный', virtual: 'Виртуальный' };
 
 type Props = {
     movement: Movement;
@@ -16,7 +16,7 @@ type Props = {
 const props = defineProps<Props>();
 
 const isVirtual = computed(() => {
-    return props.movement.is_regular === "virtual";
+    return props.movement.is_regular === 'virtual';
 });
 </script>
 
@@ -40,7 +40,7 @@ const isVirtual = computed(() => {
                 <ul class="list-disc list-inside marker:text-slate-400">
                     <li>{{ STATUSES[movement.is_regular] }}</li>
                     <li>{{ movement.fare.name }}</li>
-                    <li>{{ movement.stops.length ? "С пересадками" : "Прямой" }}</li>
+                    <li>{{ movement.stops.length ? 'С пересадками' : 'Прямой' }}</li>
                 </ul>
                 <div class="flex items-end space-x-1.5">
                     <template v-if="movement.fare.carryon.key === 'is_free'">

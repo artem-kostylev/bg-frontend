@@ -33,7 +33,7 @@ const roomLocation = computed(() => {
 <template>
     <Modal :loading="pending" @open="open" size="2xl" :title="data?.name">
         <template #trigger="{ vbind }">
-            <button v-bind="vbind" class="text-slate-500">
+            <button v-bind="vbind" class="text-secondary-500">
                 <Tooltip text="Подробная информация">
                     <template #trigger="slotProps">
                         <InfoIcon v-bind="slotProps.vbind" width="1.4em" height="1.4em" />
@@ -56,7 +56,7 @@ const roomLocation = computed(() => {
                 </div>
                 <div v-if="data.facilities_for_description?.length">
                     <div class="mb-2">Услуги и удобства:</div>
-                    <ul class="list-disc list-inside marker:text-slate-400 grid grid-cols-2">
+                    <ul class="list-disc list-inside marker:text-secondary-400 grid grid-cols-2">
                         <li
                             v-for="(facility, index) in data.facilities_for_description"
                             :key="index"

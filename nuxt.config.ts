@@ -5,6 +5,15 @@ import { plugins } from './postcss.config.js';
 export default defineNuxtConfig({
     ssr: false,
 
+    vite: {
+        vue: {
+            script: {
+                // @ts-ignore
+                defineModel: true,
+            },
+        },
+    },
+
     srcDir: 'src/app',
 
     extends: [
@@ -20,7 +29,7 @@ export default defineNuxtConfig({
         head: {
             htmlAttrs: {
                 lang: 'ru',
-                class: 'antialiased text-gray-900',
+                class: 'antialiased text-secondary-900',
             },
             viewport: 'width=device-width,initial-scale=1,viewport-fit=cover',
             link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],

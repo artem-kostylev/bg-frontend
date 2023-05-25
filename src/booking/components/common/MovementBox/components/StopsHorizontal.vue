@@ -43,13 +43,13 @@ const isVirtual = computed(() => {
             </div>
             <div class="flex items-center justify-between relative">
                 <Divider dashed class="absolute" />
-                <div class="rounded-full bg-slate-400 w-1.5 h-1.5 z-10" />
+                <div class="rounded-full bg-secondary-400 w-1.5 h-1.5 z-10" />
                 <div
                     v-for="i in movement.stops.length"
                     :key="i"
-                    class="rounded-full bg-slate-400 w-1.5 h-1.5 z-10"
+                    class="rounded-full bg-secondary-400 w-1.5 h-1.5 z-10"
                 />
-                <div class="rounded-full bg-slate-400 w-1.5 h-1.5 z-10" />
+                <div class="rounded-full bg-secondary-400 w-1.5 h-1.5 z-10" />
             </div>
         </div>
         <div v-if="isVirtual" class="flex justify-center">

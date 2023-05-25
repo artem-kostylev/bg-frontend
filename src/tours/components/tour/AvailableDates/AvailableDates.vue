@@ -74,7 +74,7 @@ const getTo = (item: MergedSelectedDateItem) => {
             <div
                 v-for="(item, index) in date.items"
                 :key="index"
-                class="border-t border-slate-200 border-dashed py-1.5 last:pb-0 flex items-center justify-between"
+                class="border-t border-secondary-200 border-dashed py-1.5 last:pb-0 flex items-center justify-between"
             >
                 {{ formatDates(item.begin_date, ' - ', 'day:numeric|month:numeric') }} /
                 {{ pluralize(item.duration, ['ночь', 'ночи', 'ночей']) }}

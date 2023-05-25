@@ -29,7 +29,7 @@ onBeforeUnmount(() => clearNuxtData(`voyage-${props.movement.flight_hash}`));
 <template>
     <Modal :loading="pending" @open="open" size="xl" title="Детали перемещения">
         <template #trigger="{ vbind }">
-            <button v-bind="vbind" class="text-slate-500 mt-4">
+            <button v-bind="vbind" class="text-secondary-500 mt-4">
                 <Tooltip text="Детали перемещения">
                     <template #trigger="slotProps">
                         <InfoIcon v-bind="slotProps.vbind" width="1.4em" height="1.4em" />
@@ -39,7 +39,7 @@ onBeforeUnmount(() => clearNuxtData(`voyage-${props.movement.flight_hash}`));
         </template>
         <template v-if="data">
             <StopsHorizontal :movement="data" />
-            <div class="grid mt-5 rounded-xl bg-slate-100 -mb-2.5 -mx-2.5">
+            <div class="grid mt-5 rounded-xl bg-secondary-100 -mb-2.5 -mx-2.5">
                 <template v-for="(segment, index) in data.segments" :key="index">
                     <SegmentMovementCard v-if="segment.type === 'movement'" :segment="segment" />
                     <SegmentTransferCard v-else :segment="segment" />

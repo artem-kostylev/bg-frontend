@@ -21,8 +21,6 @@ type Props = {
     size?: keyof typeof sizes;
     title?: string;
     loading?: boolean;
-    // TODO: нужно сделать
-    fullscreen?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -103,7 +101,7 @@ const vbind = { onClick: show };
                                 </Typography>
                                 <button
                                     @click="hide"
-                                    class="text-slate-500 p-2 -mr-2 hover:bg-slate-200 transition-colors rounded-full"
+                                    class="text-secondary-500 p-2 -mr-2 hover:bg-secondary-200 transition-colors rounded-full"
                                 >
                                     <XIcon width="1.4em" height="1.4em" />
                                 </button>

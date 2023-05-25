@@ -14,9 +14,9 @@ defineProps<Props>();
     <div class="flex space-x-4 mt-5">
         <div class="flex space-x-4">
             <div class="flex flex-col justify-between items-center relative">
-                <div class="absolute w-0 h-full border-l border-slate-200 border-dashed"></div>
-                <div class="rounded-full bg-slate-400 w-1.5 h-1.5 z-10" />
-                <div class="rounded-full bg-slate-400 w-1.5 h-1.5 z-10" />
+                <div class="absolute w-0 h-full border-l border-secondary-200 border-dashed"></div>
+                <div class="rounded-full bg-secondary-400 w-1.5 h-1.5 z-10" />
+                <div class="rounded-full bg-secondary-400 w-1.5 h-1.5 z-10" />
             </div>
         </div>
         <div class="flex flex-col space-y-5">

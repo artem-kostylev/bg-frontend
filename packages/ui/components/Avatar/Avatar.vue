@@ -1,22 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { Image } from '@ui/components';
+import type { AvatarProps } from '@ui/components/Avatar/avatar';
+import { avatarDefaultProps } from '@ui/components/Avatar/avatar';
 
-type Props = {
-    src?: string;
-    width?: string;
-    height?: string;
-    initials?: string;
-    shape?: 'rounded' | 'square';
-};
-
-const props = withDefaults(defineProps<Props>(), {
-    src: '',
-    width: '',
-    height: '',
-    initials: '',
-    shape: 'square',
-});
+const props = withDefaults(defineProps<AvatarProps>(), avatarDefaultProps);
 
 const letters = computed(() => {
     if (!props.initials) return;
@@ -32,13 +20,13 @@ const letters = computed(() => {
 <template>
     <div
         :class="[
-            'inline-flex items-center justify-center bg-slate-200 overflow-hidden',
+            'inline-flex items-center justify-center bg-secondary-200 overflow-hidden',
             shape === 'rounded' && 'rounded-xl',
             shape === 'square' && 'rounded-full',
         ]"
         :style="{ width, height }"
     >
         <Image v-if="src" :src="src" :alt="letters" class="w-full h-full object-cover" />
-        <div v-else class="text-slate-500 font-medium">{{ letters }}</div>
+        <div v-else class="text-secondary-500 font-medium">{{ letters }}</div>
     </div>
 </template>

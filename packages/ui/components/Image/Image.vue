@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { useIntersectionObserver } from "@vueuse/core";
+import { ref } from 'vue';
+import { useIntersectionObserver } from '@vueuse/core';
 
 type Props = {
     src?: string;
@@ -10,10 +10,10 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    alt: "",
-    src: "",
-    width: "",
-    height: "",
+    alt: '',
+    src: '',
+    width: '',
+    height: '',
 });
 
 const targetRef = ref<HTMLImageElement>();
@@ -25,7 +25,7 @@ const { stop } = useIntersectionObserver(
             stop();
 
             targetRef.value.src = props.src;
-            targetRef.value.onload = () => targetRef.value?.classList.add("opacity-100");
+            targetRef.value.onload = () => targetRef.value?.classList.add('opacity-100');
         }
     },
     { threshold: 1.0 }

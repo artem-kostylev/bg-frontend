@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { Component } from "vue";
-import type { Facility } from "@/tours/types";
-import { IconFilled } from "@ui/components";
+import type { Component } from 'vue';
+import type { Facility } from '@/tours/types';
+import { IconFilled } from '@ui/components';
 import {
     AirConditioningIcon,
     BalconyIcon,
     FreeWifiIcon,
     TerraceIcon,
     KitchenIcon,
-} from "@ui/icons";
+} from '@ui/icons';
 
 type Props = {
     facilities: Facility[];

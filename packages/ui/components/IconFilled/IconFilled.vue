@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { Component } from "vue";
+import type { Component } from 'vue';
 
 const variants = {
-    base: "border-slate-300 bg-white",
-    primary: "border-transparent bg-primary-300/20 text-primary-500",
-    warning: "border-transparent bg-orange-100 text-orange-700",
+    base: 'border-slate-300 bg-white',
+    primary: 'border-transparent bg-primary-300/20 text-primary-500',
+    warning: 'border-transparent bg-orange-100 text-orange-700',
 };
 
 type Props = {
@@ -16,10 +16,10 @@ type Props = {
 };
 
 withDefaults(defineProps<Props>(), {
-    label: "",
-    variant: "base",
-    width: "1.2em",
-    height: "1.2em",
+    label: '',
+    variant: 'base',
+    width: '1.2em',
+    height: '1.2em',
 });
 </script>
 

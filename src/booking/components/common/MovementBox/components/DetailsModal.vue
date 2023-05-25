@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onBeforeUnmount } from "vue";
-import { clearNuxtData, useLazyAsyncData } from "#imports";
-import { fetchVoyage } from "@/booking/services";
-import type { Movement } from "@/booking/types";
-import { Modal, Tooltip } from "@ui/components";
-import { InfoIcon } from "@ui/icons";
-import StopsHorizontal from "./StopsHorizontal.vue";
-import SegmentMovementCard from "./SegmentMovementCard.vue";
-import SegmentTransferCard from "./SegmentTransferCard.vue";
+import { onBeforeUnmount } from 'vue';
+import { clearNuxtData, useLazyAsyncData } from '#imports';
+import { fetchVoyage } from '@/booking/services';
+import type { Movement } from '@/booking/types';
+import { Modal, Tooltip } from '@ui/components';
+import { InfoIcon } from '@ui/icons';
+import StopsHorizontal from './StopsHorizontal.vue';
+import SegmentMovementCard from './SegmentMovementCard.vue';
+import SegmentTransferCard from './SegmentTransferCard.vue';
 
 type Props = {
     movement: Movement;

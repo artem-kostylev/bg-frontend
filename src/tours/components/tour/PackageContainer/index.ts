@@ -1,1 +1,1 @@
-export { default as PackageContainer } from "./PackageContainer.vue";
+export { default as PackageContainer } from './PackageContainer.vue';

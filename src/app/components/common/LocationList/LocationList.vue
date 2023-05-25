@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Location } from "@/app/types";
+import type { Location } from '@/app/types';
 
 type Props = {
     location: Location[];
-    target?: "_blank";
+    target?: '_blank';
 };
 
 withDefaults(defineProps<Props>(), {

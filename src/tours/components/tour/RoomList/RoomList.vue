@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { onBeforeUnmount, computed } from "vue";
-import { storeToRefs } from "pinia";
-import { clearNuxtData, useLazyAsyncData } from "#imports";
-import { useParams, useQuery } from "@/app/composables";
-import { Modal, Typography, Spin, Grid } from "@ui/components";
-import { RoomCard, AvailableDates, RoomFilters } from "@/tours/components";
-import { fetchRooms } from "@/tours/services";
-import { useRoomsStore } from "@/tours/stores";
-import { Empty } from "@/app/components";
-import type { FetchRoomsQuery } from "@/tours/services";
+import { onBeforeUnmount, computed } from 'vue';
+import { storeToRefs } from 'pinia';
+import { clearNuxtData, useLazyAsyncData } from '#imports';
+import { useParams, useQuery } from '@/app/composables';
+import { Modal, Typography, Spin, Grid } from '@ui/components';
+import { RoomCard, AvailableDates, RoomFilters } from '@/tours/components';
+import { fetchRooms } from '@/tours/services';
+import { useRoomsStore } from '@/tours/stores';
+import { Empty } from '@/app/components';
+import type { FetchRoomsQuery } from '@/tours/services';
 
 const params = useParams<{ id: string }>();
 const query = useQuery<FetchRoomsQuery>();
@@ -17,7 +17,7 @@ const roomsStore = useRoomsStore();
 const { currentGroupIndex, openModal } = storeToRefs(roomsStore);
 
 const { data, pending, error } = useLazyAsyncData(
-    "rooms",
+    'rooms',
     () => fetchRooms(Number(params.value.id), query.value),
     { server: false }
 );
@@ -27,13 +27,13 @@ const isLastGroup = computed(() => {
 });
 
 const title = computed(() => {
-    if (!data.value || data.value.groups.length === 1) return "Номера";
+    if (!data.value || data.value.groups.length === 1) return 'Номера';
     return `Номера для ${currentGroupIndex.value + 1} группы`;
 });
 
 onBeforeUnmount(() => {
     roomsStore.$reset();
-    clearNuxtData("rooms");
+    clearNuxtData('rooms');
 });
 
 const hasNext = computed(() => {

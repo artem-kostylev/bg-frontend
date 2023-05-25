@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Container } from "@ui/components";
-import { UserIcon, HeartIcon } from "@ui/icons";
+import { Container } from '@ui/components';
+import { UserIcon, HeartIcon } from '@ui/icons';
 </script>
 
 <template>

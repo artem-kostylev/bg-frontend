@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { StarIcon } from "@ui/icons";
+import { StarIcon } from '@ui/icons';
 
 type Props = {
     stars: number;

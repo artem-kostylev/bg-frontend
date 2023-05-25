@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
-import type { IncludedActivity } from "@/booking/types";
-import { useCompositionStore } from "@/booking/stores";
+import { computed, onMounted } from 'vue';
+import type { IncludedActivity } from '@/booking/types';
+import { useCompositionStore } from '@/booking/stores';
 
 const compositionStore = useCompositionStore();
 const { selectAllActivities } = compositionStore;
@@ -17,14 +17,14 @@ const type = computed(() => {
 
     return includedActivities.length === 1
         ? includedActivities[0].all_activities.length
-            ? "activities"
-            : "basic"
-        : "options";
+            ? 'activities'
+            : 'basic'
+        : 'options';
 });
 
 onMounted(() => {
     const { includedActivities } = props;
-    type.value === "activities" && selectAllActivities(includedActivities[0].all_activities);
+    type.value === 'activities' && selectAllActivities(includedActivities[0].all_activities);
 });
 </script>
 

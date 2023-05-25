@@ -1,1 +1,1 @@
-export { default as FareList } from "./FareList.vue";
+export { default as FareList } from './FareList.vue';

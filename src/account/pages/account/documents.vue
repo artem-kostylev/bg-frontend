@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { useLazyAsyncData, definePageMeta } from "#imports";
-import { fetchDocuments } from "@/account/services";
-import { Page } from "@/app/components";
+import { useLazyAsyncData, definePageMeta } from '#imports';
+import { fetchDocuments } from '@/account/services';
+import { Page } from '@/app/components';
 
 definePageMeta({
-    middleware: "auth",
+    middleware: 'auth',
 });
 
-const { data, pending } = useLazyAsyncData("account-documents", () => fetchDocuments());
+const { data, pending } = useLazyAsyncData('account-documents', () => fetchDocuments());
 
 const meta = {
-    title: "Документы туристов",
-    description: "Описание страницы",
+    title: 'Документы туристов',
+    description: 'Описание страницы',
 };
 </script>
 

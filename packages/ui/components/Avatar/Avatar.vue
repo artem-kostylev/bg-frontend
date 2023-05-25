@@ -1,31 +1,31 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { Image } from "@ui/components";
+import { computed } from 'vue';
+import { Image } from '@ui/components';
 
 type Props = {
     src?: string;
     width?: string;
     height?: string;
     initials?: string;
-    shape?: "rounded" | "square";
+    shape?: 'rounded' | 'square';
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    src: "",
-    width: "",
-    height: "",
-    initials: "",
-    shape: "square",
+    src: '',
+    width: '',
+    height: '',
+    initials: '',
+    shape: 'square',
 });
 
 const letters = computed(() => {
     if (!props.initials) return;
 
     return props.initials
-        .split(" ")
+        .split(' ')
         .map(item => item.charAt(0).toUpperCase())
         .splice(0, 2)
-        .join("");
+        .join('');
 });
 </script>
 

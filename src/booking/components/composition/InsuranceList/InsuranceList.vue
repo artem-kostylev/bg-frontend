@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { Insurance } from "@/booking/types";
-import { Grid } from "@ui/components";
-import { InsuranceCard } from "@/booking/components";
+import type { Insurance } from '@/booking/types';
+import { Grid } from '@ui/components';
+import { InsuranceCard } from '@/booking/components';
 
 type Props = {
     insurances: Insurance[];

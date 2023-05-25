@@ -1,1 +1,1 @@
-export { default as HotelDetails } from "./HotelDetails.vue";
+export { default as HotelDetails } from './HotelDetails.vue';

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { clearError } from "#imports";
-import { Button } from "@ui/components";
-import { Header, Footer, Page } from "@/app/components";
+import { computed } from 'vue';
+import { clearError } from '#imports';
+import { Button } from '@ui/components';
+import { Header, Footer, Page } from '@/app/components';
 
 type Error = {
     statusCode: 404 | 500;
@@ -15,8 +15,8 @@ type Props = {
 const props = defineProps<Props>();
 
 const errors = {
-    404: { title: "Страница не найдена" },
-    500: { title: "Что-то пошло не так" },
+    404: { title: 'Страница не найдена' },
+    500: { title: 'Что-то пошло не так' },
 };
 
 const meta = computed(() => {
@@ -24,7 +24,7 @@ const meta = computed(() => {
 });
 
 const reset = () => {
-    clearError({ redirect: "/" });
+    clearError({ redirect: '/' });
 };
 </script>
 

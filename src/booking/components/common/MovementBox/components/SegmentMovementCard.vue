@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import type { SegmentMovement } from "@/booking/types";
-import { Typography } from "@ui/components";
-import { formatMinutes } from "@/app/lib";
-import Title from "./Title.vue";
-import StopsVertical from "./StopsVertical.vue";
+import { computed } from 'vue';
+import type { SegmentMovement } from '@/booking/types';
+import { Typography } from '@ui/components';
+import { formatMinutes } from '@/app/lib';
+import Title from './Title.vue';
+import StopsVertical from './StopsVertical.vue';
 
 type Props = {
     segment: SegmentMovement;
@@ -13,7 +13,7 @@ type Props = {
 const props = defineProps<Props>();
 
 const isVirtual = computed(() => {
-    return props.segment.is_regular === "virtual";
+    return props.segment.is_regular === 'virtual';
 });
 </script>
 

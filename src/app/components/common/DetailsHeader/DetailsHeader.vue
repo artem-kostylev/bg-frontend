@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { Location, Image } from "@/app/types";
-import { LocationList, ImageGrid } from "@/app/components";
-import { Typography, Stars } from "@ui/components";
+import type { Location, Image } from '@/app/types';
+import { LocationList, ImageGrid } from '@/app/components';
+import { Typography, Stars } from '@ui/components';
 
 type Entity = {
     stars?: number;

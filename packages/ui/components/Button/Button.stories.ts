@@ -1,26 +1,26 @@
-import { markRaw } from "vue";
-import type { Meta, StoryObj } from "@storybook/vue3";
-import { Button } from "@ui/components";
-import { UsersIcon } from "@ui/icons";
+import { markRaw } from 'vue';
+import type { Meta, StoryObj } from '@storybook/vue3';
+import { Button } from '@ui/components';
+import { UsersIcon } from '@ui/icons';
 
 const meta: Meta<typeof Button> = {
-    title: "Ui/Button",
+    title: 'Ui/Button',
     component: Button,
     args: {
-        default: "Button",
+        default: 'Button',
     },
     argTypes: {
-        type: { control: "select", options: ["button", "reset", "submit"], defaultValue: "md" },
+        type: { control: 'select', options: ['button', 'reset', 'submit'], defaultValue: 'md' },
         variant: {
-            control: "select",
-            options: ["base", "primary", "secondary"],
-            defaultValue: "base",
+            control: 'select',
+            options: ['base', 'primary', 'secondary'],
+            defaultValue: 'base',
         },
-        size: { control: "select", options: ["xs", "sm", "md", "lg"], defaultValue: "md" },
-        justify: { control: "select", options: ["left", "right", "center", "between"] },
-        block: { control: "boolean", defaultValue: false },
-        loading: { control: "boolean", defaultValue: false },
-        disabled: { control: "boolean", defaultValue: false },
+        size: { control: 'select', options: ['xs', 'sm', 'md', 'lg'], defaultValue: 'md' },
+        justify: { control: 'select', options: ['left', 'right', 'center', 'between'] },
+        block: { control: 'boolean', defaultValue: false },
+        loading: { control: 'boolean', defaultValue: false },
+        disabled: { control: 'boolean', defaultValue: false },
         endIcon: { control: false },
         startIcon: { control: false },
     },
@@ -30,43 +30,43 @@ export default meta;
 
 export const Base: StoryObj<typeof Button> = {
     args: {
-        variant: "base",
+        variant: 'base',
     },
 };
 
 export const Primary: StoryObj<typeof Button> = {
     args: {
-        variant: "primary",
+        variant: 'primary',
     },
 };
 
 export const Secondary: StoryObj<typeof Button> = {
     args: {
-        variant: "secondary",
+        variant: 'secondary',
     },
 };
 
 export const Xs: StoryObj<typeof Button> = {
     args: {
-        size: "xs",
+        size: 'xs',
     },
 };
 
 export const Sm: StoryObj<typeof Button> = {
     args: {
-        size: "sm",
+        size: 'sm',
     },
 };
 
 export const Md: StoryObj<typeof Button> = {
     args: {
-        size: "md",
+        size: 'md',
     },
 };
 
 export const Lg: StoryObj<typeof Button> = {
     args: {
-        size: "lg",
+        size: 'lg',
     },
 };
 

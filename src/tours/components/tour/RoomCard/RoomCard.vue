@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { Room } from "@/tours/types";
-import { formatCurrency } from "@/app/lib";
-import { useRoomsStore } from "@/tours/stores";
-import { Button, Card, Typography, Image } from "@ui/components";
-import { formatBeds, formatView } from "@/tours/lib";
-import FacilityList from "./components/FacilityList.vue";
-import DetailsModal from "./components/DetailsModal.vue";
+import type { Room } from '@/tours/types';
+import { formatCurrency } from '@/app/lib';
+import { useRoomsStore } from '@/tours/stores';
+import { Button, Card, Typography, Image } from '@ui/components';
+import { formatBeds, formatView } from '@/tours/lib';
+import FacilityList from './components/FacilityList.vue';
+import DetailsModal from './components/DetailsModal.vue';
 
 type Props = {
     room: Room;

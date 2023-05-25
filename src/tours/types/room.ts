@@ -1,4 +1,4 @@
-import type { Image } from "@/app/types";
+import type { Image } from '@/app/types';
 
 export type AvailableDateItem = {
     accommodation_unikey: string;

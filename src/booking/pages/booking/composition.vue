@@ -1,30 +1,30 @@
 <script setup lang="ts">
-import { computed, resolveComponent } from "vue";
-import type { RouteLocationNamedRaw } from "vue-router";
-import { useLazyAsyncData } from "#imports";
-import { useQuery } from "@/app/composables";
-import { Page } from "@/app/components";
-import { Spin, Typography, Button, Divider, Grid } from "@ui/components";
-import { fetchComposition, type FetchCompositionQuery } from "@/booking/services";
-import { Selected, ActivityList } from "@/booking/components";
+import { computed, resolveComponent } from 'vue';
+import type { RouteLocationNamedRaw } from 'vue-router';
+import { useLazyAsyncData } from '#imports';
+import { useQuery } from '@/app/composables';
+import { Page } from '@/app/components';
+import { Spin, Typography, Button, Divider, Grid } from '@ui/components';
+import { fetchComposition, type FetchCompositionQuery } from '@/booking/services';
+import { Selected, ActivityList } from '@/booking/components';
 
 const query = useQuery<FetchCompositionQuery>();
 
-const { data, pending } = useLazyAsyncData("booking-composition", () =>
+const { data, pending } = useLazyAsyncData('booking-composition', () =>
     fetchComposition(query.value)
 );
 
 const meta = {
-    title: "Состав",
-    description: "Описание состава",
+    title: 'Состав',
+    description: 'Описание состава',
 };
 
-const NuxtLink = resolveComponent("NuxtLink");
+const NuxtLink = resolveComponent('NuxtLink');
 
 const to = computed(() => {
     const to: RouteLocationNamedRaw = { query: { ...query.value } };
 
-    to.name = "booking-confirmation";
+    to.name = 'booking-confirmation';
 
     return to;
 });

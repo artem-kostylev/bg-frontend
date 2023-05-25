@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Spin } from "@ui/components";
+import { Spin } from '@ui/components';
 
 type Props = {
     show: boolean;

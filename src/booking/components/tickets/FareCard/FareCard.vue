@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed, resolveComponent } from "vue";
-import type { RouteLocationNamedRaw, LocationQuery } from "vue-router";
-import type { Fare } from "@/booking/types";
-import { Card, Typography, Button, Divider } from "@ui/components";
-import { RubleIcon, CheckIcon } from "@ui/icons";
-import { useQuery, useName } from "@/app/composables";
-import type { FiltersRaw } from "@/app/types";
-import { formatCurrency } from "@/app/lib";
+import { computed, resolveComponent } from 'vue';
+import type { RouteLocationNamedRaw, LocationQuery } from 'vue-router';
+import type { Fare } from '@/booking/types';
+import { Card, Typography, Button, Divider } from '@ui/components';
+import { RubleIcon, CheckIcon } from '@ui/icons';
+import { useQuery, useName } from '@/app/composables';
+import type { FiltersRaw } from '@/app/types';
+import { formatCurrency } from '@/app/lib';
 
 const name = useName();
 const query = useQuery<FiltersRaw & { ids: string[] }>();
@@ -15,12 +15,12 @@ type Props = {
     fare: Fare;
     price: number | null;
     isRouteLast: boolean;
-    variant?: "simple";
+    variant?: 'simple';
 };
 
 const props = defineProps<Props>();
 
-const NuxtLink = resolveComponent("NuxtLink");
+const NuxtLink = resolveComponent('NuxtLink');
 
 const getTo = (fare: Fare) => {
     const to = {} as RouteLocationNamedRaw;
@@ -28,20 +28,20 @@ const getTo = (fare: Fare) => {
     to.query = { ...query.value } as LocationQuery;
 
     if (props.isRouteLast) {
-        to.name = "booking-composition";
+        to.name = 'booking-composition';
 
         to.query.ids = fare.tour_id;
         to.query.tours_hash = fare.tours_hash;
     } else {
-        to.name = "booking-tickets";
-        to.query.ids = [...(query.value.ids ?? ""), fare.route_id];
+        to.name = 'booking-tickets';
+        to.query.ids = [...(query.value.ids ?? ''), fare.route_id];
     }
 
     return to;
 };
 
 const price = computed(() => {
-    return name.value === "booking-tickets"
+    return name.value === 'booking-tickets'
         ? `+ ${formatCurrency(props.fare.price - (props.price ?? 0))}`
         : `от ${formatCurrency(props.fare.price - (props.price ?? 0))}`;
 });

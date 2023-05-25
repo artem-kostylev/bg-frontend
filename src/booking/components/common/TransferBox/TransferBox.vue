@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { pluralize } from "@/app/lib";
-import { Card, Typography } from "@ui/components";
-import type { Transfer } from "@/booking/types";
+import { pluralize } from '@/app/lib';
+import { Card, Typography } from '@ui/components';
+import type { Transfer } from '@/booking/types';
 
 type Props = {
     transfer: Transfer;
@@ -22,7 +22,7 @@ withDefaults(defineProps<Props>(), {
             <li>{{ transfer.from }} - {{ transfer.to }}</li>
             <li>{{ transfer.type }}</li>
             <li>{{ transfer.vehicle }}</li>
-            <li>{{ pluralize(transfer.capacity, ["пассажир", "пассажира", "пассажиров"]) }}</li>
+            <li>{{ pluralize(transfer.capacity, ['пассажир', 'пассажира', 'пассажиров']) }}</li>
         </ul>
         <template #footer>
             <slot name="footer" />

@@ -5,15 +5,6 @@ import { plugins } from './postcss.config.js';
 export default defineNuxtConfig({
     ssr: false,
 
-    vite: {
-        vue: {
-            script: {
-                // @ts-ignore
-                defineModel: true,
-            },
-        },
-    },
-
     srcDir: 'src/app',
 
     extends: [

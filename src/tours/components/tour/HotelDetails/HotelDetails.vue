@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import type { Hotel } from '@/tours/types';
 import { DetailsHeader } from '@/app/components';
 import { Card, Tabs } from '@ui/components';
+import { GeneralInformation, Infrastructure, Food, Services, Contacts } from './components';
 
 type Props = {
     hotel: Hotel;
@@ -10,14 +11,22 @@ type Props = {
 
 defineProps<Props>();
 
-const currentTab = ref(1);
+const components = {
+    general: GeneralInformation,
+    infrastructure: Infrastructure,
+    food: Food,
+    services: Services,
+    contacts: Contacts,
+};
+
+const currentTab = ref<keyof typeof components>('general');
 
 const tabs = [
-    { label: 'Общая информация', value: 1 },
-    { label: 'Инфраструктура', value: 2 },
-    { label: 'Питание', value: 3 },
-    { label: 'Услуги', value: 4 },
-    { label: 'Контакты', value: 5 },
+    { label: 'Общая информация', value: 'general' },
+    { label: 'Инфраструктура', value: 'infrastructure' },
+    { label: 'Питание', value: 'food' },
+    { label: 'Услуги', value: 'services' },
+    { label: 'Контакты', value: 'contacts' },
 ];
 </script>
 
@@ -28,7 +37,7 @@ const tabs = [
             <template #header>
                 <Tabs :tabs="tabs" v-model="currentTab" />
             </template>
-            <div class="prose max-w-none" v-html="hotel.general?.description" />
+            <component :is="components[currentTab]" :[currentTab]="hotel[currentTab]" />
         </Card>
     </div>
 </template>

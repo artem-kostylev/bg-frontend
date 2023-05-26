@@ -22,11 +22,12 @@ const endIcon = computed(() => {
         :type="type"
         :to="to"
         :class="[
-            'inline-flex items-center font-medium rounded-xl border transition-colors duration-200 select-none',
+            'inline-flex items-center rounded-xl border transition-colors duration-200 select-none',
             buttonSizes[size],
             buttonVariants[variant],
             buttonJustifies[justify],
             block && 'w-full',
+            strong && 'font-medium',
             disabled && 'pointer-events-none opacity-60',
         ]"
         :disabled="disabled"

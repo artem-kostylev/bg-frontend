@@ -2,7 +2,7 @@
 import { onBeforeUnmount } from 'vue';
 import { clearNuxtData, computed, useLazyAsyncData } from '#imports';
 import { fetchRoom } from '@/tours/services';
-import { Modal, Tooltip } from '@ui/components';
+import { Modal, Tooltip, Divider } from '@ui/components';
 import FacilityList from './FacilityList.vue';
 import { InfoIcon } from '@ui/icons';
 import { formatView } from '@/tours/lib';
@@ -41,31 +41,53 @@ const roomLocation = computed(() => {
                 </Tooltip>
             </button>
         </template>
-        <div v-if="data" class="space-y-3.5">
-            <FacilityList :facilities="data.facilities" />
-            <div class="space-y-1.5">
-                <div v-if="data.size">Площадь — {{ data.size }} м²</div>
-                <div v-if="data.views?.length">Вид из номера — {{ formatView(data.views) }}</div>
-                <div v-if="roomLocation">
-                    Здание, в котором находится номер — {{ roomLocation }}
-                </div>
-                <div v-if="data.rooms">Количество комнат — {{ data.rooms }}</div>
-                <div v-if="data.max_number_of_tourists">
-                    Вместимость — до
-                    {{ pluralize(data.max_number_of_tourists, ['человека', 'человек', 'человек']) }}
-                </div>
-                <div v-if="data.facilities_for_description?.length">
-                    <div class="mb-2">Услуги и удобства:</div>
-                    <ul class="list-disc list-inside marker:text-secondary-400 grid grid-cols-2">
-                        <li
-                            v-for="(facility, index) in data.facilities_for_description"
-                            :key="index"
+        <template v-if="data">
+            <div class="space-y-5">
+                <FacilityList :facilities="data.facilities" />
+                <div class="space-y-1.5">
+                    <div v-if="data.size">
+                        <span class="font-semibold">Площадь</span>: {{ data.size }} м²
+                    </div>
+                    <div v-if="data.views?.length">
+                        <span class="font-semibold">Вид из номера</span>:
+                        {{ formatView(data.views) }}
+                    </div>
+                    <div v-if="roomLocation">
+                        <span class="font-semibold">Здание, в котором находится номер</span>:
+                        {{ roomLocation }}
+                    </div>
+                    <div v-if="data.rooms">
+                        <span class="font-semibold">Количество комнат</span>: {{ data.rooms }}
+                    </div>
+                    <div v-if="data.max_number_of_tourists">
+                        <span class="font-semibold">Вместимость</span>: до
+                        {{
+                            pluralize(data.max_number_of_tourists, [
+                                'человека',
+                                'человек',
+                                'человек',
+                            ])
+                        }}
+                    </div>
+                    <div v-if="data.facilities_for_description?.length">
+                        <div class="font-semibold mb-1">Услуги и удобства:</div>
+                        <ul
+                            class="list-disc list-inside marker:text-secondary-400 grid grid-cols-2"
                         >
-                            {{ facility }}
-                        </li>
-                    </ul>
+                            <li
+                                v-for="(facility, index) in data.facilities_for_description"
+                                :key="index"
+                            >
+                                {{ facility }}
+                            </li>
+                        </ul>
+                    </div>
                 </div>
+                <template v-if="data.description">
+                    <Divider dashed />
+                    <div>{{ data.description }}</div>
+                </template>
             </div>
-        </div>
+        </template>
     </Modal>
 </template>

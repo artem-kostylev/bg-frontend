@@ -34,9 +34,11 @@ const isVirtual = computed(() => {
                 Рекомендуем
             </div>
         </template>
-        <div class="space-y-5">
-            <p v-if="isVirtual">Время вылета, рейс и аэропорт появятся за 1-5 дней до вылета</p>
-            <div v-else class="flex items-start justify-between">
+        <div class="space-y-5 flex flex-col h-full">
+            <p v-if="isVirtual" class="flex-1">
+                Время вылета, рейс и аэропорт появятся за 1-5 дней до вылета
+            </p>
+            <div v-else class="flex items-start justify-between flex-1">
                 <ul class="list-disc list-inside marker:text-secondary-400">
                     <li>{{ STATUSES[movement.is_regular] }}</li>
                     <li>{{ movement.fare.name }}</li>

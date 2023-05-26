@@ -9,3 +9,4 @@ export * from './AdditionalTransferCard';
 export * from './ActivityList';
 export * from './AccommodationsList';
 export * from './AccommodationCard';
+export * from './RoomCard';

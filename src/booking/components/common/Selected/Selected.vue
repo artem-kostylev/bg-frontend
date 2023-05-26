@@ -7,8 +7,8 @@ export default {
 <script setup lang="ts">
 import { computed } from 'vue';
 import { formatDates, pluralize } from '@/app/lib';
-import { InsuranceList, TransferList, TicketList } from '@/booking/components';
-import type { Insurance, Transfer, General, Movement } from '@/booking/types';
+import { InsuranceList, TransferList, TicketList, AccommodationList } from '@/booking/components';
+import type { Accommodation, Insurance, Transfer, General, Movement } from '@/booking/types';
 import { Divider, Collapse, Grid, IconFilled } from '@ui/components';
 import {
     BusIcon,
@@ -17,10 +17,12 @@ import {
     AirplaneIcon,
     CalendarIcon,
     UsersIcon,
+    BuildingsIcon,
 } from '@ui/icons';
 
 type Props = {
     general: General;
+    accommodations: Accommodation[];
     transfers: Transfer[];
     insurances: Insurance[];
     movements: Movement[];
@@ -54,6 +56,14 @@ const dates = computed(() => {
             </div>
         </div>
         <Divider dashed />
+        <Collapse
+            v-if="accommodations?.length"
+            :start-icon="BuildingsIcon"
+            :default-open="defaultOpen"
+            title="Проживание"
+        >
+            <AccommodationList :accommodations="accommodations" />
+        </Collapse>
         <Collapse
             v-if="movements?.length"
             :start-icon="AirplaneIcon"

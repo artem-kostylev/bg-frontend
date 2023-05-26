@@ -3,7 +3,7 @@ import { onBeforeUnmount } from 'vue';
 import { clearNuxtData, computed, useLazyAsyncData } from '#imports';
 import { fetchRoom } from '@/tours/services';
 import { Modal, Tooltip, Divider } from '@ui/components';
-import FacilityList from './FacilityList.vue';
+import { RoomFacilityList } from '@/tours/components';
 import { InfoIcon } from '@ui/icons';
 import { formatView } from '@/tours/lib';
 import { formatList, pluralize } from '@/app/lib';
@@ -43,7 +43,7 @@ const roomLocation = computed(() => {
         </template>
         <template v-if="data">
             <div class="space-y-5">
-                <FacilityList :facilities="data.facilities" />
+                <RoomFacilityList :facilities="data.facilities" />
                 <div class="space-y-1.5">
                     <div v-if="data.size">
                         <span class="font-semibold">Площадь</span>: {{ data.size }} м²

@@ -39,10 +39,9 @@ onBeforeUnmount(() => clearNuxtData(`transfer-${props.transfer.id}`));
             <Modal
                 v-model="show"
                 title="Изменить трансфер"
-                size="lg"
+                size="3xl"
                 :loading="pending"
                 @open="open"
-                fullscreen
             >
                 <template #trigger="{ vbind }">
                     <Button

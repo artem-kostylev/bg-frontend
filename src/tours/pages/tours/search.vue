@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useLazyAsyncData, definePageMeta } from '#imports';
 import { TourList, TourFilters } from '@/tours/components';
 import { fetchTours } from '@/tours/services';
 import { Spin, Typography } from '@ui/components';
 import type { FiltersRaw } from '@/app/types';
 import { formatFilters } from '@/app/lib';
-import { useQuery, useName } from '@/app/composables';
+import { useQuery, useName, useInfinity } from '@/app/composables';
 import { Empty, Page } from '@/app/components';
 
 definePageMeta({ filters: true });
@@ -14,7 +14,17 @@ definePageMeta({ filters: true });
 const name = useName<string>();
 const query = useQuery<FiltersRaw>();
 
-const { data, pending } = useLazyAsyncData('tours', () => fetchTours(query.value, name.value));
+const page = ref(1);
+
+const { data, pending } = useLazyAsyncData('tours', () =>
+    fetchTours(query.value, name.value, page.value)
+);
+
+const { targetRef, loadingMore } = useInfinity(async () => {
+    const response = await fetchTours(query.value, name.value, ++page.value);
+    data.value!.has_next = response.has_next;
+    data.value!.tours.push(...response.tours);
+});
 
 const filters = computed(() => formatFilters(data.value!.filters));
 </script>
@@ -25,12 +35,13 @@ const filters = computed(() => formatFilters(data.value!.filters));
         <template v-else-if="data">
             <Typography variant="h1" as="h1" class="md:mb-2.5">{{ data.meta.title }}</Typography>
             <TourFilters class="mb-8" />
-            <TourList
-                v-if="data.tours.length"
-                :tours="data.tours"
-                :name="name"
-                :filters="filters"
-            />
+            <template v-if="data.tours.length">
+                <TourList :tours="data.tours" :name="name" :filters="filters" />
+                <template v-if="data.has_next">
+                    <Spin v-if="loadingMore" color="primary" class="my-12" />
+                    <div v-else ref="targetRef"></div>
+                </template>
+            </template>
             <Empty v-else />
         </template>
     </Page>

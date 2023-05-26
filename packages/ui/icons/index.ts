@@ -15,7 +15,6 @@ export { default as CarrionIcon } from './Carryon.vue';
 export { default as SuitcaseIcon } from './Suitcase.vue';
 export { default as InfoIcon } from './Info.vue';
 export { default as SlidersIcon } from './Sliders.vue';
-export { default as ArmchairLampIcon } from './ArmchairLamp.vue';
+export { default as ArmchairAndLampIcon } from './ArmchairAndLamp.vue';
 export { default as CutleryIcon } from './Cutlery.vue';
-export { default as UserVisaIcon } from './UserVisa.vue';
 export * from './thin';

@@ -5,3 +5,5 @@ export * from './HotelDetails';
 export * from './AvailableDates';
 export * from './HotelContainer';
 export * from './PackageContainer';
+export * from './RoomDetailsModal';
+export * from './RoomFacilityList';

@@ -1,15 +1,4 @@
-export type Accommodation = {
-    date_start: string;
-    date_finish: string;
-    duration: number;
-    hash_rooms: string;
-    id: number;
-    location: { id: number; name: string; visa: boolean }[];
-    name: string;
-    rooms: RoomCard[];
-};
-
-export interface RoomCard {
+export interface AccommodationRoom {
     accommodation_unikey: string;
     board: string;
     tourists: string[];
@@ -19,3 +8,14 @@ export interface RoomCard {
     wishes: string[];
     order_accommodation_id: number;
 }
+
+export type Accommodation = {
+    id: number;
+    duration: number;
+    hash_rooms: string;
+    date_start: string;
+    date_finish: string;
+    name: string;
+    rooms: AccommodationRoom[];
+    location: { id: number; name: string; visa: boolean }[];
+};

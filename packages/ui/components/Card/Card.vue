@@ -1,20 +1,9 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue';
 import { Paper } from '@ui/components';
+import type { CardProps } from '@ui/components/Card/card';
+import { cardDefaultProps } from '@ui/components/Card/card';
 
-type Props = {
-    coverClass?: HTMLAttributes['class'];
-    bodyClass?: HTMLAttributes['class'];
-    headerClass?: HTMLAttributes['class'];
-    footerClass?: HTMLAttributes['class'];
-};
-
-withDefaults(defineProps<Props>(), {
-    coverClass: '',
-    bodyClass: '',
-    headerClass: '',
-    footerClass: '',
-});
+withDefaults(defineProps<CardProps>(), cardDefaultProps);
 </script>
 
 <template>

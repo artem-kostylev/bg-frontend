@@ -19,7 +19,7 @@ defineProps<Props>();
             v-for="(image, index) in images"
             :key="index"
             :class="[
-                'bg-slate-100 snap-center shrink-0',
+                'bg-secondary-100 snap-center shrink-0',
                 index === 0 && 'md:row-span-2 md:col-span-2',
                 images.length === 1 && index === 0 && 'md:row-span-4 md:col-span-4',
                 images.length === 2 && index === 1 && 'md:row-span-2 md:col-span-2',

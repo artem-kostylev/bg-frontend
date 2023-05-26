@@ -5,11 +5,9 @@ export default {
 </script>
 
 <script setup lang="ts">
-type Props = {
-    show: boolean;
-};
+import type { CollapseTransitionProps } from '@ui/components/CollapseTransition/collapseTransition';
 
-defineProps<Props>();
+defineProps<CollapseTransitionProps>();
 
 // TODO: FIX This
 // Проблема если мы в тело добавляем overflow hidden то shadow обрезается у элеметов

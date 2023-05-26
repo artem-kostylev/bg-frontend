@@ -9,9 +9,10 @@ export type FetchToursResponse = {
     meta: Meta;
     filters: Filters;
     tours: Tour[];
+    has_next: boolean;
 };
 
-export type FetchToursPayload = FiltersRaw & { page?: number };
+export type FetchToursPayload = FiltersRaw;
 
 const path: Record<string, string> = {
     'tours-multi-search': 'tour/multi',
@@ -20,9 +21,7 @@ const path: Record<string, string> = {
     'hotels-search': 'hotel/search',
 };
 
-export const fetchTours = async (payload: FetchToursPayload, name: string) => {
-    const { page, ...filters } = payload;
-
+export const fetchTours = async (filters: FetchToursPayload, name: string, page: number) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response = await http<any>(path[name], {
         method: 'POST',

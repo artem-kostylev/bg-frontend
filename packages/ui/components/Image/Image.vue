@@ -1,20 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useIntersectionObserver } from '@vueuse/core';
+import type { ImageProps } from '@ui/components/Image/image';
+import { imageDefaultProps } from '@ui/components/Image/image';
 
-type Props = {
-    src?: string;
-    width?: string;
-    height?: string;
-    alt?: string;
-};
-
-const props = withDefaults(defineProps<Props>(), {
-    alt: '',
-    src: '',
-    width: '',
-    height: '',
-});
+const props = withDefaults(defineProps<ImageProps>(), imageDefaultProps);
 
 const targetRef = ref<HTMLImageElement>();
 

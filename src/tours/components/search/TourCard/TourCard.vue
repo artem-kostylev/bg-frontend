@@ -58,7 +58,7 @@ const getTo = (id: number) => {
 </script>
 
 <template>
-    <Card cover-class="h-[14rem] bg-slate-100" body-class="flex flex-col justify-end">
+    <Card cover-class="h-[14rem] bg-secondary-100" body-class="flex flex-col justify-end">
         <template #cover>
             <Image
                 v-if="tour.hotel.images[0]"

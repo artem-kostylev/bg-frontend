@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { useFloating, offset, flip, shift, type Placement } from '@floating-ui/vue';
+import { useFloating, offset, flip, shift } from '@floating-ui/vue';
+import { tooltipDefaultProps } from '@ui/components/Tooltip/tooltip';
+import type { TooltipProps } from '@ui/components/Tooltip/tooltip';
 
-type Props = {
-    placement?: Placement;
-    text?: string;
-};
-
-const props = withDefaults(defineProps<Props>(), {
-    placement: 'top',
-    text: '',
-});
+const props = withDefaults(defineProps<TooltipProps>(), tooltipDefaultProps);
 
 const open = ref(false);
 
@@ -51,7 +45,7 @@ const vbind = { onMouseenter: show, onMouseleave: hide, ref: referenceRef };
             <div
                 v-if="open"
                 :style="{ top: `${y}px`, left: `${x}px` }"
-                class="absolute bg-slate-900/90 text-sm rounded-xl px-2.5 py-1.5 text-white w-max z-50"
+                class="absolute bg-secondary-900/90 text-sm rounded-xl px-2.5 py-1.5 text-white w-max z-50"
                 ref="floatingRef"
             >
                 {{ text }}

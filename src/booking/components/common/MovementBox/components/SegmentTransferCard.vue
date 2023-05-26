@@ -15,7 +15,7 @@ defineProps<Props>();
             <div class="font-semibold">
                 {{ segment.time_departure.slice(0, -3) }} - {{ segment.time_arrival.slice(0, -3) }}
             </div>
-            <div class="text-slate-500 text-sm">{{ formatMinutes(segment.duration) }}</div>
+            <div class="text-secondary-500 text-sm">{{ formatMinutes(segment.duration) }}</div>
         </div>
         <div>{{ segment.transport_hub_transfer.name }}. {{ segment.transfer_type }}</div>
     </div>

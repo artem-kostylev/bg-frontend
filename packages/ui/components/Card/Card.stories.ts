@@ -46,7 +46,7 @@ export const WithHeaderAndFooter: StoryObj<typeof Card> = {
 export const WithCover: StoryObj<typeof Card> = {
     args: {
         cover: () => h(Image, { src: imageUrl }),
-        coverClass: 'h-[14rem] bg-slate-100',
+        coverClass: 'h-[14rem] bg-secondary-100',
         header: 'Header',
         footer: 'Footer',
     },

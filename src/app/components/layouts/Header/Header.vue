@@ -4,7 +4,7 @@ import { UserIcon, HeartIcon } from '@ui/icons';
 </script>
 
 <template>
-    <header class="border-b border-slate-200 bg-white sticky md:static top-0 z-30">
+    <header class="border-b border-secondary-200 bg-white sticky md:static top-0 z-30">
         <Container class="flex items-center justify-between py-3.5">
             <NuxtLink :to="{ name: 'index' }">
                 <img
@@ -15,15 +15,15 @@ import { UserIcon, HeartIcon } from '@ui/icons';
                     height="33"
                 />
             </NuxtLink>
-            <div class="flex items-center space-x-4 text-slate-500">
+            <div class="flex items-center space-x-4 text-secondary-500">
                 <button
-                    class="text-slate-500 hover:text-slate-600 transition-colors duration-300"
+                    class="text-secondary-500 hover:text-secondary-600 transition-colors duration-300"
                     aria-label="Мои избранные"
                 >
                     <HeartIcon width="1.6em" height="1.6em" />
                 </button>
                 <button
-                    class="text-slate-500 hover:text-slate-600 transition-colors duration-300"
+                    class="text-secondary-500 hover:text-secondary-600 transition-colors duration-300"
                     aria-label="Авторизация"
                 >
                     <UserIcon width="1.6em" height="1.6em" />

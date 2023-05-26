@@ -61,13 +61,13 @@ const price = computed(() => {
         <div class="space-y-2.5">
             <div class="space-y-2.5">
                 <div class="flex items-center">
-                    <div class="bg-orange-100 text-orange-800 rounded-full p-1">
+                    <div class="bg-warning-100 text-warning-800 rounded-full p-1">
                         <RubleIcon width="0.8em" height="0.8em" />
                     </div>
                     <span class="ml-2.5">Возврат билета – {{ fare.ticket_refund.label }}</span>
                 </div>
                 <div class="flex items-center">
-                    <div class="bg-orange-100 text-orange-800 rounded-full p-1">
+                    <div class="bg-warning-100 text-warning-800 rounded-full p-1">
                         <RubleIcon width="0.8em" height="0.8em" />
                     </div>
                     <span class="ml-2.5">Обмен билета – {{ fare.ticket_exchange.label }}</span>
@@ -76,13 +76,13 @@ const price = computed(() => {
             <Divider dashed />
             <div class="space-y-2.5">
                 <div class="flex items-center">
-                    <div class="bg-green-500/20 text-green-800 rounded-full p-1">
+                    <div class="bg-success-500/20 text-success-800 rounded-full p-1">
                         <CheckIcon width="0.8em" height="0.8em" />
                     </div>
                     <span class="ml-2.5">Багаж – {{ fare.baggage.label }}</span>
                 </div>
                 <div class="flex items-center">
-                    <div class="bg-green-500/20 text-green-800 rounded-full p-1">
+                    <div class="bg-success-500/20 text-success-800 rounded-full p-1">
                         <CheckIcon width="0.8em" height="0.8em" />
                     </div>
                     <span class="ml-2.5">Ручная кладь – {{ fare.carryon.label }}</span>

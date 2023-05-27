@@ -1,7 +1,9 @@
 import type { Hotel } from '@/tours/types';
 
+type ShortHotel = Hotel & { food: { name: string }[] };
+
 export type Tour = {
-    hotel: Hotel;
+    hotel: ShortHotel;
     price: number;
     flight_included?: boolean;
     instant_booking?: boolean;

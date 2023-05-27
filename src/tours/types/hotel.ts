@@ -1,13 +1,14 @@
 import type { Image, Location } from '@/app/types';
 
 export type HotelFood = {
-    id: number;
-    name: string;
-    description: string;
+    boarding_type: string[];
+    board: { name: string; time: string[]; type: string }[];
+    restaurants_and_bars: string;
 };
 
 export type HotelGeneral = {
     description: string;
+    children: { name: string; value: string }[];
 };
 
 export type HotelInfrastructure = {
@@ -30,6 +31,7 @@ export type Hotel = {
     stars?: number;
     rating: number;
     reviews: number;
+    address: string;
     images: Image[];
     location: Location[];
     airport_remoteness?: number;

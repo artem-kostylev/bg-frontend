@@ -24,8 +24,8 @@ const currentTab = ref<keyof typeof components>('general');
 const tabs = [
     { label: 'Общая информация', value: 'general' },
     { label: 'Инфраструктура', value: 'infrastructure' },
-    { label: 'Питание', value: 'food' },
     { label: 'Услуги', value: 'services' },
+    { label: 'Питание', value: 'food' },
     { label: 'Контакты', value: 'contacts' },
 ];
 </script>

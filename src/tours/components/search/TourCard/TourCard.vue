@@ -15,7 +15,7 @@ const params = useParams<{ id: string }>();
 const query = useQuery<{ accommodations_unikey?: string[][]; hotel_ids?: number[] }>();
 
 type Props = {
-    tour: Tour;
+    tour: Tour & { qty_hotels?: number };
     filters: FiltersRaw;
     variant: string;
     target?: '_blank';
@@ -29,6 +29,8 @@ const NuxtLink = resolveComponent('NuxtLink');
 
 const getTo = (id: number) => {
     const isPackage = props.variant === 'tours-multi-id' || props.variant === 'tours-activity-id';
+
+    console.log(props.variant);
 
     const name = props.variant.replace('-search', '-id');
 
@@ -50,6 +52,10 @@ const getTo = (id: number) => {
 
         if (props.variant === 'hotels-search') {
             to.query!.tour_type = 'hotel';
+        }
+
+        if (props.variant === 'tours-activity-search') {
+            props.tour.qty_hotels === 0 && (to.query!.qty_hotels = 0);
         }
     }
 

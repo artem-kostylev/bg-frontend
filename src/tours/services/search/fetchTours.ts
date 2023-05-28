@@ -44,6 +44,7 @@ export const fetchTours = async (filters: FetchToursPayload, name: string, page:
             insurance_included: item.insurance_included,
             transfer_included: item.transfer_included,
             price: item.price,
+            qty_hotels: item.qty_hotels,
             hotel: {
                 id: item.id,
                 images: item.images,

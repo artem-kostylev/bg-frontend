@@ -99,3 +99,11 @@ export const EndIcon: StoryObj<typeof Button> = {
         endIcon: markRaw(UsersIcon),
     },
 };
+
+export const MaxWidth: StoryObj<typeof Button> = {
+    args: {
+        default: 'Super loooooooooong button',
+        style: 'max-width:200px',
+        endIcon: markRaw(UsersIcon),
+    },
+};

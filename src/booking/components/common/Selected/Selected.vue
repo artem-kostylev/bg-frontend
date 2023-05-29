@@ -45,7 +45,7 @@ const dates = computed(() => {
 <template>
     <Grid class="gap-4 md:gap-6" :class="$attrs.class" :style="$attrs.style">
         <div class="flex flex-wrap -mx-2.5 -mb-2.5">
-            <div class="px-2.5 mb-2.5">
+            <div class="px-2.5 mb-2.5" v-if="movements.length">
                 <IconFilled :icon="AirplaneTakeoffIcon" :label="general.from" />
             </div>
             <div class="px-2.5 mb-2.5">

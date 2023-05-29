@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import { definePageMeta } from '#imports';
 import { useParams, useQuery } from '@/app/composables';
 import {
@@ -7,7 +8,6 @@ import {
     PackageWithHotelsContainer,
     PackageWithPeriodsContainer,
 } from '@/tours/components';
-import { useRoute } from 'vue-router';
 
 definePageMeta({
     validate: ({ params }) => /^\d+$/.test(params.id as string),

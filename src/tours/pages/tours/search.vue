@@ -15,13 +15,16 @@ const name = useName<string>();
 const query = useQuery<FiltersRaw>();
 
 const page = ref(1);
+const sort = ref('tour.price:asc');
 
-const { data, pending } = useLazyAsyncData('tours', () =>
-    fetchTours(query.value, name.value, page.value)
+const { data, pending } = useLazyAsyncData(
+    'tours',
+    () => fetchTours(query.value, name.value, page.value, sort.value),
+    { watch: [sort] }
 );
 
 const { targetRef, loadingMore } = useInfinity(async () => {
-    const response = await fetchTours(query.value, name.value, ++page.value);
+    const response = await fetchTours(query.value, name.value, ++page.value, sort.value);
     data.value!.has_next = response.has_next;
     data.value!.tours.push(...response.tours);
 });
@@ -34,7 +37,7 @@ const filters = computed(() => formatFilters(data.value!.filters));
         <Spin v-if="pending" color="primary" />
         <template v-else-if="data">
             <Typography variant="h1" as="h1" class="md:mb-2.5">{{ data.meta.title }}</Typography>
-            <TourFilters class="mb-8" />
+            <TourFilters v-model="sort" class="mb-8" />
             <template v-if="data.tours.length">
                 <TourList :tours="data.tours" :name="name" :filters="filters" />
                 <template v-if="data.has_next">

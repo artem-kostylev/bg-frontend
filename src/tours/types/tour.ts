@@ -1,4 +1,4 @@
-import type { Hotel } from "@/tours/types";
+import type { Hotel } from '@/tours/types';
 
 export type Tour = {
     hotel: Hotel;
@@ -10,4 +10,4 @@ export type Tour = {
     excursion_included?: boolean;
 };
 
-export type TourType = "hotel" | "package";
+export type TourType = 'hotel' | 'package';

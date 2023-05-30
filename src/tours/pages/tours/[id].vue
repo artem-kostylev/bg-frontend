@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { definePageMeta } from "#imports";
-import { useParams, useQuery } from "@/app/composables";
-import { HotelContainer, PackageContainer } from "@/tours/components";
-import { useRoute } from "vue-router";
+import { computed } from 'vue';
+import { definePageMeta } from '#imports';
+import { useParams, useQuery } from '@/app/composables';
+import { HotelContainer, PackageContainer } from '@/tours/components';
+import { useRoute } from 'vue-router';
 
 definePageMeta({
     validate: ({ params }) => /^\d+$/.test(params.id as string),
@@ -14,7 +14,7 @@ const params = useParams<{ id: string }>();
 const query = useQuery<{ hotel_ids?: number[]; accommodations_unikey?: string[] }>();
 
 const isPackage = computed(() => {
-    return route.name === "tours-multi-id" || route.name === "tours-activity-id";
+    return route.name === 'tours-multi-id' || route.name === 'tours-activity-id';
 });
 
 const isShowPackage = computed(() => {

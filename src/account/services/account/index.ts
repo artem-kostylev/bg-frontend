@@ -1,1 +1,1 @@
-export * from "./fetchAccount";
+export * from './fetchAccount';

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconFilled, Tooltip } from "@ui/components";
+import { IconFilled, Tooltip } from '@ui/components';
 import {
     AirplaneIcon,
     BuildingsIcon,
@@ -7,7 +7,7 @@ import {
     ShildIcon,
     MountainIcon,
     LightingIcon,
-} from "@ui/icons";
+} from '@ui/icons';
 
 type Props = {
     flight_included?: boolean;

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { useLazyAsyncData } from "#imports";
-import { useParams } from "@/app/composables";
-import { fetchPage } from "@/pages/services";
-import { Page } from "@/app/components";
-import { Spin } from "@ui/components";
+import { useLazyAsyncData } from '#imports';
+import { useParams } from '@/app/composables';
+import { fetchPage } from '@/pages/services';
+import { Page } from '@/app/components';
+import { Spin } from '@ui/components';
 
 const params = useParams<{ slug: string }>();
 
-const { data, pending } = useLazyAsyncData("page", () => fetchPage(params.value.slug));
+const { data, pending } = useLazyAsyncData('page', () => fetchPage(params.value.slug));
 </script>
 
 <template>

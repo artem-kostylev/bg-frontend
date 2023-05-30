@@ -1,5 +1,5 @@
-import { http } from "@/app/lib";
-import type { Room } from "@/tours/types";
+import { http } from '@/app/lib';
+import type { Room } from '@/tours/types';
 
 type FetchRoomResponse = Room;
 

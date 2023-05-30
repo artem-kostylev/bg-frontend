@@ -1,7 +1,7 @@
-import { http } from "@/app/lib";
-import type { FiltersRaw } from "@/app/types";
-import { parseFilters } from "@/app/lib";
-import type { Room, TourType } from "@/tours/types";
+import { http } from '@/app/lib';
+import type { FiltersRaw } from '@/app/types';
+import { parseFilters } from '@/app/lib';
+import type { Room, TourType } from '@/tours/types';
 
 type Group = {
     rooms: Room[];
@@ -26,7 +26,7 @@ export type FetchRoomsQuery = FiltersRaw & {
 export const fetchRooms = (id: number, query: FetchRoomsQuery) => {
     const { tour_type, hotel_ids, accommodations_unikey, ...filters } = query;
 
-    const isPackage = tour_type === "package";
+    const isPackage = tour_type === 'package';
     const param = isPackage ? hotel_ids![hotel_ids!.length - 1] : id;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -41,7 +41,7 @@ export const fetchRooms = (id: number, query: FetchRoomsQuery) => {
     body.filters = parseFilters(filters);
 
     return http<FetchRoomsResponse>(`tour/hotel/${param}/rooms`, {
-        method: "POST",
+        method: 'POST',
         version: 2,
         body,
     });

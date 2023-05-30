@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Insurance } from "@/booking/types";
-import { InsuranceBox } from "@/booking/components";
+import type { Insurance } from '@/booking/types';
+import { InsuranceBox } from '@/booking/components';
 
 type Props = {
     insurance: Insurance;

@@ -1,1 +1,1 @@
-export { default as LocationList } from "./LocationList.vue";
+export { default as LocationList } from './LocationList.vue';

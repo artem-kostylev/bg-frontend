@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Button } from "@ui/components";
-import { CalendarIcon, MoonIcon } from "@ui/icons";
+import { Button } from '@ui/components';
+import { CalendarIcon, MoonIcon } from '@ui/icons';
 </script>
 
 <template>

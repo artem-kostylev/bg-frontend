@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { Grid } from "@ui/components";
-import { TourCard } from "@/tours/components";
-import type { FiltersRaw } from "@/app/types";
-import type { Tour } from "@/tours/types";
+import { Grid } from '@ui/components';
+import { TourCard } from '@/tours/components';
+import type { FiltersRaw } from '@/app/types';
+import type { Tour } from '@/tours/types';
 
 type Props = {
     name: string;

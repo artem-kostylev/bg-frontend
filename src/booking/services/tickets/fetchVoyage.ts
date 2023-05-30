@@ -1,11 +1,11 @@
-import { http } from "@/app/lib";
-import type { Movement, SegmentMovement } from "@/booking/types";
+import { http } from '@/app/lib';
+import type { Movement, SegmentMovement } from '@/booking/types';
 
 export type FetchVoyageResponse = Movement;
 
-export const fetchVoyage = async (flight_hash: Movement["flight_hash"]) => {
-    const response = await http<FetchVoyageResponse>("voyage/detail", {
-        method: "POST",
+export const fetchVoyage = async (flight_hash: Movement['flight_hash']) => {
+    const response = await http<FetchVoyageResponse>('voyage/detail', {
+        method: 'POST',
         body: { flight_hash },
     });
 

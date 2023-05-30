@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import type { Movement, Stop } from "@/booking/types";
-import { formatMinutes, formatDate } from "@/app/lib";
-import { Tooltip, Divider, Typography } from "@ui/components";
+import { computed } from 'vue';
+import type { Movement, Stop } from '@/booking/types';
+import { formatMinutes, formatDate } from '@/app/lib';
+import { Tooltip, Divider, Typography } from '@ui/components';
 
 type Props = {
     movement: Movement;
@@ -15,7 +15,7 @@ const getStopTooltip = (stop: Stop) => {
 };
 
 const isVirtual = computed(() => {
-    return props.movement.is_regular === "virtual";
+    return props.movement.is_regular === 'virtual';
 });
 </script>
 
@@ -43,18 +43,18 @@ const isVirtual = computed(() => {
             </div>
             <div class="flex items-center justify-between relative">
                 <Divider dashed class="absolute" />
-                <div class="rounded-full bg-slate-400 w-1.5 h-1.5 z-10" />
+                <div class="rounded-full bg-secondary-400 w-1.5 h-1.5 z-10" />
                 <div
                     v-for="i in movement.stops.length"
                     :key="i"
-                    class="rounded-full bg-slate-400 w-1.5 h-1.5 z-10"
+                    class="rounded-full bg-secondary-400 w-1.5 h-1.5 z-10"
                 />
-                <div class="rounded-full bg-slate-400 w-1.5 h-1.5 z-10" />
+                <div class="rounded-full bg-secondary-400 w-1.5 h-1.5 z-10" />
             </div>
         </div>
         <div v-if="isVirtual" class="flex justify-center">
             <Typography variant="h3">
-                {{ formatDate(movement.date_departure, "day:numeric|month:long") }}
+                {{ formatDate(movement.date_departure, 'day:numeric|month:long') }}
             </Typography>
         </div>
         <div v-else class="flex items-center justify-between">
@@ -63,7 +63,7 @@ const isVirtual = computed(() => {
                     {{ movement.time_departure?.slice(0, -3) }}
                 </Typography>
                 <Typography variant="secondary">
-                    {{ formatDate(movement.date_departure, "day:numeric|month:long") }}
+                    {{ formatDate(movement.date_departure, 'day:numeric|month:long') }}
                 </Typography>
             </div>
             <Typography variant="description">
@@ -72,7 +72,7 @@ const isVirtual = computed(() => {
             <div class="text-right">
                 <Typography variant="h3">{{ movement.time_arrival?.slice(0, -3) }}</Typography>
                 <Typography variant="secondary">
-                    {{ formatDate(movement.date_arrival, "day:numeric|month:long") }}
+                    {{ formatDate(movement.date_arrival, 'day:numeric|month:long') }}
                 </Typography>
             </div>
         </div>

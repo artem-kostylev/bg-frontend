@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import type { Movement } from "@/booking/types";
-import { Card, Tooltip } from "@ui/components";
-import { SuitcaseIcon, CarrionIcon } from "@ui/icons";
-import DetailsModal from "./components/DetailsModal.vue";
-import Title from "./components/Title.vue";
-import StopsHorizontal from "./components/StopsHorizontal.vue";
+import { computed } from 'vue';
+import type { Movement } from '@/booking/types';
+import { Card, Tooltip } from '@ui/components';
+import { SuitcaseIcon, CarrionIcon } from '@ui/icons';
+import DetailsModal from './components/DetailsModal.vue';
+import Title from './components/Title.vue';
+import StopsHorizontal from './components/StopsHorizontal.vue';
 
-const STATUSES = { regular: "Регулярный", charter: "Чартерный", virtual: "Виртуальный" };
+const STATUSES = { regular: 'Регулярный', charter: 'Чартерный', virtual: 'Виртуальный' };
 
 type Props = {
     movement: Movement;
@@ -16,7 +16,7 @@ type Props = {
 const props = defineProps<Props>();
 
 const isVirtual = computed(() => {
-    return props.movement.is_regular === "virtual";
+    return props.movement.is_regular === 'virtual';
 });
 </script>
 
@@ -29,18 +29,20 @@ const isVirtual = computed(() => {
             </div>
             <div
                 v-if="movement.priority_status"
-                class="absolute right-0 top-0 text-sm bg-orange-100 text-orange-800 rounded-xl rounded-tl-none rounded-br-none py-1 px-2"
+                class="absolute right-0 top-0 text-sm bg-warning-100 text-warning-800 rounded-xl rounded-tl-none rounded-br-none py-1 px-2"
             >
                 Рекомендуем
             </div>
         </template>
-        <div class="space-y-5">
-            <p v-if="isVirtual">Время вылета, рейс и аэропорт появятся за 1-5 дней до вылета</p>
-            <div v-else class="flex items-start justify-between">
-                <ul class="list-disc list-inside marker:text-slate-400">
+        <div class="space-y-5 flex flex-col h-full">
+            <p v-if="isVirtual" class="flex-1">
+                Время вылета, рейс и аэропорт появятся за 1-5 дней до вылета
+            </p>
+            <div v-else class="flex items-start justify-between flex-1">
+                <ul class="list-disc list-inside marker:text-secondary-400">
                     <li>{{ STATUSES[movement.is_regular] }}</li>
                     <li>{{ movement.fare.name }}</li>
-                    <li>{{ movement.stops.length ? "С пересадками" : "Прямой" }}</li>
+                    <li>{{ movement.stops.length ? 'С пересадками' : 'Прямой' }}</li>
                 </ul>
                 <div class="flex items-end space-x-1.5">
                     <template v-if="movement.fare.carryon.key === 'is_free'">
@@ -50,7 +52,11 @@ const isVirtual = computed(() => {
                             :text="`Ручная кладь - ${weight} кг`"
                         >
                             <template #trigger="{ vbind }">
-                                <CarrionIcon v-bind="vbind" :text="weight" class="text-slate-500" />
+                                <CarrionIcon
+                                    v-bind="vbind"
+                                    :text="weight"
+                                    class="text-secondary-500"
+                                />
                             </template>
                         </Tooltip>
                     </template>
@@ -64,7 +70,7 @@ const isVirtual = computed(() => {
                                 <SuitcaseIcon
                                     v-bind="vbind"
                                     :text="weight"
-                                    class="text-slate-500"
+                                    class="text-secondary-500"
                                 />
                             </template>
                         </Tooltip>

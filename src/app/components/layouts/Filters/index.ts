@@ -1,1 +1,1 @@
-export { default } from "./Filters.vue";
+export { default } from './Filters.vue';

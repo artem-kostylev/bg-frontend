@@ -1,6 +1,6 @@
-import { http } from "@/app/lib";
-import type { Meta } from "@/app/types";
-import type { Attraction } from "@/attractions/types";
+import { http } from '@/app/lib';
+import type { Meta } from '@/app/types';
+import type { Attraction } from '@/attractions/types';
 
 export type FetchAttractionResponse = {
     meta: Meta;
@@ -8,9 +8,9 @@ export type FetchAttractionResponse = {
 };
 
 const paths = {
-    "attractions-id": "attraction/detail",
-    "locations-id": "location/detail",
-    "activities-id": "activity/detail",
+    'attractions-id': 'attraction/detail',
+    'locations-id': 'location/detail',
+    'activities-id': 'activity/detail',
 };
 
 export const fetchAttraction = async (id: string, name: keyof typeof paths) => {

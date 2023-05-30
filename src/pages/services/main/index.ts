@@ -1,1 +1,1 @@
-export * from "./fetchSections";
+export * from './fetchSections';

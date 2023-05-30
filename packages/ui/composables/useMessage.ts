@@ -1,4 +1,4 @@
-import { inject } from "vue";
+import { inject } from 'vue';
 
 type Options = {
     duration: number;
@@ -10,9 +10,9 @@ type Context = {
 };
 
 export const useMessage = () => {
-    const context = inject<Context | null>("messages", null);
+    const context = inject<Context | null>('messages', null);
 
-    if (!context) throw new Error("MessageProvider is required");
+    if (!context) throw new Error('MessageProvider is required');
 
     return context;
 };

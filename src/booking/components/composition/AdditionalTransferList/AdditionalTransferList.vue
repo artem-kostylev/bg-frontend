@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { Transfer } from "@/booking/types";
-import { Grid } from "@ui/components";
-import { AdditionalTransferCard } from "@/booking/components";
+import type { Transfer } from '@/booking/types';
+import { Grid } from '@ui/components';
+import { AdditionalTransferCard } from '@/booking/components';
 
 type Props = {
     transfer: Transfer;

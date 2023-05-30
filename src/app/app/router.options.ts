@@ -1,5 +1,5 @@
-import type { RouterConfig } from "@nuxt/schema";
-import { parseQuery, stringifyQuery } from "@querystring";
+import type { RouterConfig } from '@nuxt/schema';
+import { parseQuery, stringifyQuery } from '@querystring';
 
 export default <RouterConfig>{
     parseQuery,
@@ -8,69 +8,69 @@ export default <RouterConfig>{
     routes: routes => [
         ...routes,
         {
-            name: "hotels-search",
-            path: "/hotels/search",
+            name: 'hotels-search',
+            path: '/hotels/search',
             meta: { filters: true },
-            component: () => import("@/tours/pages/tours/search.vue"),
+            component: () => import('@/tours/pages/tours/search.vue'),
         },
         {
-            name: "tours-multi-search",
-            path: "/tours-multi/search",
+            name: 'tours-multi-search',
+            path: '/tours-multi/search',
             meta: { filters: true },
-            component: () => import("@/tours/pages/tours/search.vue"),
+            component: () => import('@/tours/pages/tours/search.vue'),
         },
         {
-            name: "tours-activity-search",
-            path: "/tours-activity/search",
+            name: 'tours-activity-search',
+            path: '/tours-activity/search',
             meta: { filters: true },
-            component: () => import("@/tours/pages/tours/search.vue"),
+            component: () => import('@/tours/pages/tours/search.vue'),
         },
         {
-            path: "/tours",
-            redirect: { name: "index" },
+            path: '/tours',
+            redirect: { name: 'index' },
         },
         {
-            name: "hotels",
-            path: "/hotels",
+            name: 'hotels',
+            path: '/hotels',
             meta: { filters: true },
-            component: () => import("@/pages/pages/index.vue"),
+            component: () => import('@/pages/pages/index.vue'),
         },
         {
-            name: "hotels-id",
-            path: "/hotels/:id",
-            component: () => import("@/tours/pages/tours/[id].vue"),
+            name: 'hotels-id',
+            path: '/hotels/:id',
+            component: () => import('@/tours/pages/tours/[id].vue'),
         },
         {
-            name: "tours-multi-id",
-            path: "/tours-multi/:id",
-            component: () => import("@/tours/pages/tours/[id].vue"),
+            name: 'tours-multi-id',
+            path: '/tours-multi/:id',
+            component: () => import('@/tours/pages/tours/[id].vue'),
         },
         {
-            name: "tours-activity-id",
-            path: "/tours-activity/:id",
-            component: () => import("@/tours/pages/tours/[id].vue"),
+            name: 'tours-activity-id',
+            path: '/tours-activity/:id',
+            component: () => import('@/tours/pages/tours/[id].vue'),
         },
         {
-            name: "locations-id",
-            path: "/locations/:id",
-            component: () => import("@/attractions/pages/attractions/[id].vue"),
+            name: 'locations-id',
+            path: '/locations/:id',
+            component: () => import('@/attractions/pages/attractions/[id].vue'),
         },
         {
-            name: "activities-id",
-            path: "/activities/:id",
-            component: () => import("@/attractions/pages/attractions/[id].vue"),
+            name: 'activities-id',
+            path: '/activities/:id',
+            component: () => import('@/attractions/pages/attractions/[id].vue'),
         },
         {
-            name: "avia",
-            path: "/avia",
+            name: 'avia',
+            path: '/avia',
             meta: { filters: true },
-            component: () => import("@/pages/pages/index.vue"),
+            component: () => import('@/pages/pages/index.vue'),
         },
         {
-            name: "avia-search",
-            path: "/avia/search",
+            name: 'avia-search',
+            path: '/avia/search',
             meta: { filters: true },
-            component: () => import("@/booking/pages/booking/tickets.vue"),
+            component: () => import('@/booking/pages/booking/tickets.vue'),
         },
     ],
 };

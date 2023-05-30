@@ -1,1 +1,1 @@
-export { default as FareModal } from "./FareModal.vue";
+export { default as FareModal } from './FareModal.vue';

@@ -1,34 +1,23 @@
 <script setup lang="ts">
-import { Image } from "@ui/components";
-
-type Link = {
-    id: number;
-    name: string;
-    filters: Record<string, any>;
-};
-
-type Child = {
-    name: string;
-    direct_link?: string;
-    link: Link;
-};
+import type { SectionChild } from '@/pages/types';
+import { Image } from '@ui/components';
 
 type Props = {
-    data: {
-        images: Image;
-        name: string;
-        link: Link;
-        direct_link?: string;
-        children: Child[];
-        size: number;
-    };
+    data: SectionChild;
 };
 
 defineProps<Props>();
 </script>
 
 <template>
-    <div :class="[`location--${data.size} relative h-56 rounded-xl overflow-hidden`]">
+    <div
+        :class="[
+            data.size === 1 && 'lg:w-[33%]',
+            data.size === 2 && 'lg:w-[66%]',
+            data.size === 3 && 'lg:w-full',
+            'w-full md:w-[49%] relative h-56 rounded-xl overflow-hidden',
+        ]"
+    >
         <Image
             :src="data.images[0].url"
             :alt="data.name"
@@ -55,7 +44,7 @@ defineProps<Props>();
             >
                 <div
                     v-for="child in data.children"
-                    :key="child"
+                    :key="child.name"
                     class="flex font-bold hover:underline"
                 >
                     <NuxtLink

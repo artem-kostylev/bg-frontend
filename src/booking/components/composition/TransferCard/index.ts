@@ -1,1 +1,1 @@
-export { default as TransferCard } from "./TransferCard.vue";
+export { default as TransferCard } from './TransferCard.vue';

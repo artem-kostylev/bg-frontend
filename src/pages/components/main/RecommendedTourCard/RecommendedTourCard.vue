@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import type { SectionChild } from "@/pages/types";
-import { Image } from "@ui/components";
+import { computed } from 'vue';
+import type { SectionChild } from '@/pages/types';
+import { Image } from '@ui/components';
+import { formatFilters } from '@/app/lib';
+import type { RouteLocationRaw } from 'vue-router';
 
 type Props = {
     child: SectionChild;
@@ -12,14 +14,14 @@ const props = defineProps<Props>();
 const to = computed(() => {
     return {
         name: props.child.link.name,
-        // query: formattedMain(props.child.link.filters),
+        query: formatFilters(props.child.link.filters),
     };
 });
 </script>
 
 <template>
     <NuxtLink
-        :to="child.direct_link || to"
+        :to="child.direct_link as any as RouteLocationRaw || to as any as RouteLocationRaw"
         class="w-full relative rounded-xl overflow-hidden transition-transform duration-1000 hover:scale-105"
     >
         <div class="h-56 relative rounded-xl overflow-hidden bg-slate-100 hover:scale-125">

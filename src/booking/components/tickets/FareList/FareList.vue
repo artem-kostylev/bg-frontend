@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { Fare } from "@/booking/types";
-import { Grid } from "@ui/components";
-import { FareCard } from "@/booking/components";
+import type { Fare } from '@/booking/types';
+import { Grid } from '@ui/components';
+import { FareCard } from '@/booking/components';
 
 type Props = {
     fares: Fare[];

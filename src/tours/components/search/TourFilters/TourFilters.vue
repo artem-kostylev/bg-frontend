@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { TourTypeChoose } from "@/tours/components";
-import { useName } from "@/app/composables";
-import { Button } from "@ui/components";
-import { SlidersIcon, ChevronDownIcon } from "@ui/icons";
+import { computed } from 'vue';
+import { TourTypeChoose } from '@/tours/components';
+import { useName } from '@/app/composables';
+import { Button } from '@ui/components';
+import { SlidersIcon, ChevronDownIcon } from '@ui/icons';
 
 const name = useName<string>();
 
 const canChooseTourType = computed(() => {
-    return ["tours-search", "tours-activity-search", "tours-multi-search"].includes(name.value);
+    return ['tours-search', 'tours-activity-search', 'tours-multi-search'].includes(name.value);
 });
 </script>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Typography } from "@ui/components";
+import { Typography } from '@ui/components';
 
 type Props = {
     title?: string;
@@ -7,9 +7,9 @@ type Props = {
 };
 
 withDefaults(defineProps<Props>(), {
-    title: "По вашему запросу ничего не нашлось",
+    title: 'По вашему запросу ничего не нашлось',
     description:
-        "Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры",
+        'Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры',
 });
 </script>
 
@@ -17,7 +17,7 @@ withDefaults(defineProps<Props>(), {
     <div class="flex flex-col items-center justify-center">
         <div class="max-w-[550px] mx-auto space-y-2.5 text-center">
             <Typography v-if="title" variant="h2">{{ title }}</Typography>
-            <p class="text-slate-500">{{ description }}</p>
+            <p class="text-secondary-500">{{ description }}</p>
             <slot name="actions" />
         </div>
     </div>

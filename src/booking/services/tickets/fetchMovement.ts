@@ -1,6 +1,6 @@
-import { http, parseTo, parseTourists } from "@/app/lib";
-import type { Movement } from "@/booking/types";
-import type { Filters } from "@/app/types";
+import { http, parseTo, parseTourists } from '@/app/lib';
+import type { Movement } from '@/booking/types';
+import type { Filters } from '@/app/types';
 
 export type FetchMovementResponse = Movement;
 
@@ -16,25 +16,25 @@ export type FetchMovementQuery = {
     tour_tourists?: string[];
 };
 
-export type FetchMovementPayload = FetchMovementQuery & { flight_hash: Movement["flight_hash"] };
+export type FetchMovementPayload = FetchMovementQuery & { flight_hash: Movement['flight_hash'] };
 
-type FetchMovementBody = Omit<FetchMovementPayload, "tour_tourists" | "tour_to"> &
-    Pick<Filters, "tour_tourists"> & { tour_to?: number | string };
+type FetchMovementBody = Omit<FetchMovementPayload, 'tour_tourists' | 'tour_to'> &
+    Pick<Filters, 'tour_tourists'> & { tour_to?: number | string };
 
 export const fetchMovement = async (
     payload: FetchMovementPayload,
-    name: "booking-tickets" | "avia-search"
+    name: 'booking-tickets' | 'avia-search'
 ) => {
     const body: FetchMovementBody = {
         ids: payload.ids,
         accommodations_unikey: payload.accommodations_unikey,
         tour_from: payload.tour_from,
-        tour_type: name === "avia-search" ? "avia" : payload.tour_type,
+        tour_type: name === 'avia-search' ? 'avia' : payload.tour_type,
         flight_hash: payload.flight_hash,
         package_tour_id: payload.package_tour_id,
     };
 
-    if (name === "avia-search") {
+    if (name === 'avia-search') {
         body.tour_to = payload.tour_to && parseTo(payload.tour_to).id;
         body.tour_begin_date = payload.tour_begin_date?.[0];
         body.tour_return_date = payload.tour_begin_date?.[1];
@@ -42,8 +42,8 @@ export const fetchMovement = async (
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response = await http<any>("tour/movement", {
-        method: "POST",
+    const response = await http<any>('tour/movement', {
+        method: 'POST',
         body,
     });
 

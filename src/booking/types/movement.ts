@@ -47,7 +47,7 @@ export type SegmentMovement = {
     transport_company: TransportCompany;
     transport_hub_arrival: TransportHub;
     transport_hub_departure: TransportHub;
-    type: "movement";
+    type: 'movement';
     voyage_type: string;
 };
 
@@ -60,7 +60,7 @@ export type SegmentTransfer = {
     time_departure: string;
     transfer_type: string;
     transport_hub_transfer: { id: number; name: string; code: string };
-    type: "transfer";
+    type: 'transfer';
 };
 
 export type Segment = SegmentMovement | SegmentTransfer;
@@ -73,7 +73,7 @@ export type Movement = {
     direction: string;
     duration: number;
     flight_hash: string;
-    is_regular: "regular" | "charter" | "virtual";
+    is_regular: 'regular' | 'charter' | 'virtual';
     is_route_last: boolean;
     price: number;
     priority_status: string | null;

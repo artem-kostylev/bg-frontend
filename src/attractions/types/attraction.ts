@@ -1,4 +1,4 @@
-import type { Image, Location } from "@/app/types";
+import type { Image, Location } from '@/app/types';
 
 export type Attraction = {
     id: number;

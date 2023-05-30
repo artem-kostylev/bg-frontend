@@ -1,1 +1,1 @@
-export * from "./fetchPage";
+export * from './fetchPage';

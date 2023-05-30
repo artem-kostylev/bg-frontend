@@ -1,1 +1,1 @@
-export { default as ImageGrid } from "./ImageGrid.vue";
+export { default as ImageGrid } from './ImageGrid.vue';

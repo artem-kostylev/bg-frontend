@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { Typography } from "@ui/components";
-import type { Section } from "@/pages/types";
+import type { Component } from 'vue';
+import { Typography } from '@ui/components';
+import type { Section } from '@/pages/types';
 import {
     CountryCard,
     PromotionCard,
     RecommendedTourCard,
     RecommendedHotelCard,
-} from "@/pages/components";
+} from '@/pages/components';
 
 type Props = {
     sections: Section[];
@@ -14,13 +15,13 @@ type Props = {
 
 defineProps<Props>();
 
-const types = {
-    standart_block_1: "grid-cols-1",
-    standart_block_3: "grid-cols-3 gap-5",
-    hotel_block_3: "grid-cols-3 gap-5",
+const types: { [index: string]: string } = {
+    standart_block_1: 'grid-cols-1',
+    standart_block_3: 'grid-cols-3 gap-5',
+    hotel_block_3: 'grid-cols-3 gap-5',
 };
 
-const components = {
+const components: { [index: string]: Component } = {
     standart_block_1: PromotionCard,
     standart_block_3: RecommendedTourCard,
     hotel_block_3: RecommendedHotelCard,
@@ -44,7 +45,7 @@ const components = {
                 >
                     <CountryCard
                         v-for="location in section.children"
-                        :key="location"
+                        :key="location.name"
                         :data="location"
                     />
                 </div>

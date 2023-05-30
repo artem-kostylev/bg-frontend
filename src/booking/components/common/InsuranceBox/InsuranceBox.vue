@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Card, Typography } from "@ui/components";
-import type { Insurance } from "@/booking/types";
-import { formatCurrency } from "~/lib";
+import { Card, Typography } from '@ui/components';
+import type { Insurance } from '@/booking/types';
+import { formatCurrency } from '~/lib';
 
 type Props = {
     insurance: Insurance;

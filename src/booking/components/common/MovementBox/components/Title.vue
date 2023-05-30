@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { TransportCompany } from "@/booking/types";
-import { Typography, Avatar, Tooltip } from "@ui/components";
-import { AirplaneIcon } from "@ui/icons";
+import type { TransportCompany } from '@/booking/types';
+import { Typography, Avatar, Tooltip } from '@ui/components';
+import { AirplaneIcon } from '@ui/icons';
 
 type Props = {
     isVirtual?: boolean;
@@ -14,7 +14,7 @@ defineProps<Props>();
 <template>
     <div v-if="isVirtual" class="flex items-center space-x-3">
         <div
-            class="inline-flex items-center justify-center rounded-full ring-1 ring-slate-300"
+            class="inline-flex items-center justify-center rounded-full ring-1 ring-secondary-300"
             style="width: 47px; height: 47px"
         >
             <AirplaneIcon />
@@ -53,10 +53,10 @@ defineProps<Props>();
         </div>
         <div
             v-if="transportCompany.length > 3"
-            class="inline-flex items-center justify-center bg-slate-100 rounded-xl"
+            class="inline-flex items-center justify-center bg-secondary-100 rounded-xl"
             style="width: 47px; height: 47px"
         >
-            <div class="text-slate-500 font-medium">+ 1</div>
+            <div class="text-secondary-500 font-medium">+ 1</div>
         </div>
     </div>
 </template>

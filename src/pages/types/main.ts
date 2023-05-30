@@ -1,10 +1,27 @@
-import type { Image } from '@/app/types';
+import type { Image, Filters } from '@/app/types';
+
+export type SectionLink = {
+    id: number;
+    name: string;
+    filters: Filters;
+};
 
 export type SectionChild = {
     name: string;
     images: Image[];
     description: string;
     direct_link: string;
+    link: {
+        id: number;
+        name: string;
+        filters: Filters;
+    };
+    size?: 1 | 2 | 3;
+    children?: {
+        name: string;
+        direct_link?: string;
+        link: SectionLink;
+    }[];
 };
 
 export type Section = {

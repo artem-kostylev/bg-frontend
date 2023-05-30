@@ -1,5 +1,11 @@
 import type { Image, Filters } from '@/app/types';
 
+export type SectionLink = {
+    id: number;
+    name: string;
+    filters: Filters;
+};
+
 export type SectionChild = {
     name: string;
     images: Image[];
@@ -14,11 +20,7 @@ export type SectionChild = {
     children?: {
         name: string;
         direct_link?: string;
-        link: {
-            id: number;
-            name: string;
-            filters: Filters;
-        };
+        link: SectionLink;
     }[];
 };
 

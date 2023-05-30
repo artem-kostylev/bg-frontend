@@ -4,8 +4,7 @@ import { formatCurrency } from '@/app/lib';
 import { useRoomsStore } from '@/tours/stores';
 import { Button, Card, Typography, Image } from '@ui/components';
 import { formatBeds, formatView } from '@/tours/lib';
-import FacilityList from './components/FacilityList.vue';
-import DetailsModal from './components/DetailsModal.vue';
+import { RoomFacilityList, RoomDetailsModal } from '@/tours/components';
 
 type Props = {
     room: Room;
@@ -31,7 +30,7 @@ const { selectDates } = useRoomsStore();
             <div>
                 <div class="flex items-start justify-between space-x-5 mb-1">
                     <Typography variant="h3" as="h3">{{ room.name }}</Typography>
-                    <DetailsModal :id="room.id" />
+                    <RoomDetailsModal :id="room.id" />
                 </div>
                 <Typography variant="description">
                     {{ formatBeds(room.beds) }}, вид на {{ formatView(room.views) }},
@@ -40,7 +39,7 @@ const { selectDates } = useRoomsStore();
             </div>
         </template>
         <div class="mb-4">
-            <FacilityList :facilities="room.facilities" />
+            <RoomFacilityList :facilities="room.facilities" />
         </div>
         <div
             v-for="food in room.food"

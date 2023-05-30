@@ -6,7 +6,7 @@ type Options = { version?: number } & FetchOptions<'json'>;
 export const http = <T>(request: RequestInfo, options: Options = {}) => {
     const rc = useRuntimeConfig();
 
-    options.baseURL = `${rc.public.apiBaseUrl}/v${options.version ?? 1}/`;
+    options.baseURL = `${rc.public.apiBase}/v${options.version ?? 1}/`;
 
     options.headers = new Headers(options.headers);
     options.headers.set('Accept', 'application/json');

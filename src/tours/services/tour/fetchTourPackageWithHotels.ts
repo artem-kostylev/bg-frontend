@@ -1,26 +1,26 @@
+import { showError } from '#imports';
 import { http } from '@/app/lib';
 import { parseFilters } from '@/app/lib';
 import type { Meta } from '@/app/types';
 import type { TourPackage, Tour } from '@/tours/types';
 import type { FiltersRaw, Filters } from '@/app/types';
-import { showError } from '#imports';
 import { omit } from 'lodash-es';
 
-export type FetchTourPackageResponse = {
+export type FetchTourPackageWithHotelsResponse = {
     meta: Meta;
     package: TourPackage;
     filters: Filters;
     tours: Tour[];
 };
 
-export type FetchTourPackageQuery = FiltersRaw & {
+export type FetchTourPackageWithHotelsQuery = FiltersRaw & {
     accommodations_unikey?: string[][];
     hotel_ids: number[];
 };
 
-export const fetchTourPackage = async (
+export const fetchTourPackageWithHotels = async (
     package_tour_id: string | number,
-    query: FetchTourPackageQuery
+    query: FetchTourPackageWithHotelsQuery
 ) => {
     const filters = omit(query, ['accommodations_unikey', 'hotel_ids', 'tour_type']);
 
@@ -51,5 +51,5 @@ export const fetchTourPackage = async (
     response.package = { name: title, description, location, images };
     response.meta = { title, description };
 
-    return response as FetchTourPackageResponse;
+    return response as FetchTourPackageWithHotelsResponse;
 };

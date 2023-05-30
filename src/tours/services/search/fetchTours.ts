@@ -4,6 +4,7 @@ import type { Meta } from '@/app/types';
 import type { Filters, FiltersRaw } from '@/app/types';
 import { parseFilters } from '@/app/lib';
 import type { Tour } from '@/tours/types';
+import { parseSort } from '@/tours/lib';
 
 export type FetchToursResponse = {
     meta: Meta;
@@ -21,13 +22,19 @@ const path: Record<string, string> = {
     'hotels-search': 'hotel/search',
 };
 
-export const fetchTours = async (filters: FetchToursPayload, name: string, page: number) => {
+export const fetchTours = async (
+    filters: FetchToursPayload,
+    name: string,
+    page: number,
+    sortRaw: string
+) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response = await http<any>(path[name], {
         method: 'POST',
         body: {
             filters: parseFilters(filters),
             page,
+            sort: parseSort(sortRaw),
         },
         onResponseError: ({ response }) => {
             showError({ statusCode: response.status });
@@ -44,6 +51,7 @@ export const fetchTours = async (filters: FetchToursPayload, name: string, page:
             insurance_included: item.insurance_included,
             transfer_included: item.transfer_included,
             price: item.price,
+            qty_hotels: item.qty_hotels,
             hotel: {
                 id: item.id,
                 images: item.images,

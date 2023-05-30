@@ -15,7 +15,7 @@ const params = useParams<{ id: string }>();
 const query = useQuery<{ accommodations_unikey?: string[][]; hotel_ids?: number[] }>();
 
 type Props = {
-    tour: Tour;
+    tour: Tour & { qty_hotels?: number };
     filters: FiltersRaw;
     variant: string;
     target?: '_blank';
@@ -50,6 +50,10 @@ const getTo = (id: number) => {
 
         if (props.variant === 'hotels-search') {
             to.query!.tour_type = 'hotel';
+        }
+
+        if (props.variant === 'tours-activity-search') {
+            props.tour.qty_hotels === 0 && (to.query!.qty_hotels = 0);
         }
     }
 

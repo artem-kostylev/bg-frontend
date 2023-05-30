@@ -7,3 +7,7 @@ export * from './InsuranceCard';
 export * from './AdditionalTransferList';
 export * from './AdditionalTransferCard';
 export * from './ActivityList';
+export * from './AccommodationList';
+export * from './AccommodationCard';
+export * from './AccommodationRoomCard';
+export * from './AccommodationRoomList';

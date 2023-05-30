@@ -49,7 +49,12 @@ watch(modelValue, () => {
 <template>
     <Popover v-model="open" :placement="placement">
         <template #trigger="{ vbind }">
-            <Button v-bind="vbind" :end-icon="endIcon" :strong="strong && !!selected">
+            <Button
+                v-bind="vbind"
+                :end-icon="endIcon"
+                :class="open && 'border-secondary-400'"
+                :strong="strong && !!selected"
+            >
                 <template v-if="selected">{{ selected }}</template>
                 <span v-else class="text-secondary-500">{{ placeholder }}</span>
             </Button>

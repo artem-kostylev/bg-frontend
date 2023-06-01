@@ -66,5 +66,10 @@
       "npm run lint",
       "bash -c 'npm run typecheck'"
     ]
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "dayjs@1.11.7": "patches/dayjs@1.11.7.patch"
+    }
   }
 }

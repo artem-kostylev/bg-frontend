@@ -144,7 +144,7 @@ watch(modelValue, value => {
             >
                 <ArrowLeftIcon width="1.3rem" height="1.3rem" />
             </button>
-            <Typography variant="h5">
+            <Typography variant="h5" class="capitalize">
                 {{ dayjs(currentMonth).format('MMM YYYY') }}
             </Typography>
             <button

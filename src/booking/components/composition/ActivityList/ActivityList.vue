@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
-import { ActivityCard } from '@/booking/components';
+import { ExcursionCard } from '@/booking/components';
 import type { IncludedActivity } from '@/booking/types';
 import { useCompositionStore } from '@/booking/stores';
+import { useToursStore } from '@/tours/stores';
 
 const compositionStore = useCompositionStore();
 const { selectAllActivities } = compositionStore;
+
+const toursStore = useToursStore();
 
 type Props = {
     includedActivities: IncludedActivity[];
@@ -23,6 +26,8 @@ const type = computed(() => {
         : 'options';
 });
 
+const currTourIndex = computed(() => toursStore.currTourIndex);
+
 onMounted(() => {
     const { includedActivities } = props;
     type.value === 'activities' && selectAllActivities(includedActivities[0].all_activities);
@@ -32,10 +37,13 @@ onMounted(() => {
 <template>
     <div>{{ type }}</div>
 
-    <ActivityCard
-        v-for="(activity, index) in includedActivities"
-        :key="index"
-        :activity="activity"
-        :index="index"
-    />
+    <div class="grid md:grid-cols-2 gap-5">
+        <ExcursionCard
+            v-for="(activity, index) in includedActivities"
+            :key="index"
+            :activity="activity"
+            :index="index"
+            :class="currTourIndex === index && 'border-3 border-green-600/40'"
+        />
+    </div>
 </template>

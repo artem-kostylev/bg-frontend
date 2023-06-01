@@ -11,4 +11,4 @@ export * from './AccommodationList';
 export * from './AccommodationCard';
 export * from './AccommodationRoomCard';
 export * from './AccommodationRoomList';
-export * from './ActivityCard';
+export * from './ExcursionCard';

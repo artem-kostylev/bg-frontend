@@ -31,17 +31,17 @@ const title = computed(() => {
     return `Номера для ${currentGroupIndex.value + 1} группы`;
 });
 
-onBeforeUnmount(() => {
-    roomsStore.$reset();
-    clearNuxtData('rooms');
-});
-
 const hasNext = computed(() => {
     if (!data.value) return false;
 
     return query.value.hotel_ids
         ? data.value.general.qty_hotels >= query.value.hotel_ids.length + 1
         : false;
+});
+
+onBeforeUnmount(() => {
+    roomsStore.$reset();
+    clearNuxtData('rooms');
 });
 </script>
 
@@ -51,8 +51,8 @@ const hasNext = computed(() => {
             <div class="px-5 flex-1 mb-5">
                 <Typography variant="h2" as="h2">{{ title }}</Typography>
             </div>
-            <div class="px-5 w-full md:w-auto mb-5">
-                <RoomFilters />
+            <div class="px-5 w-full md:w-auto mb-5" v-if="data">
+                <RoomFilters :aggregations="data.groups[0].aggregations" />
             </div>
         </div>
         <Spin v-if="pending" class="py-5" color="primary" />

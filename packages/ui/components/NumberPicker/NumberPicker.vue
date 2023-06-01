@@ -13,15 +13,17 @@ const modelValue = computed({
     set: value => emit('update:modelValue', value),
 });
 
-const show = ref(false);
-const rangeNumberRef = ref<InstanceType<typeof RangeNumber>>();
+const open = ref(false);
 
 const selected = computed(() => {
     if (!props.range) {
-        return props.renderLabel ? props.renderLabel(props.modelValue) : props.modelValue;
+        const value = props.modelValue as number;
+        if (!value) return;
+        return props.renderLabel ? props.renderLabel(value) : value;
     }
 
     const value = props.modelValue as number[];
+    if (!value.length) return;
 
     return props.renderLabel ? props.renderLabel(value) : value.join(' - ');
 });
@@ -29,25 +31,27 @@ const selected = computed(() => {
 watch(modelValue, value => {
     if (props.range) {
         if ((value as number[]).length !== 2) return;
-        else show.value = false;
+        else open.value = false;
     } else {
-        show.value = false;
+        open.value = false;
     }
 });
 </script>
 
 <template>
-    <Popover v-model="show" :placement="placement">
+    <Popover v-model="open" :placement="placement">
         <template #trigger="{ vbind }">
-            <Button v-bind="vbind" :end-icon="endIcon" :strong="strong">
-                {{ selected }}
+            <Button
+                v-bind="vbind"
+                :end-icon="endIcon"
+                :strong="!!selected && strong"
+                :class="open && 'border-secondary-400'"
+                justify="between"
+            >
+                <template v-if="selected">{{ selected }}</template>
+                <span v-else class="text-secondary-500">{{ placeholder }}</span>
             </Button>
         </template>
-        <RangeNumber
-            ref="rangeNumberRef"
-            v-model="modelValue"
-            :range="range"
-            :number-disabled="numberDisabled"
-        />
+        <RangeNumber v-model="modelValue" :range="range" :number-disabled="numberDisabled" />
     </Popover>
 </template>

@@ -6,7 +6,6 @@ export type RangeNumberProps = {
     end?: number;
     range?: boolean;
     numberDisabled?: (num: number) => boolean;
-    renderLabel?: (modelValue: RangeNumberModelValue) => string | number;
 };
 
 export const defaultRangeNumberProps = {

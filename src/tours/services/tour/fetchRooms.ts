@@ -3,8 +3,14 @@ import type { FiltersRaw } from '@/app/types';
 import { parseFilters } from '@/app/lib';
 import type { Room, TourType } from '@/tours/types';
 
+export type RoomAggregations = {
+    duration: number[];
+    begin_date: string[];
+};
+
 type Group = {
     rooms: Room[];
+    aggregations: RoomAggregations;
 };
 
 type FetchRoomsResponse = {

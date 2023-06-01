@@ -93,14 +93,18 @@ const arr = computed(() => {
 </script>
 
 <template>
-    <div class="grid grid-cols-7 w-max p-2">
+    <div class="grid grid-cols-7 w-max p-2 select-none">
         <div
             v-for="num in arr"
             :key="num"
-            :class="['flex items-center justify-center', numberClasses(num), rangeClasses(num)]"
+            :class="[
+                'flex items-center justify-center p-1 my-0.5',
+                numberClasses(num),
+                rangeClasses(num),
+            ]"
         >
             <div
-                class="w-[2.35rem] h-[2.35rem] flex items-center justify-center rounded-full select-none"
+                class="w-9 h-9 flex items-center justify-center rounded-full"
                 :class="selectedClass(num)"
                 @click="select(num)"
             >

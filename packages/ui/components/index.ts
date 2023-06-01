@@ -22,3 +22,4 @@ export * from './Select';
 export * from './RangeNumber';
 export * from './NumberPicker';
 export * from './Calendar';
+export * from './DatePicker';

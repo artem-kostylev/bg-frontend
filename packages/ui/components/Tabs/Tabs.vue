@@ -15,7 +15,7 @@ const selected = (tab: Tab) => {
 
 <template>
     <div
-        class="flex items-center space-x-6 font-medium border-b border-secondary-200 overflow-x-auto scrollbar-hidden"
+        class="flex items-center space-x-6 font-medium border-b border-secondary-200 overflow-y-hidden overflow-x-auto scrollbar-hidden"
     >
         <button
             v-for="(tab, index) in tabs"

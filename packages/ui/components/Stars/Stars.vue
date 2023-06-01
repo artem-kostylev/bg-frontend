@@ -6,7 +6,13 @@ defineProps<StarsProps>();
 </script>
 
 <template>
-    <div class="flex">
-        <StarIcon v-for="num in stars" :key="num" class="text-warning-400" />
+    <div class="flex -space-x-0.5">
+        <StarIcon
+            v-for="num in stars"
+            :key="num"
+            size="1.2rem"
+            height="1.2rem"
+            class="text-warning-400"
+        />
     </div>
 </template>

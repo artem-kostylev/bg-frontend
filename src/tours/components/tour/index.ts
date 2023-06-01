@@ -12,3 +12,6 @@ export * from './RoomFacilityList';
 export * from './PackageWithHotelsContainer';
 export * from './PackageWithPeriodsContainer';
 export * from './PeriodAvailableDurationModal';
+export * from './Feedback';
+export * from './Reviews';
+export * from './HotelReview';

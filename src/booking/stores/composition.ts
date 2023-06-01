@@ -1,11 +1,11 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
-import type { AllActivity } from '@/booking/types';
+import type { Activity } from '@/booking/types';
 
 export const useCompositionStore = defineStore('composition', () => {
-    const selectedAllActivities = ref<AllActivity[]>([]);
+    const selectedAllActivities = ref<Activity[]>([]);
 
-    const selectAllActivities = (allActivities: AllActivity[]) => {
+    const selectAllActivities = (allActivities: Activity[]) => {
         selectedAllActivities.value = allActivities;
     };
 

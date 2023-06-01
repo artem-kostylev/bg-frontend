@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue';
+import { ActivityCard } from '@/booking/components';
 import type { IncludedActivity } from '@/booking/types';
 import { useCompositionStore } from '@/booking/stores';
 
@@ -30,4 +31,11 @@ onMounted(() => {
 
 <template>
     <div>{{ type }}</div>
+
+    <ActivityCard
+        v-for="(activity, index) in includedActivities"
+        :key="index"
+        :activity="activity"
+        :index="index"
+    />
 </template>

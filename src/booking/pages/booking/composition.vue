@@ -41,6 +41,7 @@ const to = computed(() => {
                 <ActivityList :included-activities="data.included_activities" />
                 <Divider dashed />
             </template>
+
             <div>
                 <Button :as="NuxtLink" :to="to" variant="primary" class="w-full md:w-auto">
                     Перейти к оформлению

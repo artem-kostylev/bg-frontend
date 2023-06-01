@@ -54,7 +54,7 @@ const isVirtual = computed(() => {
         </div>
         <div v-if="isVirtual" class="flex justify-center">
             <Typography variant="h3">
-                {{ formatDate(movement.date_departure, 'day:numeric|month:long') }}
+                {{ formatDate(movement.date_departure, 'DD MMMM') }}
             </Typography>
         </div>
         <div v-else class="flex items-center justify-between">
@@ -63,7 +63,7 @@ const isVirtual = computed(() => {
                     {{ movement.time_departure?.slice(0, -3) }}
                 </Typography>
                 <Typography variant="secondary">
-                    {{ formatDate(movement.date_departure, 'day:numeric|month:long') }}
+                    {{ formatDate(movement.date_departure, 'DD MMMM') }}
                 </Typography>
             </div>
             <Typography variant="description">
@@ -72,7 +72,7 @@ const isVirtual = computed(() => {
             <div class="text-right">
                 <Typography variant="h3">{{ movement.time_arrival?.slice(0, -3) }}</Typography>
                 <Typography variant="secondary">
-                    {{ formatDate(movement.date_arrival, 'day:numeric|month:long') }}
+                    {{ formatDate(movement.date_arrival, 'DD MMMM') }}
                 </Typography>
             </div>
         </div>

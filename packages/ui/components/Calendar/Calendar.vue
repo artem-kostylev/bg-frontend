@@ -7,13 +7,13 @@ import type { CalendarProps } from '@ui/components/Calendar/calendar';
 import { defaultCalendarProps } from '@ui/components/Calendar/calendar';
 
 const props = withDefaults(defineProps<CalendarProps>(), defaultCalendarProps);
-const emit = defineEmits<{ (e: 'update:modelValue', value: string | string[]): void }>();
+const emit = defineEmits<{ (e: 'update:modelValue', value: string | string[] | null): void }>();
 
 const now = dayjs().valueOf();
 
-const modelValue = ref(props.modelValue);
+const modelValue = ref<string | string[] | null>(props.modelValue);
 const currentMonth = ref<string | null>(
-    dayjs(props.modelValue[1]).startOf('month').format(props.valueFormat)
+    dayjs(props.modelValue?.[1]).startOf('month').format(props.valueFormat)
 );
 
 const days = computed(() => {
@@ -49,7 +49,7 @@ const dayClasses = (day: number) => {
 const rangeClasses = (day: number) => {
     if (!props.range) return;
 
-    const [firstDay, lastDay] = modelValue.value;
+    const [firstDay, lastDay] = modelValue.value as string[];
     if (!lastDay) return;
 
     if (!dayjs(day).isSame(currentMonth.value, 'month')) return;
@@ -100,7 +100,7 @@ const select = (value: number) => {
 
     if (!props.range) return (modelValue.value = day);
 
-    const [first, last] = modelValue.value;
+    const [first, last] = modelValue.value as string[];
 
     if (!first || (first && last)) return (modelValue.value = [day]);
 

@@ -29,7 +29,11 @@ export type FetchRoomsQuery = FiltersRaw & {
     accommodations_unikey?: string[][];
 };
 
-export const fetchRooms = (id: number, query: FetchRoomsQuery) => {
+export const fetchRooms = async (
+    id: number,
+    query: FetchRoomsQuery,
+    aggregations = {} as RoomAggregations
+) => {
     const { tour_type, hotel_ids, accommodations_unikey, ...filters } = query;
 
     const isPackage = tour_type === 'package';
@@ -46,9 +50,20 @@ export const fetchRooms = (id: number, query: FetchRoomsQuery) => {
 
     body.filters = parseFilters(filters);
 
-    return http<FetchRoomsResponse>(`tour/hotel/${param}/rooms`, {
+    aggregations.begin_date?.length && (body.accommodation_begin_date = aggregations.begin_date);
+    aggregations.duration?.length && (body.accommodation_duration = aggregations.duration);
+
+    const response = await http<FetchRoomsResponse>(`tour/hotel/${param}/rooms`, {
         method: 'POST',
         version: 2,
         body,
     });
+
+    // TODO: сортировать на бэке
+    response.groups.forEach(group => {
+        group.aggregations.begin_date = group.aggregations.begin_date.sort();
+        group.aggregations.duration = group.aggregations.duration.sort();
+    });
+
+    return response;
 };

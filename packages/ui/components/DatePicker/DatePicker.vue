@@ -7,7 +7,7 @@ import type { DatePickerProps } from '@ui/components/DatePicker/datePicker';
 import { defaultDatePickerProps } from '@ui/components/DatePicker/datePicker';
 
 const props = withDefaults(defineProps<DatePickerProps>(), defaultDatePickerProps);
-const emit = defineEmits<{ (e: 'update:modelValue', value: string | string[]): void }>();
+const emit = defineEmits<{ (e: 'update:modelValue', value: string | string[] | null): void }>();
 
 const modelValue = computed({
     get: () => props.modelValue,
@@ -52,6 +52,11 @@ watch(modelValue, value => {
                 <span v-else class="text-secondary-500">{{ placeholder }}</span>
             </Button>
         </template>
-        <Calendar v-model="modelValue" :range="range" :value-format="valueFormat" />
+        <Calendar
+            v-model="modelValue"
+            :range="range"
+            :date-disabled="dateDisabled"
+            :value-format="valueFormat"
+        />
     </Popover>
 </template>

@@ -1,32 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed } from 'vue';
 import { DatePicker } from '@ui/components';
 import { MoonIcon } from '@ui/icons';
 import { NumberPicker } from '@ui/components';
 import type { RoomAggregations } from '@/tours/services';
-import { watchOnce } from '@vueuse/core';
+import type { Dayjs } from 'dayjs';
 
 type Props = {
-    aggregations: RoomAggregations;
+    modelValue: RoomAggregations;
+    aggregations: RoomAggregations | null;
 };
 
-const filters = ref<RoomAggregations>({
-    duration: [],
-    begin_date: [],
-});
-
-watchOnce(
-    () => props.aggregations,
-    value => {
-        const begin_date = [value.begin_date[0], value.begin_date[value.begin_date.length - 1]];
-        const duration = [value.duration[0], value.duration[value.duration.length - 1]];
-
-        filters.value = { begin_date, duration };
-    }
-);
-
 const props = defineProps<Props>();
-// const emit = defineEmits<{ (e: 'change', value: RoomAggregations): void }>();
+const emit = defineEmits<{ (e: 'update:modelValue', value: RoomAggregations): void }>();
+
+const value = computed({
+    get: () => props.modelValue,
+    set: value => emit('update:modelValue', value),
+});
 
 const durationRenderLabel = (modelValue: number[] | number | null) => {
     const value = modelValue as number[];
@@ -34,16 +25,25 @@ const durationRenderLabel = (modelValue: number[] | number | null) => {
     return `от ${value[0]} до ${value[1]} ночей`;
 };
 
+const beginDateDisabled = (date: Dayjs) => {
+    return !props.aggregations?.begin_date.includes(date.format('YYYY-MM-DD'));
+};
+
 const durationDisabled = (number: number) => {
-    return !props.aggregations.duration.includes(number);
+    return !props.aggregations?.duration.includes(number);
 };
 </script>
 
 <template>
     <div class="flex items-center space-x-2.5">
-        <DatePicker v-model="filters.begin_date" range placeholder="Когда" />
+        <DatePicker
+            v-model="value.begin_date"
+            range
+            placeholder="Когда"
+            :date-disabled="beginDateDisabled"
+        />
         <NumberPicker
-            v-model="filters.duration"
+            v-model="value.duration"
             :end-icon="MoonIcon"
             :render-label="durationRenderLabel"
             range

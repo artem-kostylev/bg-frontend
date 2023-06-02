@@ -25,7 +25,7 @@ defineProps<Props>();
         <div class="flex gap-2 items-center sm:block sm:gap-0 sm:items-start">
             <div class="font-bold text-secondary-500">{{ user.name }}</div>
             <div class="text-secondary-500">
-                {{ formatDate(created_at) }}
+                {{ formatDate(created_at, 'DD.MM.YYYY') }}
             </div>
         </div>
     </div>

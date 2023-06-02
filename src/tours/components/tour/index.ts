@@ -15,3 +15,5 @@ export * from './PeriodAvailableDurationModal';
 export * from './Feedback';
 export * from './Reviews';
 export * from './HotelReview';
+export * from './Rating';
+export * from './HotelRating';

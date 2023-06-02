@@ -38,7 +38,7 @@ const endIcon = computed(() => {
             height="1.2em"
             :class="[
                 'mr-2.5',
-                variant === 'base' && 'text-primary-500 flex-shrink-0',
+                variant === 'base' && 'text-primary-500 shrink-0',
                 variant === 'simplified' && 'mt-0.5 ml-0.5 stroke-1',
             ]"
         />
@@ -51,7 +51,7 @@ const endIcon = computed(() => {
             height="1.2em"
             :class="[
                 'ml-2.5',
-                variant === 'base' && 'text-primary-500 flex-shrink-0',
+                variant === 'base' && 'text-primary-500 shrink-0',
                 variant === 'simplified' && 'mt-0.5 ml-0.5 stroke-1',
             ]"
         />

@@ -4,3 +4,8 @@ export type Ratings = {
     location: number;
     amenities: number;
 };
+
+export type HotelRating = Ratings & {
+    average_rating: string;
+    number_comments: number;
+};

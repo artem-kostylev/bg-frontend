@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import type { Component } from 'vue';
 import { Typography } from '@ui/components';
 import type { Section } from '@/pages/types';
 import {
@@ -15,14 +14,14 @@ type Props = {
 
 defineProps<Props>();
 
-const types: { [index: string]: string } = {
+const types = {
     standart_block_1: 'grid-cols-1',
-    standart_block_3: 'grid-cols-3 gap-5',
-    hotel_block_3: 'grid-cols-3 gap-5',
+    standart_block_3: 'md:grid-cols-2 lg:grid-cols-3 gap-5',
+    hotel_block_3: 'md:grid-cols-2 lg:grid-cols-3 gap-5',
     location_5: 'md:grid-cols-4 lg:grid-cols-3 gap-5',
 };
 
-const components: { [index: string]: Component } = {
+const components = {
     standart_block_1: PromotionCard,
     standart_block_3: RecommendedTourCard,
     hotel_block_3: RecommendedHotelCard,

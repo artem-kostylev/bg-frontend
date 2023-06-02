@@ -54,6 +54,7 @@ watch(modelValue, () => {
                 :end-icon="endIcon"
                 :class="open && 'border-secondary-400'"
                 :strong="strong && !!selected"
+                justify="between"
             >
                 <template v-if="selected">{{ selected }}</template>
                 <span v-else class="text-secondary-500">{{ placeholder }}</span>

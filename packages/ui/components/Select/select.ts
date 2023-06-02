@@ -4,6 +4,7 @@ import type { ButtonProps } from '@ui/components/Button/button';
 
 export const defaultSelectProps = {
     strong: true,
+    placeholder: 'ㅤ',
 } as const;
 
 export type SelectProps = Omit<PopoverProps, 'modelValue'> &

@@ -15,5 +15,6 @@ export const fetchHotel = async (id: string | number): Promise<FetchHotelRespons
         },
     });
 
+    // TODO: испавить на бэке
     return { meta: { title: response.name, description: response.name }, hotel: response };
 };

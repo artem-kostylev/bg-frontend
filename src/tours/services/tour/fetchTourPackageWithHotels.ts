@@ -4,7 +4,7 @@ import { parseFilters } from '@/app/lib';
 import type { Meta } from '@/app/types';
 import type { TourPackage, Tour } from '@/tours/types';
 import type { FiltersRaw, Filters } from '@/app/types';
-import { omit } from 'lodash-es';
+import omit from 'lodash.omit';
 
 export type FetchTourPackageWithHotelsResponse = {
     meta: Meta;

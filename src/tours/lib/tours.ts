@@ -7,3 +7,9 @@ export const parseSort = (sortRaw: string) => {
 
     return { [key]: { order: value } };
 };
+
+export const parseSortToString = (sortRaw: string) => {
+    const [key, value] = sortRaw.split(':');
+
+    return `orderBy=${key}&sortedBy=${value}`;
+};

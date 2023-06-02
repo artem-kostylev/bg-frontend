@@ -34,9 +34,9 @@ const childrenHeight = computed(() => {
 </script>
 
 <template>
-    <div>
+    <div class="w-full">
         <div
-            class="min-w-[calc(100%-8.75rem)] overflow-hidden overflow-ellipsis w-full sm:w-auto"
+            class="overflow-hidden overflow-ellipsis"
             ref="commentsRef"
             :style="{
                 'max-height': childrenHeight > maxHeight && !showMore ? `${maxHeight}px` : 'none',

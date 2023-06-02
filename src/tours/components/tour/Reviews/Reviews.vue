@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { useLazyAsyncData } from '#imports';
 import { fetchHotelReviews } from '@/tours/services';
-import { Spin, Typography } from '@ui/components';
+import { Spin, Typography, Divider } from '@ui/components';
 import { useInfinity } from '@/app/composables';
 import { HotelReview } from '@/tours/components';
 import { Sort } from './components';
@@ -37,13 +37,15 @@ const { targetRef, loadingMore } = useInfinity(async () => {
                 <Typography variant="h2" as="h2" class="mb-4">Отзывы ({{ data.total }})</Typography>
                 <Sort v-model="sort" class="mt-2 sm:mt-0" />
             </div>
-            <div class="flex flex-col gap-4 mt-8 sm:gap-10 sm:mt-3">
-                <HotelReview
-                    v-for="(review, index) in data.reviews"
-                    :key="review.review_id"
-                    :review="review"
-                    :show-divider="index + 1 !== data.reviews.length"
-                />
+            <div class="flex flex-col mt-8 sm:mt-3">
+                <div v-for="(review, index) in data.reviews" :key="review.review_id">
+                    <HotelReview :review="review" />
+                    <Divider
+                        v-if="index + 1 !== data.reviews.length"
+                        dashed
+                        class="mt-8 mb-8 sm:mt-10 sm:mb-10"
+                    />
+                </div>
                 <template v-if="data.has_next">
                     <Spin v-if="loadingMore" color="primary" class="my-12" />
                     <div v-else ref="targetRef"></div>

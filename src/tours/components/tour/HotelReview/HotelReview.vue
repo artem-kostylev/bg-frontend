@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { Divider } from '@ui/components';
 import type { Review } from '@/tours/types';
 import { Info, Content } from './components';
 
 type Props = {
     review: Review;
-    showDivider: boolean;
 };
 
 defineProps<Props>();
@@ -21,6 +19,5 @@ defineProps<Props>();
             />
             <Content :comments="review.comments" />
         </div>
-        <Divider v-if="showDivider" dashed />
     </div>
 </template>

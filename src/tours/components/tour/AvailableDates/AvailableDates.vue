@@ -69,14 +69,14 @@ const getTo = (item: MergedSelectedDateItem) => {
     <div class="space-y-4">
         <div v-for="date in availableDates" :key="date.begin_date">
             <div class="font-semibold mb-2">
-                {{ formatDate(date.begin_date, 'day:numeric|month:numeric') }}
+                {{ formatDate(date.begin_date, 'DD.MM') }}
             </div>
             <div
                 v-for="(item, index) in date.items"
                 :key="index"
                 class="border-t border-secondary-200 border-dashed py-1.5 last:pb-0 flex items-center justify-between"
             >
-                {{ formatDates(item.begin_date, ' - ', 'day:numeric|month:numeric') }} /
+                {{ formatDates(item.begin_date, ' - ', 'DD.MM') }} /
                 {{ pluralize(item.duration, ['ночь', 'ночи', 'ночей']) }}
                 <Button variant="primary" size="sm" :as="NuxtLink" :to="getTo(item)">
                     от {{ formatCurrency(item.price) }}

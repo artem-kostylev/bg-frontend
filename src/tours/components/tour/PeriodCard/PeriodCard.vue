@@ -32,7 +32,7 @@ const onSelect = (item: PeriodItem) => {
     <Card>
         <template #header>
             <Typography variant="h4" class="text-center">
-                {{ formatDate(period.begin_date, 'day:numeric|month:long') }}
+                {{ formatDate(period.begin_date, 'DD MMMM') }}
             </Typography>
         </template>
         <Button

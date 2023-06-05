@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Location, Image } from '@/app/types';
-import { LocationList, ImageGrid } from '@/app/components';
+import { LocationList, ImageGrid, RatingBadges } from '@/app/components';
 import { Typography, Stars } from '@ui/components';
 
 type Entity = {
@@ -8,6 +8,8 @@ type Entity = {
     name: string;
     location?: Location[];
     images: Image[];
+    rating?: string;
+    reviews?: number;
 };
 
 type Props = {
@@ -19,7 +21,14 @@ defineProps<Props>();
 
 <template>
     <div>
-        <Stars v-if="entity.stars" :stars="entity.stars" class="mb-2" />
+        <div class="flex items-start mb-2">
+            <Stars v-if="entity.stars" :stars="entity.stars" class="flex-1" />
+            <RatingBadges
+                v-if="entity.rating !== undefined && entity.reviews !== undefined"
+                :rating="entity.rating"
+                :reviews="entity.reviews"
+            />
+        </div>
         <Typography variant="h1" as="h1">{{ entity.name }}</Typography>
         <LocationList v-if="entity.location?.length" :location="entity.location" class="mt-1.5" />
         <ImageGrid

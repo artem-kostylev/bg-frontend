@@ -2,7 +2,7 @@
 import { resolveComponent } from 'vue';
 import type { RouteLocationNamedRaw } from 'vue-router';
 import type { FiltersRaw } from '@/app/types';
-import { LocationList } from '@/app/components';
+import { LocationList, RatingBadges } from '@/app/components';
 import { formatCurrency, formatDistance } from '@/app/lib';
 import { useQuery, useParams } from '@/app/composables';
 import { Button, Card, Typography, Image, Stars, Divider, IconFilled } from '@ui/components';
@@ -72,7 +72,14 @@ const getTo = (id: number) => {
             />
         </template>
         <template #header>
-            <Stars v-if="tour.hotel.stars" :stars="tour.hotel.stars" class="mb-1" />
+            <div class="flex items-start mb-2">
+                <Stars v-if="tour.hotel.stars" :stars="tour.hotel.stars" class="flex-1" />
+                <RatingBadges
+                    v-if="tour.hotel.rating !== undefined && tour.hotel.reviews !== undefined"
+                    :rating="tour.hotel.rating"
+                    :reviews="tour.hotel.reviews"
+                />
+            </div>
             <NuxtLink :to="getTo(tour.hotel.id)" :target="target">
                 <Typography
                     variant="h3"

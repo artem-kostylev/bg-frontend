@@ -29,7 +29,7 @@ export type Hotel = {
     id: number;
     name: string;
     stars?: number;
-    rating: number;
+    rating: string;
     reviews: number;
     address: string;
     images: Image[];

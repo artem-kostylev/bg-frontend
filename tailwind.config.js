@@ -17,6 +17,7 @@ module.exports = {
         colors: {
             white: colors.white,
             black: colors.black,
+            orange: colors.orange,
             current: colors.current,
             inherit: colors.inherit,
             transparent: colors.transparent,

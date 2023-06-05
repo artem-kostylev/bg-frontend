@@ -20,3 +20,4 @@ export * from './Popover';
 export * from './Menu';
 export * from './Select';
 export * from './OrderedList';
+export * from './Carousel';

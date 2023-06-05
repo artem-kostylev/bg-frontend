@@ -35,8 +35,8 @@ const select = (activity: IncludedActivity) => {
         <div class="flex-1">
             <div class="flex items-center justify-center my-4">
                 <div
-                    v-for="(icon, index) in [...new Set(activity.icons)]"
-                    :key="index"
+                    v-for="(icon, i) in [...new Set(activity.icons)]"
+                    :key="i"
                     class="flex items-center lm"
                 >
                     <img :src="`/icons/composition/${icon}.svg`" loading="lazy" />

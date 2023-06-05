@@ -45,7 +45,11 @@ const endIcon = computed(() => {
             :is="endIcon"
             width="1.2em"
             height="1.2em"
-            :class="['ml-2.5', variant === 'base' && 'text-primary-500 flex-shrink-0']"
+            :class="[
+                'ml-2.5',
+                variant === 'base' && 'text-primary-500 flex-shrink-0',
+                variant === 'simplified' && 'mt-0.5 ml-0.5 stroke-1',
+            ]"
         />
     </component>
 </template>

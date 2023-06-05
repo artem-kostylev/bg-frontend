@@ -7,7 +7,9 @@ import type { SelectProps } from '@ui/components/Select/select';
 import { defaultSelectProps } from '@ui/components/Select/select';
 
 const props = withDefaults(defineProps<SelectProps>(), defaultSelectProps);
-const emit = defineEmits<{ 'update:modelValue': [StringOrNumber | StringOrNumber[]] }>();
+const emit = defineEmits<{
+    'update:modelValue': [StringOrNumber | StringOrNumber[]];
+}>();
 
 const modelValue = computed({
     get: () => props.modelValue,

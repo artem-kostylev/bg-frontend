@@ -37,7 +37,6 @@ const to = computed(() => {
             <Typography variant="h1" as="h1">Состав</Typography>
             <Selected v-bind="data" :default-open="true" />
             <template v-if="data.included_activities">
-                <Typography variant="h2" as="h2">Чем заняться</Typography>
                 <ActivityList :included-activities="data.included_activities" />
                 <Divider dashed />
             </template>

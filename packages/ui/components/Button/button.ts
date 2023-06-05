@@ -13,6 +13,7 @@ export const buttonVariants = {
     secondary: 'bg-secondary-200 border border-transparent text-black hover:bg-secondary-300/80',
     primary:
         'bg-primary-500 hover:bg-primary-500/95 border border-transparent text-white shadow-sm',
+    simplified: 'border-none text-primary-500 font-normal flex items-center !p-0',
     success: 'bg-success-700 border border-transparent text-white hover:bg-success-800 shadow-sm',
     danger: 'bg-danger-700 border border-transparent text-white hover:bg-danger-800 shadow-sm',
 };

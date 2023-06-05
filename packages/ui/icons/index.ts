@@ -38,3 +38,6 @@ export { default as InfoIcon } from './Info.vue';
 export { default as SlidersIcon } from './Sliders.vue';
 export { default as ArmchairAndLampIcon } from './ArmchairAndLamp.vue';
 export { default as CutleryIcon } from './Cutlery.vue';
+export { default as PlusCircleIcon } from './PlusCircle.vue';
+export { default as ClockIcon } from './Clock.vue';
+export { default as ChevronLeftIcon } from './ChevronLeft.vue';

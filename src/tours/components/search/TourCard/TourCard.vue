@@ -72,7 +72,7 @@ const getTo = (id: number) => {
             />
         </template>
         <template #header>
-            <div class="flex -mx-2.5 mb-2">
+            <div class="flex items-center -mx-2.5 mb-2">
                 <div class="px-2.5 w-1/2">
                     <Stars v-if="tour.hotel.stars" :stars="tour.hotel.stars" class="flex-1" />
                 </div>

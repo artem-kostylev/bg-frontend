@@ -16,8 +16,8 @@ withDefaults(defineProps<Props>(), {
 <template>
     <div class="flex flex-col items-center justify-center">
         <div class="max-w-[550px] mx-auto space-y-2.5 text-center">
-            <Typography v-if="title" variant="h2">{{ title }}</Typography>
-            <p class="text-secondary-500">{{ description }}</p>
+            <Typography v-if="title" variant="h3">{{ title }}</Typography>
+            <Typography variant="description">{{ description }}</Typography>
             <slot name="actions" />
         </div>
     </div>

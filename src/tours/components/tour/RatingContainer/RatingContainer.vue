@@ -1,0 +1,58 @@
+<script setup lang="ts">
+import { clearNuxtData, onBeforeUnmount, useLazyAsyncData } from '#imports';
+import { fetchHotelRating } from '@/tours/services';
+import { useParams } from '@/app/composables';
+import { Typography, Spin, ProgressBar, Grid, Divider } from '@ui/components';
+import type { Ratings } from '@/tours/types';
+import { BarChartIcon } from '@ui/icons';
+
+type Props = {
+    rating?: string;
+};
+
+defineProps<Props>();
+const params = useParams<{ id: string }>();
+
+const { data, pending } = useLazyAsyncData('hotel-rating', () => fetchHotelRating(params.value.id));
+
+type Criterion = {
+    [key in keyof Ratings]: string;
+};
+
+const criteria: Criterion = {
+    cleanliness: 'Чистота',
+    staff: 'Персонал',
+    amenities: 'Удобства и услуги',
+    location: 'Расположение',
+};
+
+onBeforeUnmount(() => clearNuxtData('hotel-rating'));
+</script>
+
+<template>
+    <div>
+        <div class="flex items-center mb-5">
+            <Typography variant="h2" as="h2">Рейтинг</Typography>
+            <div
+                class="flex items-center px-1.5 py-1 rounded-xl bg-primary-100/20 text-primary-500 ml-2.5"
+            >
+                <BarChartIcon />
+                <span class="ml-1 text-sm font-medium">{{ rating }}</span>
+            </div>
+        </div>
+        <Spin v-if="pending" class="py-5" color="primary" />
+        <Grid v-if="data" cols="4" gap="5">
+            <div v-for="(value, key) in criteria" :key="key">
+                <div class="flex items-center justify-between mb-2.5">
+                    <Typography>{{ value }}</Typography>
+                    <Typography variant="h5">{{ data[key].toFixed(1) }}</Typography>
+                </div>
+                <ProgressBar
+                    :percentage="data[key] * 10"
+                    :color="data[key] > 7 ? 'danger' : 'primary'"
+                />
+            </div>
+        </Grid>
+        <Divider class="mt-5 md:mt-8" />
+    </div>
+</template>

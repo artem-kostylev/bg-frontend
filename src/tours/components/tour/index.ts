@@ -13,3 +13,4 @@ export * from './PackageWithHotelsContainer';
 export * from './PackageWithPeriodsContainer';
 export * from './PeriodAvailableDurationModal';
 export * from './ReviewsContainer';
+export * from './RatingContainer';

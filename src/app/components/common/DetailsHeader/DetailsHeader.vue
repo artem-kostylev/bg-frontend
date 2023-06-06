@@ -22,7 +22,7 @@ defineProps<Props>();
 
 <template>
     <div>
-        <div class="flex items-start mb-2">
+        <div class="flex items-center mb-2">
             <Stars v-if="entity.stars" :stars="entity.stars" class="flex-1" />
             <HotelBadges
                 v-if="entity.rating !== void 0 && entity.reviews !== void 0"

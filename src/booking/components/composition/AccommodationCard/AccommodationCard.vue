@@ -16,8 +16,12 @@ const props = defineProps<Props>();
 const duration = computed(() => pluralize(props.accommodation.duration, ['ночь', 'ночи', 'ночей']));
 
 const dates = computed(() => {
-    return `${formatDates([props.accommodation.date_start, props.accommodation.date_finish])} 
-    (${duration.value})`;
+    return `с ${formatDates(
+        [props.accommodation.date_start, props.accommodation.date_finish],
+        ' по ',
+        'D MMM'
+    )} 
+    на ${duration.value}`;
 });
 </script>
 

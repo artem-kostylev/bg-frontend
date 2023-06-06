@@ -6,7 +6,7 @@ import { useQuery } from '@/app/composables';
 import { Page } from '@/app/components';
 import { Spin, Typography, Button, Divider, Grid } from '@ui/components';
 import { fetchComposition, type FetchCompositionQuery } from '@/booking/services';
-import { Selected, ActivityList } from '@/booking/components';
+import { Selected, ActivityContainer } from '@/booking/components';
 
 const query = useQuery<FetchCompositionQuery>();
 
@@ -38,7 +38,7 @@ const to = computed(() => {
             <Selected v-bind="data" :default-open="true" />
             <template v-if="data.included_activities">
                 <Typography variant="h2" as="h2">Чем заняться</Typography>
-                <ActivityList :included-activities="data.included_activities" />
+                <ActivityContainer :included-activities="data.included_activities" />
                 <Divider dashed />
             </template>
             <div>

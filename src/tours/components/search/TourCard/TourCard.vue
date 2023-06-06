@@ -2,13 +2,13 @@
 import { resolveComponent } from 'vue';
 import type { RouteLocationNamedRaw } from 'vue-router';
 import type { FiltersRaw } from '@/app/types';
-import { LocationList, RatingBadges } from '@/app/components';
+import { LocationList } from '@/app/components';
 import { formatCurrency, formatDistance } from '@/app/lib';
 import { useQuery, useParams } from '@/app/composables';
 import { Button, Card, Typography, Image, Stars, Divider, IconFilled } from '@ui/components';
 import { UmbrellaIcon, AirplaneIcon, ForkAndKnifeIcon } from '@ui/icons';
 import { formatFood } from '@/tours/lib';
-import { TourIncluded } from '@/tours/components';
+import { TourIncluded, HotelBadges } from '@/tours/components';
 import type { Tour } from '@/tours/types';
 
 const params = useParams<{ id: string }>();
@@ -72,13 +72,17 @@ const getTo = (id: number) => {
             />
         </template>
         <template #header>
-            <div class="flex items-start mb-2">
-                <Stars v-if="tour.hotel.stars" :stars="tour.hotel.stars" class="flex-1" />
-                <RatingBadges
-                    v-if="tour.hotel.rating !== undefined && tour.hotel.reviews !== undefined"
-                    :rating="tour.hotel.rating"
-                    :reviews="tour.hotel.reviews"
-                />
+            <div class="flex -mx-2.5 mb-2">
+                <div class="px-2.5 w-1/2">
+                    <Stars v-if="tour.hotel.stars" :stars="tour.hotel.stars" class="flex-1" />
+                </div>
+                <div class="px-2.5 w-1/2">
+                    <HotelBadges
+                        v-if="tour.hotel.rating !== void 0 && tour.hotel.reviews !== void 0"
+                        :rating="tour.hotel.rating.toString()"
+                        :reviews="tour.hotel.reviews"
+                    />
+                </div>
             </div>
             <NuxtLink :to="getTo(tour.hotel.id)" :target="target">
                 <Typography

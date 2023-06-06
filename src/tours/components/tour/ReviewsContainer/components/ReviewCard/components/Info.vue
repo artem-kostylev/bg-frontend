@@ -2,7 +2,7 @@
 import type { ReviewCreator } from '@/tours/types';
 import { formatDate } from '@/app/lib';
 import { Avatar, Typography } from '@ui/components';
-import { BarChartIcon } from '@ui/icons';
+import { RatingBadge } from '@/app/components';
 
 type Props = {
     average_rating: string;
@@ -24,13 +24,6 @@ defineProps<Props>();
                 </Typography>
             </div>
         </div>
-        <div>
-            <div
-                class="flex items-center px-1.5 py-1 rounded-xl bg-primary-100/20 text-primary-500"
-            >
-                <BarChartIcon />
-                <span class="ml-1 text-sm font-medium">{{ average_rating }}</span>
-            </div>
-        </div>
+        <RatingBadge :rating="average_rating" />
     </div>
 </template>

@@ -47,7 +47,10 @@ onBeforeUnmount(() => clearNuxtData('hotel-rating'));
                     <Typography>{{ value }}</Typography>
                     <Typography variant="h5">{{ data[key].toFixed(1) }}</Typography>
                 </div>
-                <ProgressBar :percentage="data[key] * 10" />
+                <ProgressBar
+                    :percentage="data[key] * 10"
+                    :color="data[key] > 7 ? 'danger' : 'primary'"
+                />
             </div>
         </Grid>
         <Divider class="mt-5 md:mt-8" />

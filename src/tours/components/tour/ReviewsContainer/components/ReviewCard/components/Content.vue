@@ -4,6 +4,7 @@ import type { ReviewComments } from '@/tours/types';
 import { Button } from '@ui/components';
 import { Comments } from './';
 import { ChevronDownIcon } from '@ui/icons';
+import type { StringOrNumber } from '@ui/types';
 
 type Props = {
     comments: ReviewComments;
@@ -29,8 +30,9 @@ const childrenHeight = computed(() => {
     return height;
 });
 
-const endIcon = () => {
+const endIcon = (props: Record<string, StringOrNumber>) => {
     return h(ChevronDownIcon, {
+        ...props,
         class: ['transition-transform', showMore.value && 'rotate-180'],
     });
 };
@@ -49,7 +51,7 @@ const endIcon = () => {
         </div>
         <Button
             v-if="childrenHeight > maxHeight"
-            size="sm"
+            size="xs"
             :end-icon="endIcon"
             @click="showMore = !showMore"
             class="mt-2.5"

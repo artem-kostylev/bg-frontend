@@ -37,7 +37,11 @@ const tourists = computed(() =>
 );
 
 const dates = computed(() => {
-    return `с ${formatDates([props.general.date_start, props.general.date_finish], ' по ', 'D MMM')}
+    return `с ${formatDates(
+        [props.general.date_start, props.general.date_finish],
+        ' по ',
+        'D MMM'
+    )} 
     на ${duration.value}`;
 });
 </script>

@@ -42,3 +42,4 @@ export { default as CutleryIcon } from './Cutlery.vue';
 export { default as BarChartIcon } from './BarChart.vue';
 export { default as SadFaceIcon } from './SadFace.vue';
 export { default as SmileFaceIcon } from './SmileFace.vue';
+export { default as ReviewIcon } from './Review.vue';

@@ -29,13 +29,12 @@ const selected = computed(() => {
     return value?.label;
 });
 
-const endIcon = computed(
-    () => (props: Record<string, StringOrNumber>) =>
-        h(ChevronDownIcon, {
-            ...props,
-            class: ['transition-transform', open.value && 'rotate-180'],
-        })
-);
+const endIcon = (props: Record<string, StringOrNumber>) => {
+    return h(ChevronDownIcon, {
+        ...props,
+        class: ['transition-transform', open.value && 'rotate-180'],
+    });
+};
 
 watch(modelValue, () => {
     if (!props.multiple) return (open.value = false);

@@ -4,10 +4,10 @@ import { fetchHotelRating } from '@/tours/services';
 import { useParams } from '@/app/composables';
 import { Typography, Spin, ProgressBar, Grid, Divider } from '@ui/components';
 import type { Ratings } from '@/tours/types';
-import { BarChartIcon } from '@ui/icons';
+import { RatingBadge } from '@/app/components';
 
 type Props = {
-    rating?: string;
+    rating?: string | number;
 };
 
 defineProps<Props>();
@@ -31,25 +31,20 @@ onBeforeUnmount(() => clearNuxtData('hotel-rating'));
 
 <template>
     <div>
-        <div class="flex items-center mb-5">
+        <div class="flex items-center space-x-2.5 mb-5">
             <Typography variant="h2" as="h2">Рейтинг</Typography>
-            <div
-                class="flex items-center px-1.5 py-1 rounded-xl bg-primary-100/20 text-primary-500 ml-2.5"
-            >
-                <BarChartIcon />
-                <span class="ml-1 text-sm font-medium">{{ rating }}</span>
-            </div>
+            <RatingBadge :rating="rating" />
         </div>
         <Spin v-if="pending" class="py-5" color="primary" />
-        <Grid v-if="data" cols="4" gap="5">
+        <Grid cols="4" gap="5">
             <div v-for="(value, key) in criteria" :key="key">
                 <div class="flex items-center justify-between mb-2.5">
                     <Typography>{{ value }}</Typography>
-                    <Typography variant="h5">{{ data[key].toFixed(1) }}</Typography>
+                    <Typography variant="h5">{{ (data?.[key] ?? 0).toFixed(1) }}</Typography>
                 </div>
                 <ProgressBar
-                    :percentage="data[key] * 10"
-                    :color="data[key] > 7 ? 'danger' : 'primary'"
+                    :percentage="(data?.[key] ?? 0) * 10"
+                    :color="(data?.[key] ?? 0) < 7 ? 'danger' : 'primary'"
                 />
             </div>
         </Grid>

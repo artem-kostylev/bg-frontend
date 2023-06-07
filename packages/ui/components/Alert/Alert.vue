@@ -25,7 +25,7 @@ const startIcon = computed(() => {
 </script>
 
 <template>
-    <div :class="['px-4 py-2.5 flex items-start border rounded-xl', alertVariants[variant]]">
+    <div :class="['px-4 py-3 flex items-start border rounded-xl', alertVariants[variant]]">
         <component
             :is="startIcon"
             class="mr-3 mt-[3px] flex-shrink-0"
@@ -33,7 +33,7 @@ const startIcon = computed(() => {
             height="1.4em"
         />
         <div>
-            <div v-if="title" class="font-medium mb-1">{{ title }}</div>
+            <div v-if="title" class="font-medium leading-5 mb-0.5">{{ title }}</div>
             <div v-else-if="$slots.title"><slot name="title" /></div>
             <div v-if="text">{{ text }}</div>
             <div v-else-if="$slots.text"><slot name="text" /></div>

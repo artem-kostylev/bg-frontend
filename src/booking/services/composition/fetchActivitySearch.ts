@@ -1,5 +1,5 @@
 import { http } from '@/app/lib';
-import type { ActivityDetail } from '@/booking/types';
+import type { ActivitySearchFilter, ActivitySearchTicket } from '@/booking/types';
 
 export type FetchActivitySearchPayload = {
     id: number;
@@ -9,7 +9,8 @@ export type FetchActivitySearchPayload = {
 };
 
 export type FetchActivitySearchResponse = {
-    activity: ActivityDetail;
+    filters: ActivitySearchFilter[];
+    tickets: ActivitySearchTicket[];
 };
 
 export const fetchActivitySearch = async (payload: FetchActivitySearchPayload) => {

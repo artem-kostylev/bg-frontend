@@ -5,3 +5,4 @@ export * from './transfer';
 export * from './included-activity';
 export * from './questionnary';
 export * from './accommodation';
+export * from './activity-search';

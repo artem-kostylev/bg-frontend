@@ -46,7 +46,7 @@ onClickOutside(floatingRef, hide, { ignore: [referenceRef] });
             leave-from-class="opacity-100 translate-y-0"
             leave-to-class="opacity-0 translate-y-1"
         >
-            <div v-if="visible" class="relative">
+            <div v-if="visible" class="relative z-50">
                 <Paper ref="floatingRef" class="overflow-hidden" :style="floatingStyles">
                     <slot />
                 </Paper>

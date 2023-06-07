@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
 import { computed, onMounted } from 'vue';
 import type { IncludedActivity } from '@/booking/types';
 import { useCompositionStore } from '@/booking/stores';
-import { storeToRefs } from 'pinia';
-import { ActivityList } from '@/booking/components';
+import { ActivityList, ActivityVariantList } from '@/booking/components';
+import { Typography } from '@ui/components';
 
 const compositionStore = useCompositionStore();
 const { selectAllActivities } = compositionStore;
@@ -29,9 +30,17 @@ onMounted(() => {
     const { includedActivities } = props;
     type.value === 'activities' && selectAllActivities(includedActivities[0].all_activities);
 });
+
+const title = computed(() => {
+    return type.value === 'activities' ? 'Чем заняться' : 'Варианты тура';
+});
 </script>
 
 <template>
-    <div>{{ type }}</div>
-    <ActivityList :activities="selectedAllActivities" />
+    <Typography variant="h2" as="h2">{{ title }}</Typography>
+    <ActivityVariantList
+        v-if="includedActivities.length > 1"
+        :included-activities="includedActivities"
+    />
+    <ActivityList v-if="selectedAllActivities.length" :activities="selectedAllActivities" />
 </template>

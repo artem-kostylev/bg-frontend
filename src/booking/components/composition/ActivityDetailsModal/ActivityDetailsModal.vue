@@ -1,26 +1,27 @@
 <script setup lang="ts">
 import { onBeforeUnmount } from 'vue';
+import { useLazyAsyncData, clearNuxtData } from '#imports';
 import { Modal, Divider } from '@ui/components';
 import { fetchActivity } from '@/booking/services';
-import { useLazyAsyncData, clearNuxtData } from '#imports';
 import { Info, Order } from './components';
+import type { AllActivity } from '@/booking/types';
 
 type Props = {
-    id: number;
+    activity: AllActivity;
     withOrder?: boolean;
 };
 
 const props = defineProps<Props>();
 
 const { data, pending, execute } = useLazyAsyncData(
-    `activity-${props.id}`,
-    () => fetchActivity(props.id),
+    `activity-${props.activity.id}`,
+    () => fetchActivity(props.activity.id),
     { server: false, immediate: false }
 );
 
 const open = () => !data.value && execute();
 
-onBeforeUnmount(() => clearNuxtData(`activity-${props.id}`));
+onBeforeUnmount(() => clearNuxtData(`activity-${props.activity.id}`));
 </script>
 
 <template>
@@ -33,7 +34,7 @@ onBeforeUnmount(() => clearNuxtData(`activity-${props.id}`));
                 <Info :activity="data.activity" />
                 <template v-if="withOrder">
                     <Divider dashed />
-                    <Order :activity="data.activity" />
+                    <Order :activity="data.activity" :dates="activity.date" />
                 </template>
             </div>
         </template>

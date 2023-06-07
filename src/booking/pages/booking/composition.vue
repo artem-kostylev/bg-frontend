@@ -36,8 +36,7 @@ const to = computed(() => {
         <Grid gap="5" v-else-if="data">
             <Typography variant="h1" as="h1">Состав</Typography>
             <Selected v-bind="data" :default-open="true" />
-            <template v-if="data.included_activities">
-                <Typography variant="h2" as="h2">Чем заняться</Typography>
+            <template v-if="data.included_activities?.length">
                 <ActivityContainer :included-activities="data.included_activities" />
                 <Divider dashed />
             </template>

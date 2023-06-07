@@ -23,7 +23,7 @@ defineProps<Props>();
         </template>
         <div class="flex items-start justify-between space-x-5">
             <Typography variant="h3" as="h3">{{ activity.name }}</Typography>
-            <ActivityDetailsModal :id="activity.id">
+            <ActivityDetailsModal :activity="activity">
                 <template #trigger="{ vbind }">
                     <button v-bind="vbind" class="text-secondary-500">
                         <Tooltip text="Подробная информация">
@@ -36,7 +36,7 @@ defineProps<Props>();
             </ActivityDetailsModal>
         </div>
         <div class="flex justify-end mt-5">
-            <ActivityDetailsModal :id="activity.id" with-order>
+            <ActivityDetailsModal :activity="activity" with-order>
                 <template #trigger="{ vbind }">
                     <Button v-bind="vbind" variant="primary">
                         от {{ formatCurrency(activity.price) }}

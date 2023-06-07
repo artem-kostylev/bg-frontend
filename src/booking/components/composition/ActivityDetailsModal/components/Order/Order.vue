@@ -1,19 +1,28 @@
 <script setup lang="ts">
-import { QuantityPicker, Typography, Select, DatePicker, Button, Spin } from '@ui/components';
+import { ref } from 'vue';
+import { useLazyAsyncData } from '#imports';
+import { QuantityPicker, Typography, Button, Spin } from '@ui/components';
 import { formatCurrency } from '@/app/lib';
 import type { ActivityDetail } from '@/booking/types';
 import { fetchActivitySearch } from '@/booking/services';
-import { useLazyAsyncData } from '#imports';
+import { OrderFitlers } from './components';
 
 type Props = {
     activity: ActivityDetail;
+    dates: string[];
 };
 
 const props = defineProps<Props>();
 
-const { pending } = useLazyAsyncData(
+const filters = ref({
+    time: '',
+    date: '',
+    option: '',
+});
+
+const { data, pending } = useLazyAsyncData(
     'activity-search',
-    () => fetchActivitySearch({ id: props.activity.id }),
+    () => fetchActivitySearch({ id: props.activity.id, dates: props.dates }),
     { server: false }
 );
 </script>
@@ -23,21 +32,10 @@ const { pending } = useLazyAsyncData(
         <Typography variant="h3">Заказ экскурсии</Typography>
         <Spin v-if="pending" color="primary" />
         <template v-else>
-            <div class="flex flex-wrap -mx-1.5">
-                <div class="px-1.5">
-                    <DatePicker :model-value="'2022-05-23'" :format="'DD.MM.YYYY'" />
-                </div>
-                <div class="px-1.5">
-                    <Select :model-value="1" :options="[{ label: '6:00', value: 1 }]" />
-                </div>
-                <div class="px-1.5">
-                    <Select
-                        :model-value="1"
-                        :options="[{ label: 'Английский - Брощюра', value: 1 }]"
-                    />
-                </div>
-            </div>
+            <OrderFitlers v-model="filters" />
             <div class="space-y-2.5 bg-secondary-100 p-5 rounded-xl">
+                {{ filters }}
+                {{ data }}
                 <div class="flex items-center justify-between space-x-5">
                     <div>
                         <Typography>Взрослый (от 12 до 99)</Typography>

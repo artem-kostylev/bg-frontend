@@ -1,11 +1,9 @@
 <script setup lang="ts">
-type Props = {
-    dashed?: boolean;
-};
+import type { DividerProps } from '@ui/components/Divider/divider';
 
-defineProps<Props>();
+defineProps<DividerProps>();
 </script>
 
 <template>
-    <div :class="['w-full h-0 border-t border-slate-200', dashed && 'border-dashed']"></div>
+    <div :class="['w-full h-0 border-t border-secondary-200', dashed && 'border-dashed']"></div>
 </template>

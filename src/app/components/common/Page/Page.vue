@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useSeoMeta } from "#imports";
-import type { UseSeoMetaInput } from "unhead";
-import type { Meta } from "@/app/types";
-import { Container } from "@ui/components";
+import { computed } from 'vue';
+import { useSeoMeta } from '#imports';
+import type { UseSeoMetaInput } from 'unhead';
+import type { Meta } from '@/app/types';
+import { Container } from '@ui/components';
 
 type Props = {
     meta?: Meta;

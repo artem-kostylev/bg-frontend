@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import type { Component } from "vue";
+import type { PaperProps } from '@ui/components/Paper/paper';
+import { paperDefaultProps } from '@ui/components/Paper/paper';
 
-type Props = {
-    as?: string | Component;
-};
-
-withDefaults(defineProps<Props>(), {
-    as: "div",
-});
+withDefaults(defineProps<PaperProps>(), paperDefaultProps);
 </script>
 
 <template>

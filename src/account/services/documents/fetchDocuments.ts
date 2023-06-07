@@ -1,15 +1,11 @@
-import { http } from "@/app/lib";
-import type { Document } from "@/account/types";
+import { http } from '@/app/lib';
+import type { Document } from '@/account/types';
 
-type FetchDocumentsResponse = {
+type FetchAccountResponse = {
     data: Document[];
 };
 
-export const fetchDocuments = async (ids: number[]) => {
-    const { data } = await http<FetchDocumentsResponse>("tourists_documents/list", {
-        method: "POST",
-        body: { ids },
-    });
-
+export const fetchDocuments = async () => {
+    const { data } = await http<FetchAccountResponse>('tourists_documents/list');
     return data;
 };

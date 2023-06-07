@@ -1,1 +1,2 @@
-export * from "./TourIncluded";
+export * from './TourIncluded';
+export * from './HotelBadges';

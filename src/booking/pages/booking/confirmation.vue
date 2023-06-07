@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { useLazyAsyncData } from "#imports";
-import { useQuery } from "@/app/composables";
-import { Page } from "@/app/components";
-import type { FetchConfirmationQuery } from "@/booking/services";
-import { fetchConfirmation } from "@/booking/services";
-import { Selected, QuestionnaryList } from "@/booking/components";
-import { Grid, Spin, Typography } from "@ui/components";
+import { useLazyAsyncData } from '#imports';
+import { useQuery } from '@/app/composables';
+import { Page } from '@/app/components';
+import type { FetchConfirmationQuery } from '@/booking/services';
+import { fetchConfirmation } from '@/booking/services';
+import { Selected, QuestionnaryList } from '@/booking/components';
+import { Grid, Spin, Typography } from '@ui/components';
 
 const query = useQuery<FetchConfirmationQuery>();
 
-const { data, pending } = useLazyAsyncData("booking-confirmation", () =>
+const { data, pending } = useLazyAsyncData('booking-confirmation', () =>
     fetchConfirmation(query.value)
 );
 
 const meta = {
-    title: "Оформление",
-    description: "Описание страницы оформления",
+    title: 'Оформление',
+    description: 'Описание страницы оформления',
 };
 </script>
 

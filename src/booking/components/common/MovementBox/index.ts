@@ -1,1 +1,1 @@
-export { default as MovementBox } from "./MovementBox.vue";
+export { default as MovementBox } from './MovementBox.vue';

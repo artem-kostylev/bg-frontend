@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { IconFilled, Tooltip } from "@ui/components";
+import { IconFilled, Tooltip } from '@ui/components';
 import {
     AirplaneIcon,
     BuildingsIcon,
@@ -7,7 +7,7 @@ import {
     ShildIcon,
     MountainIcon,
     LightingIcon,
-} from "@ui/icons";
+} from '@ui/icons';
 
 type Props = {
     flight_included?: boolean;
@@ -15,6 +15,7 @@ type Props = {
     insurance_included?: boolean;
     excursion_included?: boolean;
     instant_booking?: boolean;
+    accommodation_included?: boolean;
 };
 
 defineProps<Props>();
@@ -27,7 +28,7 @@ defineProps<Props>();
                 <IconFilled v-bind="vbind" :icon="AirplaneIcon" variant="primary" />
             </template>
         </Tooltip>
-        <Tooltip text="Проживание включено">
+        <Tooltip v-if="accommodation_included" text="Проживание включено">
             <template #trigger="{ vbind }">
                 <IconFilled v-bind="vbind" :icon="BuildingsIcon" variant="primary" />
             </template>

@@ -1,7 +1,7 @@
-import { http } from "@/app/lib";
-import { showError } from "#imports";
-import type { Meta } from "@/app/types";
-import type { Hotel } from "@/tours/types";
+import { http } from '@/app/lib';
+import { showError } from '#imports';
+import type { Meta } from '@/app/types';
+import type { Hotel } from '@/tours/types';
 
 export type FetchHotelResponse = {
     meta: Meta;
@@ -15,5 +15,6 @@ export const fetchHotel = async (id: string | number): Promise<FetchHotelRespons
         },
     });
 
+    // TODO: испавить на бэке
     return { meta: { title: response.name, description: response.name }, hotel: response };
 };

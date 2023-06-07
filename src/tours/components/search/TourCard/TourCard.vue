@@ -1,36 +1,36 @@
 <script setup lang="ts">
-import { resolveComponent } from "vue";
-import type { RouteLocationNamedRaw } from "vue-router";
-import type { FiltersRaw } from "@/app/types";
-import { LocationList } from "@/app/components";
-import { formatCurrency, formatDistance } from "@/app/lib";
-import { useQuery, useParams } from "@/app/composables";
-import { Button, Card, Typography, Image, Stars, Divider, IconFilled } from "@ui/components";
-import { UmbrellaIcon, AirplaneIcon, ForkAndKnifeIcon } from "@ui/icons";
-import { formatFood } from "@/tours/lib";
-import { TourIncluded } from "@/tours/components";
-import type { Tour } from "@/tours/types";
+import { resolveComponent } from 'vue';
+import type { RouteLocationNamedRaw } from 'vue-router';
+import type { FiltersRaw } from '@/app/types';
+import { LocationList } from '@/app/components';
+import { formatCurrency, formatDistance } from '@/app/lib';
+import { useQuery, useParams } from '@/app/composables';
+import { Button, Card, Typography, Image, Stars, Divider, IconFilled } from '@ui/components';
+import { UmbrellaIcon, AirplaneIcon, ForkAndKnifeIcon } from '@ui/icons';
+import { formatFood } from '@/tours/lib';
+import { TourIncluded, HotelBadges } from '@/tours/components';
+import type { Tour } from '@/tours/types';
 
 const params = useParams<{ id: string }>();
 const query = useQuery<{ accommodations_unikey?: string[][]; hotel_ids?: number[] }>();
 
 type Props = {
-    tour: Tour;
+    tour: Tour & { qty_hotels?: number };
     filters: FiltersRaw;
     variant: string;
-    target?: "_blank";
+    target?: '_blank';
 };
 
 const props = withDefaults(defineProps<Props>(), {
     target: undefined,
 });
 
-const NuxtLink = resolveComponent("NuxtLink");
+const NuxtLink = resolveComponent('NuxtLink');
 
 const getTo = (id: number) => {
-    const isPackage = props.variant === "tours-multi-id" || props.variant === "tours-activity-id";
+    const isPackage = props.variant === 'tours-multi-id' || props.variant === 'tours-activity-id';
 
-    const name = props.variant.replace("-search", "-id");
+    const name = props.variant.replace('-search', '-id');
 
     const to: RouteLocationNamedRaw = {
         name,
@@ -42,14 +42,18 @@ const getTo = (id: number) => {
 
     if (isPackage) {
         to.params!.id = params.value.id;
-        to.query!.tour_type = "package";
-        to.query!.hotel_ids = [...(query.value.hotel_ids || ""), id];
+        to.query!.tour_type = 'package';
+        to.query!.hotel_ids = [...(query.value.hotel_ids || ''), id];
         to.query!.accommodations_unikey = query.value.accommodations_unikey as never;
     } else {
         to.params!.id = id;
 
-        if (props.variant === "hotels-search") {
-            to.query!.tour_type = "hotel";
+        if (props.variant === 'hotels-search') {
+            to.query!.tour_type = 'hotel';
+        }
+
+        if (props.variant === 'tours-activity-search') {
+            props.tour.qty_hotels === 0 && (to.query!.qty_hotels = 0);
         }
     }
 
@@ -58,7 +62,7 @@ const getTo = (id: number) => {
 </script>
 
 <template>
-    <Card cover-class="h-[14rem] bg-slate-100" body-class="flex flex-col justify-end">
+    <Card cover-class="h-[14rem] bg-secondary-100" body-class="flex flex-col justify-end">
         <template #cover>
             <Image
                 v-if="tour.hotel.images[0]"
@@ -68,7 +72,18 @@ const getTo = (id: number) => {
             />
         </template>
         <template #header>
-            <Stars v-if="tour.hotel.stars" :stars="tour.hotel.stars" class="mb-1" />
+            <div class="flex items-center -mx-2.5 mb-2">
+                <div class="px-2.5 w-1/2">
+                    <Stars v-if="tour.hotel.stars" :stars="tour.hotel.stars" class="flex-1" />
+                </div>
+                <div class="px-2.5 w-1/2">
+                    <HotelBadges
+                        v-if="tour.hotel.rating !== void 0 && tour.hotel.reviews !== void 0"
+                        :rating="tour.hotel.rating.toString()"
+                        :reviews="tour.hotel.reviews"
+                    />
+                </div>
+            </div>
             <NuxtLink :to="getTo(tour.hotel.id)" :target="target">
                 <Typography
                     variant="h3"

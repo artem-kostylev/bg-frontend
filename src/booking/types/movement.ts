@@ -32,6 +32,39 @@ export type Stop = {
     transport_hub: TransportHub;
 };
 
+export type SegmentMovement = {
+    carrier_company: string;
+    date_arrival: string;
+    date_departure: string;
+    duration: number;
+    flight_number: string;
+    id: number;
+    is_regular: string;
+    priority_status: string;
+    time_arrival: string;
+    time_departure: string;
+    transport: string;
+    transport_company: TransportCompany;
+    transport_hub_arrival: TransportHub;
+    transport_hub_departure: TransportHub;
+    type: 'movement';
+    voyage_type: string;
+};
+
+export type SegmentTransfer = {
+    date_arrival: string;
+    date_departure: string;
+    duration: number;
+    is_visa: boolean;
+    time_arrival: string;
+    time_departure: string;
+    transfer_type: string;
+    transport_hub_transfer: { id: number; name: string; code: string };
+    type: 'transfer';
+};
+
+export type Segment = SegmentMovement | SegmentTransfer;
+
 export type Movement = {
     fares: Fare[];
     type: string;
@@ -40,7 +73,7 @@ export type Movement = {
     direction: string;
     duration: number;
     flight_hash: string;
-    is_regular: "regular" | "charter" | "virtual";
+    is_regular: 'regular' | 'charter' | 'virtual';
     is_route_last: boolean;
     price: number;
     priority_status: string | null;
@@ -52,6 +85,7 @@ export type Movement = {
     stops: Stop[];
     transport_hub_arrival: TransportHub;
     transport_hub_departure: TransportHub;
+    segments: Segment[];
     fare: {
         name: string;
         baggage: { key: string; label: string; weights: number[] };

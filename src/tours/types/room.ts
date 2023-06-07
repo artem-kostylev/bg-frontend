@@ -1,4 +1,4 @@
-import type { Image } from "@/app/types";
+import type { Image } from '@/app/types';
 
 export type AvailableDateItem = {
     accommodation_unikey: string;
@@ -30,6 +30,11 @@ export type Facility = {
     label: string;
 };
 
+export type RoomView = {
+    key: string;
+    label: string;
+};
+
 export type Room = {
     id: number;
     name: string;
@@ -37,6 +42,11 @@ export type Room = {
     size: number;
     beds: Bed[];
     images: Image[];
+    views: RoomView[];
     facilities: Facility[];
     max_number_of_tourists: number;
+    room_location: { label: string }[];
+    rooms: number;
+    facilities_for_description: string[];
+    description: string;
 };

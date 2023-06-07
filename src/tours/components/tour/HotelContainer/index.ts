@@ -1,1 +1,1 @@
-export { default as HotelContainer } from "./HotelContainer.vue";
+export { default as HotelContainer } from './HotelContainer.vue';

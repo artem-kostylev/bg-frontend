@@ -1,21 +1,21 @@
-import type { Location } from "@/app/types";
-
-export type AccommodationRoom = {
-    id: number;
-    tourists: string[];
+export interface AccommodationRoom {
     accommodation_unikey: string;
-    name: string;
     board: string;
+    tourists: string[];
+    id: number;
+    name: string;
     view: string[];
-    group_id: number;
-};
+    wishes: string[];
+    order_accommodation_id: number;
+}
 
 export type Accommodation = {
     id: number;
-    name: string;
-    location: Location[];
+    duration: number;
+    hash_rooms: string;
     date_start: string;
     date_finish: string;
-    duration: number;
+    name: string;
     rooms: AccommodationRoom[];
+    location: { id: number; name: string; visa: boolean }[];
 };

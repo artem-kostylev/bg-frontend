@@ -1,27 +1,14 @@
 <script setup lang="ts">
-const colors = {
-    white: "text-white",
-    current: "text-current",
-    primary: "text-primary-500",
-};
+import { spinColors, spinDefaultProps } from '@ui/components/Spin/spin';
+import type { SpinProps } from '@ui/components/Spin/spin';
 
-type Props = {
-    width?: string;
-    height?: string;
-    color?: keyof typeof colors;
-};
-
-withDefaults(defineProps<Props>(), {
-    width: "2.5em",
-    height: "2.5em",
-    color: "current",
-});
+withDefaults(defineProps<SpinProps>(), spinDefaultProps);
 </script>
 
 <template>
     <div class="flex justify-center items-center flex-1">
         <svg
-            :class="['animate-spin', colors[color]]"
+            :class="['animate-spin', spinColors[color]]"
             :width="width"
             :height="height"
             viewBox="0 0 100 101"

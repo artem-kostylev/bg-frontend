@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { watch, ref, onBeforeUnmount } from "vue";
-import { useLazyAsyncData } from "#imports";
-import { Button, Modal } from "@ui/components";
-import { PencilIcon } from "@ui/icons";
-import type { Transfer } from "@/booking/types";
-import { fetchTransfer } from "@/booking/services";
-import { AdditionalTransferList, TransferBox } from "@/booking/components";
-import { clearNuxtData } from "#app";
+import { watch, ref, onBeforeUnmount } from 'vue';
+import { useLazyAsyncData } from '#imports';
+import { Button, Modal } from '@ui/components';
+import { PencilIcon } from '@ui/icons';
+import type { Transfer } from '@/booking/types';
+import { fetchTransfer } from '@/booking/services';
+import { AdditionalTransferList, TransferBox } from '@/booking/components';
+import { clearNuxtData } from '#app';
 
 type Props = {
     transfer: Transfer;
@@ -39,10 +39,9 @@ onBeforeUnmount(() => clearNuxtData(`transfer-${props.transfer.id}`));
             <Modal
                 v-model="show"
                 title="Изменить трансфер"
-                size="lg"
+                size="3xl"
                 :loading="pending"
                 @open="open"
-                fullscreen
             >
                 <template #trigger="{ vbind }">
                     <Button

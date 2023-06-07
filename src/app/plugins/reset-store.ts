@@ -1,6 +1,6 @@
-import type { PiniaPluginContext, Pinia } from "pinia";
-import { defineNuxtPlugin } from "#imports";
-import { cloneDeep } from "lodash-es";
+import type { PiniaPluginContext, Pinia } from 'pinia';
+import { defineNuxtPlugin } from '#imports';
+import cloneDeep from 'lodash.clonedeep';
 
 const resetStore = ({ store }: PiniaPluginContext) => {
     const initialState = cloneDeep(store.$state);

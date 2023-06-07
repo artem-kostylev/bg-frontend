@@ -1,26 +1,11 @@
 <script setup lang="ts">
-import type { Component } from "vue";
+import type { TabsProps, Tab, TabValue } from '@ui/components/Tabs/tabs';
 
-type Value = string | number;
-
-type Tab = {
-    label: string;
-    value: Value;
-    startIcon?: Component;
-    endIcon?: Component;
-    disabled?: boolean;
-};
-
-type Props = {
-    tabs: Tab[];
-    modelValue: Value;
-};
-
-const props = defineProps<Props>();
-const emit = defineEmits<{ (event: "update:modelValue", value: Value): void }>();
+const props = defineProps<TabsProps>();
+const emit = defineEmits<{ (event: 'update:modelValue', value: TabValue): void }>();
 
 const select = (tab: Tab) => {
-    emit("update:modelValue", tab.value);
+    emit('update:modelValue', tab.value);
 };
 
 const selected = (tab: Tab) => {
@@ -29,15 +14,16 @@ const selected = (tab: Tab) => {
 </script>
 
 <template>
-    <div class="flex items-center space-x-6 font-medium border-b border-slate-200">
+    <div
+        class="flex items-center space-x-6 font-medium border-b border-secondary-200 overflow-y-hidden overflow-x-auto scrollbar-hidden"
+    >
         <button
             v-for="(tab, index) in tabs"
             :key="index"
             @click="select(tab)"
-            :tabindex="selected(tab) ? '-1' : '0'"
             :disabled="tab.disabled"
             :class="[
-                'select-none py-3.5 border-b-2 -mb-px flex items-center',
+                'select-none py-4 border-b-2 -mb-px flex items-center whitespace-nowrap',
                 tab.disabled && 'opacity-60 pointer-events-none',
                 selected(tab)
                     ? 'text-primary-500 hover:text-primary-500/95 border-primary-500 cursor-auto'

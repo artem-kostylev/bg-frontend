@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useLazyAsyncData } from "#imports";
-import { useName, useParams } from "@/app/composables";
-import { Page, DetailsHeader } from "@/app/components";
-import { fetchAttraction } from "@/attractions/services";
-import { Spin } from "@ui/components";
+import { useLazyAsyncData } from '#imports';
+import { useName, useParams } from '@/app/composables';
+import { Page, DetailsHeader } from '@/app/components';
+import { fetchAttraction } from '@/attractions/services';
+import { Spin } from '@ui/components';
 
-const name = useName<"locations-id" | "attractions-id" | "activities-id">();
+const name = useName<'locations-id' | 'attractions-id' | 'activities-id'>();
 const params = useParams<{ id: string }>();
 
-const { data, pending } = useLazyAsyncData("attraction", () =>
+const { data, pending } = useLazyAsyncData('attraction', () =>
     fetchAttraction(params.value.id, name.value)
 );
 </script>

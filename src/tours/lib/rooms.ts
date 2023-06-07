@@ -1,7 +1,7 @@
-import { formatList } from "@/app/lib";
-import type { AvailableDate, AvailableDateItem, Bed } from "@/tours/types";
+import { formatList } from '@/app/lib';
+import type { AvailableDate, AvailableDateItem, Bed, RoomView } from '@/tours/types';
 
-export type MergedSelectedDateItem = Omit<AvailableDateItem, "accommodation_unikey"> & {
+export type MergedSelectedDateItem = Omit<AvailableDateItem, 'accommodation_unikey'> & {
     accommodation_unikey: string[][];
 };
 
@@ -31,7 +31,7 @@ export const mergeSelectedDates = (selectedDates: AvailableDate[][]) => {
             }
 
             for (const item of date.items) {
-                const key = item.begin_date.join("-");
+                const key = item.begin_date.join('-');
                 const existingItem = mergedDates[date.begin_date].existingItems[key];
                 if (existingItem) {
                     existingItem.price += item.price;
@@ -67,4 +67,23 @@ export const formatBeds = (beds: Bed[]) => {
     const arr = beds.map(item => (item.qty > 1 ? `${item.label} - ${item.qty}` : `${item.label}`));
 
     return formatList(arr);
+};
+
+export const formatView = (views: RoomView[]) => {
+    const arr = views.map(item => item.label);
+
+    return formatList(arr);
+};
+
+export const formatAccommodationUnikey = (itemAu: string[][], queryAu?: string[][]) => {
+    if (!queryAu) return itemAu;
+
+    const result = [];
+
+    for (let i = 0; i < itemAu.length; i++) {
+        const combined = queryAu[i].concat(itemAu[i]);
+        result.push(combined);
+    }
+
+    return result;
 };

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Filters } from "@/app/components";
-import { useRoute } from "vue-router";
+import { Filters } from '@/app/components';
+import { useRoute } from 'vue-router';
 
 const route = useRoute();
 </script>

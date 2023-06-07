@@ -1,1 +1,1 @@
-export { default as TourCard } from "./TourCard.vue";
+export { default as TourCard } from './TourCard.vue';

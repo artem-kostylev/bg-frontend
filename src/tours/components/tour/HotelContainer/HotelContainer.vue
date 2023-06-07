@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { useLazyAsyncData } from "#imports";
-import { Page } from "@/app/components";
-import { HotelDetails, RoomList } from "@/tours/components";
-import { fetchHotel } from "@/tours/services";
-import { Spin } from "@ui/components";
+import { useLazyAsyncData } from '#imports';
+import { Page } from '@/app/components';
+import { HotelDetails, RoomList } from '@/tours/components';
+import { fetchHotel } from '@/tours/services';
+import { Spin } from '@ui/components';
+import { ReviewsContainer, RatingContainer } from '@/tours/components';
 
 type Props = {
     id: string | number;
@@ -11,13 +12,17 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const { data, pending } = useLazyAsyncData("hotel", () => fetchHotel(props.id));
+const { data, pending } = useLazyAsyncData('hotel', () => fetchHotel(props.id));
 </script>
 
 <template>
     <Page :meta="data?.meta">
         <Spin v-if="pending" color="primary" />
-        <HotelDetails v-else-if="data" :hotel="data.hotel" class="mb-8" />
-        <RoomList v-show="!pending" />
+        <HotelDetails v-else-if="data" :hotel="data.hotel" class="mb-5 md:mb-8" />
+        <ClientOnly>
+            <RoomList v-show="!pending" class="mb-5 md:mb-8" />
+            <RatingContainer v-show="!pending" :rating="data?.hotel.rating" class="mb-5 md:mb-8" />
+            <ReviewsContainer v-show="!pending" :reviews="data?.hotel.reviews" />
+        </ClientOnly>
     </Page>
 </template>

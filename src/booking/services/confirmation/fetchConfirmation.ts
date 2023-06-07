@@ -1,12 +1,12 @@
-import { http } from "@/app/lib";
-import type { Movement, Insurance, Transfer, General, Accommodation } from "@/booking/types";
+import { http } from '@/app/lib';
+import type { Accommodation, Movement, Insurance, Transfer, General } from '@/booking/types';
 
 export type FetchConfirmationResponse = {
     general: General;
-    transfers: Transfer[];
+    accommodations: Accommodation[];
     movements: Movement[];
     insurances: Insurance[];
-    accommodations: Accommodation[];
+    transfers: Transfer[];
 };
 
 export type FetchConfirmationQuery = {
@@ -17,8 +17,8 @@ export type FetchConfirmationQuery = {
 type FetchConfirmationPayload = FetchConfirmationQuery;
 
 export const fetchConfirmation = async (payload: FetchConfirmationPayload) => {
-    const response = await http<FetchConfirmationResponse>("tour/confirmation", {
-        method: "POST",
+    const response = await http<FetchConfirmationResponse>('tour/confirmation', {
+        method: 'POST',
         body: { ids: payload.ids[0], tours_hash: payload.tours_hash },
     });
 

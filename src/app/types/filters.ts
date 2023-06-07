@@ -1,6 +1,6 @@
 export type MainFiltersTo = {
     id: number;
-    type: "location" | "hotel";
+    type: 'location' | 'hotel';
 };
 
 export type MainFiltersTourist = {
@@ -21,7 +21,7 @@ export type AdvancedFilters = Record<string, string | number | boolean>;
 
 export type Filters = MainFilters & AdvancedFilters;
 
-export type MainFiltersRaw = Omit<MainFilters, "tour_to" | "tour_tourists"> & {
+export type MainFiltersRaw = Omit<MainFilters, 'tour_to' | 'tour_tourists'> & {
     tour_to?: string;
     tour_tourists?: string[] | number[];
 };

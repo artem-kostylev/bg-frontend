@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Location } from "@/app/types";
+import type { Location } from '@/app/types';
 
 type Props = {
     location: Location[];
-    target?: "_blank";
+    target?: '_blank';
 };
 
 withDefaults(defineProps<Props>(), {
@@ -18,12 +18,12 @@ withDefaults(defineProps<Props>(), {
             :key="item.id"
             :to="{ name: 'locations-id', params: { id: item.id } }"
             :target="target"
-            class="text-sm text-slate-500 hover:text-slate-900"
+            class="text-sm text-secondary-500 hover:text-secondary-900"
         >
             <div
                 :class="[
                     index !== 0 &&
-                        `before:relative before:pr-1 before:content-[','] before:text-slate-500`,
+                        `before:relative before:pr-1 before:content-[','] before:text-secondary-500`,
                 ]"
             >
                 {{ item.name }}

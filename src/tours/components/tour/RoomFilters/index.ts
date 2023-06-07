@@ -1,1 +1,1 @@
-export { default as RoomFilters } from "./RoomFilters.vue";
+export { default as RoomFilters } from './RoomFilters.vue';

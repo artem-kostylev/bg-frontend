@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount } from "vue";
-import { useLazyAsyncData, useName, clearNuxtData } from "#imports";
-import { formatCurrency } from "@/app/lib";
-import { useQuery } from "@/app/composables";
-import { Button, Modal } from "@ui/components";
-import { fetchMovement } from "@/booking/services";
-import type { Movement } from "@/booking/types";
-import { FareCard, FareList } from "@/booking/components";
-import type { FetchMovementQuery } from "@/booking/services";
+import { computed, onBeforeUnmount } from 'vue';
+import { useLazyAsyncData, useName, clearNuxtData } from '#imports';
+import { formatCurrency } from '@/app/lib';
+import { useQuery } from '@/app/composables';
+import { Button, Modal } from '@ui/components';
+import { fetchMovement } from '@/booking/services';
+import type { Movement } from '@/booking/types';
+import { FareCard, FareList } from '@/booking/components';
+import type { FetchMovementQuery } from '@/booking/services';
 
 type Props = {
     movement: Movement;
@@ -16,7 +16,7 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const name = useName<"booking-tickets" | "avia-search">();
+const name = useName<'booking-tickets' | 'avia-search'>();
 const query = useQuery<FetchMovementQuery>();
 
 const getMovement = () => {
@@ -38,7 +38,7 @@ const { data, pending, execute } = useLazyAsyncData(
 const open = () => !data.value && execute();
 
 const formattedPrice = computed(() => {
-    return name.value === "booking-tickets"
+    return name.value === 'booking-tickets'
         ? `+ ${formatCurrency(props.movement.price - (props.price ?? 0))}`
         : `от ${formatCurrency(props.movement.price)}`;
 });
@@ -52,7 +52,7 @@ onBeforeUnmount(() => clearNuxtData(`movement-${props.movement.flight_hash}`));
     <Modal
         :loading="pending"
         @open="open"
-        :size="isMulti ? 'lg' : 'sm'"
+        :size="isMulti ? '3xl' : 'sm'"
         :title="isMulti ? 'Тарифы' : data?.fares[0].fare_name"
     >
         <template #trigger="{ vbind }">

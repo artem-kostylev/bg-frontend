@@ -1,1 +1,1 @@
-export { default as InsuranceBox } from "./InsuranceBox.vue";
+export { default as InsuranceBox } from './InsuranceBox.vue';

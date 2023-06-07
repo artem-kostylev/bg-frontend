@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Container, Typography } from "@ui/components";
+import { Container, Typography } from '@ui/components';
 </script>
 
 <template>
-    <footer class="bg-slate-50">
+    <footer class="bg-secondary-50">
         <Container>
             <div class="grid md:grid-cols-3 lg:grid-cols-4 gap-5 py-8">
                 <div class="space-y-1.5">
@@ -36,7 +36,7 @@ import { Container, Typography } from "@ui/components";
                     <NuxtLink to="#" class="hover:text-primary-500">API</NuxtLink>
                 </div>
             </div>
-            <div class="border-t border-slate-200 border-dashed py-4">
+            <div class="border-t border-secondary-200 border-dashed py-4">
                 <div class="flex items-center justify-between">
                     <Typography variant="description">
                         © {{ new Date().getFullYear() }} «Библио-Глобус»

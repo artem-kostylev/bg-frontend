@@ -1,1 +1,1 @@
-export { default as TicketList } from "./TicketList.vue";
+export { default as TicketList } from './TicketList.vue';

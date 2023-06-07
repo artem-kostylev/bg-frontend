@@ -1,1 +1,1 @@
-export { default as RecommendedTourCard } from "./RecommendedTourCard.vue";
+export { default as RecommendedTourCard } from './RecommendedTourCard.vue';

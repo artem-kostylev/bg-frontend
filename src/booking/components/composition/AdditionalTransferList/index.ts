@@ -1,1 +1,1 @@
-export { default as AdditionalTransferList } from "./AdditionalTransferList.vue";
+export { default as AdditionalTransferList } from './AdditionalTransferList.vue';

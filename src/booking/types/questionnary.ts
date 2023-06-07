@@ -1,3 +1,5 @@
+import type { FetchAvailableDocumentsResponse } from '@/booking/services';
+
 export type QuestionnaryForm = {
     first_name: string;
     last_name: string;
@@ -16,4 +18,5 @@ export type Questionnary = {
     label: string;
     form: Partial<QuestionnaryForm>;
     tour_id: string;
+    availableDocuments?: FetchAvailableDocumentsResponse | null;
 };

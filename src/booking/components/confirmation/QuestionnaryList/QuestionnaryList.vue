@@ -5,11 +5,13 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { reactive, onMounted } from 'vue';
-import type { General, Insurance } from '@/booking/types';
+import { useLazyAsyncData } from '#imports';
+import { reactive, computed, onMounted } from 'vue';
+import type { General, Insurance, Accommodation } from '@/booking/types';
 import { Typography, Collapse } from '@ui/components';
 import { QuestionnaryCard } from '@/booking/components';
-import type { Questionnary } from '@/booking/types';
+import { fetchAvailableDocuments } from '@/booking/services';
+import type { Questionnary, QuestionnaryForm } from '@/booking/types';
 
 type Form = {
     clientId: number | null;
@@ -19,6 +21,7 @@ type Form = {
 type Props = {
     general: General;
     insurances: Insurance[];
+    accommodations: Accommodation[];
 };
 
 const props = defineProps<Props>();
@@ -28,12 +31,23 @@ const form = reactive<Form>({
     questionnaries: [],
 });
 
+const countryIds = computed(() => {
+    return props.accommodations.map((item: { location: { id: number }[] }) => {
+        return item.location[0].id;
+    });
+});
+
+const { data: documents } = useLazyAsyncData('form-documents', () =>
+    fetchAvailableDocuments(countryIds.value)
+);
+
 onMounted(() => {
     form.questionnaries = props.general.groups.flatMap(({ tourists, tour_id }) =>
         tourists.map(({ description }) => ({
             label: description,
-            form: { service_insurance_id: props.insurances[0].id },
+            form: { service_insurance_id: props.insurances[0].id } as Partial<QuestionnaryForm>,
             tour_id,
+            availableDocuments: documents.value,
         }))
     );
 });

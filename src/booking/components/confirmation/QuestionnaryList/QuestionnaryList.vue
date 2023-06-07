@@ -41,10 +41,16 @@ onMounted(() => {
 
 <template>
     <Typography variant="h2" as="h2">Анкеты туристов</Typography>
+    <div>
+        Заполните анкеты на каждого из туристов. Внимательно проверьте анкеты. Авиакомпания может
+        отказать в посадке, если анкетные данные не совпадут с данными загранпаспорта. Поля со
+        знаком * обязательны для заполнения.
+    </div>
     <Collapse
         v-for="(questionnary, index) in form.questionnaries"
         :title="questionnary.label"
         :key="index"
+        :default-open="index === 0"
     >
         <QuestionnaryCard :questionnary="questionnary" />
     </Collapse>

@@ -4,6 +4,12 @@ export type QuestionnaryForm = {
     birthday: string;
     sex: string;
     service_insurance_id: number;
+    nationality_id: number;
+    document_type_id: number;
+    document_number: number;
+    document_till: string;
+    phone: string;
+    email: string;
 };
 
 export type Questionnary = {

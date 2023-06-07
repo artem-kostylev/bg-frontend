@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { useVuelidate } from "@vuelidate/core";
-import { Card, Input, Button } from "@ui/components";
-import type { Questionnary, QuestionnaryForm } from "@/booking/types";
-import { required } from "@/app/lib";
-import { AutocompleteModal } from "../AutocompleteModal";
-import { useAuthStore } from "@/auth/stores";
+import { storeToRefs } from 'pinia';
+import { useVuelidate } from '@vuelidate/core';
+import { Card, Input, Button, RadioButtonGroup } from '@ui/components';
+import type { Questionnary, QuestionnaryForm } from '@/booking/types';
+import { required } from '@/app/lib';
+import { AutocompleteModal } from '../AutocompleteModal';
+import { useAuthStore } from '@/auth/stores';
 
 const { isAuthenticated } = storeToRefs(useAuthStore());
 
@@ -21,7 +21,18 @@ const rules = {
     birthday: { required },
     sex: { required },
     service_insurance_id: { required },
+    nationality_id: { required },
+    document_type_id: { required },
+    document_number: { required },
+    document_till: { required },
+    phone: { required },
+    email: { required },
 };
+
+const sexItems = [
+    { label: 'Мужской', value: 'male' },
+    { label: 'Женский', value: 'female' },
+];
 
 const v$ = useVuelidate(rules, props.questionnary.form as QuestionnaryForm);
 
@@ -54,10 +65,55 @@ const submit = async () => {
                 v-model="v$.birthday.$model"
                 :error="v$.birthday.$errors[0]?.$message"
             />
-            <Input label="Пол" v-model="v$.sex.$model" :error="v$.sex.$errors[0]?.$message" />
+            <RadioButtonGroup required label="Пол" v-model="v$.sex.$model" :items="sexItems" />
+            <Input
+                required
+                label="Гражданство"
+                v-model="v$.nationality_id.$model"
+                :error="v$.nationality_id.$errors[0]?.$message"
+            />
+            <Input
+                required
+                label="Документ"
+                v-model="v$.document_type_id.$model"
+                :error="v$.document_type_id.$errors[0]?.$message"
+            />
+            <Input
+                required
+                label="Серия и номер документа"
+                v-model="v$.document_number.$model"
+                :error="v$.document_number.$errors[0]?.$message"
+            />
+            <Input
+                required
+                label="Срок действия"
+                v-model="v$.document_till.$model"
+                :error="v$.document_till.$errors[0]?.$message"
+            />
+            <Input
+                required
+                label="Мобильный телефон"
+                v-model="v$.phone.$model"
+                :error="v$.phone.$errors[0]?.$message"
+            />
+            <Input
+                required
+                label="Электронная почта"
+                v-model="v$.email.$model"
+                :error="v$.email.$errors[0]?.$message"
+            />
+        </div>
+
+        <div class="grid grid-cols-4 gap-5">
+            <Input
+                required
+                label="Страховка"
+                v-model="v$.service_insurance_id.$model"
+                :error="v$.service_insurance_id.$errors[0]?.$message"
+            />
         </div>
         <div class="flex space-x-2.5">
-            <Button variant="primary" @click="submit">Следущая анкета</Button>
+            <Button variant="primary" @click="submit"> Перейти к следущей анкете </Button>
         </div>
     </Card>
 </template>

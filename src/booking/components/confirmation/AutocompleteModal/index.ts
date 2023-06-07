@@ -1,1 +1,1 @@
-export { default as AutocompleteModal } from "./AutocompleteModal.vue";
+export { default as AutocompleteModal } from './AutocompleteModal.vue';

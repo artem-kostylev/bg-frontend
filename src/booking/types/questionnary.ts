@@ -19,4 +19,5 @@ export type Questionnary = {
     form: Partial<QuestionnaryForm>;
     tour_id: string;
     availableDocuments?: FetchAvailableDocumentsResponse | null;
+    countyIds?: number[];
 };

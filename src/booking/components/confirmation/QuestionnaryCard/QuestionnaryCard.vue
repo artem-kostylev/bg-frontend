@@ -2,10 +2,12 @@
 import { storeToRefs } from 'pinia';
 import { useVuelidate } from '@vuelidate/core';
 import { Card, Input, Button, RadioButtonGroup } from '@ui/components';
+import { XIcon } from '@ui/icons';
 import type { Questionnary, QuestionnaryForm } from '@/booking/types';
-import { required } from '@/app/lib';
+import { required, email, isValidDate, documentTill, birthday } from '@/app/lib';
 import { AutocompleteModal } from '../AutocompleteModal';
 import { useAuthStore } from '@/auth/stores';
+import { vMaska } from 'maska';
 
 const { isAuthenticated } = storeToRefs(useAuthStore());
 
@@ -18,15 +20,15 @@ const props = defineProps<Props>();
 const rules = {
     first_name: { required },
     last_name: { required },
-    birthday: { required },
+    birthday: { required, isValidDate, birthday },
     sex: { required },
     service_insurance_id: { required },
     nationality_id: { required },
     document_type_id: { required },
     document_number: { required },
-    document_till: { required },
+    document_till: { required, isValidDate, documentTill },
     phone: { required },
-    email: { required },
+    email: { required, email },
 };
 
 const sexItems = [
@@ -46,7 +48,7 @@ const submit = async () => {
         <div class="flex justify-end" v-if="isAuthenticated">
             <AutocompleteModal />
         </div>
-        <div class="grid grid-cols-4 gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             <Input
                 label="Фамилия"
                 required
@@ -64,6 +66,8 @@ const submit = async () => {
                 required
                 v-model="v$.birthday.$model"
                 :error="v$.birthday.$errors[0]?.$message"
+                v-maska
+                :data-maska="'##.##.####'"
             />
             <RadioButtonGroup required label="Пол" v-model="v$.sex.$model" :items="sexItems" />
             <Input
@@ -89,12 +93,16 @@ const submit = async () => {
                 label="Срок действия"
                 v-model="v$.document_till.$model"
                 :error="v$.document_till.$errors[0]?.$message"
+                v-maska
+                :data-maska="'##.##.####'"
             />
             <Input
                 required
                 label="Мобильный телефон"
                 v-model="v$.phone.$model"
                 :error="v$.phone.$errors[0]?.$message"
+                v-maska
+                :data-maska="'+7 (###) ### ## ##'"
             />
             <Input
                 required
@@ -104,13 +112,21 @@ const submit = async () => {
             />
         </div>
 
-        <div class="grid grid-cols-4 gap-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             <Input
                 required
                 label="Страховка"
                 v-model="v$.service_insurance_id.$model"
                 :error="v$.service_insurance_id.$errors[0]?.$message"
             />
+        </div>
+        <div>
+            <button>
+                <div class="flex items-center whitespace-nowrap">
+                    <XIcon width="1.2em" height="1.2em" class="text-danger-500" />
+                    <span class="ml-2.5">Сбросить данные анкеты</span>
+                </div>
+            </button>
         </div>
         <div class="flex space-x-2.5">
             <Button variant="primary" @click="submit"> Перейти к следущей анкете </Button>

@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { Container } from '@ui/components';
 import { UserIcon, HeartIcon } from '@ui/icons';
+import { AuthModal } from '@/auth/components';
+
+const showAuth = ref(false);
 </script>
 
 <template>
@@ -25,10 +29,12 @@ import { UserIcon, HeartIcon } from '@ui/icons';
                 <button
                     class="text-secondary-500 hover:text-secondary-600 transition-colors duration-300"
                     aria-label="Авторизация"
+                    @click="showAuth = true"
                 >
                     <UserIcon width="1.6em" height="1.6em" />
                 </button>
             </div>
         </Container>
+        <AuthModal v-model="showAuth" />
     </header>
 </template>

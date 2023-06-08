@@ -32,6 +32,7 @@ export const buttonDefaultProps = {
     type: 'button',
     justify: 'center',
     as: 'button',
+    iconClass: '',
 } as const;
 
 export type ButtonProps = {
@@ -47,4 +48,5 @@ export type ButtonProps = {
     block?: boolean;
     to?: RouteLocationRaw;
     as?: Object | string | Component;
+    iconClass?: string;
 };

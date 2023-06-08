@@ -1,6 +1,6 @@
 export type AuthenticationForm = 'login' | 'registration' | 'reset' | 'auth';
 
-export type AuthenticationLabel =
+export type AuthenticationTitle =
     | 'Пароль'
     | 'Регистрация'
     | 'Восстановление пароля'
@@ -19,5 +19,5 @@ export type LoginInfo = {
 
 export type NextAuthForm = {
     form: AuthenticationForm;
-    data: LoginInfo;
+    data?: LoginInfo;
 };

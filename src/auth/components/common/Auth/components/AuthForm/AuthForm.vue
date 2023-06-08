@@ -5,9 +5,9 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, emailOrNumber } from '@/app/lib';
 
 type Props = {
-    loginError: string | null;
-    pending: boolean;
-    btnDisabled: boolean;
+    error?: string | null;
+    pending?: boolean;
+    btnDisabled?: boolean;
 };
 
 defineProps<Props>();
@@ -41,7 +41,7 @@ const onSubmit = async () => {
             v-model="v$.login.$model"
             name="login"
             placeholder="E-mail или Телефон"
-            :error="v$.login.$errors[0]?.$message || loginError"
+            :error="v$.login.$errors[0]?.$message || error"
             @keyup.enter="onSubmit"
         />
         <div class="flex justify-center mt-2.5">

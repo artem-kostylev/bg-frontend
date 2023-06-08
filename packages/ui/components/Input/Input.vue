@@ -37,7 +37,7 @@ const endIcon = computed(() => (props.loading ? Spin : props.endIcon));
     <Field :label="label" :required="required" :error="error" :success="success" :hint="hint">
         <div :class="['relative inline-flex w-full', classes]">
             <div
-                v-if="startIcon"
+                v-if="startIcon || $slots['start-icon']"
                 class="absolute inset-y-0 left-0 flex items-center justify-center pl-4"
             >
                 <component
@@ -69,10 +69,17 @@ const endIcon = computed(() => (props.loading ? Spin : props.endIcon));
                 ]"
             />
             <div
-                v-if="endIcon"
+                v-if="endIcon || $slots['end-icon']"
                 class="absolute inset-y-0 right-0 flex items-center justify-center pr-4"
             >
-                <component :is="endIcon" width="1.2em" height="1.2em" class="text-secondary-500" />
+                <slot name="end-icon">
+                    <component
+                        :is="endIcon"
+                        width="1.2em"
+                        height="1.2em"
+                        class="text-secondary-500"
+                    />
+                </slot>
             </div>
         </div>
     </Field>

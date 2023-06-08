@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Modal } from '@ui/components';
 import type {
     AuthenticationForm,
-    AuthenticationLabel,
+    AuthenticationTitle,
     LoginInfo,
     NextAuthForm,
 } from '@/auth/types';
-import { Auth } from '@/auth/components';
+import { Auth, Login } from '@/auth/components';
 import { useVModel } from '@vueuse/core';
 
 type Props = {
@@ -19,10 +19,10 @@ const emit = defineEmits<{ (e: 'update:modelValue', value: boolean): void }>();
 const show = useVModel(props, 'modelValue', emit);
 
 const currForm = ref<AuthenticationForm>('auth');
-const currTitle = ref<AuthenticationLabel>('Вход');
+const currTitle = ref<AuthenticationTitle>('Вход');
 
 type FormLabels = {
-    [K in AuthenticationForm]: AuthenticationLabel;
+    [K in AuthenticationForm]: AuthenticationTitle;
 };
 
 const formLabels: FormLabels = {
@@ -38,17 +38,57 @@ const loginInfo = ref<LoginInfo>({
     isVerified: false,
 });
 
+const showCreatePassword = () => {
+    if (
+        currForm.value === 'login' &&
+        !loginInfo.value.isVerified &&
+        loginInfo.value.loginType === 'email'
+    ) {
+        currForm.value = 'reset';
+        currTitle.value = 'Создание пароля';
+    }
+};
+
 const showNext = (nextData: NextAuthForm) => {
     currForm.value = nextData.form;
     currTitle.value = formLabels[nextData.form];
-    loginInfo.value = { ...nextData.data };
+    nextData.data && (loginInfo.value = { ...nextData.data });
+
+    // if user exists, but registered by phone without password
+    showCreatePassword();
 };
+
+const setTitle = (title: AuthenticationTitle) => {
+    currTitle.value = title;
+};
+
+const clearFields = () => {
+    loginInfo.value.loginType = null;
+    loginInfo.value.loginValue = null;
+    loginInfo.value.isVerified = false;
+
+    currForm.value = 'auth';
+    currTitle.value = 'Вход';
+};
+
+watch(show, value => {
+    if (!value) {
+        clearFields();
+    }
+});
 </script>
 
 <template>
     <Modal v-model="show" size="sm" :title="currTitle">
         <template #default>
-            <Auth @show-next="showNext" />
+            <Login
+                v-if="currForm === 'login' && loginInfo.loginValue"
+                :login-info="loginInfo"
+                @show-next="showNext"
+                @set-title="setTitle"
+                @close="show = false"
+            />
+            <Auth v-else @show-next="showNext" />
         </template>
     </Modal>
 </template>

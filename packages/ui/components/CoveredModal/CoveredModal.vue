@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useScrollLock, onClickOutside } from '@vueuse/core';
-import { Overlay, Card, Typography } from '@ui/components';
+import { Overlay, Card, Typography, Image } from '@ui/components';
 import { XIcon } from '@ui/icons';
 
 const sizes = {
@@ -17,15 +17,16 @@ const sizes = {
 
 type Props = {
     modelValue?: boolean | null;
-    scrollable?: boolean;
+    cover?: string;
     size?: keyof typeof sizes;
-    title?: string;
+    title: string;
     loading?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
     size: 'md',
     title: '',
+    cover: '',
     modelValue: null,
 });
 
@@ -76,41 +77,40 @@ const vbind = { onClick: show };
             leave-from-class="translate-y-0"
             leave-to-class="translate-y-14"
         >
-            <div
-                :class="[
-                    'fixed top-0 left-0 w-full h-full overflow-x-hidden overflow-y-auto',
-                    scrollable ? 'pointer-events-none' : 'pointer-events-auto',
-                ]"
-            >
+            <div :class="['fixed top-0 left-0 w-full h-full overflow-x-hidden overflow-y-auto']">
                 <div
                     :class="[
                         'relative w-auto m-5 pointer-events-none sm:mx-auto',
                         'flex items-center min-h-[calc(100%-2.5rem)]',
                         sizes[size],
-                        scrollable && 'h-[calc(100%-2.5rem)]',
                     ]"
                 >
                     <Card
                         ref="targetRef"
                         :data-clickoutside="visible"
-                        :class="[
-                            'w-full pointer-events-auto',
-                            scrollable && 'max-h-full overflow-hidden',
-                        ]"
+                        :class="['w-full pointer-events-auto']"
                         header-class="-my-2"
-                        :body-class="scrollable && 'overflow-y-auto'"
                     >
-                        <template #header>
-                            <div class="flex items-center justify-between">
-                                <Typography variant="h3" class="truncate">
+                        <template #cover>
+                            <div class="relative">
+                                <Image :src="cover" />
+                                <div
+                                    class="inset-0 absolute bg-gradient-to-b from-transparent via-transparent to-secondary-900/90"
+                                ></div>
+                                <Typography
+                                    variant="h3"
+                                    class="truncate absolute bottom-0 inset-x-0 px-5 py-4 text-white"
+                                >
                                     {{ title }}
                                 </Typography>
-                                <button
-                                    @click="hide"
-                                    class="text-secondary-500 p-2 -mr-2 hover:bg-secondary-200 transition-colors rounded-full"
-                                >
-                                    <XIcon width="1.4em" height="1.4em" />
-                                </button>
+                                <div class="absolute top-0 right-0 p-5">
+                                    <button
+                                        @click="hide"
+                                        class="focus:outline-none bg-secondary-900/60 hover:bg-slate-900/70 text-white rounded-full p-2"
+                                    >
+                                        <XIcon width="1.4em" height="1.4em" />
+                                    </button>
+                                </div>
                             </div>
                         </template>
                         <slot />

@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { onBeforeUnmount } from 'vue';
+import { storeToRefs } from 'pinia';
+import { onBeforeUnmount, ref, watch } from 'vue';
 import { useLazyAsyncData, clearNuxtData } from '#imports';
-import { Modal, Divider } from '@ui/components';
+import { CoveredModal, Divider } from '@ui/components';
 import { fetchActivity } from '@/booking/services';
 import { Info, Order } from './components';
 import type { AllActivity } from '@/booking/types';
+import { useCompositionStore } from '@/booking/stores';
 
 type Props = {
     activity: AllActivity;
@@ -12,6 +14,9 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+const show = ref(false);
+
+const { selectedTickets } = storeToRefs(useCompositionStore());
 
 const { data, pending, execute } = useLazyAsyncData(
     `activity-${props.activity.id}`,
@@ -21,11 +26,20 @@ const { data, pending, execute } = useLazyAsyncData(
 
 const open = () => !data.value && execute();
 
+watch(selectedTickets, () => (show.value = false), { deep: true });
+
 onBeforeUnmount(() => clearNuxtData(`activity-${props.activity.id}`));
 </script>
 
 <template>
-    <Modal :loading="pending" @open="open" size="xl" :title="data?.activity.name">
+    <CoveredModal
+        v-model="show"
+        :loading="pending"
+        @open="open"
+        size="xl"
+        :title="data?.activity.name"
+        :cover="data?.activity.images[0].url"
+    >
         <template #trigger="{ vbind }">
             <slot name="trigger" :vbind="vbind" />
         </template>
@@ -38,5 +52,5 @@ onBeforeUnmount(() => clearNuxtData(`activity-${props.activity.id}`));
                 </template>
             </div>
         </template>
-    </Modal>
+    </CoveredModal>
 </template>

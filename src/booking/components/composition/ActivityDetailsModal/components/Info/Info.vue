@@ -34,7 +34,7 @@ const tabs = [
 
 <template>
     <div class="space-y-5">
-        <Tabs v-model="currentTab" :tabs="tabs" class="px-5 -mx-5" />
+        <Tabs v-model="currentTab" :tabs="tabs" class="px-5 -mx-5 -mt-5" />
         <div v-if="currentTab === 1" class="space-y-5">
             <div v-if="activity.short_description" v-html="activity.short_description"></div>
             <div v-if="activity.description" v-html="activity.description"></div>

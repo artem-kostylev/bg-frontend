@@ -1,23 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Button, Input, Alert } from '@ui/components';
-import { useVuelidate } from '@vuelidate/core';
-import { required, emailOrNumber } from '@/app/lib';
+import { Alert } from '@ui/components';
 import type { NextAuthForm, LoginType } from '@/auth/types';
 import { fetchLoginExist } from '@/auth/services';
-
-const form = ref({
-    login: '',
-});
-
-const rules = {
-    login: {
-        required,
-        emailOrNumber,
-    },
-};
-
-const v$ = useVuelidate(rules, form);
+import { AuthForm } from './components';
 
 const emit = defineEmits<{
     (e: 'show-next', value: NextAuthForm): void;
@@ -35,11 +21,7 @@ type SubmitError = {
     };
 };
 
-const onSubmit = async () => {
-    if (!(await v$.value.$validate())) return;
-
-    const login = form.value.login;
-
+const onSubmit = async (login: string) => {
     try {
         pending.value = true;
         const response = await fetchLoginExist(login);
@@ -80,21 +62,11 @@ const onSubmit = async () => {
 <template>
     <div class="space-y-4">
         <Alert v-if="error" variant="error" :text="error" />
-        <Input
-            v-model="v$.login.$model"
-            name="login"
-            placeholder="E-mail или Телефон"
-            :error="v$.login.$errors[0]?.$message || loginError"
-            @keyup.enter="onSubmit"
+        <AuthForm
+            :login-error="loginError"
+            :pending="pending"
+            :btn-disabled="error !== null || loginError !== null"
+            @submit="onSubmit"
         />
-        <div class="flex justify-center mt-2.5">
-            <Button
-                variant="primary"
-                :loading="pending"
-                :disabled="v$.$errors?.length > 0 || error !== null || loginError !== null"
-                @click="onSubmit"
-                >Продолжить</Button
-            >
-        </div>
     </div>
 </template>

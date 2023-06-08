@@ -7,7 +7,7 @@ import type {
     LoginInfo,
     NextAuthForm,
 } from '@/auth/types';
-import { AuthForm } from '@/auth/components';
+import { Auth } from '@/auth/components';
 import { useVModel } from '@vueuse/core';
 
 type Props = {
@@ -48,7 +48,7 @@ const showNext = (nextData: NextAuthForm) => {
 <template>
     <Modal v-model="show" size="sm" :title="currTitle">
         <template #default>
-            <AuthForm @show-next="showNext" />
+            <Auth @show-next="showNext" />
         </template>
     </Modal>
 </template>

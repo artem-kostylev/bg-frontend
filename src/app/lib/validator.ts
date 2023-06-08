@@ -20,3 +20,14 @@ export const birthday = helpers.withMessage(
 export const documentTill = helpers.withMessage('Неверный срок действия', (value: string) => {
     return dayjs(value, 'dd.MM.yyyy') >= dayjs(Date(), 'dd.MM.yyyy');
 });
+
+export const cyrillicReg = helpers.regex(/^[а-яА-ЯёЁ]+$/);
+
+export const latinReg = helpers.regex(/^[a-zA-Z]+$/);
+
+export const latinText = helpers.withMessage('Заполнение возможно только на латинице', latinReg);
+
+export const cyrillicText = helpers.withMessage(
+    'Заполнение возможно только на кириллице',
+    cyrillicReg
+);

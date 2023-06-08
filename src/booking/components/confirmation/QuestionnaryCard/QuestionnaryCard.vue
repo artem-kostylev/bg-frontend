@@ -1,10 +1,19 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useVuelidate } from '@vuelidate/core';
 import { Card, Input, Button, RadioButtonGroup } from '@ui/components';
 import { XIcon } from '@ui/icons';
 import type { Questionnary, QuestionnaryForm } from '@/booking/types';
-import { required, email, isValidDate, documentTill, birthday } from '@/app/lib';
+import {
+    required,
+    email,
+    isValidDate,
+    documentTill,
+    birthday,
+    cyrillicText,
+    latinText,
+} from '@/app/lib';
 import { AutocompleteModal } from '../AutocompleteModal';
 import { useAuthStore } from '@/auth/stores';
 import { vMaska } from 'maska';
@@ -17,9 +26,37 @@ type Props = {
 
 const props = defineProps<Props>();
 
+const documents = computed(() => {
+    if (!props.questionnary.availableDocuments) return;
+    const nationality = props.questionnary.availableDocuments.find(
+        item => item.nationality_id === props.questionnary.form.nationality_id
+    );
+    return nationality?.documents;
+});
+
+const selectedDoc = computed(() => {
+    return documents.value?.find(
+        (doc: { id: number }) => doc.id === props.questionnary.form.document_type_id
+    );
+});
+
 const rules = {
-    first_name: { required },
-    last_name: { required },
+    first_name: {
+        required,
+        inputType: selectedDoc.value
+            ? selectedDoc.value.is_cyrillic
+                ? cyrillicText
+                : latinText
+            : '',
+    },
+    last_name: {
+        required,
+        inputType: selectedDoc.value
+            ? selectedDoc.value.is_cyrillic
+                ? cyrillicText
+                : latinText
+            : '',
+    },
     birthday: { required, isValidDate, birthday },
     sex: { required },
     service_insurance_id: { required },

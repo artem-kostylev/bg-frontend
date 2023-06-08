@@ -26,4 +26,5 @@ export * from './DatePicker';
 export * from './ProgressBar';
 export * from './Field';
 export * from './Input';
+export * from './Alert';
 export * from './RadioButtonGroup';

@@ -41,6 +41,18 @@ const { data: documents } = useLazyAsyncData('form-documents', () =>
     fetchAvailableDocuments(countryIds.value)
 );
 
+const clearForm = (index: number) => {
+    if (form.questionnaries[index] && form.questionnaries[index].form) {
+        Object.keys(form.questionnaries[index].form).forEach(key => {
+            if (key === 'service_insurance_id') {
+                form.questionnaries[index].form[key] = props.insurances[0].id;
+            } else {
+                form.questionnaries[index].form[key as keyof QuestionnaryForm] = undefined;
+            }
+        });
+    }
+};
+
 onMounted(() => {
     form.questionnaries = props.general.groups.flatMap(({ tourists, tour_id }) =>
         tourists.map(({ description }) => ({
@@ -66,6 +78,6 @@ onMounted(() => {
         :key="index"
         :default-open="index === 0"
     >
-        <QuestionnaryCard :questionnary="questionnary" />
+        <QuestionnaryCard :questionnary="questionnary" :index="index" @clear-form="clearForm" />
     </Collapse>
 </template>

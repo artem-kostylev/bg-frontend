@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useVuelidate } from '@vuelidate/core';
 import { Card, Input, Button, RadioButtonGroup } from '@ui/components';
@@ -22,9 +22,14 @@ const { isAuthenticated } = storeToRefs(useAuthStore());
 
 type Props = {
     questionnary: Questionnary;
+    index: number;
 };
 
 const props = defineProps<Props>();
+
+const emit = defineEmits<{
+    (e: 'clear-form', value: number): void;
+}>();
 
 const documents = computed(() => {
     if (!props.questionnary.availableDocuments) return;
@@ -74,6 +79,14 @@ const sexItems = [
 ];
 
 const v$ = useVuelidate(rules, props.questionnary.form as QuestionnaryForm);
+
+const clearForm = () => {
+    emit('clear-form', props.index);
+
+    nextTick(() => {
+        v$.value.$reset();
+    });
+};
 
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
@@ -158,7 +171,7 @@ const submit = async () => {
             />
         </div>
         <div>
-            <button>
+            <button @click="clearForm">
                 <div class="flex items-center whitespace-nowrap">
                     <XIcon width="1.2em" height="1.2em" class="text-danger-500" />
                     <span class="ml-2.5">Сбросить данные анкеты</span>

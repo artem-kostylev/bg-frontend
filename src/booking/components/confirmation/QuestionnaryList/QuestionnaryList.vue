@@ -6,7 +6,7 @@ export default {
 
 <script setup lang="ts">
 import { useLazyAsyncData } from '#imports';
-import { reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import type { General, Insurance, Accommodation } from '@/booking/types';
 import { Typography, Collapse } from '@ui/components';
 import { QuestionnaryCard } from '@/booking/components';
@@ -53,6 +53,21 @@ const clearForm = (index: number) => {
     }
 };
 
+const currentFormIndex = ref(0);
+const collapsed = ref([0]);
+
+const success = (index: number) => {
+    if (currentFormIndex.value !== index) return;
+
+    currentFormIndex.value++;
+
+    !collapsed.value.includes(currentFormIndex.value) &&
+        collapsed.value.push(currentFormIndex.value);
+    document
+        .getElementById(`collapse-${currentFormIndex.value}`)
+        ?.scrollIntoView({ behavior: 'smooth' });
+};
+
 onMounted(() => {
     form.questionnaries = props.general.groups.flatMap(({ tourists, tour_id }) =>
         tourists.map(({ description }) => ({
@@ -76,8 +91,14 @@ onMounted(() => {
         v-for="(questionnary, index) in form.questionnaries"
         :title="questionnary.label"
         :key="index"
-        :default-open="index === 0"
+        :default-open="collapsed.includes(index)"
+        :id="`collapse-${index}`"
     >
-        <QuestionnaryCard :questionnary="questionnary" :index="index" @clear-form="clearForm" />
+        <QuestionnaryCard
+            :questionnary="questionnary"
+            :index="index"
+            @success="success(index)"
+            @clear-form="clearForm"
+        />
     </Collapse>
 </template>

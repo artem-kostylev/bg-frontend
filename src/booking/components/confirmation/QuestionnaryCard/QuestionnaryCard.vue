@@ -28,6 +28,7 @@ type Props = {
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
+    (e: 'success'): void;
     (e: 'clear-form', value: number): void;
 }>();
 
@@ -90,6 +91,7 @@ const clearForm = () => {
 
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
+    emit('success');
 };
 </script>
 

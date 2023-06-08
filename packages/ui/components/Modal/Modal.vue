@@ -38,7 +38,7 @@ const emit = defineEmits<{
 const isLocked = useScrollLock(document.body);
 
 const open = ref(false);
-const targetRef = ref<HTMLDivElement>();
+const targetRef = ref<InstanceType<typeof Card>>();
 
 const visible = computed(() => props.modelValue || open.value);
 
@@ -54,7 +54,12 @@ const hide = () => {
 
 watch(visible, value => (isLocked.value = value));
 
-onClickOutside(targetRef, hide);
+onClickOutside(targetRef, () => {
+    const elements = document.body.querySelectorAll('[data-clickoutside]');
+    const lastElement = elements[elements.length - 1];
+
+    if (targetRef.value!.$el === lastElement) hide();
+});
 
 const vbind = { onClick: show };
 </script>
@@ -87,6 +92,7 @@ const vbind = { onClick: show };
                 >
                     <Card
                         ref="targetRef"
+                        :data-clickoutside="visible"
                         :class="[
                             'w-full pointer-events-auto',
                             scrollable && 'max-h-full overflow-hidden',

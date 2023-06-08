@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<PopoverProps>(), defaultPopoverProps);
 const emit = defineEmits<{ 'update:modelValue': [boolean] }>();
 
 const referenceRef = ref(null);
-const floatingRef = ref(null);
+const floatingRef = ref<InstanceType<typeof Paper>>();
 const open = ref(false);
 
 const visible = computed(() => {
@@ -31,7 +31,16 @@ const toggle = () => (visible.value ? hide() : show());
 
 const vbind = { ref: referenceRef, onClick: toggle };
 
-onClickOutside(floatingRef, hide, { ignore: [referenceRef] });
+onClickOutside(
+    floatingRef,
+    () => {
+        const elements = document.body.querySelectorAll('[data-clickoutside]');
+        const lastElement = elements[elements.length - 1];
+
+        if (floatingRef.value!.$el === lastElement) hide();
+    },
+    { ignore: [referenceRef] }
+);
 </script>
 
 <template>
@@ -47,7 +56,12 @@ onClickOutside(floatingRef, hide, { ignore: [referenceRef] });
             leave-to-class="opacity-0 translate-y-1"
         >
             <div v-if="visible" class="relative z-50">
-                <Paper ref="floatingRef" class="overflow-hidden" :style="floatingStyles">
+                <Paper
+                    ref="floatingRef"
+                    :data-clickoutside="visible"
+                    class="overflow-hidden"
+                    :style="floatingStyles"
+                >
                     <slot />
                 </Paper>
             </div>

@@ -1,9 +1,15 @@
-import type { StringOrNumber } from '@ui/types';
+export type ActivitySearchFilters = {
+    date: string;
+    time: string;
+    option: string;
+};
 
 export type ActivitySearchFilter = {
     type: string;
-    key: string;
-    value: StringOrNumber;
+    key: keyof ActivitySearchFilters;
+    value: string;
+    options: { label: string; value: string | number }[];
+    allowed: string[];
 };
 
 export type ActivitySearchTicket = {

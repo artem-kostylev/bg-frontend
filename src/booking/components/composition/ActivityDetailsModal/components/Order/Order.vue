@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useLazyAsyncData } from '#imports';
-import { QuantityPicker, Typography, Button, Spin } from '@ui/components';
-import { formatCurrency } from '@/app/lib';
-import type { ActivityDetail } from '@/booking/types';
+import { Typography, Spin } from '@ui/components';
+import type { ActivityDetail, ActivitySearchFilters } from '@/booking/types';
 import { fetchActivitySearch } from '@/booking/services';
-import { OrderFitlers } from './components';
+import { OrderFitlers, OrderTickets } from './components';
 
 type Props = {
     activity: ActivityDetail;
@@ -13,45 +12,42 @@ type Props = {
 };
 
 const props = defineProps<Props>();
-
-const filters = ref({
+const filters = ref<ActivitySearchFilters>({
     time: '',
     date: '',
     option: '',
 });
 
-const { data, pending } = useLazyAsyncData(
-    'activity-search',
-    () => fetchActivitySearch({ id: props.activity.id, dates: props.dates }),
-    { server: false }
-);
+const getActivitySearch = async () => {
+    const response = await fetchActivitySearch(props.activity.id, props.dates, filters.value);
+
+    response.filters.forEach(filter => {
+        filters.value[filter.key] = filter.value;
+    });
+
+    return response;
+};
+
+const { data, pending, execute } = useLazyAsyncData(`activity-search`, getActivitySearch, {
+    server: false,
+});
 </script>
 
 <template>
     <div class="space-y-5">
         <Typography variant="h3">Заказ экскурсии</Typography>
         <Spin v-if="pending" color="primary" />
-        <template v-else>
-            <OrderFitlers v-model="filters" />
-            <div class="space-y-2.5 bg-secondary-100 p-5 rounded-xl">
-                {{ filters }}
-                {{ data }}
-                <div class="flex items-center justify-between space-x-5">
-                    <div>
-                        <Typography>Взрослый (от 12 до 99)</Typography>
-                        <Typography variant="h5">{{ formatCurrency(1700) }}</Typography>
-                    </div>
-                    <QuantityPicker />
-                </div>
-                <div class="flex items-center justify-between space-x-5">
-                    <div>
-                        <Typography>Ребенок (от 4 до 11)</Typography>
-                        <Typography variant="h5">{{ formatCurrency(1700) }}</Typography>
-                    </div>
-                    <QuantityPicker />
-                </div>
-            </div>
-            <Button variant="primary" block>Добавить</Button>
+        <template v-else-if="data">
+            <OrderFitlers
+                v-model="filters"
+                @update:model-value="execute()"
+                :filters="data.filters"
+            />
+            <OrderTickets
+                :tickets="data.tickets"
+                :id="data.activity_item_id"
+                :activity="activity"
+            />
         </template>
     </div>
 </template>

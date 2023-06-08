@@ -1,38 +1,49 @@
 <script setup lang="ts">
+import { ref, watch } from 'vue';
 import { Select, DatePicker } from '@ui/components';
-import { computed } from 'vue';
-
-type ModelValue = {
-    time: string;
-    date: string;
-    option: string;
-};
+import type { ActivitySearchFilter, ActivitySearchFilters } from '@/booking/types';
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import cloneDeep from 'lodash.clonedeep';
 
 type Props = {
-    modelValue: ModelValue;
+    modelValue: ActivitySearchFilters;
+    filters: ActivitySearchFilter[];
 };
 
 const props = defineProps<Props>();
-const emit = defineEmits<{ (e: 'update:modelValue', value: ModelValue): void }>();
+const emit = defineEmits<{ (e: 'update:modelValue', value: ActivitySearchFilters): void }>();
 
-const value = computed({
-    get: () => props.modelValue,
-    set: value => emit('update:modelValue', value),
-});
+const value = ref(cloneDeep(props.modelValue));
+
+const disabledDates = (dates: string[]) => {
+    return (date: Dayjs) => {
+        return !dates.includes(dayjs(date).format('YYYY-MM-DD'));
+    };
+};
+
+watch(value, v => emit('update:modelValue', v), { deep: true });
 </script>
 
 <template>
-    <div class="flex flex-wrap -mx-1.5">
-        <div class="px-1.5">
-            <DatePicker v-model="value.date" :format="'DD.MM.YYYY'" placeholder="дд.мм.гггг" />
-        </div>
-        <div class="px-1.5">
-            <Select v-model="value.time" :options="[{ label: '6:00', value: 1 }]" />
-        </div>
-        <div class="px-1.5">
+    <div class="flex flex-wrap -mx-1.5 -mb-3">
+        <div class="px-1.5 mb-3" v-for="filter in filters" :key="filter.key">
+            <DatePicker
+                v-if="filter.type === 'date'"
+                :date-disabled="disabledDates(filter.allowed)"
+                v-model="value[filter.key]"
+                :format="'DD.MM.YYYY'"
+                placeholder="дд.мм.гггг"
+            />
             <Select
-                v-model="value.option"
-                :options="[{ label: 'Английский - Брощюра', value: 1 }]"
+                v-if="filter.type === 'time'"
+                v-model="value[filter.key]"
+                :options="filter.options"
+            />
+            <Select
+                v-if="filter.type === 'select'"
+                v-model="value[filter.key]"
+                :options="filter.options"
             />
         </div>
     </div>

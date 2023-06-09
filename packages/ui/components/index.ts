@@ -28,3 +28,4 @@ export * from './Field';
 export * from './Input';
 export * from './Alert';
 export * from './RadioButtonGroup';
+export * from './Checkbox';

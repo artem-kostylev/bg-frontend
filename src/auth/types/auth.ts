@@ -21,3 +21,17 @@ export type NextAuthForm = {
     form: AuthenticationForm;
     data?: LoginInfo;
 };
+
+export type RegisterForm = {
+    first_name: string;
+    last_name: string;
+    second_name?: string;
+    email?: string;
+    phone?: string;
+    password?: string;
+    password_confirmation?: string;
+};
+
+export type RegisterErrors = {
+    [k in keyof RegisterForm]: string[];
+};

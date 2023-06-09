@@ -7,7 +7,7 @@ import type {
     LoginInfo,
     NextAuthForm,
 } from '@/auth/types';
-import { Auth, Login } from '@/auth/components';
+import { Auth, Login, Registration } from '@/auth/components';
 import { useVModel } from '@vueuse/core';
 
 type Props = {
@@ -83,6 +83,13 @@ watch(show, value => {
         <template #default>
             <Login
                 v-if="currForm === 'login' && loginInfo.loginValue"
+                :login-info="loginInfo"
+                @show-next="showNext"
+                @set-title="setTitle"
+                @close="show = false"
+            />
+            <Registration
+                v-else-if="currForm === 'registration' && loginInfo.loginValue"
                 :login-info="loginInfo"
                 @show-next="showNext"
                 @set-title="setTitle"

@@ -76,3 +76,17 @@ export const formatMinutes = (duration: number) => {
 
     return `${days ? `${days}д` : ''} ${hours ? `${hours}ч ` : ''}${minutes ? `${minutes}м` : ''}`;
 };
+
+/**
+ *  Преобразует первую букву каждого слова в тексте в верхний регистр
+ *  // TODO: Добавить пример
+ */
+export const textTransform = (text: string) => {
+    const textArr = text.toLowerCase().split(' ');
+
+    for (let i = 0; i < textArr.length; i++) {
+        textArr[i] = textArr[i].charAt(0).toUpperCase() + textArr[i].slice(1);
+    }
+
+    return textArr.join(' ');
+};

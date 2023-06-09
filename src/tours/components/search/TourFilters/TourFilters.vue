@@ -2,8 +2,8 @@
 import { computed } from 'vue';
 import { TourTypeChoose } from '@/tours/components';
 import { useName } from '@/app/composables';
-import { Button, Select } from '@ui/components';
-import { SlidersIcon } from '@ui/icons';
+import { Select } from '@ui/components';
+import { AdvancedFilters } from '@/tours/components';
 
 type Props = {
     modelValue: string;
@@ -43,7 +43,7 @@ const canChooseTourType = computed(() => {
                     canChooseTourType ? 'md:justify-end flex-1 md:flex-none' : ' flex-1',
                 ]"
             >
-                <Button :end-icon="SlidersIcon">Фильтры</Button>
+                <AdvancedFilters />
                 <Select v-model="value" :options="sortOptions" />
             </div>
         </div>

@@ -2,9 +2,10 @@
 import { computed, nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useVuelidate } from '@vuelidate/core';
-import { Card, Input, Button, RadioButtonGroup } from '@ui/components';
+import { Card, Input, Button, RadioButtonGroup, Select } from '@ui/components';
 import { XIcon } from '@ui/icons';
 import type { Questionnary, QuestionnaryForm } from '@/booking/types';
+import type { FetchAvailableDocumentsResponse } from '@/booking/services';
 import {
     required,
     email,
@@ -23,6 +24,7 @@ const { isAuthenticated } = storeToRefs(useAuthStore());
 type Props = {
     questionnary: Questionnary;
     index: number;
+    availableDocuments: FetchAvailableDocumentsResponse;
 };
 
 const props = defineProps<Props>();
@@ -79,6 +81,18 @@ const sexItems = [
     { label: 'Женский', value: 'female' },
 ];
 
+const nationalityItems = computed(() => {
+    return (
+        props.availableDocuments &&
+        props.availableDocuments.map(document => {
+            return {
+                label: document.nationality_name,
+                value: document.nationality_id,
+            };
+        })
+    );
+});
+
 const v$ = useVuelidate(rules, props.questionnary.form as QuestionnaryForm);
 
 const clearForm = () => {
@@ -122,11 +136,14 @@ const submit = async () => {
                 :data-maska="'##.##.####'"
             />
             <RadioButtonGroup required label="Пол" v-model="v$.sex.$model" :items="sexItems" />
-            <Input
+            <Select
+                v-if="props.availableDocuments"
                 required
                 label="Гражданство"
                 v-model="v$.nationality_id.$model"
+                :options="nationalityItems"
                 :error="v$.nationality_id.$errors[0]?.$message"
+                class="w-full"
             />
             <Input
                 required

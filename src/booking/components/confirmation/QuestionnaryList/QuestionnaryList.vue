@@ -201,8 +201,10 @@ onMounted(() => {
         :id="`collapse-${index}`"
     >
         <QuestionnaryCard
+            v-if="documents"
             :questionnary="questionnary"
             :index="index"
+            :available-documents="documents"
             @success="success(index)"
             @clear-form="clearForm"
         />

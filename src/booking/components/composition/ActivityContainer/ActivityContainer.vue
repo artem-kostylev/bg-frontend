@@ -37,7 +37,12 @@ const title = computed(() => {
 </script>
 
 <template>
-    <Typography variant="h2" as="h2">{{ title }}</Typography>
+    <div>
+        <Typography variant="h2" as="h2" class="mb-1">{{ title }}</Typography>
+        <Typography variant="description" v-if="type === 'activities'">
+            Для этого тура можно выбрать дополнительные экскурсии:
+        </Typography>
+    </div>
     <ActivityVariantList
         v-if="includedActivities.length > 1"
         :included-activities="includedActivities"

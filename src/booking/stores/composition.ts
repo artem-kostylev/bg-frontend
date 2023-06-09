@@ -4,16 +4,25 @@ import type { AllActivity } from '@/booking/types';
 
 export const useCompositionStore = defineStore('composition', () => {
     const selectedAllActivities = ref<AllActivity[]>([]);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const selectedTickets = ref<any>({});
+    const selectedTickets = ref<Record<string, Record<string, string | number>>>({});
 
     const selectAllActivities = (allActivities: AllActivity[]) => {
         selectedAllActivities.value = allActivities;
     };
 
-    const addTickets = (id: number, items: { id: number; values: Record<string, number> }) => {
+    const addTickets = (id: number, items: Record<string, string | number>) => {
         selectedTickets.value[id] = items;
     };
 
-    return { selectedAllActivities, selectedTickets, selectAllActivities, addTickets };
+    const removeTickets = (id: number) => {
+        delete selectedTickets.value[id];
+    };
+
+    return {
+        selectedAllActivities,
+        selectedTickets,
+        selectAllActivities,
+        addTickets,
+        removeTickets,
+    };
 });

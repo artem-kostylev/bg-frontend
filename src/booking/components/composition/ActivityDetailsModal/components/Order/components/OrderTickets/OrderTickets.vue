@@ -17,7 +17,15 @@ const { addTickets } = useCompositionStore();
 const values = ref({} as Record<string, number>);
 
 const onSubmit = () => {
-    addTickets(props.activity.id, { id: props.id, values: values.value });
+    const price = props.tickets.reduce((prev, curr) => {
+        if (values.value[curr.key]) {
+            prev += values.value[curr.key] * curr.price;
+        }
+
+        return prev;
+    }, 0);
+
+    addTickets(props.activity.id, { id: props.id, ...values.value, price });
 };
 </script>
 

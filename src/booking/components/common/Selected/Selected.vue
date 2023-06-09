@@ -6,7 +6,7 @@ export default {
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { formatDates, pluralize } from '@/app/lib';
+import { formatDate, pluralize } from '@/app/lib';
 import { InsuranceList, TransferList, TicketList, AccommodationList } from '@/booking/components';
 import type { Accommodation, Insurance, Transfer, General, Movement } from '@/booking/types';
 import { Divider, Collapse, Grid, IconFilled } from '@ui/components';
@@ -37,11 +37,10 @@ const tourists = computed(() =>
 );
 
 const dates = computed(() => {
-    return `с ${formatDates(
-        [props.general.date_start, props.general.date_finish],
-        ' по ',
+    return `с ${formatDate(props.general.date_start, 'D')} по ${formatDate(
+        props.general.date_finish,
         'D MMM'
-    )} 
+    )}
     на ${duration.value}`;
 });
 </script>

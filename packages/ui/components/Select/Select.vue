@@ -1,3 +1,7 @@
+<script lang="ts">
+export default { inheritAttrs: true };
+</script>
+
 <script setup lang="ts">
 import { computed, h, ref, watch } from 'vue';
 import { Menu, Button, Popover } from '@ui/components';
@@ -5,6 +9,7 @@ import type { StringOrNumber } from '@ui/types';
 import { ChevronDownIcon } from '@ui/icons';
 import type { SelectProps } from '@ui/components/Select/select';
 import { defaultSelectProps } from '@ui/components/Select/select';
+import { Field } from '@ui/components';
 
 const props = withDefaults(defineProps<SelectProps>(), defaultSelectProps);
 const emit = defineEmits<{ 'update:modelValue': [StringOrNumber | StringOrNumber[]] }>();
@@ -43,21 +48,53 @@ watch(modelValue, () => {
         open.value = false;
     }
 });
+
+const buttonVariant = computed(() => {
+    return props.error ? 'danger-outline' : props.success ? 'success-outline' : 'base';
+});
+
+const buttonClass = computed(() => {
+    return props.error
+        ? 'border-danger-700'
+        : props.success
+        ? 'border-success-700'
+        : 'border-secondary-400';
+});
+
+const buttonPlaceholderClass = computed(() => {
+    return props.error
+        ? 'text-danger-500'
+        : props.success
+        ? 'text-success-600'
+        : 'text-secondary-500';
+});
 </script>
 
 <template>
     <Popover v-model="open" :placement="placement">
         <template #trigger="{ vbind }">
-            <Button
-                v-bind="vbind"
-                :end-icon="endIcon"
-                :class="open && 'border-secondary-400'"
-                :strong="strong && !!selected"
-                justify="between"
+            <Field
+                :name="name"
+                :required="required"
+                :label="label"
+                :hint="hint"
+                :error="error"
+                :success="success"
             >
-                <template v-if="selected">{{ selected }}</template>
-                <span v-else class="text-secondary-500">{{ placeholder }}</span>
-            </Button>
+                <Button
+                    :name="name"
+                    v-bind="{ ...vbind, ...$attrs }"
+                    :end-icon="endIcon"
+                    :class="open && buttonClass"
+                    :variant="buttonVariant"
+                    :strong="strong && !!selected"
+                    justify="between"
+                    :block="block"
+                >
+                    <template v-if="selected">{{ selected }}</template>
+                    <span v-else :class="buttonPlaceholderClass">{{ placeholder }}</span>
+                </Button>
+            </Field>
         </template>
         <Menu v-model="modelValue" :options="options" :multiple="multiple" />
     </Popover>

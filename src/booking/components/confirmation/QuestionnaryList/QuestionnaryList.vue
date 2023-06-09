@@ -8,7 +8,7 @@ export default {
 import { useLazyAsyncData, useRoute, useRouter } from '#imports';
 import { ref, reactive, computed, onMounted } from 'vue';
 import type { General, Insurance, Accommodation } from '@/booking/types';
-import { Button, Typography, Collapse } from '@ui/components';
+import { Button, Typography, Collapse, Checkbox } from '@ui/components';
 import { QuestionnaryCard } from '@/booking/components';
 import { fetchAvailableDocuments, createOrder } from '@/booking/services';
 import type { Questionnary, QuestionnaryForm } from '@/booking/types';

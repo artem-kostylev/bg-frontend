@@ -3,6 +3,8 @@ import { ref } from 'vue';
 import { Button, Input } from '@ui/components';
 import { useVuelidate } from '@vuelidate/core';
 import { required, emailOrNumber } from '@/app/lib';
+import { vMaska } from 'maska';
+import { useMaskOptions } from '@/auth/composables';
 
 type Props = {
     error?: string | null;
@@ -25,6 +27,8 @@ const rules = {
 
 const v$ = useVuelidate(rules, form);
 
+const { options } = useMaskOptions();
+
 const emit = defineEmits<{
     (e: 'submit', value: string): void;
 }>();
@@ -42,6 +46,7 @@ const onSubmit = async () => {
             name="login"
             placeholder="E-mail или Телефон"
             :error="v$.login.$errors[0]?.$message || error"
+            v-maska:[options]
             @keyup.enter="onSubmit"
         />
         <div class="flex justify-center mt-2.5">

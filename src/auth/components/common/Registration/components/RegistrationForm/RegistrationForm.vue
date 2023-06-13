@@ -18,8 +18,9 @@ import {
 } from '@/app/lib';
 import { helpers, sameAs } from '@vuelidate/validators';
 import { PasswordRequirements } from '../PasswordRequirements';
-import { useClearForm } from '@/auth/composables/useClearForm';
+import { useClearForm } from '@/auth/composables';
 import { textTransform } from '@/app/lib/helpers';
+import { vMaska } from 'maska';
 
 type Props = {
     loginInfo: LoginInfo;
@@ -146,6 +147,8 @@ onBeforeUnmount(() => {
                 placeholder="Мобильный телефон"
                 :error="v$.phone.$errors[0]?.$message"
                 :start-icon="MobilePhoneIcon"
+                v-maska
+                :data-maska="'+7 (###) ### ## ##'"
             />
             <Divider dashed />
             <InputPassword

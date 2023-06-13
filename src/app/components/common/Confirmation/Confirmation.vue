@@ -3,6 +3,7 @@ import { ref, watch } from 'vue';
 import { Input } from '@ui/components';
 import { useVuelidate } from '@vuelidate/core';
 import { required, confirmationCode } from '@/app/lib';
+import { vMaska } from 'maska';
 
 type Props = {
     error?: string | null;
@@ -46,6 +47,8 @@ watch(
             :disabled="inputDisabled"
             justify="center"
             class="mt-5"
+            v-maska
+            :data-maska="'####'"
         />
         <slot name="error" />
     </div>

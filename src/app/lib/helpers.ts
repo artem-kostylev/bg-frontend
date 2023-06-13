@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { Mask } from 'maska';
 
 /**
  *  Проверяет наличие ключей в обьекте
@@ -101,3 +102,5 @@ export const removeEmptyKeys = (form: { [key: string]: string }) => {
         {}
     );
 };
+
+export const phoneMask = new Mask({ mask: '+7 (###) ### ## ##' });

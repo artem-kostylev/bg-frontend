@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, nextTick } from 'vue';
+import { reactive, computed, nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useVuelidate } from '@vuelidate/core';
 import { Card, Input, Button, RadioButtonGroup, Select } from '@ui/components';
@@ -56,6 +56,24 @@ const selectedDoc = computed(() => {
     return documents.value?.find(
         (doc: { id: number }) => doc.id === props.questionnary.form.document_type_id
     );
+});
+
+const docMask = computed(() => {
+    if (!v$.value.document_type_id.$model || !documents.value?.length) return '#### ######';
+
+    const template = documents.value.find(
+        (doc: { id: number }) => doc.id === v$.value.document_type_id.$model
+    )?.template;
+
+    if (template?.length) {
+        return template[0];
+    } else {
+        return '#### ######';
+    }
+});
+
+const options = reactive({
+    mask: docMask,
 });
 
 const rules = {
@@ -170,6 +188,7 @@ const submit = async () => {
                 label="Серия и номер документа"
                 v-model="v$.document_number.$model"
                 :error="v$.document_number.$errors[0]?.$message"
+                v-maska:[options]
             />
             <Input
                 required

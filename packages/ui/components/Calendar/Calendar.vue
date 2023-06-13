@@ -11,17 +11,41 @@ const emit = defineEmits<{ (e: 'update:modelValue', value: string | string[] | n
 
 const now = dayjs().valueOf();
 
-const modelValue = ref<string | string[] | null>(props.modelValue);
-const currentMonth = ref<string | null>(
-    dayjs(props.modelValue?.[1]).startOf('month').format(props.valueFormat)
+const modelValue = ref<string | string[] | null>(null);
+const currentMonth = ref<string | null>(null);
+
+// TODO: fix this
+
+watch(
+    () => props.modelValue,
+    value => {
+        modelValue.value = value;
+
+        if (props.range && value) {
+            if (!(value as string[]).length) {
+                currentMonth.value = dayjs(now).startOf('month').format(props.valueFormat);
+            } else {
+                currentMonth.value = dayjs(value[1]).startOf('month').format(props.valueFormat);
+            }
+        } else {
+            if (!(value as string)) {
+                currentMonth.value = dayjs(now).startOf('month').format(props.valueFormat);
+            } else {
+                currentMonth.value = dayjs(props.modelValue as string)
+                    .startOf('month')
+                    .format(props.valueFormat);
+            }
+        }
+    },
+    { immediate: true }
 );
 
 const days = computed(() => {
-    const start = dayjs(currentMonth.value).startOf('week').add(1, 'day');
+    const start = dayjs(currentMonth.value).startOf('week');
     const end = dayjs(currentMonth.value).endOf('month').endOf('week');
 
     const diff = end.diff(start, 'days');
-    const num = 41 - diff;
+    const num = 42 - diff;
 
     const dayArray = [];
 

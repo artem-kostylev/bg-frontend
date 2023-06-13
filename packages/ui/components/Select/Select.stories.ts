@@ -45,3 +45,43 @@ export const Single: Story = {
         template: '<Select v-model="selected" v-bind="args" />',
     }),
 };
+
+export const Label: Story = {
+    args: {
+        label: 'Сортировка',
+        modelValue: '',
+        required: true,
+    },
+};
+
+export const Hint: Story = {
+    args: {
+        ...Label.args,
+        modelValue: '',
+        hint: 'Описание',
+    },
+};
+
+export const Error: Story = {
+    args: {
+        ...Label.args,
+        modelValue: '',
+        error: 'Поле обязательно для заполнения',
+    },
+};
+
+export const Success: Story = {
+    args: {
+        ...Label.args,
+        modelValue: '',
+        success: 'Поле обязательно для заполнения',
+    },
+};
+
+export const Block: Story = {
+    args: {
+        ...Label.args,
+        modelValue: '',
+        block: true,
+    },
+};

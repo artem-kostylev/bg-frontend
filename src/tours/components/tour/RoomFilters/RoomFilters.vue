@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, watch } from 'vue';
 import { DatePicker } from '@ui/components';
 import { MoonIcon } from '@ui/icons';
 import { NumberPicker } from '@ui/components';
 import type { RoomAggregations } from '@/tours/services';
 import type { Dayjs } from 'dayjs';
+import cloneDeep from 'lodash.clonedeep';
 
 type Props = {
     modelValue: RoomAggregations;
@@ -14,10 +15,7 @@ type Props = {
 const props = defineProps<Props>();
 const emit = defineEmits<{ (e: 'update:modelValue', value: RoomAggregations): void }>();
 
-const value = computed({
-    get: () => props.modelValue,
-    set: value => emit('update:modelValue', value),
-});
+const value = ref(cloneDeep(props.modelValue));
 
 const durationRenderLabel = (modelValue: number[] | number | null) => {
     const value = modelValue as number[];
@@ -32,6 +30,8 @@ const beginDateDisabled = (date: Dayjs) => {
 const durationDisabled = (number: number) => {
     return !props.aggregations?.duration.includes(number);
 };
+
+watch(value, v => emit('update:modelValue', v), { deep: true });
 </script>
 
 <template>

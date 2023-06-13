@@ -30,3 +30,4 @@ export * from './Field';
 export * from './Input';
 export * from './Alert';
 export * from './Checkbox';
+export * from './Radio';

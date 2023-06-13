@@ -23,7 +23,7 @@ type RadioButtonChild = BaseChild & {
 };
 
 export type FetchAdvancedFiltersResponse = {
-    children: { name: string; children: (RangeSliderChild | CheckboxChild | RadioButtonChild)[] };
+    children: { name: string; children: (RangeSliderChild | CheckboxChild | RadioButtonChild)[] }[];
     filters_hidden: string[];
     quantity: number;
 };

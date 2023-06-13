@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { Modal, Button } from '@ui/components';
+import { Modal, Button, Typography } from '@ui/components';
 import { SlidersIcon } from '@ui/icons';
 import { useName, useQuery } from '@/app/composables';
 import { fetchAdvancedFilters } from '@/tours/services';
@@ -31,7 +31,28 @@ const open = async () => {
         <template #trigger="{ vbind }">
             <Button v-bind="vbind" :end-icon="SlidersIcon">Фильтры</Button>
         </template>
-        {{ data }}
+        <div v-if="data">
+            <template v-for="section in data.children" :key="section.key">
+                <div
+                    v-if="section.children.length"
+                    class="border-b last:border-0 border-secondary-200 mb-4 last:mb-0 border-dashed"
+                >
+                    <Typography variant="h4">{{ section.name }}</Typography>
+                    <div class="md:columns-2 lg:columns-3 my-4">
+                        <div v-for="item in section.children" :key="item.key">
+                            <div class="mb-8 break-inside-avoid-column">
+                                <div
+                                    class="flex flex-col space-y-2.5"
+                                    v-if="item.type === 'range-slider'"
+                                >
+                                    {{ item.type }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
         <template #footer>
             <div class="flex justify-end space-x-2.5">
                 <Button>Сбросить</Button>

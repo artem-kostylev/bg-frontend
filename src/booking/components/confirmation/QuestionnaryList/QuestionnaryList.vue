@@ -77,13 +77,13 @@ const collapsed = ref([0]);
 const rules = {
     agreeWithTerms: { required, sameAsTrue: sameAs(true) },
     agreeWithPersonalData: { required, sameAsTrue: sameAs(true) },
-    clientId: { required },
+    // clientId: { required },
     agreeWithReceiveNews: {},
 };
 
 // TODO
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const v$ = useVuelidate(rules, form as any);
+const v$ = useVuelidate(rules, form.questionnaries as any);
 
 const success = (index: number) => {
     if (currentFormIndex.value !== index) return;
@@ -168,6 +168,7 @@ const submit = async () => {
 
     if (!isAuthenticated.value) {
         // showAuthModal.value = true;
+        // TODO: Когда будет готова авторизация
         return;
     }
 

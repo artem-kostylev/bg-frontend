@@ -216,6 +216,7 @@ onMounted(() => {
             :questionnary="questionnary"
             :index="index"
             :available-documents="documents"
+            :is-last="form.questionnaries[index + 1] === undefined"
             @success="success(index)"
             @clear-form="clearForm"
         />

@@ -25,6 +25,7 @@ type Props = {
     questionnary: Questionnary;
     index: number;
     availableDocuments: FetchAvailableDocumentsResponse;
+    isLast: boolean;
 };
 
 const props = defineProps<Props>();
@@ -230,7 +231,7 @@ const submit = async () => {
                 </div>
             </button>
         </div>
-        <div class="flex space-x-2.5">
+        <div v-if="!isLast" class="flex space-x-2.5">
             <Button variant="primary" @click="submit"> Перейти к следущей анкете </Button>
         </div>
     </Card>

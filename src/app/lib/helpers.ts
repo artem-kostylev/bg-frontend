@@ -90,3 +90,14 @@ export const textTransform = (text: string) => {
 
     return textArr.join(' ');
 };
+
+/**
+ *  Удаляет ключи формы с пустыми значениями
+ *  // TODO: Добавить пример
+ */
+export const removeEmptyKeys = (form: { [key: string]: string }) => {
+    return Object.entries(form).reduce(
+        (a: { [key: string]: string }, [k, v]) => (v === '' ? a : ((a[k] = v), a)),
+        {}
+    );
+};

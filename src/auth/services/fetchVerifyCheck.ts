@@ -8,8 +8,8 @@ type FetchVerifyCheckBody = {
 };
 
 export type FetchVerifyCheckResponse = {
-    user: User;
-    token: string;
+    user?: User;
+    token?: string;
 };
 
 export const fetchVerifyCheck = async (code: string, loginInfo: LoginInfo) => {

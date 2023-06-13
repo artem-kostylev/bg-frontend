@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { Alert } from '@ui/components';
-import { LoginForm, ForgotPasswordTip, LoginConfirmation } from './components';
+import { LoginForm, ForgotPasswordTip } from './components';
+import { AuthConfirmation } from '@/auth/components';
 import type { LoginInfo, NextAuthForm, AuthenticationTitle } from '@/auth/types';
 import { fetchVerifySend, fetchLogin } from '@/auth/services';
 import type { fetchLoginResponse } from '@/auth/services';
@@ -110,7 +111,7 @@ const resetPassword = () => {
 <template>
     <div class="space-y-4">
         <Alert v-if="error" variant="error" :text="error" />
-        <LoginConfirmation
+        <AuthConfirmation
             v-if="showConfirmation"
             :verify-sent="verifySent"
             :login-info="loginInfo"

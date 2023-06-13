@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { Confirmation } from '@/auth/components';
+import { Confirmation } from '@/app/components';
 import type { LoginInfo } from '@/auth/types';
-import { fetchVerifyCheck } from '@/auth/services';
-import type { FetchVerifyCheckResponse } from '@/auth/services';
+import { fetchVerifyCheck, fetchLogin } from '@/auth/services';
+import type { FetchVerifyCheckResponse, fetchLoginResponse } from '@/auth/services';
 import { useAuthStore } from '@/auth/stores/auth';
 
 type Props = {
     verifySent: boolean;
     loginInfo: LoginInfo;
+    password?: string | null;
 };
 
 const props = defineProps<Props>();
@@ -26,11 +27,9 @@ const emit = defineEmits<{
 const authStore = useAuthStore();
 const { setUser, setAccessToken } = authStore;
 
-const saveUser = (response: FetchVerifyCheckResponse) => {
-    if (props.loginInfo.loginType === 'phone') {
-        setUser(response.user);
-        setAccessToken(response.token);
-    }
+const saveUser = (response: FetchVerifyCheckResponse | fetchLoginResponse) => {
+    response.user && setUser(response.user);
+    response.token && setAccessToken(response.token);
 };
 
 const pending = ref(false);
@@ -52,8 +51,16 @@ const confirm = async (code: string) => {
 
     try {
         pending.value = true;
-        const response = await fetchVerifyCheck(code, props.loginInfo);
-        response && saveUser(response);
+
+        const verifyResponse = await fetchVerifyCheck(code, props.loginInfo);
+        if (!verifyResponse) return;
+
+        if (props.loginInfo.loginType === 'phone') {
+            saveUser(verifyResponse);
+        } else if (props.password) {
+            const loginResponse = await fetchLogin(props.password, props.loginInfo);
+            loginResponse && saveUser(loginResponse);
+        }
 
         emit('close');
         error.value = null;
@@ -70,6 +77,10 @@ const confirm = async (code: string) => {
     } finally {
         pending.value = false;
     }
+};
+
+const changeLogin = () => {
+    emit('change-login');
 };
 
 const incorrectLabel = computed(() => {
@@ -89,7 +100,7 @@ const incorrectLabel = computed(() => {
         <template #error>
             <div v-if="incorrectCode">
                 <span>Введите корректный код или</span>
-                <button class="text-blue-700 cursor-pointer" @click="emit('change-login')">
+                <button class="text-blue-700 cursor-pointer" @click="changeLogin">
                     {{ incorrectLabel }}
                 </button>
             </div>

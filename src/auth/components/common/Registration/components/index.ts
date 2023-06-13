@@ -1,2 +1,2 @@
 export * from './RegistrationForm';
-export * from './RegisterConfirmation';
+export * from './PasswordRequirements';

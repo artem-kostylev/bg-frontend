@@ -17,6 +17,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { sameAs } from '@vuelidate/validators';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/auth/stores';
+import { parseTickets } from '@/booking/lib/helpers';
 // import { useMessage } from '@ui/composables';
 
 const route = useRoute();
@@ -136,7 +137,7 @@ const sendOrder = async () => {
             form.clientId === -1 ? modalForm.value : form.questionnaries[form.clientId];
     }
 
-    tickets && (payload.tickets = JSON.parse(tickets as string));
+    tickets && (payload.tickets = parseTickets(tickets as string[]));
     transfers && (payload.transfers = JSON.parse(transfers as string));
 
     try {

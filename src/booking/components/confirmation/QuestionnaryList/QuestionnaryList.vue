@@ -6,7 +6,7 @@ export default {
 
 <script setup lang="ts">
 import { useLazyAsyncData, useRoute, useRouter } from '#imports';
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted, watch } from 'vue';
 import type { General, Insurance, Accommodation } from '@/booking/types';
 import { Button, Typography, Collapse, Checkbox } from '@ui/components';
 import { QuestionnaryCard } from '@/booking/components';
@@ -173,6 +173,17 @@ const submit = async () => {
 
     await sendOrder();
 };
+
+watch(documents, value => {
+    form.questionnaries = props.general.groups.flatMap(({ tourists, tour_id }) =>
+        tourists.map(({ description }) => ({
+            label: description,
+            form: { service_insurance_id: props.insurances[0].id } as Partial<QuestionnaryForm>,
+            tour_id,
+            availableDocuments: documents.value,
+        }))
+    );
+});
 
 onMounted(() => {
     form.questionnaries = props.general.groups.flatMap(({ tourists, tour_id }) =>

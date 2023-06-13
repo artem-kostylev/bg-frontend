@@ -30,6 +30,8 @@ const selected = computed(() => {
         return result.join(', ');
     }
 
+    if (!props.options) return '';
+
     const value = props.options.find(option => option.value === modelValue.value);
     return value?.label;
 });

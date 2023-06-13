@@ -42,6 +42,16 @@ const documents = computed(() => {
     return nationality?.documents;
 });
 
+const documentsItems = computed(() => {
+    if (!documents.value) return [{ label: '', value: '' }];
+    return documents.value.map(document => {
+        return {
+            label: document.name,
+            value: document.id,
+        };
+    });
+});
+
 const selectedDoc = computed(() => {
     return documents.value?.find(
         (doc: { id: number }) => doc.id === props.questionnary.form.document_type_id
@@ -83,8 +93,8 @@ const sexItems = [
 
 const nationalityItems = computed(() => {
     return (
-        props.availableDocuments &&
-        props.availableDocuments.map(document => {
+        props.questionnary.availableDocuments &&
+        props.questionnary.availableDocuments.map(document => {
             return {
                 label: document.nationality_name,
                 value: document.nationality_id,
@@ -137,7 +147,7 @@ const submit = async () => {
             />
             <RadioButtonGroup required label="Пол" v-model="v$.sex.$model" :items="sexItems" />
             <Select
-                v-if="props.availableDocuments"
+                v-if="props.availableDocuments && nationalityItems"
                 required
                 label="Гражданство"
                 v-model="v$.nationality_id.$model"
@@ -145,11 +155,15 @@ const submit = async () => {
                 :error="v$.nationality_id.$errors[0]?.$message"
                 class="w-full"
             />
-            <Input
+            <Select
+                v-if="props.availableDocuments"
                 required
                 label="Документ"
                 v-model="v$.document_type_id.$model"
+                :options="documentsItems"
+                :disabled="!documents"
                 :error="v$.document_type_id.$errors[0]?.$message"
+                class="w-full"
             />
             <Input
                 required

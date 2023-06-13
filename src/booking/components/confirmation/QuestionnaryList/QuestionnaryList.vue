@@ -8,8 +8,8 @@ export default {
 import { useLazyAsyncData, useRoute, useRouter } from '#imports';
 import { ref, reactive, computed, onMounted, watch } from 'vue';
 import type { General, Insurance, Accommodation } from '@/booking/types';
-import { Button, Typography, Collapse, Checkbox } from '@ui/components';
-import { QuestionnaryCard } from '@/booking/components';
+import { Button, Typography, Collapse, Checkbox, Radio, Card, Modal } from '@ui/components';
+import { QuestionnaryCard, ModalForm } from '@/booking/components';
 import { fetchAvailableDocuments, createOrder } from '@/booking/services';
 import type { Questionnary, QuestionnaryForm } from '@/booking/types';
 import { formatCurrency, required } from '@/app/lib';
@@ -23,7 +23,7 @@ const route = useRoute();
 const router = useRouter();
 
 type Form = {
-    clientId: number | null;
+    clientId?: number;
     questionnaries: Questionnary[];
     news: {};
 };
@@ -39,12 +39,11 @@ const props = defineProps<Props>();
 const sending = ref(false);
 const error = ref('');
 const newPrice = ref<number | null>(null);
-const modalForm = ref({ label: '', tour_id: '', form: {} });
+const modalForm = ref<QuestionnaryForm>();
 
 // const message = useMessage();
 
 const form = reactive<Form>({
-    clientId: null,
     questionnaries: [],
     news: {},
 });
@@ -73,6 +72,7 @@ const clearForm = (index: number) => {
 
 const currentFormIndex = ref(0);
 const collapsed = ref([0]);
+const showFormModal = ref(false);
 
 const rules = {
     agreeWithTerms: { required, sameAsTrue: sameAs(true) },
@@ -131,7 +131,7 @@ const sendOrder = async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const payload: any = { groups };
 
-    if (form.clientId !== null) {
+    if (form.clientId !== undefined) {
         payload.client =
             form.clientId === -1 ? modalForm.value : form.questionnaries[form.clientId];
     }
@@ -186,6 +186,26 @@ watch(documents, value => {
     );
 });
 
+const isAdult = (dateOfBirth?: string) => {
+    if (!dateOfBirth) return true;
+
+    const now = new Date();
+    const birthDate = new Date(dateOfBirth.split('.').reverse().join('-'));
+    const ageInMilliseconds = now.getTime() - birthDate.getTime();
+    const ageInYears = ageInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
+    return ageInYears >= 18;
+};
+
+const onModalSubmit = () => {
+    showFormModal.value = false;
+};
+
+const onModalClose = () => {
+    showFormModal.value = false;
+    form.clientId = undefined;
+    modalForm.value = undefined;
+};
+
 onMounted(() => {
     form.questionnaries = props.general.groups.flatMap(({ tourists, tour_id }) =>
         tourists.map(({ description }) => ({
@@ -222,6 +242,36 @@ onMounted(() => {
             @clear-form="clearForm"
         />
     </Collapse>
+    <div class="border-t border-b border-slate-500 py-5">
+        <div class="text-xl mb-5">
+            Анкета для оформления договора
+            <span class="text-red-600">*</span>
+        </div>
+        <div class="flex flex-col space-y-4">
+            <template v-for="(entity, index) in form.questionnaries" :key="index">
+                <Radio v-if="isAdult(entity.form.birthday)" v-model="form.clientId" :value="index">
+                    Использовать для анкеты данные Туриста №{{ index + 1 }}
+                </Radio>
+            </template>
+            <Modal v-model="showFormModal" persistent>
+                <template #trigger="{ vbind }">
+                    <Radio v-bind="vbind" v-model="form.clientId" :value="-1">
+                        Заполнить анкету
+                    </Radio>
+                </template>
+                <Card>
+                    <template #header>
+                        <Typography variant="h3">Анкета</Typography>
+                    </template>
+                    <ModalForm
+                        :questionnary="modalForm"
+                        @submit="onModalSubmit"
+                        @close="onModalClose"
+                    />
+                </Card>
+            </Modal>
+        </div>
+    </div>
     <div class="flex flex-col space-y-4">
         <Checkbox v-model="v$.agreeWithTerms.$model">
             Я ознакомлен, принимаю и соглашаюсь с условиями

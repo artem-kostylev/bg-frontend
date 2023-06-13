@@ -16,6 +16,9 @@ export const buttonVariants = {
     ghost: 'border-none text-primary-500 font-normal flex items-center !p-0',
     success: 'bg-success-700 border border-transparent text-white hover:bg-success-800 shadow-sm',
     danger: 'bg-danger-700 border border-transparent text-white hover:bg-danger-800 shadow-sm',
+    'success-outline':
+        'bg-white border border-success-500 text-success-500 hover:border-success-700 shadow-sm',
+    'danger-outline': 'border border-danger-500 text-danger-500 hover:border-danger-700 shadow-sm',
 };
 
 export const buttonSizes = {

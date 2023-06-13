@@ -29,10 +29,12 @@ export type FetchCompositionQuery = {
 type FetchCompositionPayload = FetchCompositionQuery;
 
 const fetchCompositionWithMovements = async (payload: FetchCompositionPayload) => {
-    return await http<FetchCompositionResponse>('tour/detail', {
+    const response = await http<FetchCompositionResponse>('tour/detail', {
         method: 'POST',
         body: { ids: payload.ids, tours_hash: payload.tours_hash },
     });
+
+    return response;
 };
 
 const fetchCompositionWithoutMovements = async (payload: FetchCompositionPayload) => {

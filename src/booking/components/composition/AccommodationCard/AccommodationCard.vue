@@ -4,7 +4,7 @@ import { BuildingsIcon, CalendarIcon } from '@ui/icons';
 import type { Accommodation } from '@/booking/types';
 import { IconFilled, Typography } from '@ui/components';
 import { LocationList } from '@/app/components';
-import { formatDates, pluralize } from '@/app/lib';
+import { formatDate, pluralize } from '@/app/lib';
 import { AccommodationRoomList } from '@/booking/components';
 
 type Props = {
@@ -16,11 +16,10 @@ const props = defineProps<Props>();
 const duration = computed(() => pluralize(props.accommodation.duration, ['ночь', 'ночи', 'ночей']));
 
 const dates = computed(() => {
-    return `с ${formatDates(
-        [props.accommodation.date_start, props.accommodation.date_finish],
-        ' по ',
+    return `с ${formatDate(props.accommodation.date_start, 'D')} по ${formatDate(
+        props.accommodation.date_finish,
         'D MMM'
-    )} 
+    )}
     на ${duration.value}`;
 });
 </script>

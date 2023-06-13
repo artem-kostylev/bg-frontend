@@ -6,13 +6,17 @@ import { useQuery } from '@/app/composables';
 import { Page } from '@/app/components';
 import { Spin, Typography, Button, Divider, Grid } from '@ui/components';
 import { fetchComposition, type FetchCompositionQuery } from '@/booking/services';
-import { Selected, ActivityList } from '@/booking/components';
+import { Selected, ActivityContainer } from '@/booking/components';
+import { useCompositionStore } from '@/booking/stores';
+import { storeToRefs } from 'pinia';
 
 const query = useQuery<FetchCompositionQuery>();
 
 const { data, pending } = useLazyAsyncData('booking-composition', () =>
     fetchComposition(query.value)
 );
+
+const { selectedTickets } = storeToRefs(useCompositionStore());
 
 const meta = {
     title: 'Состав',
@@ -26,6 +30,19 @@ const to = computed(() => {
 
     to.name = 'booking-confirmation';
 
+    const values = Object.values(selectedTickets.value);
+
+    to.query!.tickets = values.map(value => {
+        const keys = Object.keys(value);
+        keys.pop();
+
+        return keys.map(key => `${key}:${value[key]}`).join('$');
+    });
+
+    to.query!.transfers = data.value?.transfers
+        .filter(transfer => !!transfer.price)
+        .map(transfer => transfer.id);
+
     return to;
 });
 </script>
@@ -36,9 +53,8 @@ const to = computed(() => {
         <Grid gap="5" v-else-if="data">
             <Typography variant="h1" as="h1">Состав</Typography>
             <Selected v-bind="data" :default-open="true" />
-            <template v-if="data.included_activities">
-                <Typography variant="h2" as="h2">Чем заняться</Typography>
-                <ActivityList :included-activities="data.included_activities" />
+            <template v-if="data.included_activities?.length">
+                <ActivityContainer :included-activities="data.included_activities" />
                 <Divider dashed />
             </template>
             <div>

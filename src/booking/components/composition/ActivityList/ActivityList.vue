@@ -1,33 +1,17 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import type { IncludedActivity } from '@/booking/types';
-import { useCompositionStore } from '@/booking/stores';
-
-const compositionStore = useCompositionStore();
-const { selectAllActivities } = compositionStore;
+import { ActivityCard } from '@/booking/components';
+import type { AllActivity } from '@/booking/types';
+import { Grid } from '@ui/components';
 
 type Props = {
-    includedActivities: IncludedActivity[];
+    activities: AllActivity[];
 };
 
-const props = defineProps<Props>();
-
-const type = computed(() => {
-    const { includedActivities } = props;
-
-    return includedActivities.length === 1
-        ? includedActivities[0].all_activities.length
-            ? 'activities'
-            : 'basic'
-        : 'options';
-});
-
-onMounted(() => {
-    const { includedActivities } = props;
-    type.value === 'activities' && selectAllActivities(includedActivities[0].all_activities);
-});
+defineProps<Props>();
 </script>
 
 <template>
-    <div>{{ type }}</div>
+    <Grid cols="3" gap="5">
+        <ActivityCard v-for="activity in activities" :key="activity.id" :activity="activity" />
+    </Grid>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, computed, ref, watch } from 'vue';
+import { onBeforeUnmount, computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { clearNuxtData, useLazyAsyncData } from '#imports';
 import { useParams, useQuery } from '@/app/composables';
@@ -9,7 +9,6 @@ import { fetchRooms } from '@/tours/services';
 import { useRoomsStore } from '@/tours/stores';
 import { Empty } from '@/app/components';
 import type { FetchRoomsQuery, RoomAggregations } from '@/tours/services';
-import { watchOnce } from '@vueuse/core';
 
 const params = useParams<{ id: string }>();
 const query = useQuery<FetchRoomsQuery>();
@@ -22,11 +21,18 @@ const filters = ref<RoomAggregations>({
     begin_date: [],
 });
 
-const aggregations = ref<RoomAggregations | null>(null);
+const roomAggregations = ref<RoomAggregations | null>(null);
 
 const getRooms = async () => {
     const response = await fetchRooms(Number(params.value.id), query.value, filters.value);
-    !aggregations.value && (aggregations.value = response.groups[0].aggregations);
+    const { aggregations } = response.groups[0];
+
+    !roomAggregations.value && (roomAggregations.value = aggregations);
+
+    const { begin_date, duration } = aggregations;
+
+    filters.value.begin_date = [begin_date[0], begin_date[begin_date.length - 1]];
+    filters.value.duration = [duration[0], duration[duration.length - 1]];
 
     return response;
 };
@@ -52,26 +58,6 @@ const hasNext = computed(() => {
         : false;
 });
 
-watchOnce(data, value => {
-    if (!value) return;
-
-    const { begin_date, duration } = value.groups[0].aggregations;
-
-    filters.value = {
-        begin_date: [begin_date[0], begin_date[begin_date.length - 1]],
-        duration: [duration[0], duration[duration.length - 1]],
-    };
-});
-
-watch(
-    filters,
-    (value, prevValue) => {
-        if (!prevValue.begin_date.length || !prevValue.duration.length) return;
-        execute();
-    },
-    { deep: true }
-);
-
 onBeforeUnmount(() => {
     roomsStore.$reset();
     clearNuxtData('rooms');
@@ -85,7 +71,12 @@ onBeforeUnmount(() => {
                 <Typography variant="h2" as="h2">{{ title }}</Typography>
             </div>
             <div class="px-5 w-full md:w-auto mb-5">
-                <RoomFilters v-model="filters" :aggregations="aggregations" />
+                <RoomFilters
+                    v-if="data"
+                    v-model="filters"
+                    @update:model-value="execute()"
+                    :aggregations="roomAggregations"
+                />
             </div>
         </div>
         <Spin v-if="pending" class="py-5" color="primary" />

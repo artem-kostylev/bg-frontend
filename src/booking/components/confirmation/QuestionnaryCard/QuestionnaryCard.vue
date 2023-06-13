@@ -172,7 +172,7 @@ const submit = async () => {
                 v-model="v$.nationality_id.$model"
                 :options="nationalityItems"
                 :error="v$.nationality_id.$errors[0]?.$message"
-                class="w-full"
+                block
             />
             <Select
                 v-if="props.availableDocuments"
@@ -182,7 +182,7 @@ const submit = async () => {
                 :options="documentsItems"
                 :disabled="!documents"
                 :error="v$.document_type_id.$errors[0]?.$message"
-                class="w-full"
+                block
             />
             <Input
                 required

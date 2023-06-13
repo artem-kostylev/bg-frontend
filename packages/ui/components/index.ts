@@ -1,5 +1,6 @@
 export * from './Button';
 export * from './Modal';
+export * from './CoveredModal';
 export * from './Overlay';
 export * from './Container';
 export * from './Card';
@@ -23,6 +24,7 @@ export * from './RangeNumber';
 export * from './NumberPicker';
 export * from './Calendar';
 export * from './DatePicker';
+export * from './QuantityPicker';
 export * from './ProgressBar';
 export * from './Field';
 export * from './Input';

@@ -19,15 +19,15 @@ const { data, pending, execute } = useLazyAsyncData(`room-${props.id}`, () => fe
     immediate: false,
 });
 
-const open = () => !data.value && execute();
-
-onBeforeUnmount(() => clearNuxtData(`room-${props.id}`));
-
 const roomLocation = computed(() => {
     const list = data.value?.room_location.map(location => location.label);
 
     return list && formatList(list);
 });
+
+const open = () => !data.value && execute();
+
+onBeforeUnmount(() => clearNuxtData(`room-${props.id}`));
 </script>
 
 <template>

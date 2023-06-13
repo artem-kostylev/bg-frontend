@@ -21,6 +21,7 @@ type Props = {
     size?: keyof typeof sizes;
     title?: string;
     loading?: boolean;
+    persistent?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -55,6 +56,8 @@ const hide = () => {
 watch(visible, value => (isLocked.value = value));
 
 onClickOutside(targetRef, () => {
+    if (props.persistent) return;
+
     const elements = document.body.querySelectorAll('[data-clickoutside]');
     const lastElement = elements[elements.length - 1];
 

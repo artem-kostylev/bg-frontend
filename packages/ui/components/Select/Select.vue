@@ -12,7 +12,9 @@ import { defaultSelectProps } from '@ui/components/Select/select';
 import { Field } from '@ui/components';
 
 const props = withDefaults(defineProps<SelectProps>(), defaultSelectProps);
-const emit = defineEmits<{ 'update:modelValue': [StringOrNumber | StringOrNumber[]] }>();
+const emit = defineEmits<{
+    'update:modelValue': [StringOrNumber | StringOrNumber[] | undefined];
+}>();
 
 const modelValue = computed({
     get: () => props.modelValue,
@@ -92,6 +94,7 @@ const buttonPlaceholderClass = computed(() => {
                     :strong="strong && !!selected"
                     justify="between"
                     :block="block"
+                    :disabled="disabled"
                 >
                     <template v-if="selected">{{ selected }}</template>
                     <span v-else :class="buttonPlaceholderClass">{{ placeholder }}</span>

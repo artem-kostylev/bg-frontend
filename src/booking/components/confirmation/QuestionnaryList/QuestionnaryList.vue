@@ -242,11 +242,11 @@ onMounted(() => {
             @clear-form="clearForm"
         />
     </Collapse>
-    <div class="border-t border-b border-slate-500 py-5">
-        <div class="text-xl mb-5">
+    <div class="border-t border-b border-secondary-200 border-dashed py-5">
+        <Typography variant="h3" class="mb-5">
             Анкета для оформления договора
-            <span class="text-red-600">*</span>
-        </div>
+            <span class="text-danger-600">*</span>
+        </Typography>
         <div class="flex flex-col space-y-4">
             <template v-for="(entity, index) in form.questionnaries" :key="index">
                 <Radio v-if="isAdult(entity.form.birthday)" v-model="form.clientId" :value="index">
@@ -275,14 +275,14 @@ onMounted(() => {
     <div class="flex flex-col space-y-4">
         <Checkbox v-model="v$.agreeWithTerms.$model">
             Я ознакомлен, принимаю и соглашаюсь с условиями
-            <a href="#" class="text-blue-700" download target="blank">
+            <a href="#" class="text-primary-700" download target="blank">
                 Договора о туристском обслуживании
             </a>
-            <span class="text-red-600">*</span>
+            <span class="text-danger-600">*</span>
         </Checkbox>
         <Checkbox v-model="v$.agreeWithPersonalData.$model">
             Согласен(а) на обработку предоставленных персональных данных
-            <span class="text-red-600">*</span>
+            <span class="text-danger-600">*</span>
         </Checkbox>
         <Checkbox v-model="v$.agreeWithReceiveNews.$model">
             Согласен(а) на получение новостных рассылок и предложений

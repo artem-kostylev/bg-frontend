@@ -25,11 +25,6 @@ const meta = {
         <Grid gap="5" v-else-if="data">
             <Typography variant="h1" as="h1">Оформление</Typography>
             <Selected v-bind="data" />
-            <Typography variant="h2" as="h2">Авторизация</Typography>
-            <div>
-                Для того чтобы заполненные ниже данные анкет сохранились в Системе, войдите в Личный
-                кабинет, либо зарегистрируйтесь:
-            </div>
             <QuestionnaryList v-bind="data" />
         </Grid>
     </Page>

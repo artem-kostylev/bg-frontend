@@ -76,7 +76,7 @@ const options = reactive({
     mask: docMask,
 });
 
-const rules = {
+const rules = computed(() => ({
     first_name: {
         required,
         inputType: selectedDoc.value
@@ -102,7 +102,7 @@ const rules = {
     document_till: { required, isValidDate, documentTill },
     phone: { required },
     email: { required, email },
-};
+}));
 
 const sexItems = [
     { label: 'Мужской', value: 'male' },

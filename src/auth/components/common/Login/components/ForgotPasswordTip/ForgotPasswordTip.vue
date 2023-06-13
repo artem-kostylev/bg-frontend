@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Button } from '@ui/components';
+import { Button, CollapseTransition } from '@ui/components';
 import { SmallArrowIcon } from '@ui/icons';
 import type { LoginInfo } from '@/auth/types';
 
@@ -37,8 +37,7 @@ const toggle = () => {
             :icon-class="modelValue ? 'w-3 transform rotate-180' : 'w-3'"
             >Восстановление пароля</Button
         >
-        <!-- <CollapseTransition :show="showTip"> -->
-        <div v-if="modelValue">
+        <CollapseTransition :show="modelValue">
             <div class="mt-2.5">
                 <div class="mt-5">
                     {{ tipLabel }}
@@ -50,6 +49,6 @@ const toggle = () => {
                     >
                 </div>
             </div>
-        </div>
+        </CollapseTransition>
     </div>
 </template>

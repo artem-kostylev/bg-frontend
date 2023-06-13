@@ -15,6 +15,7 @@ withDefaults(defineProps<CardProps>(), cardDefaultProps);
             <slot name="header" />
         </div>
         <div
+            v-if="$slots.default"
             :class="[
                 'relative flex-1 px-5',
                 bodyClass,

@@ -39,6 +39,10 @@ const to = computed(() => {
         return keys.map(key => `${key}:${value[key]}`).join('$');
     });
 
+    to.query!.transfers = data.value?.transfers
+        .filter(transfer => !!transfer.price)
+        .map(transfer => transfer.id);
+
     return to;
 });
 </script>

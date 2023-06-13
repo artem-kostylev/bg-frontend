@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Container } from '@ui/components';
+import { Container, Avatar } from '@ui/components';
 import { UserIcon, HeartIcon } from '@ui/icons';
 import { AuthModal } from '@/auth/components';
+import { useAuthStore } from '@/auth/stores/auth';
+import { storeToRefs } from 'pinia';
 
 const showAuth = ref(false);
+
+const { isAuthenticated, user } = storeToRefs(useAuthStore());
 </script>
 
 <template>
@@ -26,7 +30,15 @@ const showAuth = ref(false);
                 >
                     <HeartIcon width="1.6em" height="1.6em" />
                 </button>
+                <Avatar
+                    v-if="isAuthenticated && user"
+                    width="2em"
+                    height="2em"
+                    :initials="user.first_name + ' ' + user.last_name"
+                    class="cursor-pointer"
+                />
                 <button
+                    v-else
                     class="text-secondary-500 hover:text-secondary-600 transition-colors duration-300"
                     aria-label="Авторизация"
                     @click="showAuth = true"

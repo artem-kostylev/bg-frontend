@@ -7,7 +7,7 @@ export const useAuthStore = defineStore('auth', () => {
     const user = ref<User | null>(null);
     const isAuthenticated = computed(() => !!user.value);
 
-    const setUser = (value: User) => {
+    const setUser = (value: User | null) => {
         user.value = value;
     };
 
@@ -21,5 +21,5 @@ export const useAuthStore = defineStore('auth', () => {
         accessToken.value = value;
     };
 
-    return { user, isAuthenticated, setUser, setAccessToken };
+    return { accessToken, user, isAuthenticated, setUser, setAccessToken };
 });

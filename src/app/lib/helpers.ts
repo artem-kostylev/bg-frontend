@@ -21,10 +21,10 @@ export const formatNumber = (num: number, options?: Intl.NumberFormatOptions) =>
  *  Форматирует валюту
  * @example formatCurrency(1000) // 1 000
  */
-export const formatCurrency = (num: number, currency = 'RUB') => {
+export const formatCurrency = (num: number | string, currency = 'RUB') => {
     currency === 'RUR' && (currency = 'RUB');
 
-    return formatNumber(num, {
+    return formatNumber(+num, {
         style: 'currency',
         currency,
         maximumFractionDigits: 0,

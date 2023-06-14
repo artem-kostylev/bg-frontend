@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { reactive, computed, nextTick } from 'vue';
+import { reactive, computed, nextTick, watch } from 'vue';
+import { useLazyAsyncData } from '#imports';
 import { storeToRefs } from 'pinia';
 import { useVuelidate } from '@vuelidate/core';
 import { Card, Input, Button, RadioButtonGroup, Select } from '@ui/components';
 import { XIcon } from '@ui/icons';
-import type { Questionnary, QuestionnaryForm } from '@/booking/types';
+import type { Questionnary, QuestionnaryForm, Insurance } from '@/booking/types';
 import type { FetchAvailableDocumentsResponse } from '@/booking/services';
+import { fetchInsurances } from '@/booking/services';
 import {
     required,
     email,
@@ -15,7 +17,7 @@ import {
     cyrillicText,
     latinText,
 } from '@/app/lib';
-import { AutocompleteModal } from '../AutocompleteModal';
+import { AutocompleteModal, SelectInsuranceModal } from '@/booking/components';
 import { useAuthStore } from '@/auth/stores';
 import { vMaska } from 'maska';
 
@@ -26,6 +28,7 @@ type Props = {
     index: number;
     availableDocuments: FetchAvailableDocumentsResponse;
     isLast: boolean;
+    insurances: Insurance[];
 };
 
 const props = defineProps<Props>();
@@ -124,6 +127,21 @@ const nationalityItems = computed(() => {
 
 const v$ = useVuelidate(rules, props.questionnary.form as QuestionnaryForm);
 
+const { data: fetchedInsurances, execute: insurancesExecute } = useLazyAsyncData(
+    'form-insurance',
+    () => fetchInsurances({ questionnary: props.questionnary, insurances: props.insurances }),
+    {
+        server: false,
+        immediate: false,
+    }
+);
+
+const canFetchInsurance = computed(() => {
+    return !!v$.value.nationality_id.$model && !v$.value.birthday.$invalid;
+});
+
+watch(canFetchInsurance, value => value && insurancesExecute());
+
 const clearForm = () => {
     emit('clear-form', props.index);
 
@@ -216,11 +234,14 @@ const submit = async () => {
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            <Input
+            <SelectInsuranceModal
+                v-model="v$.service_insurance_id.$model"
                 required
                 label="Страховка"
-                v-model="v$.service_insurance_id.$model"
-                :error="v$.service_insurance_id.$errors[0]?.$message"
+                :status="v$.service_insurance_id.$errors[0] && 'error'"
+                :hint="String(v$.service_insurance_id.$errors[0]?.$message)"
+                :items="fetchedInsurances"
+                :disabled="!fetchedInsurances"
             />
         </div>
         <div>

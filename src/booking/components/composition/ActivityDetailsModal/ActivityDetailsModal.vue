@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { onBeforeUnmount, ref, watch } from 'vue';
+import { onBeforeUnmount, ref, watch, computed } from 'vue';
 import { useLazyAsyncData, clearNuxtData } from '#imports';
 import { CoveredModal, Divider } from '@ui/components';
 import { fetchActivity } from '@/booking/services';
@@ -29,6 +29,11 @@ const open = () => !data.value && execute();
 watch(selectedTickets, () => (show.value = false), { deep: true });
 
 onBeforeUnmount(() => clearNuxtData(`activity-${props.id}`));
+
+const cover = computed(() => {
+    if (!data.value?.activity.images.length) return undefined;
+    return data.value.activity.images[0].url;
+});
 </script>
 
 <template>
@@ -38,7 +43,7 @@ onBeforeUnmount(() => clearNuxtData(`activity-${props.id}`));
         @open="open"
         size="xl"
         :title="data?.activity.name"
-        :cover="data?.activity.images[0].url"
+        :cover="cover"
     >
         <template #trigger="{ vbind }">
             <slot name="trigger" :vbind="vbind" />

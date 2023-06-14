@@ -39,7 +39,7 @@ const selectedPriceType = computed(() => {
 </script>
 
 <template>
-    <Card cover-class="h-[14rem] bg-secondary-100 relative">
+    <Card cover-class="h-[14rem] bg-secondary-100 relative" body-class="flex flex-col">
         <template #cover>
             <Image
                 :src="activity.image.url"
@@ -66,7 +66,7 @@ const selectedPriceType = computed(() => {
                 </div>
             </div>
         </template>
-        <div class="flex items-start justify-between space-x-5">
+        <div class="flex items-start justify-between space-x-5 flex-1">
             <Typography variant="h3" as="h3">{{ activity.name }}</Typography>
             <ActivityDetailsModal :id="activity.id">
                 <template #trigger="{ vbind }">

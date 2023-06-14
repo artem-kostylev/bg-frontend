@@ -92,14 +92,14 @@ const vbind = { onClick: show };
                         header-class="-my-2"
                     >
                         <template #cover>
-                            <div class="relative">
-                                <Image :src="cover" />
+                            <div class="relative h-72 bg-secondary-100">
+                                <Image :src="cover" class="w-full h-full object-cover" />
                                 <div
                                     class="inset-0 absolute bg-gradient-to-b from-transparent via-transparent to-secondary-900/90"
                                 ></div>
                                 <Typography
                                     variant="h3"
-                                    class="truncate absolute bottom-0 inset-x-0 px-5 py-4 text-white"
+                                    class="absolute bottom-0 inset-x-0 px-5 py-4 text-white"
                                 >
                                     {{ title }}
                                 </Typography>

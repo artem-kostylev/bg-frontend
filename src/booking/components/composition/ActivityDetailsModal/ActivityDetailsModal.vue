@@ -5,12 +5,12 @@ import { useLazyAsyncData, clearNuxtData } from '#imports';
 import { CoveredModal, Divider } from '@ui/components';
 import { fetchActivity } from '@/booking/services';
 import { Info, Order } from './components';
-import type { AllActivity } from '@/booking/types';
 import { useCompositionStore } from '@/booking/stores';
 
 type Props = {
-    activity: AllActivity;
     withOrder?: boolean;
+    id: number;
+    dates?: string[];
 };
 
 const props = defineProps<Props>();
@@ -19,8 +19,8 @@ const show = ref(false);
 const { selectedTickets } = storeToRefs(useCompositionStore());
 
 const { data, pending, execute } = useLazyAsyncData(
-    `activity-${props.activity.id}`,
-    () => fetchActivity(props.activity.id),
+    `activity-${props.id}`,
+    () => fetchActivity(props.id),
     { server: false, immediate: false }
 );
 
@@ -28,7 +28,7 @@ const open = () => !data.value && execute();
 
 watch(selectedTickets, () => (show.value = false), { deep: true });
 
-onBeforeUnmount(() => clearNuxtData(`activity-${props.activity.id}`));
+onBeforeUnmount(() => clearNuxtData(`activity-${props.id}`));
 </script>
 
 <template>
@@ -48,7 +48,7 @@ onBeforeUnmount(() => clearNuxtData(`activity-${props.activity.id}`));
                 <Info :activity="data.activity" />
                 <template v-if="withOrder">
                     <Divider dashed />
-                    <Order :activity="data.activity" :dates="activity.date" />
+                    <Order :activity="data.activity" :dates="dates!" />
                 </template>
             </div>
         </template>

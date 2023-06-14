@@ -60,7 +60,7 @@ const selectedPriceType = computed(() => {
         </template>
         <div class="flex items-start justify-between space-x-5">
             <Typography variant="h3" as="h3">{{ activity.name }}</Typography>
-            <ActivityDetailsModal :activity="activity">
+            <ActivityDetailsModal :id="activity.id">
                 <template #trigger="{ vbind }">
                     <button v-bind="vbind" class="text-secondary-500">
                         <Tooltip text="Подробная информация">
@@ -82,7 +82,7 @@ const selectedPriceType = computed(() => {
                 </div>
                 <Typography variant="description">{{ selectedPriceType }}</Typography>
             </div>
-            <ActivityDetailsModal v-else :activity="activity" with-order>
+            <ActivityDetailsModal v-else :id="activity.id" :dates="activity.date" with-order>
                 <template #trigger="{ vbind }">
                     <div class="space-y-1 text-right">
                         <Button v-bind="vbind" variant="primary">

@@ -4,6 +4,7 @@ import { formatCurrency } from '@/app/lib';
 import type { ActivityDetail, ActivitySearchTicket } from '@/booking/types';
 import { QuantityPicker, Typography, Button } from '@ui/components';
 import { useCompositionStore } from '@/booking/stores';
+import { computed } from 'vue';
 
 type Props = {
     id: number;
@@ -16,7 +17,13 @@ const props = defineProps<Props>();
 const { addTickets } = useCompositionStore();
 const values = ref({} as Record<string, number>);
 
+const canSubmit = computed(() => {
+    return !!Object.keys(values.value).length;
+});
+
 const onSubmit = () => {
+    if (!canSubmit.value) return;
+
     const price = props.tickets.reduce((prev, curr) => {
         if (values.value[curr.key]) {
             prev += values.value[curr.key] * curr.price;
@@ -43,5 +50,5 @@ const onSubmit = () => {
             <QuantityPicker v-model="values[ticket.key]" :min="ticket.min" :max="ticket.max" />
         </div>
     </div>
-    <Button variant="primary" block @click="onSubmit">Добавить</Button>
+    <Button variant="primary" block @click="onSubmit" :disabled="!canSubmit">Добавить</Button>
 </template>

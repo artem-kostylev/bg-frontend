@@ -32,3 +32,4 @@ export * from './Alert';
 export * from './RadioButtonGroup';
 export * from './Checkbox';
 export * from './Radio';
+export * from './Slider';

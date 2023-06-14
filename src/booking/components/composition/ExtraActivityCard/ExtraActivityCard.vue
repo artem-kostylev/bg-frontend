@@ -55,7 +55,11 @@ const priceTypeName = {
             </div>
             <div>
                 <Typography variant="h5">Дополнительно:</Typography>
-                <Typography>{{ extraActivity.option }}</Typography>
+                <ul class="list-inside list-disc marker:text-secondary-400">
+                    <li>
+                        {{ extraActivity.option }}
+                    </li>
+                </ul>
             </div>
         </div>
     </Card>

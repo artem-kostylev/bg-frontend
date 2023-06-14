@@ -1,7 +1,7 @@
 import { http } from '@/app/lib';
 import type { LoginInfo } from '@/auth/types';
 
-type fetchVerifySendBody = {
+export type FetchVerifySendBody = {
     phone?: string;
     email?: string;
 };
@@ -9,7 +9,7 @@ type fetchVerifySendBody = {
 export const fetchVerifySend = async (loginInfo: LoginInfo) => {
     if (!loginInfo.loginValue || !loginInfo.loginType) return;
 
-    const body: fetchVerifySendBody = {};
+    const body: FetchVerifySendBody = {};
     body[loginInfo.loginType] = loginInfo.loginValue;
 
     return http('user/verify-code-send', {

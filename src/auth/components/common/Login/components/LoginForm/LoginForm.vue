@@ -1,38 +1,23 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { InputPassword, Button } from '@ui/components';
 import { LockIcon } from '@ui/icons';
-import { useVuelidate } from '@vuelidate/core';
 import { required } from '@/app/lib';
+import type { AuthFormProps } from '@/auth/types';
+import { useSimpleForm } from '@/auth/composables';
 
-type Props = {
-    error?: string | null;
-    pending?: boolean;
-    btnDisabled?: boolean;
-};
-
-defineProps<Props>();
-
-const form = ref({
-    password: '',
-});
-
-const rules = {
-    password: {
-        required,
-    },
-};
-
-const v$ = useVuelidate(rules, form);
+defineProps<AuthFormProps>();
 
 const emit = defineEmits<{
     (e: 'submit', value: string): void;
+    (e: 'clear-errors'): void;
 }>();
 
-const onSubmit = async () => {
-    if (!(await v$.value.$validate())) return;
-    emit('submit', form.value.password);
-};
+const { v$, onSubmit } = useSimpleForm({
+    field: 'password',
+    fieldRules: [required],
+    emit,
+    clearErrors: true,
+});
 </script>
 
 <template>

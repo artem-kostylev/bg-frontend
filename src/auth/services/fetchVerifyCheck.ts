@@ -1,7 +1,7 @@
 import { http } from '@/app/lib';
 import type { LoginInfo, User } from '@/auth/types';
 
-type FetchVerifyCheckBody = {
+export type FetchVerifyCheckBody = {
     phone?: string;
     email?: string;
     code: string;

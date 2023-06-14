@@ -1,9 +1,9 @@
 import { http } from '@/app/lib';
 import type { RegisterForm, LoginType } from '@/auth/types';
 
-type fetchRegisterBody = RegisterForm & { main_contact: LoginType };
+export type FetchRegisterBody = RegisterForm & { main_contact: LoginType };
 
-export const fetchRegister = async (body: fetchRegisterBody) => {
+export const fetchRegister = async (body: FetchRegisterBody) => {
     await http('user/registration', {
         method: 'POST',
         body,

@@ -1,42 +1,25 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { Button, Input } from '@ui/components';
-import { useVuelidate } from '@vuelidate/core';
 import { required, emailOrNumber } from '@/app/lib';
 import { vMaska } from 'maska';
-import { useMaskOptions } from '@/auth/composables';
+import type { AuthFormProps } from '@/auth/types';
+import { useSimpleForm, useMaskOptions } from '@/auth/composables';
 
-type Props = {
-    error?: string | null;
-    pending?: boolean;
-    btnDisabled?: boolean;
-};
-
-defineProps<Props>();
-
-const form = ref({
-    login: '',
-});
-
-const rules = {
-    login: {
-        required,
-        emailOrNumber,
-    },
-};
-
-const v$ = useVuelidate(rules, form);
-
-const { options } = useMaskOptions();
+defineProps<AuthFormProps>();
 
 const emit = defineEmits<{
     (e: 'submit', value: string): void;
+    (e: 'clear-errors'): void;
 }>();
 
-const onSubmit = async () => {
-    if (!(await v$.value.$validate())) return;
-    emit('submit', form.value.login);
-};
+const { v$, onSubmit } = useSimpleForm({
+    field: 'login',
+    fieldRules: [required, emailOrNumber],
+    emit,
+    clearErrors: true,
+});
+
+const { options } = useMaskOptions();
 </script>
 
 <template>
@@ -53,7 +36,7 @@ const onSubmit = async () => {
             <Button
                 variant="primary"
                 :loading="pending"
-                :disabled="v$.$errors?.length > 0 || btnDisabled"
+                :disabled="v$.$errors.length > 0 || btnDisabled"
                 @click="onSubmit"
                 >Продолжить</Button
             >

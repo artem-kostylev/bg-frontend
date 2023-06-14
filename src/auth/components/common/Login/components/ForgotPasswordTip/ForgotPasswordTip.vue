@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { Button, CollapseTransition } from '@ui/components';
 import { SmallArrowIcon } from '@ui/icons';
 import type { LoginInfo } from '@/auth/types';
+import { phoneMask } from '@/app/lib/helpers';
 
 type Props = {
     modelValue: boolean;
@@ -41,7 +42,11 @@ const toggle = () => {
             <div class="mt-2.5">
                 <div class="mt-5">
                     {{ tipLabel }}
-                    <span class="font-semibold">{{ loginInfo.loginValue }}</span>
+                    <span v-if="loginInfo.loginValue" class="font-semibold">{{
+                        loginInfo.loginType === 'email'
+                            ? loginInfo.loginValue
+                            : phoneMask.masked(loginInfo.loginValue)
+                    }}</span>
                 </div>
                 <div class="flex justify-center mt-2.5">
                     <Button variant="secondary" :loading="pending" @click="emit('reset-password')"

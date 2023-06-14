@@ -1,12 +1,12 @@
 import { http } from '@/app/lib';
 import type { LoginInfo, User } from '@/auth/types';
 
-type fetchLoginBody = {
+export type FetchLoginBody = {
     email: string;
     password: string;
 };
 
-export type fetchLoginResponse = {
+export type FetchLoginResponse = {
     user: User;
     token: string;
 };
@@ -14,12 +14,12 @@ export type fetchLoginResponse = {
 export const fetchLogin = async (password: string, loginInfo: LoginInfo) => {
     if (!loginInfo.loginValue || !loginInfo.loginType) return;
 
-    const body: fetchLoginBody = {
+    const body: FetchLoginBody = {
         email: loginInfo.loginValue,
         password,
     };
 
-    return http<fetchLoginResponse>('user/login', {
+    return http<FetchLoginResponse>('user/login', {
         method: 'POST',
         body,
     });

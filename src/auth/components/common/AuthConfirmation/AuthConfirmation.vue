@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { Confirmation } from '@/app/components';
-import type { LoginInfo } from '@/auth/types';
+import type { LoginInfo, ConfirmError } from '@/auth/types';
 import { fetchVerifyCheck, fetchLogin } from '@/auth/services';
-import type { FetchVerifyCheckResponse, fetchLoginResponse } from '@/auth/services';
+import type { FetchVerifyCheckResponse, FetchLoginResponse } from '@/auth/services';
 import { useAuthStore } from '@/auth/stores/auth';
+import { useRequestStatus } from '@/auth/composables';
+import { phoneMask } from '@/app/lib/helpers';
 
 type Props = {
     verifySent: boolean;
@@ -14,42 +16,32 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const label = computed(() => {
-    const loginTypeText = props.loginInfo.loginType === 'email' ? 'на' : 'в СМС на';
-    return `Введите код, высланный Вам ${loginTypeText}`;
-});
-
 const emit = defineEmits<{
     (e: 'change-login'): void;
     (e: 'close'): void;
 }>();
 
+const label = computed(() => {
+    const loginTypeText = props.loginInfo.loginType === 'email' ? 'на' : 'в СМС на';
+    return `Введите код, высланный Вам ${loginTypeText}`;
+});
+
 const authStore = useAuthStore();
 const { setUser, setAccessToken } = authStore;
 
-const saveUser = (response: FetchVerifyCheckResponse | fetchLoginResponse) => {
+const saveUser = (response: FetchVerifyCheckResponse | FetchLoginResponse) => {
     response.user && setUser(response.user);
     response.token && setAccessToken(response.token);
 };
 
-const pending = ref(false);
-const error = ref<string | null>(null);
-const incorrectCode = ref(false);
-
-type ConfirmError = {
-    status: number;
-    data: {
-        errors: {
-            code: string[];
-        };
-    };
-};
+const codeError = ref<string | null>(null);
+const { pending, error, clearErrors } = useRequestStatus({ errors: [codeError] });
 
 const confirm = async (code: string) => {
     if (!props.verifySent) return;
-    // emit('clear-errors');
 
     try {
+        clearErrors();
         pending.value = true;
 
         const verifyResponse = await fetchVerifyCheck(code, props.loginInfo);
@@ -63,13 +55,11 @@ const confirm = async (code: string) => {
         }
 
         emit('close');
-        error.value = null;
-        incorrectCode.value = false;
     } catch (e) {
         const err = e as ConfirmError;
 
         if (err.status === 422 && err.data?.errors?.code?.length) {
-            incorrectCode.value = true;
+            codeError.value = 'Неверный код подтверждения';
             error.value = err.data.errors.code[0];
         } else {
             error.value = 'Неизвестная ошибка';
@@ -79,26 +69,35 @@ const confirm = async (code: string) => {
     }
 };
 
-const changeLogin = () => {
-    emit('change-login');
-};
-
 const incorrectLabel = computed(() => {
     const loginTypeText = props.loginInfo.loginType === 'email' ? 'E-mail' : 'номером телефона';
     return `войдите с другим ${loginTypeText}`;
 });
+
+const changeLogin = () => {
+    emit('change-login');
+};
 </script>
 
 <template>
-    <Confirmation :error="error" :input-disabled="pending || !verifySent" @confirm="confirm">
+    <Confirmation
+        :error="error"
+        :input-disabled="pending || !verifySent"
+        @confirm="confirm"
+        @clear-errors="clearErrors"
+    >
         <template #label>
             <span>{{ label }}</span>
-            <span class="font-semibold">
-                {{ loginInfo.loginValue }}
+            <span v-if="loginInfo.loginValue" class="font-semibold">
+                {{
+                    loginInfo.loginType === 'email'
+                        ? loginInfo.loginValue
+                        : phoneMask.masked(loginInfo.loginValue)
+                }}
             </span>
         </template>
         <template #error>
-            <div v-if="incorrectCode">
+            <div v-if="codeError">
                 <span>Введите корректный код или</span>
                 <button class="text-blue-700 cursor-pointer" @click="changeLogin">
                     {{ incorrectLabel }}

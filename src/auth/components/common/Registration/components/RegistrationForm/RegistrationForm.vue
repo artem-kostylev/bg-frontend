@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onBeforeUnmount } from 'vue';
+import { ref, computed, onBeforeUnmount } from 'vue';
 import { Input, InputPassword, Divider, Button } from '@ui/components';
 import { UserIcon, AtSignIcon, MobilePhoneIcon, LockIcon } from '@ui/icons';
 import type { LoginInfo, RegisterForm, RegisterErrors } from '@/auth/types';
@@ -18,8 +18,7 @@ import {
 } from '@/app/lib';
 import { helpers, sameAs } from '@vuelidate/validators';
 import { PasswordRequirements } from '../PasswordRequirements';
-import { useClearForm } from '@/auth/composables';
-import { textTransform } from '@/app/lib/helpers';
+import { useClearForm, useUpperCase } from '@/auth/composables';
 import { vMaska } from 'maska';
 
 type Props = {
@@ -30,6 +29,11 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+
+const emit = defineEmits<{
+    (e: 'submit', value: RegisterForm): void;
+    (e: 'clear-errors', value?: keyof RegisterErrors): void;
+}>();
 
 const form = ref({
     first_name: '',
@@ -71,36 +75,21 @@ const rules = computed(() => ({
 
 const v$ = useVuelidate(rules, form);
 
-const emit = defineEmits<{
-    (e: 'submit', value: RegisterForm): void;
-    (e: 'clear-errors', value?: keyof RegisterErrors): void;
-}>();
+const clearFieldError = (key: string) => {
+    emit('clear-errors', key as keyof RegisterErrors);
+};
+
+useUpperCase({
+    form,
+    upperCaseKeys: ['first_name', 'last_name', 'second_name'],
+    errors: props.errors as { [key: string]: string[] | undefined },
+    clearFieldError,
+});
 
 const onSubmit = async () => {
     if (!(await v$.value.$validate())) return;
     emit('submit', form.value);
 };
-
-for (const k in form.value) {
-    watch(
-        () => form.value[k as keyof RegisterForm],
-        () => {
-            // clear error for specific field
-            if (props.errors && props.errors[k as keyof RegisterErrors]) {
-                emit('clear-errors', k as keyof RegisterErrors);
-            }
-
-            // transform some fields to upper case
-            const upperCaseKeys = ['first_name', 'last_name', 'second_name'];
-
-            if (upperCaseKeys.includes(k) && form.value[k as keyof RegisterForm]) {
-                form.value[k as keyof RegisterForm] = textTransform(
-                    form.value[k as keyof RegisterForm] as string
-                );
-            }
-        }
-    );
-}
 
 onBeforeUnmount(() => {
     useClearForm(form);

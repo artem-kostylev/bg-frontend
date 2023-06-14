@@ -104,3 +104,11 @@ export const removeEmptyKeys = (form: { [key: string]: string }) => {
 };
 
 export const phoneMask = new Mask({ mask: '+7 (###) ### ## ##' });
+
+/**
+ *  Форматирует номер телефона в набор цифр, начинающийся с 7
+ *  @example unmaskPhone('+7 (999) 999 99 99') // 79999999999
+ */
+export const unmaskPhone = (phone: string) => {
+    return '7' + phoneMask.unmasked(phone);
+};

@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, type Ref } from 'vue';
 import { Alert } from '@ui/components';
 import { RegistrationForm } from './components';
 import { AuthConfirmation } from '@/auth/components';
 import type {
+    NextAuthForm,
     AuthenticationTitle,
     LoginInfo,
     LoginType,
     RegisterForm as RegisterFormType,
+    RegisterError,
     RegisterErrors,
 } from '@/auth/types';
 import { removeEmptyKeys } from '@/app/lib/helpers';
-import { fetchRegister, fetchVerifySend } from '@/auth/services';
+import { fetchRegister } from '@/auth/services';
+import { useRequestStatus, useVerify } from '@/auth/composables';
 
 type Props = {
     loginInfo: LoginInfo;
@@ -20,6 +23,7 @@ type Props = {
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
+    (e: 'show-next', value: NextAuthForm): void;
     (e: 'set-title', value: AuthenticationTitle): void;
 }>();
 
@@ -41,58 +45,19 @@ const prepareData = (form: RegisterFormType) => {
     return result as RegisterFormType & { main_contact: LoginType };
 };
 
-const verifySent = ref(false);
-const verifySendError = ref(false);
-
-type SubmitError = {
-    status: number;
-    data: {
-        message: string;
-    };
-};
-
-const verify = async () => {
-    try {
-        showConfirmation.value = true;
-        pending.value = true;
-
-        await fetchVerifySend(props.loginInfo);
-
-        error.value = null;
-        verifySent.value = true;
-    } catch (e) {
-        const err = e as SubmitError;
-
-        if (err.status === 422) {
-            error.value = err.data.message;
-        } else {
-            error.value = 'Неизвестная ошибка';
-        }
-
-        verifySendError.value = true;
-        showConfirmation.value = false;
-    } finally {
-        pending.value = false;
-    }
-};
-
-const pending = ref(false);
-const error = ref<string | null>(null);
 const errors = ref<RegisterErrors | null>(null);
-
-const showConfirmation = ref(false);
-
-type RegisterError = {
-    status: number;
-    data: {
-        errors: RegisterErrors;
-    };
-};
+const { pending, error, clearErrors, clearFieldErrors } = useRequestStatus({
+    fieldErrors: errors as Ref<{
+        [key: string]: string[] | undefined;
+    } | null>,
+});
+const { showConfirmation, verifySent, verify } = useVerify(props.loginInfo, pending, error);
 
 const onSubmit = async (form: RegisterFormType) => {
     const result = prepareData(form);
 
     try {
+        clearErrors();
         pending.value = true;
         await fetchRegister(result);
         emit(
@@ -102,7 +67,6 @@ const onSubmit = async (form: RegisterFormType) => {
                 : 'Код подтверждения'
         );
         await verify();
-        error.value = null;
     } catch (e) {
         const err = e as RegisterError;
 
@@ -115,6 +79,15 @@ const onSubmit = async (form: RegisterFormType) => {
         pending.value = false;
     }
 };
+
+const closeConfirmation = () => {
+    showConfirmation.value = false;
+    clearErrors();
+};
+
+const changeLogin = () => {
+    emit('show-next', { form: 'auth' });
+};
 </script>
 
 <template>
@@ -125,8 +98,15 @@ const onSubmit = async (form: RegisterFormType) => {
             :verify-sent="verifySent"
             :login-info="loginInfo"
             :password="password"
-            @close="showConfirmation = false"
+            @close="closeConfirmation"
+            @change-login="changeLogin"
         />
-        <RegistrationForm v-else :login-info="loginInfo" :pending="pending" @submit="onSubmit" />
+        <RegistrationForm
+            v-else
+            :login-info="loginInfo"
+            :pending="pending"
+            @submit="onSubmit"
+            @clear-errors="clearFieldErrors"
+        />
     </div>
 </template>

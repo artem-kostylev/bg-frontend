@@ -1,7 +1,7 @@
 import { http } from '@/app/lib';
 import type { LoginType } from '@/auth/types';
 
-type FetchLoginExistResponse = {
+export type FetchLoginExistResponse = {
     isVerified: boolean;
     loginType: LoginType;
 };

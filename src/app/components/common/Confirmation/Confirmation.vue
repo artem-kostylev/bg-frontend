@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
 import { Input } from '@ui/components';
-import { useVuelidate } from '@vuelidate/core';
 import { required, confirmationCode } from '@/app/lib';
 import { vMaska } from 'maska';
+import { useSimpleForm } from '@/auth/composables';
 
 type Props = {
     error?: string | null;
@@ -12,28 +11,17 @@ type Props = {
 
 defineProps<Props>();
 
-const form = ref({
-    code: '',
+const emit = defineEmits<{
+    (e: 'submit', value: string): void;
+    (e: 'clear-errors'): void;
+}>();
+
+const { v$ } = useSimpleForm({
+    field: 'code',
+    fieldRules: [required, confirmationCode],
+    emit,
+    onChange: true,
 });
-
-const rules = {
-    code: {
-        required,
-        confirmationCode,
-    },
-};
-
-const v$ = useVuelidate(rules, form);
-
-const emit = defineEmits<{ (e: 'confirm', value: string): void }>();
-
-watch(
-    () => form.value.code,
-    async () => {
-        if (!(await v$.value.$validate())) return;
-        emit('confirm', form.value.code);
-    }
-);
 </script>
 
 <template>

@@ -48,6 +48,14 @@ const selectedPriceType = computed(() => {
             />
             <div class="absolute top-0 right-0">
                 <div
+                    v-if="activity.status === 'include'"
+                    class="text-white px-2.5 py-1.5 text-sm rounded-bl-xl space-x-2 flex items-center bg-success-600"
+                >
+                    <CheckIcon width="1.2em" height="1.2em" />
+                    <div>В составе</div>
+                </div>
+                <div
+                    v-else
                     :class="[
                         'text-white px-2.5 py-1.5 text-sm rounded-bl-xl space-x-2 flex items-center',
                         selected ? 'bg-success-600' : 'bg-warning-600',
@@ -82,6 +90,9 @@ const selectedPriceType = computed(() => {
                 </div>
                 <Typography variant="description">{{ selectedPriceType }}</Typography>
             </div>
+            <Button disabled v-else-if="activity.status === 'include'">
+                {{ formatCurrency(0) }}
+            </Button>
             <ActivityDetailsModal v-else :id="activity.id" :dates="activity.date" with-order>
                 <template #trigger="{ vbind }">
                     <div class="space-y-1 text-right">

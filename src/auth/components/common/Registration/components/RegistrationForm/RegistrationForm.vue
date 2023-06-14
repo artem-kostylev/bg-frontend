@@ -17,7 +17,7 @@ import {
     minOneSpecialSymbol,
 } from '@/app/lib';
 import { helpers, sameAs } from '@vuelidate/validators';
-import { PasswordRequirements } from '../PasswordRequirements';
+import { PasswordRequirements } from '@/auth/components';
 import { useClearForm, useUpperCase } from '@/auth/composables';
 import { vMaska } from 'maska';
 
@@ -85,6 +85,8 @@ useUpperCase({
     errors: props.errors as { [key: string]: string[] | undefined },
     clearFieldError,
 });
+
+const showTip = ref(false);
 
 const onSubmit = async () => {
     if (!(await v$.value.$validate())) return;
@@ -159,7 +161,7 @@ onBeforeUnmount(() => {
                 "
                 :start-icon="LockIcon"
             />
-            <PasswordRequirements />
+            <PasswordRequirements v-model="showTip" />
         </div>
         <div class="flex justify-center mt-2.5">
             <Button variant="primary" :loading="pending" :disabled="btnDisabled" @click="onSubmit"

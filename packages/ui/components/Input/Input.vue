@@ -66,6 +66,7 @@ const endIcon = computed(() => (props.loading ? Spin : props.endIcon));
                         'border-secondary-300 hover:border-secondary-400 focus:border-secondary-400 placeholder-secondary-500',
                     disabled && 'pointer-events-none opacity-60',
                     ...inputPaddingClass,
+                    justify && 'text-center',
                 ]"
             />
             <div

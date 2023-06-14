@@ -4,3 +4,5 @@ export * from './fetchVerifySend';
 export * from './fetchLogin';
 export * from './fetchRegister';
 export * from './fetchUser';
+export * from './fetchForgotCheck';
+export * from './fetchForgotSend';

@@ -37,3 +37,9 @@ export type RegisterForm = {
     password?: string;
     password_confirmation?: string;
 };
+
+export type ResetForm = {
+    password: string;
+    password_confirmation: string;
+    email?: string;
+};

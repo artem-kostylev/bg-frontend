@@ -1,4 +1,4 @@
-import type { RegisterForm, LoginType } from '@/auth/types';
+import type { RegisterForm, ResetForm, LoginType } from '@/auth/types';
 
 export type LoginExistError = {
     status: number;
@@ -33,4 +33,15 @@ export type RegisterError = {
 
 export type RegisterErrors = {
     [k in keyof RegisterForm]: string[];
+};
+
+export type ResetErrors = {
+    [k in keyof ResetForm]: string[];
+};
+
+export type ResetError = {
+    status: number;
+    data: {
+        errors: ResetErrors;
+    };
 };

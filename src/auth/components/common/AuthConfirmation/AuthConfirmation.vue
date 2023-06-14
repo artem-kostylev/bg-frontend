@@ -12,18 +12,21 @@ type Props = {
     verifySent: boolean;
     loginInfo: LoginInfo;
     password?: string | null;
+    onlySend?: boolean;
+    step?: string;
 };
 
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
     (e: 'change-login'): void;
+    (e: 'submit', value: string): void;
     (e: 'close'): void;
 }>();
 
 const label = computed(() => {
     const loginTypeText = props.loginInfo.loginType === 'email' ? 'на' : 'в СМС на';
-    return `Введите код, высланный Вам ${loginTypeText}`;
+    return `${props.step || ''}Введите код, высланный Вам ${loginTypeText}`;
 });
 
 const authStore = useAuthStore();
@@ -37,8 +40,13 @@ const saveUser = (response: FetchVerifyCheckResponse | FetchLoginResponse) => {
 const codeError = ref<string | null>(null);
 const { pending, error, clearErrors } = useRequestStatus({ errors: [codeError] });
 
-const confirm = async (code: string) => {
+const submit = async (code: string) => {
     if (!props.verifySent) return;
+
+    if (props.onlySend) {
+        emit('submit', code);
+        return;
+    }
 
     try {
         clearErrors();
@@ -83,7 +91,7 @@ const changeLogin = () => {
     <Confirmation
         :error="error"
         :input-disabled="pending || !verifySent"
-        @confirm="confirm"
+        @submit="submit"
         @clear-errors="clearErrors"
     >
         <template #label>

@@ -12,7 +12,7 @@ export type FetchInsurancesResponse = {
         name: string;
         price: number;
         description: {
-            sum: string | number;
+            sum: number;
             currency: string;
         };
     }[];

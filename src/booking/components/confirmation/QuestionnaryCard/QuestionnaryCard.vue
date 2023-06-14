@@ -127,7 +127,11 @@ const nationalityItems = computed(() => {
 
 const v$ = useVuelidate(rules, props.questionnary.form as QuestionnaryForm);
 
-const { data: fetchedInsurances, execute: insurancesExecute } = useLazyAsyncData(
+const {
+    data: fetchedInsurances,
+    pending: pendingInsurances,
+    execute: insurancesExecute,
+} = useLazyAsyncData(
     'form-insurance',
     () => fetchInsurances({ questionnary: props.questionnary, insurances: props.insurances }),
     {
@@ -191,6 +195,7 @@ const submit = async () => {
                 :options="nationalityItems"
                 :error="v$.nationality_id.$errors[0]?.$message"
                 block
+                :strong="false"
             />
             <Select
                 v-if="props.availableDocuments"
@@ -201,6 +206,7 @@ const submit = async () => {
                 :disabled="!documents"
                 :error="v$.document_type_id.$errors[0]?.$message"
                 block
+                :strong="false"
             />
             <Input
                 required
@@ -238,9 +244,9 @@ const submit = async () => {
                 v-model="v$.service_insurance_id.$model"
                 required
                 label="Страховка"
-                :status="v$.service_insurance_id.$errors[0] && 'error'"
-                :hint="String(v$.service_insurance_id.$errors[0]?.$message)"
-                :items="fetchedInsurances"
+                :loading="pendingInsurances"
+                :error="v$.service_insurance_id.$errors[0]?.$message"
+                :options="fetchedInsurances"
                 :disabled="!fetchedInsurances"
             />
         </div>

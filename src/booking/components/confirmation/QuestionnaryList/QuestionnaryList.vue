@@ -224,7 +224,7 @@ onMounted(() => {
     <div>
         Заполните анкеты на каждого из туристов. Внимательно проверьте анкеты. Авиакомпания может
         отказать в посадке, если анкетные данные не совпадут с данными загранпаспорта. Поля со
-        знаком * обязательны для заполнения.
+        знаком <span class="text-danger-600">*</span> обязательны для заполнения.
     </div>
     <Collapse
         v-for="(questionnary, index) in form.questionnaries"
@@ -277,7 +277,7 @@ onMounted(() => {
     <div class="flex flex-col space-y-4">
         <Checkbox v-model="v$.agreeWithTerms.$model">
             Я ознакомлен, принимаю и соглашаюсь с условиями
-            <a href="#" class="text-primary-700" download target="blank">
+            <a href="#" class="text-primary-500" download target="blank">
                 Договора о туристском обслуживании
             </a>
             <span class="text-danger-600">*</span>

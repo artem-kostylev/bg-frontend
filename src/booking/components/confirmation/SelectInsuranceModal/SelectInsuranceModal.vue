@@ -1,42 +1,52 @@
+<script lang="ts">
+export default { inheritAttrs: true };
+</script>
+
 <script setup lang="ts">
-import { computed, ref } from 'vue';
-import { Input, Button, Alert, Modal } from '@ui/components';
+import { computed, ref, h } from 'vue';
+import { Field, Modal, Button, Divider } from '@ui/components';
 import { ChevronDownIcon } from '@ui/icons';
 import { formatCurrency } from '@/app/lib/helpers';
+import type { Ref } from 'vue';
+import { Empty } from '@/app/components';
+import type { StringOrNumber } from '@ui/types';
+
+type Option = {
+    id: number;
+    name: string;
+    price: number;
+    description: {
+        sum: number;
+        currency: string;
+    };
+};
 
 type Props = {
     label: string;
     name?: string;
+    loading?: boolean;
     required?: boolean;
-    hint: string;
-    items:
-        | {
-              id: number;
-              name: string;
-              price: number;
-              description: { currency: string; sum: string | number };
-          }[]
-        | null;
+    error?: string | Ref<string>;
+    options?: Option[] | null;
     modelValue?: number;
     disabled?: boolean;
-    status?: 'error' | 'success';
 };
 
-const show = ref(false);
+const open = ref(false);
 
 const props = withDefaults(defineProps<Props>(), {
-    items: null,
+    options: null,
     name: '',
     hint: '',
     modelValue: undefined,
-    status: undefined,
+    error: undefined,
 });
 
 const emit = defineEmits<{ (e: 'update:modelValue', value: number): void }>();
 
 const select = (value: number) => {
     emit('update:modelValue', value);
-    show.value = false;
+    open.value = false;
 };
 
 const selected = (value: number) => {
@@ -44,55 +54,72 @@ const selected = (value: number) => {
 };
 
 const title = computed(() => {
-    if (!props.items) return;
+    if (!props.options) return 'ㅤ';
 
-    const item = props.items.find(item => item.id === props.modelValue);
-    return item?.name || '';
+    const item = props.options.find(option => option.id === props.modelValue);
+    return item?.name || 'ㅤ';
 });
+
+const buttonVariant = computed(() => {
+    return props.error ? 'danger-outline' : 'base';
+});
+
+const buttonClass = computed(() => {
+    return props.error ? 'border-danger-700' : 'border-secondary-400';
+});
+
+const endIcon = (props: Record<string, StringOrNumber>) => {
+    return h(ChevronDownIcon, {
+        ...props,
+        class: ['transition-transform', open.value && 'rotate-180'],
+    });
+};
 </script>
 
 <template>
-    <Modal v-model="show" :label="label" :size="'2xl'">
+    <Modal v-model="open" :title="label" size="lg">
         <template #trigger="{ vbind }">
-            <div>
-                <Input
-                    v-bind="vbind"
-                    readonly
-                    :end-icon="ChevronDownIcon"
-                    :label="label"
-                    :required="required"
-                    :status="status"
-                    :hint="hint"
-                    :model-value="title"
-                    :disabled="disabled"
-                />
-            </div>
-        </template>
-        <div v-if="items?.length">
-            <div
-                class="grid grid-cols-[2fr_1fr] py-4 border-b last:border-none first:pt-0 last:pb-0 border-secondary-300 border-dashed sm:flex items-center justify-between"
-                v-for="item in items"
-                :key="item.id"
-            >
-                <div>
-                    <div>{{ item.name }}</div>
-                    <div v-if="item.description" class="text-sm mt-1 text-secondary-500">
-                        Страховая сумма:
-                        {{ formatCurrency(+item.description.sum, item.description.currency) }}
-                    </div>
-                </div>
+            <Field :name="name" :required="required" :label="label" :error="error">
                 <Button
-                    @click="select(item.id)"
-                    variant="primary"
-                    :disabled="selected(item.id)"
-                    class="w-40 items-center justify-center"
+                    :name="name"
+                    v-bind="{ ...vbind, ...$attrs }"
+                    :end-icon="endIcon"
+                    :class="open && buttonClass"
+                    :variant="buttonVariant"
+                    :strong="false"
+                    justify="between"
+                    :loading="loading"
+                    block
+                    :disabled="disabled"
                 >
-                    + {{ formatCurrency(item.price || 0) }}
+                    {{ title }}
                 </Button>
+            </Field>
+        </template>
+        <div v-if="options?.length">
+            <div class="space-y-5" v-for="(option, index) in options" :key="option.id">
+                <Divider v-if="index !== 0" class="mt-5" dashed />
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div>{{ option.name }}</div>
+                        <div v-if="option.description" class="text-sm mt-1 text-secondary-500">
+                            Страховая сумма:
+                            {{
+                                formatCurrency(option.description.sum, option.description.currency)
+                            }}
+                        </div>
+                    </div>
+                    <Button
+                        size="sm"
+                        @click="select(option.id)"
+                        :variant="selected(option.id) ? 'base' : 'primary'"
+                        :disabled="selected(option.id)"
+                    >
+                        + {{ formatCurrency(option.price ?? 0) }}
+                    </Button>
+                </div>
             </div>
         </div>
-        <div v-else>
-            <Alert type="error" text="Список страховок пуст" />
-        </div>
+        <Empty v-else title="Список страховок пуст" />
     </Modal>
 </template>

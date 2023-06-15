@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount } from 'vue';
+import { ref, onBeforeUnmount } from 'vue';
 import { Button, Modal, Alert } from '@ui/components';
 import { useLazyAsyncData, clearNuxtData } from '#imports';
 import { fetchDocuments } from '@/account/services';
@@ -16,15 +16,22 @@ const { data, pending, execute } = useLazyAsyncData('documents', () => fetchDocu
     immediate: false,
 });
 
+const show = ref(false);
+
 const open = () => !data.value && execute();
 
 const emit = defineEmits<{ (e: 'complete', document: Document): void }>();
+
+const choose = (doc: Document) => {
+    emit('complete', doc);
+    show.value = false;
+};
 
 onBeforeUnmount(() => clearNuxtData('documents'));
 </script>
 
 <template>
-    <Modal :loading="pending" @open="open" title="Автозаполнение анкеты">
+    <Modal v-model="show" :loading="pending" @open="open" title="Автозаполнение анкеты">
         <template #trigger="{ vbind }">
             <Button v-bind="vbind" variant="secondary">Автозаполнение</Button>
         </template>
@@ -34,7 +41,7 @@ onBeforeUnmount(() => clearNuxtData('documents'));
                     class="cursor-pointer text-primary-500 hover:text-primary-600 w-full border-b last:border-b-0 border-secondary-300 border-dashed py-2.5 first:pt-0 last:pb-0"
                     v-for="doc in data"
                     :key="doc.id"
-                    @click="emit('complete', doc)"
+                    @click="choose(doc)"
                 >
                     {{ doc.name }} ({{ doc.document_number }})
                 </div>

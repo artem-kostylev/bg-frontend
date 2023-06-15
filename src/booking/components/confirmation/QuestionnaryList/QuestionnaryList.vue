@@ -23,6 +23,8 @@ import { parseTickets } from '@/booking/lib/helpers';
 const route = useRoute();
 const router = useRouter();
 
+const { showAuthModal, isAuthenticated } = storeToRefs(useAuthStore());
+
 type Form = {
     clientId?: number;
     questionnaries: Questionnary[];
@@ -100,8 +102,6 @@ const success = (index: number) => {
 
 const totalPrice = computed(() => props.general.total_price);
 
-const { isAuthenticated } = storeToRefs(useAuthStore());
-
 const sendOrder = async () => {
     const { tickets, transfers } = route.query;
     let currentIndex = 0;
@@ -168,8 +168,7 @@ const submit = async () => {
     if (!(await v$.value.$validate())) return;
 
     if (!isAuthenticated.value) {
-        // showAuthModal.value = true;
-        // TODO: Когда будет готова авторизация
+        showAuthModal.value = true;
         return;
     }
 
@@ -225,6 +224,14 @@ onMounted(() => {
         Заполните анкеты на каждого из туристов. Внимательно проверьте анкеты. Авиакомпания может
         отказать в посадке, если анкетные данные не совпадут с данными загранпаспорта. Поля со
         знаком <span class="text-danger-600">*</span> обязательны для заполнения.
+    </div>
+    <div class="border-b border-secondary-200 pb-8" v-if="!isAuthenticated">
+        <Typography variant="h2" as="h2" class="mb-4">Авторизация</Typography>
+        <p class="mb-4">
+            Для того чтобы заполненные ниже данные анкет сохранились в Системе, войдите в Личный
+            кабинет, либо зарегистрируйтесь:
+        </p>
+        <Button variant="primary" @click="showAuthModal = true">Войти в личный кабинет</Button>
     </div>
     <Collapse
         v-for="(questionnary, index) in form.questionnaries"

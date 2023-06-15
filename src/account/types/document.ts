@@ -1,3 +1,15 @@
+export type DocType = {
+    created_at: string | null;
+    deleted_at: string | null;
+    id: number;
+    is_cyrillic: boolean;
+    limitations: { min_age?: number; max_age?: number };
+    name: string;
+    nationality_id: number;
+    template: string[];
+    updated_at: null;
+};
+
 export type Document = {
     birthday: string;
     created_at: string;
@@ -5,17 +17,7 @@ export type Document = {
     document_number: string;
     document_series: string | null;
     document_till: string;
-    document_type: {
-        created_at: string | null;
-        deleted_at: string | null;
-        id: number;
-        is_cyrillic: boolean;
-        limitations: {};
-        name: string;
-        nationality_id: number;
-        template: string[];
-        updated_at: string | null;
-    };
+    document_type: DocType;
     document_type_id: number;
     document_type_name: string;
     email: string;
@@ -29,4 +31,29 @@ export type Document = {
     sex: string;
     updated_at: string;
     user_id: number;
+};
+
+export type UpperCaseKeys = {
+    first_name: string;
+    last_name: string;
+    second_name: string;
+};
+
+export type NewDocument = UpperCaseKeys & {
+    birthday: string;
+    sex: 'female' | 'male' | null;
+    nationality_id: number | null;
+    document_type_id: number | null;
+    document_number: string;
+    document_till: string;
+};
+
+export type Nationality = {
+    created_at: string | null;
+    deleted_at: string | null;
+    id: number;
+    name: string;
+    updated_at: string | null;
+    nationality_id: number;
+    nationality_name: string;
 };

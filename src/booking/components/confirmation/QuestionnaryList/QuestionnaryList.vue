@@ -12,6 +12,7 @@ import { Button, Typography, Collapse, Checkbox, Radio, Card, Modal } from '@ui/
 import { QuestionnaryCard, ModalForm } from '@/booking/components';
 import { fetchAvailableDocuments, createOrder } from '@/booking/services';
 import type { Questionnary, QuestionnaryForm } from '@/booking/types';
+import type { Document } from '@/account/types';
 import { formatCurrency, required } from '@/app/lib';
 import { useVuelidate } from '@vuelidate/core';
 import { sameAs } from '@vuelidate/validators';
@@ -60,6 +61,34 @@ const countryIds = computed(() => {
 const { data: documents } = useLazyAsyncData('form-documents', () =>
     fetchAvailableDocuments(countryIds.value)
 );
+
+const formKeys: (keyof Document)[] = [
+    'first_name',
+    'last_name',
+    'birthday',
+    'sex',
+    'nationality_id',
+    'document_type_id',
+    'document_number',
+    'document_till',
+    'phone',
+    'email',
+];
+
+const updateForm = (value: {
+    index: number;
+    doc: Document;
+    key?: keyof Document;
+    newValue?: string;
+}) => {
+    if (!form.questionnaries[value.index] || !form.questionnaries[value.index].form) return;
+
+    value.key && value.newValue
+        ? (form.questionnaries[value.index].form[value.key] = value.newValue)
+        : formKeys.forEach(key => {
+              form.questionnaries[value.index].form[key] = value.doc[key];
+          });
+};
 
 const clearForm = (index: number) => {
     if (form.questionnaries[index] && form.questionnaries[index].form) {
@@ -249,6 +278,7 @@ onMounted(() => {
             :is-last="form.questionnaries[index + 1] === undefined"
             @success="success(index)"
             @clear-form="clearForm"
+            @update-form="updateForm"
         />
     </Collapse>
     <div class="border-t border-b border-secondary-200 border-dashed py-5">

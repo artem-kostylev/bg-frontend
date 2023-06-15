@@ -20,6 +20,7 @@ import {
 import { AutocompleteModal, SelectInsuranceModal } from '@/booking/components';
 import { useAuthStore } from '@/auth/stores';
 import { vMaska } from 'maska';
+import type { Document } from '@/account/types';
 
 const { isAuthenticated } = storeToRefs(useAuthStore());
 
@@ -36,6 +37,10 @@ const props = defineProps<Props>();
 const emit = defineEmits<{
     (e: 'success'): void;
     (e: 'clear-form', value: number): void;
+    (
+        e: 'update-form',
+        value: { index: number; doc?: Document; key?: keyof Document; newValue?: string }
+    ): void;
 }>();
 
 const documents = computed(() => {
@@ -158,12 +163,25 @@ const submit = async () => {
     if (!(await v$.value.$validate())) return;
     emit('success');
 };
+
+const autoComplete = async (doc: Document) => {
+    emit('update-form', {
+        index: props.index,
+        doc,
+    });
+
+    // showModal.value = false;
+
+    await nextTick(() => {
+        v$.value.$validate();
+    });
+};
 </script>
 
 <template>
     <Card body-class="grid gap-5">
         <div class="flex justify-end" v-if="isAuthenticated">
-            <AutocompleteModal />
+            <AutocompleteModal @complete="autoComplete" />
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             <Input

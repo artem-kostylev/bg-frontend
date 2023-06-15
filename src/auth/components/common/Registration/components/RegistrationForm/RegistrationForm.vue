@@ -24,7 +24,7 @@ import { vMaska } from 'maska';
 type Props = {
     loginInfo: LoginInfo;
     pending?: boolean;
-    btnDisabled?: boolean;
+    isError?: boolean;
     errors?: RegisterErrors | null;
 };
 
@@ -174,7 +174,7 @@ onBeforeUnmount(() => {
             <PasswordRequirements v-model="showTip" />
         </div>
         <div class="flex justify-center mt-2.5">
-            <Button variant="primary" :loading="pending" :disabled="btnDisabled" @click="onSubmit"
+            <Button variant="primary" :loading="pending" :disabled="isError" @click="onSubmit"
                 >Сохранить</Button
             >
         </div>

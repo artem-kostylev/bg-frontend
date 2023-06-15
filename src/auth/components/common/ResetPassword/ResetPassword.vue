@@ -139,7 +139,7 @@ const changeLogin = () => {
         <ResetForm
             v-if="verifySent"
             :pending="pending"
-            :btn-disabled="error !== null || errors !== null"
+            :is-error="error !== null || errors !== null"
             :errors="errors"
             @submit="onSubmit"
             @clear-errors="clearErrors"

@@ -98,17 +98,16 @@ const changeLogin = () => {
         />
         <div v-else-if="!verifySendError" class="space-y-4">
             <LoginForm
-                :error="passwordError"
                 :pending="pending"
-                :btn-disabled="passwordError !== null"
+                :error="passwordError"
+                :is-error="error !== null || passwordError !== null"
                 @submit="onSubmit"
                 @clear-errors="clearErrors"
             />
             <ForgotPasswordTip
                 v-model="showTip"
                 :login-info="loginInfo"
-                :error="passwordError !== null"
-                :pending="pending"
+                :is-error="passwordError !== null"
                 @reset-password="resetPassword"
             />
         </div>

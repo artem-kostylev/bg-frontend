@@ -108,7 +108,7 @@ const changeLogin = () => {
             v-else
             :login-info="loginInfo"
             :pending="pending"
-            :btn-disabled="error !== null || errors !== null"
+            :is-error="error !== null || errors !== null"
             :errors="errors"
             @submit="onSubmit"
             @clear-errors="clearFieldErrors"

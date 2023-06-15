@@ -10,6 +10,7 @@ export type InputProps = FieldProps & {
     loading?: boolean;
     disabled?: boolean;
     readonly?: boolean;
+    justify?: 'center';
 };
 
 export const defaultInputProps = {

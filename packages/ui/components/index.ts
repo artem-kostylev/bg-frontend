@@ -30,6 +30,7 @@ export * from './Field';
 export * from './Input';
 export * from './Alert';
 export * from './RadioButtonGroup';
+export * from './InputPassword';
 export * from './Checkbox';
 export * from './Radio';
 export * from './Slider';

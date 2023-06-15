@@ -1,0 +1,61 @@
+<script setup lang="ts">
+import nouislider from 'nouislider';
+import type { API } from 'nouislider';
+import { onMounted, onUnmounted, ref } from 'vue';
+import type { SliderProps } from './slider';
+import { defaultSliderProps } from './slider';
+
+const props = withDefaults(defineProps<SliderProps>(), defaultSliderProps);
+
+const emit = defineEmits<{ (e: 'update:modelValue', value?: number | number[]): void }>();
+
+let slider$: API | null = null;
+const slider = ref();
+
+const getValue = () => {
+    if (!slider$) return;
+
+    const rawValue = slider$.get();
+    return Array.isArray(rawValue)
+        ? rawValue.map(v => parseFloat(v.toString()))
+        : parseFloat(rawValue.toString());
+};
+
+onMounted(() => {
+    const value = props.range
+        ? props.modelValue === undefined || props.modelValue === null
+            ? [props.min, props.max]
+            : (props.modelValue as number[]).length
+            ? props.modelValue
+            : [props.min, props.max]
+        : props.min;
+
+    slider$ = nouislider.create(slider.value, {
+        cssPrefix: 'slider-',
+        start: value,
+        step: props.step,
+        connect: props.range ? true : 'lower',
+        range: {
+            min: props.min,
+            max: props.max,
+        },
+    });
+
+    slider$.on('set', () => {
+        const value = getValue();
+        emit('update:modelValue', value);
+    });
+});
+
+onUnmounted(() => {
+    if (!slider$) return;
+
+    slider$.off('');
+    slider$.destroy();
+    slider$ = null;
+});
+</script>
+
+<template>
+    <div ref="slider"></div>
+</template>

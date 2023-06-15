@@ -31,3 +31,5 @@ export * from './Input';
 export * from './Alert';
 export * from './InputPassword';
 export * from './Checkbox';
+export * from './Radio';
+export * from './Slider';

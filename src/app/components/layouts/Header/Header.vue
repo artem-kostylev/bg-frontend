@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { Container, Avatar } from '@ui/components';
 import { UserIcon, HeartIcon } from '@ui/icons';
 import { AuthModal } from '@/auth/components';
 import { useAuthStore } from '@/auth/stores/auth';
 import { storeToRefs } from 'pinia';
 
-const showAuth = ref(false);
-
-const { isAuthenticated, user } = storeToRefs(useAuthStore());
+const { isAuthenticated, user, showAuthModal } = storeToRefs(useAuthStore());
 </script>
 
 <template>
@@ -41,12 +38,12 @@ const { isAuthenticated, user } = storeToRefs(useAuthStore());
                     v-else
                     class="text-secondary-500 hover:text-secondary-600 transition-colors duration-300"
                     aria-label="Авторизация"
-                    @click="showAuth = true"
+                    @click="showAuthModal = true"
                 >
                     <UserIcon width="1.6em" height="1.6em" />
                 </button>
             </div>
         </Container>
-        <AuthModal v-model="showAuth" />
+        <AuthModal v-model="showAuthModal" />
     </header>
 </template>

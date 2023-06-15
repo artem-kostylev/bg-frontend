@@ -244,7 +244,7 @@ const submit = async () => {
                 v-model="v$.service_insurance_id.$model"
                 required
                 label="Страховка"
-                :loading="pendingInsurances"
+                :loading="pendingInsurances && canFetchInsurance"
                 :error="v$.service_insurance_id.$errors[0]?.$message"
                 :options="fetchedInsurances"
                 :disabled="!fetchedInsurances"

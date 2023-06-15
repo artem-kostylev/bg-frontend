@@ -10,6 +10,7 @@ interface initialStyle {
     width: string;
     position: string;
     visibility: string;
+    overflow: string;
     paddingTop: string;
     paddingBottom: string;
     borderTopWidth: string;
@@ -24,6 +25,7 @@ function getElementStyle(element: HTMLElement) {
         width: element.style.width,
         position: element.style.position,
         visibility: element.style.visibility,
+        overflow: element.style.overflow,
         paddingTop: element.style.paddingTop,
         paddingBottom: element.style.paddingBottom,
         borderTopWidth: element.style.borderTopWidth,
@@ -46,6 +48,7 @@ function prepareElement(element: HTMLElement, initialStyle: initialStyle) {
     element.style.position = initialStyle.position;
     element.style.visibility = initialStyle.visibility;
     element.style.height = closed;
+    element.style.overflow = 'hidden';
 
     return initialStyle.height && initialStyle.height != closed ? initialStyle.height : height;
 }
@@ -60,7 +63,10 @@ function animateTransition(
     const animation = element.animate(keyframes, options);
     element.style.height = initialStyle.height;
 
-    animation.onfinish = done;
+    animation.onfinish = () => {
+        element.style.overflow = initialStyle.overflow;
+        done();
+    };
 }
 
 function getEnterKeyframes(height: string, initialStyle: initialStyle) {

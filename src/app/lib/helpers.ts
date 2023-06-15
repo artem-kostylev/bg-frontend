@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { Mask } from 'maska';
 
 /**
  *  Проверяет наличие ключей в обьекте
@@ -75,4 +76,39 @@ export const formatMinutes = (duration: number) => {
     const minutes = duration % 60;
 
     return `${days ? `${days}д` : ''} ${hours ? `${hours}ч ` : ''}${minutes ? `${minutes}м` : ''}`;
+};
+
+/**
+ *  Преобразует первую букву каждого слова в тексте в верхний регистр
+ *  // TODO: Добавить пример
+ */
+export const textTransform = (text: string) => {
+    const textArr = text.toLowerCase().split(' ');
+
+    for (let i = 0; i < textArr.length; i++) {
+        textArr[i] = textArr[i].charAt(0).toUpperCase() + textArr[i].slice(1);
+    }
+
+    return textArr.join(' ');
+};
+
+/**
+ *  Удаляет ключи формы с пустыми значениями
+ *  // TODO: Добавить пример
+ */
+export const removeEmptyKeys = (form: { [key: string]: string }) => {
+    return Object.entries(form).reduce(
+        (a: { [key: string]: string }, [k, v]) => (v === '' ? a : ((a[k] = v), a)),
+        {}
+    );
+};
+
+export const phoneMask = new Mask({ mask: '+7 (###) ### ## ##' });
+
+/**
+ *  Форматирует номер телефона в набор цифр, начинающийся с 7
+ *  @example unmaskPhone('+7 (999) 999 99 99') // 79999999999
+ */
+export const unmaskPhone = (phone: string) => {
+    return '7' + phoneMask.unmasked(phone);
 };

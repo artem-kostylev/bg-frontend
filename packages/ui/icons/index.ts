@@ -44,3 +44,7 @@ export { default as SadFaceIcon } from './SadFace.vue';
 export { default as SmileFaceIcon } from './SmileFace.vue';
 export { default as ReviewIcon } from './Review.vue';
 export { default as QuestionInCircleIcon } from './QuestionInCircle.vue';
+export { default as LockIcon } from './Lock.vue';
+export { default as SmallArrowIcon } from './SmallArrow.vue';
+export { default as AtSignIcon } from './AtSign.vue';
+export { default as MobilePhoneIcon } from './MobilePhone.vue';

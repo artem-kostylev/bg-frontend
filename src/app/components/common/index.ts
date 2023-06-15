@@ -5,3 +5,4 @@ export * from './ImageGrid';
 export * from './DetailsHeader';
 export * from './RatingBadge';
 export * from './ReviewsBadge';
+export * from './Confirmation';

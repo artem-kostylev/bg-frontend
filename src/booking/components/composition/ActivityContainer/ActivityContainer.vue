@@ -4,7 +4,7 @@ import { computed, onMounted } from 'vue';
 import type { IncludedActivity } from '@/booking/types';
 import { useCompositionStore } from '@/booking/stores';
 import { ActivityList, ActivityVariantList } from '@/booking/components';
-import { Typography } from '@ui/components';
+import { Typography, Divider } from '@ui/components';
 
 const compositionStore = useCompositionStore();
 const { selectAllActivities } = compositionStore;
@@ -37,15 +37,21 @@ const title = computed(() => {
 </script>
 
 <template>
-    <div>
-        <Typography variant="h2" as="h2" class="mb-1">{{ title }}</Typography>
-        <Typography variant="description" v-if="type === 'activities'">
-            Для этого тура можно выбрать дополнительные экскурсии:
-        </Typography>
+    <div v-if="type !== 'basic'" class="space-y-5">
+        <div>
+            <Typography variant="h2" as="h2" class="mb-1">{{ title }}</Typography>
+            <Typography variant="description" v-if="type === 'activities'">
+                Для этого тура можно выбрать дополнительные экскурсии:
+            </Typography>
+        </div>
+        <ActivityVariantList
+            v-if="includedActivities.length > 1"
+            :included-activities="includedActivities"
+        />
+        <ActivityList v-if="selectedAllActivities.length" :activities="selectedAllActivities" />
+        <Divider dashed />
     </div>
-    <ActivityVariantList
-        v-if="includedActivities.length > 1"
-        :included-activities="includedActivities"
-    />
-    <ActivityList v-if="selectedAllActivities.length" :activities="selectedAllActivities" />
+    <div v-if="type === 'basic' || selectedAllActivities.length">
+        <slot name="footer" />
+    </div>
 </template>

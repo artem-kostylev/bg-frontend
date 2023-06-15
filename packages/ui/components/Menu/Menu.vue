@@ -6,7 +6,9 @@ import type { StringOrNumber } from '@ui/types';
 import { CheckIcon } from '@ui/icons';
 
 const props = withDefaults(defineProps<MenuProps>(), defaultMenuProps);
-const emit = defineEmits<{ 'update:modelValue': [StringOrNumber | StringOrNumber[]] }>();
+const emit = defineEmits<{
+    'update:modelValue': [StringOrNumber | StringOrNumber[] | undefined];
+}>();
 
 const modelValue = computed({
     get: () => props.modelValue,

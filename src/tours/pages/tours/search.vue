@@ -17,7 +17,7 @@ const query = useQuery<FiltersRaw>();
 const page = ref(1);
 const sort = ref('tour.price:asc');
 
-const { data, pending } = useLazyAsyncData(
+const { data, pending, error } = useLazyAsyncData(
     'tours',
     () => fetchTours(query.value, name.value, page.value, sort.value),
     { watch: [sort] }
@@ -35,6 +35,11 @@ const filters = computed(() => formatFilters(data.value!.filters));
 <template>
     <Page :meta="data?.meta">
         <Spin v-if="pending" color="primary" />
+        <Empty
+            v-else-if="error"
+            title="Что-то пошло не так"
+            description="Ошибка получения данных, попробуйте повторить запрос позже"
+        />
         <template v-else-if="data">
             <Typography variant="h1" as="h1" class="md:mb-2.5">{{ data.meta.title }}</Typography>
             <TourFilters v-model="sort" class="mb-8" />
@@ -45,7 +50,11 @@ const filters = computed(() => formatFilters(data.value!.filters));
                     <div v-else ref="targetRef"></div>
                 </template>
             </template>
-            <Empty v-else />
+            <Empty
+                v-else
+                title="Ничего не нашлось"
+                description="Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры"
+            />
         </template>
     </Page>
 </template>

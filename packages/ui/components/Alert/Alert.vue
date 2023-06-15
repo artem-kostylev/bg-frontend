@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { alertVariants, alertDefaultProps } from '@ui/components/Alert/alert';
-import type { AlertProps } from '@ui/components/Alert/alert';
+import { alertVariants, alertDefaultProps } from './alert';
+import type { AlertProps } from './alert';
 import { InfoIcon, CheckIcon, XIcon, QuestionInCircleIcon } from '@ui/icons';
 
 const props = withDefaults(defineProps<AlertProps>(), alertDefaultProps);

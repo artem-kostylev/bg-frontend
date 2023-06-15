@@ -1,0 +1,43 @@
+<script setup lang="ts">
+import { Input } from '@ui/components';
+import { required, confirmationCode } from '@/app/lib';
+import { vMaska } from 'maska';
+import { useSimpleForm } from '@/auth/composables';
+
+type Props = {
+    error?: string | null;
+    inputDisabled?: boolean;
+};
+
+defineProps<Props>();
+
+const emit = defineEmits<{
+    (e: 'submit', value: string): void;
+    (e: 'clear-errors'): void;
+}>();
+
+const { v$ } = useSimpleForm({
+    field: 'code',
+    fieldRules: [required, confirmationCode],
+    emit,
+    onChange: true,
+});
+</script>
+
+<template>
+    <div class="space-y-4">
+        <slot name="label" />
+        <Input
+            v-model="v$.code.$model"
+            name="code"
+            placeholder="_ _ _ _"
+            :error="v$.code.$errors[0]?.$message || error"
+            :disabled="inputDisabled"
+            justify="center"
+            class="mt-5"
+            v-maska
+            :data-maska="'####'"
+        />
+        <slot name="error" />
+    </div>
+</template>

@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { onBeforeUnmount, ref, watch } from 'vue';
+import { onBeforeUnmount, ref, watch, computed } from 'vue';
 import { useLazyAsyncData, clearNuxtData } from '#imports';
 import { CoveredModal, Divider } from '@ui/components';
 import { fetchActivity } from '@/booking/services';
 import { Info, Order } from './components';
-import type { AllActivity } from '@/booking/types';
 import { useCompositionStore } from '@/booking/stores';
 
 type Props = {
-    activity: AllActivity;
     withOrder?: boolean;
+    id: number;
+    dates?: string[];
 };
 
 const props = defineProps<Props>();
@@ -19,8 +19,8 @@ const show = ref(false);
 const { selectedTickets } = storeToRefs(useCompositionStore());
 
 const { data, pending, execute } = useLazyAsyncData(
-    `activity-${props.activity.id}`,
-    () => fetchActivity(props.activity.id),
+    `activity-${props.id}`,
+    () => fetchActivity(props.id),
     { server: false, immediate: false }
 );
 
@@ -28,7 +28,12 @@ const open = () => !data.value && execute();
 
 watch(selectedTickets, () => (show.value = false), { deep: true });
 
-onBeforeUnmount(() => clearNuxtData(`activity-${props.activity.id}`));
+onBeforeUnmount(() => clearNuxtData(`activity-${props.id}`));
+
+const cover = computed(() => {
+    if (!data.value?.activity.images.length) return undefined;
+    return data.value.activity.images[0].url;
+});
 </script>
 
 <template>
@@ -38,7 +43,7 @@ onBeforeUnmount(() => clearNuxtData(`activity-${props.activity.id}`));
         @open="open"
         size="xl"
         :title="data?.activity.name"
-        :cover="data?.activity.images[0].url"
+        :cover="cover"
     >
         <template #trigger="{ vbind }">
             <slot name="trigger" :vbind="vbind" />
@@ -48,7 +53,7 @@ onBeforeUnmount(() => clearNuxtData(`activity-${props.activity.id}`));
                 <Info :activity="data.activity" />
                 <template v-if="withOrder">
                     <Divider dashed />
-                    <Order :activity="data.activity" :dates="activity.date" />
+                    <Order :activity="data.activity" :dates="dates!" />
                 </template>
             </div>
         </template>

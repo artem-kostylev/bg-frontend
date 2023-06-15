@@ -36,6 +36,9 @@ export default defineNuxtConfig({
         '@': fileURLToPath(new URL('./src', import.meta.url)),
         '@ui': fileURLToPath(new URL('./packages/ui', import.meta.url)),
         '@querystring': fileURLToPath(new URL('./packages/querystring', import.meta.url)),
+        '@set-cookie-parser': fileURLToPath(
+            new URL('./packages/set-cookie-parser', import.meta.url)
+        ),
     },
 
     imports: {

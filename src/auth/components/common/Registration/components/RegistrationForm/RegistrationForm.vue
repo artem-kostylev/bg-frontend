@@ -105,21 +105,26 @@ onBeforeUnmount(() => {
             v-model="v$.last_name.$model"
             name="lastname"
             placeholder="Фамилия"
-            :error="v$.last_name.$errors[0]?.$message"
+            :error="v$.last_name.$errors[0]?.$message || (errors?.last_name && errors.last_name[0])"
             :start-icon="UserIcon"
         />
         <Input
             v-model="v$.first_name.$model"
             name="firstname"
             placeholder="Имя"
-            :error="v$.first_name.$errors[0]?.$message"
+            :error="
+                v$.first_name.$errors[0]?.$message || (errors?.first_name && errors.first_name[0])
+            "
             :start-icon="UserIcon"
         />
         <Input
             v-model="v$.second_name.$model"
             name="secondname"
             placeholder="Отчество"
-            :error="v$.second_name.$errors[0]?.$message"
+            :error="
+                v$.second_name.$errors[0]?.$message ||
+                (errors?.second_name && errors.second_name[0])
+            "
             :start-icon="UserIcon"
         />
         <Divider dashed />
@@ -128,7 +133,7 @@ onBeforeUnmount(() => {
             v-model="v$.email.$model"
             name="email"
             placeholder="E-mail"
-            :error="v$.email.$errors[0]?.$message"
+            :error="v$.email.$errors[0]?.$message || (errors?.email && errors.email[0])"
             :start-icon="AtSignIcon"
         />
         <div v-else class="space-y-4">
@@ -136,7 +141,7 @@ onBeforeUnmount(() => {
                 v-model="v$.phone.$model"
                 name="phone"
                 placeholder="Мобильный телефон"
-                :error="v$.phone.$errors[0]?.$message"
+                :error="v$.phone.$errors[0]?.$message || (errors?.phone && errors.phone[0])"
                 :start-icon="MobilePhoneIcon"
                 v-maska
                 :data-maska="'+7 (###) ### ## ##'"
@@ -146,7 +151,9 @@ onBeforeUnmount(() => {
                 v-model="v$.password.$model"
                 name="password"
                 placeholder="Пароль"
-                :error="v$.password.$errors[0]?.$message"
+                :error="
+                    v$.password.$errors[0]?.$message || (errors?.password && errors.password[0])
+                "
                 :success="v$.password.$model !== '' && v$.password.$errors.length === 0"
                 :start-icon="LockIcon"
             />
@@ -154,7 +161,10 @@ onBeforeUnmount(() => {
                 v-model="v$.password_confirmation.$model"
                 name="password_confirmation"
                 placeholder="Пароль еще раз"
-                :error="v$.password_confirmation.$errors[0]?.$message"
+                :error="
+                    v$.password_confirmation.$errors[0]?.$message ||
+                    (errors?.password_confirmation && errors.password_confirmation[0])
+                "
                 :success="
                     v$.password_confirmation.$model !== '' &&
                     v$.password_confirmation.$errors.length === 0

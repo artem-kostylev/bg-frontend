@@ -42,4 +42,5 @@ export type ResetForm = {
     password: string;
     password_confirmation: string;
     email?: string;
+    code?: string;
 };

@@ -32,11 +32,11 @@ export type RegisterError = {
 };
 
 export type RegisterErrors = {
-    [k in keyof RegisterForm]: string[];
+    [k in keyof RegisterForm]?: string[];
 };
 
 export type ResetErrors = {
-    [k in keyof ResetForm]: string[];
+    [k in keyof ResetForm]?: string[];
 };
 
 export type ResetError = {

@@ -16,21 +16,37 @@ const toName = (str: string) => {
 const toValue = (str?: string) => (!str ? true : +str * 0 === 0 ? +str : str);
 
 export const parse = (str: string) => {
-    return str.split('; ').reduce((a: any, b: any, index) => {
-        const [name, value] = b.split('=');
+    return str.split('; ').reduce(
+        (
+            a: {
+                name: string;
+                value: string;
+                serializeOptions?: Record<string, string | number | boolean | Date>;
+            },
+            b: string,
+            index: number
+        ) => {
+            const [name, value] = b.split('=');
 
-        if (index === 0) {
-            a.name = name;
-            a.value = value;
-        } else {
-            !a.serializeOptions && (a.serializeOptions = {});
+            if (index === 0) {
+                a.name = name;
+                a.value = value;
+            } else {
+                !a.serializeOptions && (a.serializeOptions = {});
 
-            const formattedName = toName(name);
-            const formmattedValue = toValue(value);
+                const formattedName: string = toName(name);
+                const formattedValue: string | number | boolean | Date = toValue(value);
 
-            a.serializeOptions[formattedName] = formattedName === 'expires' ? new Date(value) : formmattedValue;
+                a.serializeOptions[formattedName] =
+                    formattedName === 'expires' ? new Date(value) : formattedValue;
+            }
+
+            return a;
+        },
+        {} as {
+            name: string;
+            value: string;
+            serializeOptions?: Record<string, string | number | boolean | Date>;
         }
-
-        return a;
-    }, {});
+    );
 };

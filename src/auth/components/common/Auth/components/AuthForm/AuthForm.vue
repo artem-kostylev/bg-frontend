@@ -16,7 +16,6 @@ const { v$, onSubmit } = useSimpleForm({
     field: 'login',
     fieldRules: [required, emailOrNumber],
     emit,
-    clearErrors: true,
 });
 
 const { options } = useMaskOptions();

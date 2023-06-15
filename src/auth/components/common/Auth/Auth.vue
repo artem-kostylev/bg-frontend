@@ -24,7 +24,7 @@ const onSubmit = async (login: string) => {
         const nextData: NextAuthForm = {
             form: 'login',
             data: {
-                loginValue: login,
+                loginValue: preparedLogin,
                 loginType: response.loginType,
                 isVerified: response.isVerified,
             },
@@ -38,15 +38,17 @@ const onSubmit = async (login: string) => {
             const nextData: NextAuthForm = {
                 form: 'registration',
                 data: {
-                    loginValue: login,
+                    loginValue: preparedLogin,
                     loginType: err.data.loginType,
                     isVerified: false,
                 },
             };
             emit('show-next', nextData);
-        } else {
+        } else if (err.status === 422) {
             // login error
-            loginError.value = err.status === 422 ? err.data.message : 'Неизвестная ошибка';
+            loginError.value = err.data.message;
+        } else {
+            error.value = 'Неизвестная ошибка';
         }
     } finally {
         pending.value = false;

@@ -7,7 +7,6 @@ export function useSimpleForm({
     fieldRules,
     emit,
     onChange,
-    clearErrors,
 }: {
     field: string;
     fieldRules: ValidationRuleWithParams[];
@@ -44,11 +43,9 @@ export function useSimpleForm({
         );
     }
 
-    if (clearErrors) {
-        watch(form.value, () => {
-            emit('clear-errors');
-        });
-    }
+    watch(form.value, () => {
+        emit('clear-errors');
+    });
 
     onBeforeUnmount(() => {
         form.value[field] = '';

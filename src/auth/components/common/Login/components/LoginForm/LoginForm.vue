@@ -16,7 +16,6 @@ const { v$, onSubmit } = useSimpleForm({
     field: 'password',
     fieldRules: [required],
     emit,
-    clearErrors: true,
 });
 </script>
 

@@ -13,7 +13,7 @@ import {
 } from '@/app/lib';
 import { helpers, sameAs } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-import { useClearForm } from '@/auth/composables';
+import { useClearForm, useClearFieldErrors } from '@/auth/composables';
 
 type Props = {
     pending?: boolean;
@@ -21,7 +21,7 @@ type Props = {
     errors?: ResetErrors | null;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const emit = defineEmits<{
     (e: 'submit', value: ResetForm): void;
@@ -53,6 +53,16 @@ const onSubmit = async () => {
     emit('submit', form.value);
 };
 
+const clearFieldError = (key: string) => {
+    emit('clear-errors', key as keyof ResetErrors);
+};
+
+useClearFieldErrors({
+    form,
+    errors: props.errors as { [key: string]: string[] | undefined },
+    clearFieldError,
+});
+
 onBeforeUnmount(() => {
     useClearForm(form);
     emit('clear-errors');
@@ -65,7 +75,7 @@ onBeforeUnmount(() => {
             v-model="v$.password.$model"
             name="password"
             placeholder="Новый пароль"
-            :error="v$.password.$errors[0]?.$message"
+            :error="v$.password.$errors[0]?.$message || (errors?.password && errors.password[0])"
             :success="v$.password.$model !== '' && v$.password.$errors.length === 0"
             :start-icon="LockIcon"
         />
@@ -73,7 +83,10 @@ onBeforeUnmount(() => {
             v-model="v$.password_confirmation.$model"
             name="password_confirmation"
             placeholder="Пароль еще раз"
-            :error="v$.password_confirmation.$errors[0]?.$message"
+            :error="
+                v$.password_confirmation.$errors[0]?.$message ||
+                (errors?.password_confirmation && errors.password_confirmation[0])
+            "
             :success="
                 v$.password_confirmation.$model !== '' &&
                 v$.password_confirmation.$errors.length === 0

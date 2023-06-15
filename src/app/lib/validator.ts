@@ -1,23 +1,57 @@
 import {
     required as vRequired,
+    email as vEmail,
     helpers,
-    email as defaultEmail,
     or,
     and,
     numeric,
     minLength,
     maxLength,
 } from '@vuelidate/validators';
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+dayjs.extend(customParseFormat);
+dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
 
 export const required = helpers.withMessage('Поле обязательно для заполнения', vRequired);
 
-export const phoneNumber = helpers.regex(/(\+7)[\s(]*\d{3}[)\s]*\d{3}[\s]?\d{2}[\s]?\d{2}/);
+export const email = helpers.withMessage('Введите корректный email', vEmail);
 
-export const email = helpers.withMessage('Введите корректный email', defaultEmail);
+export const isValidDate = helpers.withMessage('Введите корректную дату', (value: string) => {
+    if (value.length < 10) return false;
+    return dayjs(value, 'DD.MM.YYYY', true).isValid();
+});
+
+export const birthday = helpers.withMessage(
+    'Дата не может быть больше текущей',
+    (value: string) => {
+        return dayjs().isSameOrAfter(dayjs(value, 'DD.MM.YYYY', true));
+    }
+);
+
+export const documentTill = helpers.withMessage('Неверный срок действия', (value: string) => {
+    return dayjs().isSameOrBefore(dayjs(value, 'DD.MM.YYYY', true));
+});
+
+export const cyrillicReg = helpers.regex(/^[а-яА-ЯёЁ]+$/);
+
+export const latinReg = helpers.regex(/^[a-zA-Z]+$/);
+
+export const latinText = helpers.withMessage('Заполнение возможно только на латинице', latinReg);
+
+export const cyrillicText = helpers.withMessage(
+    'Заполнение возможно только на кириллице',
+    cyrillicReg
+);
+
+export const phoneNumber = helpers.regex(/(\+7)[\s(]*\d{3}[)\s]*\d{3}[\s]?\d{2}[\s]?\d{2}/);
 
 export const emailOrNumber = helpers.withMessage(
     'Введите корректный e-mail или номер телефона',
-    or(defaultEmail, phoneNumber)
+    or(vEmail, phoneNumber)
 );
 
 export const confirmationCode = helpers.withMessage(

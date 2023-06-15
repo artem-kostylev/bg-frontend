@@ -24,7 +24,7 @@ withDefaults(defineProps<Props>(), {
             <li>{{ transfer.vehicle }}</li>
             <li>{{ pluralize(transfer.capacity, ['пассажир', 'пассажира', 'пассажиров']) }}</li>
         </ul>
-        <template #footer>
+        <template v-if="$slots.footer" #footer>
             <slot name="footer" />
         </template>
     </Card>

@@ -31,7 +31,11 @@ whenever(
                 :movements="data.movements"
                 :price="data.price"
             />
-            <Empty v-else />
+            <Empty
+                v-else
+                title="Список перемещений пуст"
+                description="Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры"
+            />
         </div>
     </Page>
 </template>

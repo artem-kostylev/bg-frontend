@@ -17,4 +17,5 @@ export type General = {
     from: string;
     qty_tourists: number;
     groups: Group[];
+    total_price: number;
 };

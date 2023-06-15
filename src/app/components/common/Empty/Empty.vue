@@ -7,9 +7,8 @@ type Props = {
 };
 
 withDefaults(defineProps<Props>(), {
-    title: 'По вашему запросу ничего не нашлось',
-    description:
-        'Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры',
+    title: '',
+    description: '',
 });
 </script>
 

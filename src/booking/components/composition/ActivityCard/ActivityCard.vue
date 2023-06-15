@@ -39,7 +39,7 @@ const selectedPriceType = computed(() => {
 </script>
 
 <template>
-    <Card cover-class="h-[14rem] bg-secondary-100 relative">
+    <Card cover-class="h-[14rem] bg-secondary-100 relative" body-class="flex flex-col">
         <template #cover>
             <Image
                 :src="activity.image.url"
@@ -48,6 +48,14 @@ const selectedPriceType = computed(() => {
             />
             <div class="absolute top-0 right-0">
                 <div
+                    v-if="activity.status === 'include'"
+                    class="text-white px-2.5 py-1.5 text-sm rounded-bl-xl space-x-2 flex items-center bg-success-600"
+                >
+                    <CheckIcon width="1.2em" height="1.2em" />
+                    <div>В составе</div>
+                </div>
+                <div
+                    v-else
                     :class="[
                         'text-white px-2.5 py-1.5 text-sm rounded-bl-xl space-x-2 flex items-center',
                         selected ? 'bg-success-600' : 'bg-warning-600',
@@ -58,9 +66,9 @@ const selectedPriceType = computed(() => {
                 </div>
             </div>
         </template>
-        <div class="flex items-start justify-between space-x-5">
+        <div class="flex items-start justify-between space-x-5 flex-1">
             <Typography variant="h3" as="h3">{{ activity.name }}</Typography>
-            <ActivityDetailsModal :activity="activity">
+            <ActivityDetailsModal :id="activity.id">
                 <template #trigger="{ vbind }">
                     <button v-bind="vbind" class="text-secondary-500">
                         <Tooltip text="Подробная информация">
@@ -82,7 +90,10 @@ const selectedPriceType = computed(() => {
                 </div>
                 <Typography variant="description">{{ selectedPriceType }}</Typography>
             </div>
-            <ActivityDetailsModal v-else :activity="activity" with-order>
+            <Button disabled v-else-if="activity.status === 'include'">
+                {{ formatCurrency(0) }}
+            </Button>
+            <ActivityDetailsModal v-else :id="activity.id" :dates="activity.date" with-order>
                 <template #trigger="{ vbind }">
                     <div class="space-y-1 text-right">
                         <Button v-bind="vbind" variant="primary">

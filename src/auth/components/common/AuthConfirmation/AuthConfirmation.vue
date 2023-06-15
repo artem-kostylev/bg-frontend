@@ -14,6 +14,7 @@ type Props = {
     password?: string | null;
     onlySend?: boolean;
     step?: string;
+    incorrectCode?: string | null;
 };
 
 const props = defineProps<Props>();
@@ -22,10 +23,11 @@ const emit = defineEmits<{
     (e: 'change-login'): void;
     (e: 'submit', value: string): void;
     (e: 'close'): void;
+    (e: 'clear-errors'): void;
 }>();
 
 const label = computed(() => {
-    const loginTypeText = props.loginInfo.loginType === 'email' ? 'на' : 'в СМС на';
+    const loginTypeText = props.loginInfo.loginType === 'email' ? 'на ' : 'в СМС на ';
     return `${props.step || ''}Введите код, высланный Вам ${loginTypeText}`;
 });
 
@@ -85,14 +87,19 @@ const incorrectLabel = computed(() => {
 const changeLogin = () => {
     emit('change-login');
 };
+
+const clearAllErrors = () => {
+    clearErrors();
+    emit('clear-errors');
+};
 </script>
 
 <template>
     <Confirmation
-        :error="error"
+        :error="error || incorrectCode"
         :input-disabled="pending || !verifySent"
         @submit="submit"
-        @clear-errors="clearErrors"
+        @clear-errors="clearAllErrors"
     >
         <template #label>
             <span>{{ label }}</span>
@@ -107,7 +114,7 @@ const changeLogin = () => {
         <template #error>
             <div v-if="codeError">
                 <span>Введите корректный код или</span>
-                <button class="text-blue-700 cursor-pointer" @click="changeLogin">
+                <button class="text-primary-500 cursor-pointer" @click="changeLogin">
                     {{ incorrectLabel }}
                 </button>
             </div>

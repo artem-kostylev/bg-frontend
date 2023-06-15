@@ -12,7 +12,7 @@ import type {
     RegisterError,
     RegisterErrors,
 } from '@/auth/types';
-import { removeEmptyKeys } from '@/app/lib/helpers';
+import { removeEmptyKeys, unmaskPhone } from '@/app/lib/helpers';
 import { fetchRegister } from '@/auth/services';
 import { useRequestStatus, useVerify } from '@/auth/composables';
 
@@ -25,12 +25,14 @@ const props = defineProps<Props>();
 const emit = defineEmits<{
     (e: 'show-next', value: NextAuthForm): void;
     (e: 'set-title', value: AuthenticationTitle): void;
+    (e: 'close'): void;
 }>();
 
 const password = ref<string | null>(null);
 
 const prepareData = (form: RegisterFormType) => {
     form.password && (password.value = form.password);
+    form.phone && (form.phone = unmaskPhone(form.phone));
 
     const result = removeEmptyKeys(form);
     for (const prop in result) {
@@ -83,6 +85,7 @@ const onSubmit = async (form: RegisterFormType) => {
 const closeConfirmation = () => {
     showConfirmation.value = false;
     clearErrors();
+    emit('close');
 };
 
 const changeLogin = () => {
@@ -105,6 +108,8 @@ const changeLogin = () => {
             v-else
             :login-info="loginInfo"
             :pending="pending"
+            :btn-disabled="error !== null || errors !== null"
+            :errors="errors"
             @submit="onSubmit"
             @clear-errors="clearFieldErrors"
         />

@@ -78,6 +78,7 @@ const closeConfirmation = () => {
     showConfirmation.value = false;
     showTip.value = false;
     clearErrors();
+    emit('close');
 };
 
 const changeLogin = () => {

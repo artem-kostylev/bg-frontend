@@ -24,10 +24,11 @@ export function useRequestStatus({
     const clearErrors = () => {
         error.value = null;
 
-        if (!errors) return;
-        errors.forEach(e => {
-            e.value = null;
-        });
+        if (errors) {
+            errors.forEach(e => {
+                e.value = null;
+            });
+        }
 
         fieldErrors && clearFieldErrors();
     };

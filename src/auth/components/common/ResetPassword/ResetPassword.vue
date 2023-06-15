@@ -129,16 +129,18 @@ const changeLogin = () => {
             :login-info="loginInfo"
             @submit="confirm"
             @change-login="changeLogin"
+            @clear-errors="clearErrors"
             :only-send="true"
+            :incorrect-code="errors?.code && errors?.code[0]"
             step="1. "
         />
         <Divider dashed />
         <div>2. Введите новый пароль</div>
         <ResetForm
             v-if="verifySent"
-            :error="error"
             :pending="pending"
-            :btn-disabled="error !== null"
+            :btn-disabled="error !== null || errors !== null"
+            :errors="errors"
             @submit="onSubmit"
             @clear-errors="clearErrors"
         />

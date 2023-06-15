@@ -50,6 +50,10 @@ const showCreatePassword = () => {
 };
 
 const showNext = (nextData: NextAuthForm) => {
+    if (nextData.form === 'auth') {
+        clearFields();
+    }
+
     currForm.value = nextData.form;
     currTitle.value = formLabels[nextData.form];
     nextData.data && (loginInfo.value = { ...nextData.data });

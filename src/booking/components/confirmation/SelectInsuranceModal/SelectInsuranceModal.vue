@@ -14,11 +14,11 @@ import type { StringOrNumber } from '@ui/types';
 type Option = {
     id: number;
     name: string;
-    price: number;
     description: {
         sum: number;
         currency: string;
     };
+    price?: number;
 };
 
 type Props = {
@@ -105,7 +105,11 @@ const endIcon = (props: Record<string, StringOrNumber>) => {
                         <div v-if="option.description" class="text-sm mt-1 text-secondary-500">
                             Страховая сумма:
                             {{
-                                formatCurrency(option.description.sum, option.description.currency)
+                                formatCurrency(
+                                    option.description.sum,
+                                    false,
+                                    option.description.currency
+                                )
                             }}
                         </div>
                     </div>

@@ -1,10 +1,10 @@
 import { http } from '@/app/lib';
-import type { Transfer } from '@/booking/types';
+import type { Transfer, AdditionalTransfer } from '@/booking/types';
 
 export type FetchTransferPayload = Transfer;
 
 export type FetchTransferResponse = {
-    allowed: Transfer[];
+    allowed: AdditionalTransfer[];
     from: string;
     to: string;
 };

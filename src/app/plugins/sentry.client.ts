@@ -18,7 +18,7 @@ export default defineNuxtPlugin(nuxtApp => {
 
     init({
         app: [vueApp],
-        dsn: 'https://6345bb08cb01473092532228a004bab1@sentry.bgit.ru/5',
+        dsn: 'https://078237f71bdb4d199a6c3884d6594a15@sentry.bgit.ru/2',
         environment: process.dev ? 'development' : 'production',
         integrations: [
             new BrowserTracing({

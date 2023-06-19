@@ -1,9 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, defineAsyncComponent } from 'vue';
 import { TourTypeChoose } from '@/tours/components';
 import { useName } from '@/app/composables';
 import { Select } from '@ui/components';
-import { AdvancedFilters } from '@/tours/components';
+
+const AdvancedFilters = defineAsyncComponent(() =>
+    import('@/tours/components').then(meta => meta.AdvancedFilters)
+);
 
 type Props = {
     modelValue: string;
@@ -26,24 +29,28 @@ const value = computed({
     set: value => emit('update:modelValue', value),
 });
 
-const canChooseTourType = computed(() => {
+const canShowTourType = computed(() => {
     return ['tours-search', 'tours-activity-search', 'tours-multi-search'].includes(name.value);
+});
+
+const canShowAdvancedFilters = computed(() => {
+    return ['tours-search', 'hotels-search'].includes(name.value);
 });
 </script>
 
 <template>
     <div class="mt-5">
         <div class="flex flex-wrap items-center -mx-2.5 -mb-5 -mt-2">
-            <div v-if="canChooseTourType" class="px-2.5 flex-1 mb-5">
+            <div v-if="canShowTourType" class="px-2.5 flex-1 mb-5">
                 <TourTypeChoose />
             </div>
             <div
                 :class="[
                     'px-2.5 flex items-center justify-between space-x-2.5 mb-5',
-                    canChooseTourType ? 'md:justify-end flex-1 md:flex-none' : ' flex-1',
+                    canShowTourType ? 'md:justify-end flex-1 md:flex-none' : ' flex-1',
                 ]"
             >
-                <AdvancedFilters />
+                <AdvancedFilters v-if="canShowAdvancedFilters" />
                 <Select v-model="value" :options="sortOptions" />
             </div>
         </div>

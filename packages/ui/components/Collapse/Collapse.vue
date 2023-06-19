@@ -19,7 +19,7 @@ const collapsed = ref(props.defaultOpen);
             <component :is="startIcon" width="1.3em" height="1.3em" class="mr-2.5" />
             <Typography variant="h3" class="flex-1">{{ title }}</Typography>
             <ChevronDownIcon
-                :class="['text-secondary-500 transition-transform', collapsed && 'rotate-180']"
+                :class="['text-primary-500 transition-transform', collapsed && 'rotate-180']"
                 width="1.3em"
                 height="1.3em"
             />

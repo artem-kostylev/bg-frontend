@@ -5,6 +5,7 @@ type BaseChild = {
     icon: string;
     key: string;
     name: string;
+    children: { name: string; value: number; quantity: number }[];
 };
 
 type RangeSliderChild = BaseChild & {

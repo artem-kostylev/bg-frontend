@@ -2,9 +2,13 @@
 import { ref } from 'vue';
 import { Container, Avatar } from '@ui/components';
 import { UserIcon, HeartIcon } from '@ui/icons';
-import { AuthModal } from '@/auth/components';
 import { useAuthStore } from '@/auth/stores/auth';
 import { storeToRefs } from 'pinia';
+import { defineAsyncComponent } from 'vue';
+
+const AuthModal = defineAsyncComponent(() =>
+    import('@/auth/components').then(meta => meta.AuthModal)
+);
 
 const showAuth = ref(false);
 
@@ -13,7 +17,7 @@ const { isAuthenticated, user } = storeToRefs(useAuthStore());
 
 <template>
     <header class="border-b border-secondary-200 bg-white sticky md:static top-0 z-30">
-        <Container class="flex items-center justify-between py-3.5">
+        <Container class="flex items-center justify-between py-3">
             <NuxtLink :to="{ name: 'index' }">
                 <img
                     src="@/app/assets/images/logo.svg"
@@ -32,8 +36,8 @@ const { isAuthenticated, user } = storeToRefs(useAuthStore());
                 </button>
                 <Avatar
                     v-if="isAuthenticated && user"
-                    width="2em"
-                    height="2em"
+                    width="2.4em"
+                    height="2.4em"
                     :initials="user.first_name + ' ' + user.last_name"
                     class="cursor-pointer"
                 />
@@ -47,6 +51,6 @@ const { isAuthenticated, user } = storeToRefs(useAuthStore());
                 </button>
             </div>
         </Container>
-        <AuthModal v-model="showAuth" />
+        <AuthModal v-if="!isAuthenticated" v-model="showAuth" />
     </header>
 </template>

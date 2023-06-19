@@ -34,3 +34,4 @@ export * from './InputPassword';
 export * from './Checkbox';
 export * from './Radio';
 export * from './Slider';
+export * from './Dropdown';

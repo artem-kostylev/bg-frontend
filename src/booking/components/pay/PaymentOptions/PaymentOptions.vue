@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { Radio } from '@ui/components';
 import type { Options } from '../PaymentContainer/PaymentContainer.vue';
 import { formatCurrency } from '@/app/lib';
+import { useVModel } from '@vueuse/core';
 
 type Props = {
+    modelValue: number;
     options: Options;
     paymentDefermentInDays: number;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
-const prepayment = ref(0);
+const emit = defineEmits<{ (e: 'update:modelValue', value: number): void }>();
+const amount = useVModel(props, 'modelValue', emit);
 </script>
 
 <template>
@@ -20,8 +22,8 @@ const prepayment = ref(0);
         <div class="flex flex-col space-y-2.5 mt-6">
             <Radio
                 v-for="option in options"
-                :key="option.percent"
-                v-model="prepayment"
+                :key="option.key"
+                v-model="amount"
                 :value="option.paymentAmount"
             >
                 <span class="font-bold">{{ formatCurrency(option.paymentAmount, true) }}</span>

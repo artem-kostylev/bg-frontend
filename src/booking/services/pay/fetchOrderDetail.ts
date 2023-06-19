@@ -19,10 +19,6 @@ export type FetchOrderDetailResponse = {
     payment_status: PaymentStatus;
 };
 
-export type FetchOrderDetailQuery = {
-    order_id: number;
-};
-
 export const fetchOrderDetail = async (order_id: number) => {
     // TODO: Возвращать из бэка general.tourists и accommodation.rooms.tourists как string[]
     // TODO: Возвращать из бэка insurance.description как { sum: number; currency: string }

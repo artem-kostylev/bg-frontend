@@ -11,6 +11,7 @@ export type MenuProps = {
     multiple?: boolean;
     options: MenuOption[];
     modelValue?: StringOrNumber | StringOrNumber[];
+    dropdown?: boolean;
 };
 
 export const defaultMenuProps = {

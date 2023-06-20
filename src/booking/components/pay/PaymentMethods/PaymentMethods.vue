@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Radio } from '@ui/components';
+import { BankCardIcon, QRIcon } from '@ui/icons';
 import { useVModel } from '@vueuse/core';
 
 type Props = {
@@ -16,8 +17,22 @@ const method = useVModel(props, 'modelValue', emit);
     <div>
         <div class="text-xl lg:text-2xl">Cпособ оплаты</div>
         <div class="flex flex-col space-y-2.5 mt-6">
-            <Radio v-model="method" value="url">Банковской картой</Radio>
-            <Radio v-model="method" value="qr">По QR-коду</Radio>
+            <Radio v-model="method" value="url">
+                <div class="flex items-center justify-center">
+                    <div class="flex justify-center w-6 mr-3">
+                        <BankCardIcon />
+                    </div>
+                    Банковской картой
+                </div>
+            </Radio>
+            <Radio v-model="method" value="qr">
+                <div class="flex items-center justify-center">
+                    <div class="flex justify-center w-6 mr-3">
+                        <QRIcon />
+                    </div>
+                    По QR-коду
+                </div>
+            </Radio>
         </div>
     </div>
 </template>

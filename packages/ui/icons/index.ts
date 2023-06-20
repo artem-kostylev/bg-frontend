@@ -48,3 +48,5 @@ export { default as LockIcon } from './Lock.vue';
 export { default as SmallArrowIcon } from './SmallArrow.vue';
 export { default as AtSignIcon } from './AtSign.vue';
 export { default as MobilePhoneIcon } from './MobilePhone.vue';
+export { default as BankCardIcon } from './BankCard.vue';
+export { default as QRIcon } from './QR.vue';

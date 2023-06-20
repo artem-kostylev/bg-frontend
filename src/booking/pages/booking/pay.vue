@@ -67,7 +67,7 @@ const updateTicket = (newTicket: number) => {
                 text="Оплата прошла успешно"
             />
             <Typography variant="h1" as="h1">Дополнительные услуги и оплата</Typography>
-            <Selected v-bind="order" />
+            <Selected v-bind="order" default-open />
             <PaymentContainer
                 :query="query"
                 :payment-status="paymentStatus"

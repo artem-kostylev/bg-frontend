@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Radio } from '@ui/components';
-import type { Options } from '../PaymentContainer/PaymentContainer.vue';
 import { formatCurrency } from '@/app/lib';
 import { useVModel } from '@vueuse/core';
+import type { PaymentProcedureOptions } from '@/booking/types';
 
 type Props = {
     modelValue: number;
-    options: Options;
+    options: PaymentProcedureOptions;
     paymentDefermentInDays: number;
 };
 

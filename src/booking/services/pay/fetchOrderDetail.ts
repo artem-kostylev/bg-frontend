@@ -6,7 +6,7 @@ import type {
     Insurance,
     Transfer,
     ExtraActivity,
-    PaymentStatus,
+    OrderPaymentStatus,
 } from '@/booking/types';
 
 export type FetchOrderDetailResponse = {
@@ -16,7 +16,7 @@ export type FetchOrderDetailResponse = {
     insurances: Insurance[];
     transfers: Transfer[];
     activities: ExtraActivity[];
-    payment_status: PaymentStatus;
+    payment_status: OrderPaymentStatus;
 };
 
 export const fetchOrderDetail = async (order_id: number) => {

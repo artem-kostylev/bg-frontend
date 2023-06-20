@@ -2,19 +2,20 @@ export type PayQuery = {
     order_id: number;
     order_payment_id?: number;
     status?: 'success' | 'fail';
+    selected_option?: string;
 };
 
-export type PaymentOption = {
+export type OrderPaymentOption = {
     percent: number;
     paymentAmount: number;
     paymentDefermentInDays: number;
 };
 
-export type PaymentOptions = {
-    [key: string]: PaymentOption;
+export type OrderPaymentOptions = {
+    [key: string]: OrderPaymentOption;
 };
 
-export type PaymentStatus = {
+export type OrderPaymentStatus = {
     prepaymentStatus: {
         money: 'notPayed' | 'lessThanMinimal' | 'moreOrEqualThanMinimal';
         defermentInDaysDeadline: 'before' | 'after';
@@ -34,3 +35,11 @@ export type Transaction = {
     result_code: string | null;
     qr_code: string | null;
 };
+
+export type PaymentProcedureOptions = {
+    key: string;
+    percent: number;
+    paymentAmount: number;
+    label: string;
+    important: boolean;
+}[];

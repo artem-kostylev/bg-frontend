@@ -1,4 +1,5 @@
 export * from './PaymentContainer';
+export * from './Payment';
 export * from './PromoCode';
-export * from './PaymentOptions';
+export * from './PaymentProcedure';
 export * from './PaymentMethods';

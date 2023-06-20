@@ -1,123 +1,135 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { PromoCode, PaymentOptions, PaymentMethods } from '@/booking/components';
-import { Grid, Divider, Button, Typography } from '@ui/components';
-import type {
-    PaymentStatus,
-    PaymentOptions as PaymentOptionsType,
-    PaymentOption,
-} from '@/booking/types';
-import { formatCurrency } from '@/app/lib';
+import { ref, computed, watch } from 'vue';
+import { useRouter } from '#imports';
+import { useIntervalFn, watchOnce } from '@vueuse/core';
+import {
+    fetchPaymentStatus,
+    fetchCancelPayment,
+    type FetchPaymentStatusResponse,
+    type FetchOrderDetailResponse,
+} from '@/booking/services';
+import type { PayQuery, Transaction } from '@/booking/types';
+import { Payment } from '@/booking/components';
+// import { useMessage } from '@ui/composables';
 
 type Props = {
-    totalPrice: number;
-    paidAmount: number;
-    paymentStatus: PaymentStatus;
-    paymentOptions: PaymentOptionsType;
-    btnDisabled?: boolean;
+    query: PayQuery;
+    order: FetchOrderDetailResponse;
+    paymentStatus: FetchPaymentStatusResponse;
+    ticket: string;
 };
 
 const props = defineProps<Props>();
 
-export type Options = {
-    key: string;
-    percent: number;
-    paymentAmount: number;
-    label: string;
-    important: boolean;
-}[];
+const emit = defineEmits<{
+    (e: 'refresh-payment-status'): void;
+    (e: 'update-payment-status', value: FetchPaymentStatusResponse): void;
+}>();
 
-const paymentOptionsAsc = computed(() => {
-    return Object.entries(props.paymentOptions)
-        .map(([key, value]: [string, PaymentOption]) => ({ key, ...value }))
-        .sort((a, b) => a.percent - b.percent);
-});
+const showQrCode = ref(false);
 
-const minPayment = computed(() => {
-    return paymentOptionsAsc.value[0];
-});
+const router = useRouter();
+// const message = useMessage();
 
-const options = computed(() => {
-    // if order is not paid, return only sorted paymentOptions
-    if (props.paymentStatus.prepaymentStatus.money === 'notPayed') {
-        return paymentOptionsAsc.value.map(item => ({
-            ...item,
-            label: 'от стоимости тура',
-            important: item.percent < 100 ? true : false,
-        }));
-    } else {
-        // if partially paid, return possible options for payment
-        const { prepaymentStatus, mustPayedToMinimal, mustPayedToFullCost } = props.paymentStatus;
-
-        const res = [];
-
-        // pay up to the amount of the minimum prepayment, if it's possible
-        if (prepaymentStatus.defermentInDaysDeadline === 'before' && mustPayedToMinimal) {
-            res.push({
-                key: minPayment.value.key,
-                percent: mustPayedToMinimal.percent,
-                paymentAmount: mustPayedToMinimal.amount,
-                label: 'от суммы минимальной предоплаты',
-                important: true,
-            });
-        }
-
-        // pay up to the amount of total price
-        if (mustPayedToFullCost) {
-            res.push({
-                key: 'full',
-                percent: mustPayedToFullCost.percent,
-                paymentAmount: mustPayedToFullCost.amount,
-                label: 'от стоимости тура',
-                important: false,
-            });
-        }
-
-        return res;
-    }
-});
-
-const prepaymentAmount = ref(0);
-const paymentMethod = ref<'url' | 'qr'>('url');
-
-const paymentOptionsRef = ref<HTMLDivElement>();
-
-const pending = ref(false);
-const submit = async () => {
-    if (pending.value) return;
+type PaymentStatusError = {
+    errors: { order_id?: string[] };
+    message: string;
 };
+
+// QR code payment processing
+const { pause, resume } = useIntervalFn(
+    async () => {
+        try {
+            pause();
+
+            const response = await fetchPaymentStatus(props.query.order_id);
+            emit('update-payment-status', response);
+
+            const data = response.items.find((t: Transaction) => t.ticket === props.ticket);
+
+            if (data?.status === 'ok') {
+                router.push({
+                    name: 'account-orders-id',
+                    params: { id: props.query.order_id },
+                    query: { status: 'success' },
+                });
+
+                showQrCode.value = false;
+
+                return;
+            }
+
+            if (data?.status === 'failed') {
+                showQrCode.value = false;
+            }
+
+            resume();
+        } catch (e) {
+            const err = e as PaymentStatusError;
+            console.log(err.message);
+            // message.danger(err.message);
+            showQrCode.value = false;
+        }
+    },
+    3000,
+    { immediate: false }
+);
+
+watch(showQrCode, value => (value ? resume() : pause()));
+
+const STATUSES_TO_PAY: string[] = [
+    'Подбор тура',
+    'Рассматривается оператором',
+    'Принята на бронирование',
+    'Лист ожидания',
+    'Подтверждено',
+];
+
+// TODO: Перенести на бэк как order_can_been_paid
+const paymentIsAvailable = computed(() => {
+    return (
+        props.order &&
+        STATUSES_TO_PAY.includes(props.order.general.order_status) &&
+        props.paymentStatus.status !== 'fully_paid'
+    );
+});
+
+// cancel created and unpaid transactions
+watchOnce(
+    () => props.paymentStatus,
+    async value => {
+        if (!value) return;
+
+        const hasItemWithStatusCreated = value.items.some(
+            (item: Transaction) => item.status === 'created'
+        );
+
+        if (hasItemWithStatusCreated) {
+            try {
+                await fetchCancelPayment(props.query.order_id);
+                emit('refresh-payment-status');
+            } catch (e) {
+                const err = e as PaymentStatusError;
+                console.log(err.message);
+                // message.danger(err.message);
+            }
+        }
+
+        // redirect if the order can't be paid
+        if (!paymentIsAvailable.value) {
+            router.push({
+                name: 'account-orders-id',
+                params: { id: props.query.order_id },
+                query: { status: 'success' },
+            });
+        }
+    },
+    { immediate: true }
+);
 </script>
 
 <template>
-    <Grid class="gap-4 md:gap-6" :class="$attrs.class" :style="$attrs.style">
-        <PromoCode />
-        <Divider dashed />
-        <PaymentOptions
-            v-model="prepaymentAmount"
-            :options="options"
-            :payment-deferment-in-days="minPayment.paymentDefermentInDays"
-            ref="paymentOptionsRef"
-            tabindex="0"
-        />
-        <Divider dashed />
-        <PaymentMethods v-model="paymentMethod" />
-        <Divider dashed />
-        <div>
-            <Typography variant="h3" class="mt-5">
-                Стоимость тура - {{ formatCurrency(totalPrice, true) }}
-            </Typography>
-            <Typography v-if="paidAmount" variant="h3" class="mt-2">
-                Ранее оплачено - {{ formatCurrency(paidAmount, true) }}
-            </Typography>
-            <Typography variant="h2" class="mt-5">
-                Сумма к оплате -
-                {{ formatCurrency(prepaymentAmount, true) }}
-            </Typography>
-        </div>
-        <div>
-            <Button variant="primary" :disabled="btnDisabled" :loading="pending" @click="submit">
-                Оплатить
-            </Button>
-        </div>
-    </Grid>
+    <div>
+        <Payment :order="order" :paid-amount="paymentStatus.total || 0" :query="query" />
+    </div>
 </template>

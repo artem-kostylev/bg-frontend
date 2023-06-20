@@ -1,4 +1,4 @@
-import type { PaymentOptions } from '@/booking/types';
+import type { OrderPaymentOptions } from '@/booking/types';
 
 export type GroupTourist = {
     description: string;
@@ -30,5 +30,5 @@ export type OrderDetailGeneral = CommonGeneral & {
     order_status: string;
     support_id: number | null;
     order_can_been_annulled: boolean;
-    payment_options: PaymentOptions;
+    payment_options: OrderPaymentOptions;
 };

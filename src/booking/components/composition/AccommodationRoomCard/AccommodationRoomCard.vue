@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { Card, IconFilled, Typography } from '@ui/components';
+import { ref, defineAsyncComponent } from 'vue';
+import { Card, IconFilled, Typography, Button } from '@ui/components';
 import type { AccommodationRoom } from '@/booking/types';
-import { ArmchairAndLampIcon, ForkAndKnifeIcon, UsersIcon } from '@ui/icons';
+import { ArmchairAndLampIcon, ForkAndKnifeIcon, UsersIcon, CheckListIcon } from '@ui/icons';
 import { RoomDetailsModal } from '@/tours/components';
 
 type Props = {
@@ -10,6 +11,12 @@ type Props = {
 };
 
 defineProps<Props>();
+
+const show = ref(false);
+
+const AccommodationRoomModal = defineAsyncComponent(
+    () => import('../AccommodationRoomModal/AccommodationRoomModal.vue')
+);
 </script>
 
 <template>
@@ -24,6 +31,12 @@ defineProps<Props>();
             <IconFilled :icon="ArmchairAndLampIcon" :label="accommodationRoom.name" />
             <IconFilled :icon="ForkAndKnifeIcon" :label="accommodationRoom.board" />
             <IconFilled :icon="UsersIcon" :label="accommodationRoom.tourists.join(', ')" />
+        </div>
+        <div class="flex justify-end mt-2.5">
+            <Button :start-icon="CheckListIcon" variant="secondary" @click="show = true">
+                Дополнительные пожелания
+            </Button>
+            <AccommodationRoomModal v-model="show" :accommodation-room="accommodationRoom" />
         </div>
     </Card>
 </template>

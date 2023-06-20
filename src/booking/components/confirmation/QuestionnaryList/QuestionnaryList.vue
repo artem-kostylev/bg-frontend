@@ -62,7 +62,21 @@ const { data: documents } = useLazyAsyncData('form-documents', () =>
     fetchAvailableDocuments(countryIds.value)
 );
 
-const formKeys: (keyof Document)[] = [
+const formKeys: (keyof Partial<
+    Omit<
+        Document,
+        | 'id'
+        | 'created_at'
+        | 'second_name'
+        | 'deleted_at'
+        | 'document_series'
+        | 'document_type'
+        | 'document_type_name'
+        | 'name'
+        | 'updated_at'
+        | 'user_id'
+    >
+>)[] = [
     'first_name',
     'last_name',
     'birthday',
@@ -78,14 +92,27 @@ const formKeys: (keyof Document)[] = [
 const updateForm = (value: {
     index: number;
     doc: Document;
-    key?: keyof Document;
+    key?: keyof Omit<
+        Document,
+        | 'id'
+        | 'created_at'
+        | 'second_name'
+        | 'deleted_at'
+        | 'document_series'
+        | 'document_type'
+        | 'document_type_name'
+        | 'name'
+        | 'updated_at'
+        | 'user_id'
+    >;
     newValue?: string;
 }) => {
     if (!form.questionnaries[value.index] || !form.questionnaries[value.index].form) return;
 
     value.key && value.newValue
         ? (form.questionnaries[value.index].form[value.key] = value.newValue)
-        : formKeys.forEach(key => {
+        : value.doc &&
+          formKeys.forEach(key => {
               form.questionnaries[value.index].form[key] = value.doc[key];
           });
 };

@@ -39,7 +39,24 @@ const emit = defineEmits<{
     (e: 'clear-form', value: number): void;
     (
         e: 'update-form',
-        value: { index: number; doc?: Document; key?: keyof Document; newValue?: string }
+        value: {
+            index: number;
+            doc: Document;
+            key?: keyof Omit<
+                Document,
+                | 'id'
+                | 'created_at'
+                | 'second_name'
+                | 'deleted_at'
+                | 'document_series'
+                | 'document_type'
+                | 'document_type_name'
+                | 'name'
+                | 'updated_at'
+                | 'user_id'
+            >;
+            newValue?: string;
+        }
     ): void;
 }>();
 

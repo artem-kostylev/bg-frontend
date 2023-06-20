@@ -9,6 +9,7 @@ import {
     type FetchOrderDetailResponse,
 } from '@/booking/services';
 import type { PayQuery, Transaction } from '@/booking/types';
+import { Modal, Typography, Image } from '@ui/components';
 import { Payment } from '@/booking/components';
 // import { useMessage } from '@ui/composables';
 
@@ -128,7 +129,10 @@ watchOnce(
     { immediate: true }
 );
 
-const updateQrData = (newData: { ticket: number; showQrCode: boolean }) => {
+const qrcode = ref('');
+
+const updateQrData = (newData: { qr: string; ticket: number; showQrCode: boolean }) => {
+    qrcode.value = newData.qr;
     showQrCode.value = newData.showQrCode;
     emit('update-ticket', newData.ticket);
 };
@@ -143,5 +147,11 @@ const updateQrData = (newData: { ticket: number; showQrCode: boolean }) => {
             :btn-disabled="paymentStatus.need_pay === 0"
             @update-qr-data="updateQrData"
         />
+        <Modal v-model="showQrCode" title="Оплата по QR-коду" size="sm">
+            <div class="flex flex-col items-center justify-center">
+                <Image :src="`data:image/png;base64,${qrcode}`" />
+                <Typography>Отсканируйте камерой телефона QR-код и перейдите по ссылке.</Typography>
+            </div>
+        </Modal>
     </div>
 </template>

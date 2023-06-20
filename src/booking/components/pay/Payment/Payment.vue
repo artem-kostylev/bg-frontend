@@ -96,6 +96,7 @@ const emit = defineEmits<{
     (
         e: 'update-qr-data',
         value: {
+            qr: string;
             ticket: number;
             showQrCode: boolean;
         }
@@ -103,7 +104,6 @@ const emit = defineEmits<{
 }>();
 
 const paymentMethod = ref<'url' | 'qr'>('url');
-const qrcode = ref('');
 
 const pending = ref(false);
 
@@ -124,8 +124,8 @@ const submit = async () => {
         if (paymentMethod.value === 'url') {
             window.location.href = response.url;
         } else {
-            qrcode.value = response.qr;
             emit('update-qr-data', {
+                qr: response.qr,
                 ticket: response.ticket,
                 showQrCode: true,
             });

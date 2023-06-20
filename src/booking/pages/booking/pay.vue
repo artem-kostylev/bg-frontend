@@ -18,11 +18,9 @@ const { data: order, pending: pendingOrder } = useLazyAsyncData('booking-order-d
     fetchOrderDetail(query.value.order_id)
 );
 
-const {
-    data: paymentStatus,
-    pending: pendingStatus,
-    execute,
-} = useLazyAsyncData('pay-status', () => fetchPaymentStatus(query.value.order_id));
+const { data: paymentStatus, execute } = useLazyAsyncData('pay-status', () =>
+    fetchPaymentStatus(query.value.order_id)
+);
 
 const meta = {
     title: 'Дополнительные услуги и оплата',
@@ -54,7 +52,7 @@ const updateTicket = (newTicket: number) => {
 
 <template>
     <Page :meta="meta">
-        <Spin v-if="pendingOrder || pendingStatus" color="primary" />
+        <Spin v-if="pendingOrder" color="primary" />
         <Grid gap="5" v-else-if="order && paymentStatus">
             <Alert
                 v-if="query.status === 'fail' && transactionStatus?.status === 'failed'"

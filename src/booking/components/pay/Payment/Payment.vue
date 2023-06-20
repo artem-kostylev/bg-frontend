@@ -4,8 +4,9 @@ import { PromoCode, PaymentProcedure, PaymentMethods } from '@/booking/component
 import { Grid, Divider, Button, Typography } from '@ui/components';
 import { watchOnce } from '@vueuse/core';
 import type { PayQuery, OrderPaymentOption } from '@/booking/types';
-import { type FetchOrderDetailResponse } from '@/booking/services';
+import { fetchPaymentOrder, type FetchOrderDetailResponse } from '@/booking/services';
 import { formatCurrency } from '@/app/lib';
+// import { useMessage } from '@ui/composables';
 
 type Props = {
     order: FetchOrderDetailResponse;
@@ -28,7 +29,7 @@ const minPayment = computed(() => {
 
 const options = computed(() => {
     // if order is not paid, return only sorted paymentOptions
-    if (props.order.payment_status.prepaymentStatus.money === 'notPayed') {
+    if (props.order.payment_detail.prepaymentStatus.money === 'notPayed') {
         return paymentOptionsAsc.value.map(item => ({
             ...item,
             label: 'от стоимости тура',
@@ -37,7 +38,7 @@ const options = computed(() => {
     } else {
         // if partially paid, return possible options for payment
         const { prepaymentStatus, mustPayedToMinimal, mustPayedToFullCost } =
-            props.order.payment_status;
+            props.order.payment_detail;
 
         const res = [];
 
@@ -91,11 +92,53 @@ watchOnce(
     { immediate: true }
 );
 
+const emit = defineEmits<{
+    (
+        e: 'update-qr-data',
+        value: {
+            ticket: number;
+            showQrCode: boolean;
+        }
+    ): void;
+}>();
+
 const paymentMethod = ref<'url' | 'qr'>('url');
+const qrcode = ref('');
 
 const pending = ref(false);
+
+// const message = useMessage();
+
 const submit = async () => {
     if (pending.value) return;
+
+    try {
+        pending.value = true;
+
+        const response = await fetchPaymentOrder({
+            order_id: props.query.order_id,
+            amount: paymentAmount.value,
+            type: paymentMethod.value,
+        });
+
+        if (paymentMethod.value === 'url') {
+            window.location.href = response.url;
+        } else {
+            qrcode.value = response.qr;
+            emit('update-qr-data', {
+                ticket: response.ticket,
+                showQrCode: true,
+            });
+        }
+    } catch (error) {
+        let errorMessage = 'Unknown Error';
+        if (error instanceof Error) errorMessage = error.message;
+        // eslint-disable-next-line
+        console.log(errorMessage);
+        // message.danger(errorMessage);
+    } finally {
+        pending.value = false;
+    }
 };
 </script>
 

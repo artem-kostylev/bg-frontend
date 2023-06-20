@@ -15,7 +15,7 @@ export type OrderPaymentOptions = {
     [key: string]: OrderPaymentOption;
 };
 
-export type OrderPaymentStatus = {
+export type OrderPaymentDetail = {
     prepaymentStatus: {
         money: 'notPayed' | 'lessThanMinimal' | 'moreOrEqualThanMinimal';
         defermentInDaysDeadline: 'before' | 'after';
@@ -29,7 +29,7 @@ export type OrderPaymentStatus = {
 export type Transaction = {
     url: string | null;
     id: number;
-    ticket: string;
+    ticket: number;
     amount: number;
     status: 'ok' | 'failed' | 'created';
     result_code: string | null;

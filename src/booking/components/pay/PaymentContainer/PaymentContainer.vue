@@ -16,7 +16,7 @@ type Props = {
     query: PayQuery;
     order: FetchOrderDetailResponse;
     paymentStatus: FetchPaymentStatusResponse;
-    ticket: string;
+    ticket: number | null;
 };
 
 const props = defineProps<Props>();
@@ -24,6 +24,7 @@ const props = defineProps<Props>();
 const emit = defineEmits<{
     (e: 'refresh-payment-status'): void;
     (e: 'update-payment-status', value: FetchPaymentStatusResponse): void;
+    (e: 'update-ticket', value: number): void;
 }>();
 
 const showQrCode = ref(false);
@@ -126,10 +127,21 @@ watchOnce(
     },
     { immediate: true }
 );
+
+const updateQrData = (newData: { ticket: number; showQrCode: boolean }) => {
+    showQrCode.value = newData.showQrCode;
+    emit('update-ticket', newData.ticket);
+};
 </script>
 
 <template>
     <div>
-        <Payment :order="order" :paid-amount="paymentStatus.total || 0" :query="query" />
+        <Payment
+            :order="order"
+            :paid-amount="paymentStatus.total || 0"
+            :query="query"
+            :btn-disabled="paymentStatus.need_pay === 0"
+            @update-qr-data="updateQrData"
+        />
     </div>
 </template>

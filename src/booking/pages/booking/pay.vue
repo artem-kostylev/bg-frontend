@@ -29,7 +29,7 @@ const meta = {
     description: 'Описание страницы дополнительные услуги и оплата',
 };
 
-const ticket = ref('');
+const ticket = ref<number | null>(null);
 
 const transactionStatus = computed(() => {
     const { order_payment_id } = query.value;
@@ -45,6 +45,10 @@ const transactionStatus = computed(() => {
 
 const updatePaymentStatus = (newData: FetchPaymentStatusResponse) => {
     paymentStatus.value = newData;
+};
+
+const updateTicket = (newTicket: number) => {
+    ticket.value = newTicket;
 };
 </script>
 
@@ -73,6 +77,7 @@ const updatePaymentStatus = (newData: FetchPaymentStatusResponse) => {
                 :ticket="ticket"
                 @update-payment-status="updatePaymentStatus"
                 @refresh-payment-status="execute()"
+                @update-ticket="updateTicket"
             />
         </Grid>
     </Page>

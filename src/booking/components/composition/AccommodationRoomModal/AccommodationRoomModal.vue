@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import type { AccommodationRoom } from '@/booking/types';
+import { useNuxtData } from '#imports';
+import type { AccommodationRoom, Accommodation } from '@/booking/types';
 import { Modal, Checkbox, Button } from '@ui/components';
-import { fetchWishes } from '@/booking/services';
+import { type FetchOrderDetailResponse, fetchWishes } from '@/booking/services';
 // import { useMessage } from '@ui/composables';
 
 import { useVModel } from '@vueuse/core';
@@ -17,6 +18,8 @@ const selectedItems = ref(props.accommodationRoom.wishes || []);
 
 const emit = defineEmits<{ (e: 'update:modelValue', value: boolean): void }>();
 const show = useVModel(props, 'modelValue', emit);
+
+const { data: order } = useNuxtData<FetchOrderDetailResponse>('booking-order-detail');
 
 const items = [
     {
@@ -53,6 +56,7 @@ const pending = ref(false);
 // const message = useMessage();
 
 const submit = async () => {
+    if (!order.value) return;
     try {
         pending.value = true;
 
@@ -63,9 +67,23 @@ const submit = async () => {
 
         show.value = false;
 
-        // TODO Исправить мутацию пропсов
-        // eslint-disable-next-line vue/no-mutating-props
-        props.accommodationRoom.wishes = selectedItems.value;
+        let accommodationIndex = -1;
+        let roomIndex = -1;
+
+        order.value.accommodations.forEach(
+            (accommodation: Accommodation, accommodation_index: number) => {
+                roomIndex = accommodation.rooms.findIndex(
+                    room => room.id === props.accommodationRoom.id
+                );
+
+                roomIndex !== -1 && (accommodationIndex = accommodation_index);
+            }
+        );
+
+        if (roomIndex !== -1) {
+            order.value.accommodations[accommodationIndex].rooms[roomIndex].wishes =
+                selectedItems.value;
+        }
 
         // message.success('Пожелания успешно отправлены!');
     } catch (error) {

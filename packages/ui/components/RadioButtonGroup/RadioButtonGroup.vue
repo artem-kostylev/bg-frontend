@@ -1,41 +1,37 @@
 <script setup lang="ts">
 import Button from '../Button/Button.vue';
-import type { Item, RadioButtonGroupProps } from './radioButtonGroup';
+import { Field } from '../Field';
+import type { Option, RadioButtonGroupProps } from './radioButtonGroup';
 
 const props = defineProps<RadioButtonGroupProps>();
 const emit = defineEmits<{ (e: 'update:modelValue', value: string | number | boolean): void }>();
 
-const select = (item: Item) => {
-    emit('update:modelValue', item.value);
+const select = (option: Option) => {
+    emit('update:modelValue', option.value);
 };
 
-const selected = (item: Item) => {
-    return item.value === props.modelValue;
+const selected = (option: Option) => {
+    return option.value === props.modelValue;
 };
 </script>
 
 <template>
-    <div>
-        <label v-if="label" class="block mb-1.5 text-base" :for="name">
-            <span>{{ label }}</span>
-            <span v-if="required" class="text-danger-500">&nbsp;*</span>
-        </label>
+    <Field :error="error" :hint="hint" :label="label" :name="name" :required="required">
         <div class="inline-flex">
             <Button
-                v-for="(item, index) in items"
+                v-for="(option, index) in options"
                 :size="size"
                 :variant="variant"
                 :key="index"
-                :strong="false"
-                @click="select(item)"
+                :strong="strong"
+                @click="select(option)"
                 :class="[
                     'hover:z-10 focus:z-10 [&:not(:last-child)]:rounded-r-none [&:not(:first-child)]:rounded-l-none [&:not(:first-child)]:ml-[-1px]',
-                    selected(item) && '!bg-secondary-50 !text-primary-700',
+                    selected(option) && '!bg-secondary-50 !text-primary-700',
                 ]"
             >
-                {{ item.label }}
+                {{ option.label }}
             </Button>
         </div>
-        <div v-if="hint" :class="error && 'text-danger-500'">{{ hint }}</div>
-    </div>
+    </Field>
 </template>

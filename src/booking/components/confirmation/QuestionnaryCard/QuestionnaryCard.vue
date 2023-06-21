@@ -186,7 +186,7 @@ const submit = async () => {
                 v-maska
                 :data-maska="'##.##.####'"
             />
-            <RadioButtonGroup required label="Пол" v-model="v$.sex.$model" :items="sexItems" />
+            <RadioButtonGroup required label="Пол" v-model="v$.sex.$model" :options="sexItems" />
             <Select
                 v-if="props.availableDocuments && nationalityItems"
                 required

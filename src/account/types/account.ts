@@ -3,7 +3,7 @@
  * Исправить на бэке
  */
 
-export type Account = {
+export type Profile = {
     id: number;
     date_of_birth: string;
     email: string;
@@ -13,4 +13,6 @@ export type Account = {
     second_name: string;
     sex: boolean;
     subscribe: boolean;
+    email_verified_at: boolean;
+    phone_verified_at: boolean;
 };

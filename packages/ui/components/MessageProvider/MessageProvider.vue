@@ -40,7 +40,6 @@ provide('messages', { success, danger });
 </script>
 
 <template>
-    <slot />
     <Teleport to="body">
         <TransitionGroup
             name="fade"

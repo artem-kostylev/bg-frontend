@@ -51,3 +51,4 @@ export { default as MobilePhoneIcon } from './MobilePhone.vue';
 export { default as BankCardIcon } from './BankCard.vue';
 export { default as QRIcon } from './QR.vue';
 export { default as CheckListIcon } from './CheckList.vue';
+export { default as CrossInCircleIcon } from './CrossInCircle.vue';

@@ -7,7 +7,7 @@ import { fetchOrderDetail, fetchPaymentStatus } from '@/booking/services';
 import { Selected } from '@/booking/components';
 import { Memo } from '@/account/components';
 import { Grid, Spin, Typography, Alert } from '@ui/components';
-import { formatCurrency } from '@/app/lib';
+import { OrderContainer } from '@/account/components';
 
 definePageMeta({
     middleware: 'auth',
@@ -36,12 +36,6 @@ const successMessage = computed(() => {
     //${user.value?.email}
     return `Договор и информация по туру направлена на вашу почту — . Со всей информацией по предстоящему туру можно ознакомиться в разделе Мои поездки в Личном кабинете.`;
 });
-
-const STATUSES = {
-    not_paid: 'не оплачено',
-    partially_paid: 'недоплачено',
-    fully_paid: 'оплачено',
-};
 </script>
 
 <template>
@@ -54,38 +48,10 @@ const STATUSES = {
                 title="Оплата прошла успешно"
                 :text="successMessage"
             />
-
-            <div>
-                <div class="flex items-center flex-wrap">
-                    <Typography as="h1" variant="h1"
-                        >Заказ №{{ order.general.order_number }}&#160;</Typography
-                    >
-                    <div class="text-2xl tracking-tight">({{ order.general.order_status }})</div>
-                </div>
-                <div class="mt-4">
-                    <div v-if="order.general.total_price" class="text-xl">
-                        Стоимость тура –
-                        <span class="font-bold">{{
-                            formatCurrency(order.general.total_price, true)
-                        }}</span>
-                        (<span
-                            :class="[
-                                paymentStatus.status === 'fully_paid'
-                                    ? 'text-success-500'
-                                    : 'text-danger-500',
-                            ]"
-                        >
-                            {{ STATUSES[paymentStatus.status] }}</span
-                        >)
-                    </div>
-                </div>
-            </div>
-
+            <OrderContainer :order="order" :payment-status="paymentStatus" />
             <Selected v-bind="order" default-open />
-            <div>
-                <Typography variant="h3" class="mb-5"> Памятка путешественника </Typography>
-                <Memo />
-            </div>
+            <Typography variant="h3"> Памятка путешественника </Typography>
+            <Memo />
         </Grid>
     </Page>
 </template>

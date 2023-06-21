@@ -14,8 +14,8 @@ defineProps<Props>();
 
 const show = ref(false);
 
-const AccommodationRoomModal = defineAsyncComponent(
-    () => import('../AccommodationRoomModal/AccommodationRoomModal.vue')
+const AccommodationRoomWishes = defineAsyncComponent(
+    () => import('../AccommodationRoomWishes/AccommodationRoomWishes.vue')
 );
 </script>
 
@@ -36,7 +36,7 @@ const AccommodationRoomModal = defineAsyncComponent(
             <Button :start-icon="CheckListIcon" variant="secondary" @click="show = true">
                 Дополнительные пожелания
             </Button>
-            <AccommodationRoomModal v-model="show" :accommodation-room="accommodationRoom" />
+            <AccommodationRoomWishes v-model="show" :accommodation-room="accommodationRoom" />
         </div>
     </Card>
 </template>

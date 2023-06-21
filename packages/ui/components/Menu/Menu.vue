@@ -8,6 +8,7 @@ import { CheckIcon } from '@ui/icons';
 const props = withDefaults(defineProps<MenuProps>(), defaultMenuProps);
 const emit = defineEmits<{
     'update:modelValue': [StringOrNumber | StringOrNumber[] | undefined];
+    select: [StringOrNumber | StringOrNumber[] | undefined];
 }>();
 
 const modelValue = computed({
@@ -22,6 +23,8 @@ const selected = (option: MenuOption) => {
 };
 
 const select = (option: MenuOption) => {
+    if (props.dropdown) return emit('select', option.value);
+
     if (!props.multiple) return (modelValue.value = option.value);
 
     const value = [...(modelValue.value as StringOrNumber[])];
@@ -44,6 +47,7 @@ const select = (option: MenuOption) => {
             <component :is="option.startIcon" width="1.1em" class="mr-3.5 text-primary-500" />
             <span class="flex-1">{{ option.label }}</span>
             <CheckIcon
+                v-if="!dropdown"
                 :class="!selected(option) && 'invisible'"
                 width="1.1em"
                 class="ml-3.5 text-primary-500"

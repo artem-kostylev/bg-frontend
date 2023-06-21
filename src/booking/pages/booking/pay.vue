@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useLazyAsyncData } from '#imports';
+import { definePageMeta, useLazyAsyncData } from '#imports';
 import { useQuery } from '@/app/composables';
 import { Page } from '@/app/components';
 import { fetchOrderDetail, fetchPaymentStatus } from '@/booking/services';
 import { Selected, PaymentContainer } from '@/booking/components';
 import { Grid, Spin, Typography, Alert } from '@ui/components';
 import type { PayQuery, Transaction } from '@/booking/types';
+
+definePageMeta({
+    middleware: 'auth',
+});
 
 const query = useQuery<PayQuery>();
 

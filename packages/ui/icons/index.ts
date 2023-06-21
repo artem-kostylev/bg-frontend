@@ -48,3 +48,4 @@ export { default as LockIcon } from './Lock.vue';
 export { default as SmallArrowIcon } from './SmallArrow.vue';
 export { default as AtSignIcon } from './AtSign.vue';
 export { default as MobilePhoneIcon } from './MobilePhone.vue';
+export { default as QuestionIcon } from './Question.vue';

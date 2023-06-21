@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Button } from '@ui/components';
-import type { Transfer } from '@/booking/types';
+import type { Transfer, AdditionalTransfer } from '@/booking/types';
 import { TransferBox } from '@/booking/components';
 import { formatCurrency } from '@/app/lib';
 import { computed } from 'vue';
 
 type Props = {
-    additionalTransfer: Transfer;
+    additionalTransfer: AdditionalTransfer;
     transfer: Transfer;
 };
 

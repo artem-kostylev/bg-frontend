@@ -3,11 +3,7 @@ import { ref, computed } from 'vue';
 import { useLazyAsyncData } from '#imports';
 import { useQuery } from '@/app/composables';
 import { Page } from '@/app/components';
-import {
-    fetchOrderDetail,
-    fetchPaymentStatus,
-    type FetchPaymentStatusResponse,
-} from '@/booking/services';
+import { fetchOrderDetail, fetchPaymentStatus } from '@/booking/services';
 import { Selected, PaymentContainer } from '@/booking/components';
 import { Grid, Spin, Typography, Alert } from '@ui/components';
 import type { PayQuery, Transaction } from '@/booking/types';
@@ -18,7 +14,7 @@ const { data: order, pending: pendingOrder } = useLazyAsyncData('booking-order-d
     fetchOrderDetail(query.value.order_id)
 );
 
-const { data: paymentStatus, execute } = useLazyAsyncData('booking-pay-status', () =>
+const { data: paymentStatus } = useLazyAsyncData('booking-pay-status', () =>
     fetchPaymentStatus(query.value.order_id)
 );
 
@@ -40,10 +36,6 @@ const transactionStatus = computed(() => {
         ? items.find((item: Transaction) => item.ticket === ticket.value)
         : undefined;
 });
-
-const updatePaymentStatus = (newData: FetchPaymentStatusResponse) => {
-    paymentStatus.value = newData;
-};
 
 const updateTicket = (newTicket: number) => {
     ticket.value = newTicket;
@@ -73,8 +65,6 @@ const updateTicket = (newTicket: number) => {
                 :payment-status="paymentStatus"
                 :order="order"
                 :ticket="ticket"
-                @update-payment-status="updatePaymentStatus"
-                @refresh-payment-status="execute()"
                 @update-ticket="updateTicket"
             />
         </Grid>

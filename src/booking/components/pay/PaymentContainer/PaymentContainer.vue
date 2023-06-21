@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { useRouter } from '#imports';
+import { refreshNuxtData, useNuxtData, useRouter } from '#imports';
 import { useIntervalFn, watchOnce } from '@vueuse/core';
 import {
     fetchPaymentStatus,
@@ -23,8 +23,6 @@ type Props = {
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
-    (e: 'refresh-payment-status'): void;
-    (e: 'update-payment-status', value: FetchPaymentStatusResponse): void;
     (e: 'update-ticket', value: number): void;
 }>();
 
@@ -38,6 +36,8 @@ type PaymentStatusError = {
     message: string;
 };
 
+const { data: paymentStatus } = useNuxtData('booking-pay-status');
+
 // QR code payment processing
 const { pause, resume } = useIntervalFn(
     async () => {
@@ -45,7 +45,7 @@ const { pause, resume } = useIntervalFn(
             pause();
 
             const response = await fetchPaymentStatus(props.query.order_id);
-            emit('update-payment-status', response);
+            paymentStatus.value = response;
 
             const data = response.items.find((t: Transaction) => t.ticket === props.ticket);
 
@@ -109,7 +109,7 @@ watchOnce(
         if (hasItemWithStatusCreated) {
             try {
                 await fetchCancelPayment(props.query.order_id);
-                emit('refresh-payment-status');
+                refreshNuxtData('booking-pay-status');
             } catch (e) {
                 const err = e as PaymentStatusError;
                 console.log(err.message);

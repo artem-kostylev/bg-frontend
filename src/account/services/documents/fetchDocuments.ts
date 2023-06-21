@@ -21,11 +21,11 @@ export const fetchDocuments = async () => {
         }
 
         if (doc.birthday) {
-            doc.birthday = formatDate(doc.birthday);
+            doc.birthday = formatDate(doc.birthday, 'DD.MM.YYYY');
         }
 
         if (doc.document_till) {
-            doc.document_till = formatDate(doc.document_till);
+            doc.document_till = formatDate(doc.document_till, 'DD.MM.YYYY');
         }
     });
     return data;

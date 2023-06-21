@@ -204,14 +204,14 @@ const autoComplete = async (doc: Document) => {
             <Input
                 label="Фамилия"
                 required
-                v-model="v$.first_name.$model"
-                :error="v$.first_name.$errors[0]?.$message"
+                v-model="v$.last_name.$model"
+                :error="v$.last_name.$errors[0]?.$message"
             />
             <Input
                 label="Имя"
                 required
-                v-model="v$.last_name.$model"
-                :error="v$.last_name.$errors[0]?.$message"
+                v-model="v$.first_name.$model"
+                :error="v$.first_name.$errors[0]?.$message"
             />
             <Input
                 label="Дата рождения"

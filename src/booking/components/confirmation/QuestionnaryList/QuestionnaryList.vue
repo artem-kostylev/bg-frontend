@@ -110,9 +110,15 @@ const updateForm = (value: {
     if (!form.questionnaries[value.index] || !form.questionnaries[value.index].form) return;
 
     value.key && value.newValue
-        ? (form.questionnaries[value.index].form[value.key] = value.newValue)
+        ? // TODO
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          (form.questionnaries[value.index].form[value.key] = value.newValue)
         : value.doc &&
           formKeys.forEach(key => {
+              // TODO
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               form.questionnaries[value.index].form[key] = value.doc[key];
           });
 };

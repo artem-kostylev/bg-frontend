@@ -18,7 +18,7 @@ const { data: order, pending: pendingOrder } = useLazyAsyncData('booking-order-d
     fetchOrderDetail(query.value.order_id)
 );
 
-const { data: paymentStatus, execute } = useLazyAsyncData('pay-status', () =>
+const { data: paymentStatus, execute } = useLazyAsyncData('booking-pay-status', () =>
     fetchPaymentStatus(query.value.order_id)
 );
 

@@ -3,7 +3,7 @@ import { useLazyAsyncData, definePageMeta } from '#imports';
 import { fetchProfile } from '@/account/services';
 import { Page } from '@/app/components';
 import { Divider, Spin, Typography } from '@ui/components';
-import { UserForm, ContactsForm, NotificationsForm } from '@/account/components';
+import { UserForm, ContactsForm, NotificationsForm, SecurityForm } from '@/account/components';
 
 definePageMeta({
     middleware: 'auth',
@@ -26,8 +26,9 @@ const meta = {
             <Divider dashed />
             <ContactsForm />
             <Divider dashed />
-            <NotificationsForm />
+            <SecurityForm />
             <Divider dashed />
+            <NotificationsForm />
         </div>
     </Page>
 </template>

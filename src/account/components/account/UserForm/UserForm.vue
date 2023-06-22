@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useNuxtData } from '#imports';
 import type { Profile } from '@/account/types';
 import { Input, Grid, RadioButtonGroup, Button } from '@ui/components';
 import { updateProfile } from '@/account/services';
+import { useMessage } from '@ui/composables';
 
 const sexOptions = [
     { label: 'Мужской', value: true },
@@ -10,11 +12,21 @@ const sexOptions = [
 ];
 
 const { data } = useNuxtData<Profile>('account-profile');
+const message = useMessage();
+const sending = ref(false);
 
 const submit = async () => {
     if (!data.value) return;
 
-    await updateProfile(data.value);
+    try {
+        sending.value = true;
+        await updateProfile(data.value);
+        message.success('Информация успешно обновлена');
+    } catch (error) {
+        message.danger((error as Error).message);
+    } finally {
+        sending.value = false;
+    }
 };
 </script>
 
@@ -27,6 +39,6 @@ const submit = async () => {
             <Input v-model="data.date_of_birth" label="Дата рождения" />
             <RadioButtonGroup v-model="data.sex" label="Пол" :options="sexOptions" />
         </Grid>
-        <Button variant="primary" @click="submit">Сохранить</Button>
+        <Button variant="primary" @click="submit" :loading="sending">Сохранить</Button>
     </div>
 </template>

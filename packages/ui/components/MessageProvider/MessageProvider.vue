@@ -2,8 +2,8 @@
 import { provide, ref } from 'vue';
 
 const types = {
-    success: 'bg-green-100 text-green-800 border border-green-200',
-    danger: 'bg-red-100 text-red-800 border border-red-200',
+    success: 'bg-success-100 text-success-800 border border-success-200',
+    danger: 'bg-danger-100 text-danger-800 border border-danger-200',
 };
 
 type Type = keyof typeof types;
@@ -25,7 +25,7 @@ const remove = (id: number) => {
     messages.value.splice(index, 1);
 };
 
-const add = (type: Type, text: string, options = { duration: 5000 }) => {
+const add = (type: Type, text: string, options = { duration: 7000 }) => {
     const id = messages.value.length + 1;
 
     const fn = setTimeout(() => remove(id), options.duration);
@@ -40,11 +40,14 @@ provide('messages', { success, danger });
 </script>
 
 <template>
+    <div>
+        <slot />
+    </div>
     <Teleport to="body">
         <TransitionGroup
             name="fade"
             tag="div"
-            class="fixed top-0 left-0 right-0 p-5 space-y-2 pointer-events-none flex flex-col items-center justify-center z-100"
+            class="fixed top-0 left-0 right-0 p-5 space-y-2 pointer-events-none flex flex-col items-center justify-center z-50"
             enter-active-class="transiton-transform duration-500"
             leave-active-class="transiton-transform duration-500"
             enter-from-class="opacity-0 -translate-y-20"

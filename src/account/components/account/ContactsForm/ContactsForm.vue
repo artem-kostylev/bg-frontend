@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useNuxtData } from '#imports';
 import type { Profile } from '@/account/types';
-import { Input, Button, Typography, Tooltip } from '@ui/components';
+import { Input, Typography, Tooltip } from '@ui/components';
 import { vMaska } from 'maska';
 import { CheckIcon, QuestionIcon } from '@ui/icons';
 
@@ -60,9 +60,6 @@ const { data } = useNuxtData<Profile>('account-profile');
                     </Tooltip>
                 </template>
             </Input>
-        </div>
-        <div>
-            <Button variant="primary">Сохранить</Button>
         </div>
     </div>
 </template>

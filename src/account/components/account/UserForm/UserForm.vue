@@ -2,13 +2,20 @@
 import { useNuxtData } from '#imports';
 import type { Profile } from '@/account/types';
 import { Input, Grid, RadioButtonGroup, Button } from '@ui/components';
+import { updateProfile } from '@/account/services';
 
 const sexOptions = [
-    { label: 'Мужской', value: 1 },
-    { label: 'Женский', value: 0 },
+    { label: 'Мужской', value: true },
+    { label: 'Женский', value: false },
 ];
 
 const { data } = useNuxtData<Profile>('account-profile');
+
+const submit = async () => {
+    if (!data.value) return;
+
+    await updateProfile(data.value);
+};
 </script>
 
 <template>
@@ -20,6 +27,6 @@ const { data } = useNuxtData<Profile>('account-profile');
             <Input v-model="data.date_of_birth" label="Дата рождения" />
             <RadioButtonGroup v-model="data.sex" label="Пол" :options="sexOptions" />
         </Grid>
-        <Button variant="primary">Сохранить</Button>
+        <Button variant="primary" @click="submit">Сохранить</Button>
     </div>
 </template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { Button } from '@ui/components';
 import { PaymentCard } from '@/account/components';
 import type { PaymentProcedureOptions } from '@/booking/types';
@@ -9,9 +10,10 @@ import { useRouter } from '#imports';
 type Props = {
     options: PaymentProcedureOptions;
     paymentDefermentInDays: number;
+    status: 'fully_paid' | 'partially_paid' | 'not_paid';
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const params = useParams<{ id: number }>();
 
@@ -23,13 +25,21 @@ const pay = async (optionKey: string) => {
         query: { order_id: params.value.id, selected_option: optionKey },
     });
 };
+
+const paymentOptions = computed(() => {
+    if (props.status !== 'not_paid') {
+        return props.options.slice(0, 2);
+    }
+
+    return props.options;
+});
 </script>
 
 <template>
     <div>
         <div class="flex flex-wrap sm:flex-nowrap gap-2.5 mt-6">
             <div
-                v-for="option in options.slice(0, 2)"
+                v-for="option in paymentOptions"
                 :key="option.key"
                 class="w-full md:w-1/2 lg:w-1/3 md:px-2 h-52"
             >
@@ -41,7 +51,10 @@ const pay = async (optionKey: string) => {
             турпродукта / туристской услуги, не позднее {{ paymentDefermentInDays }} дней до начала
             тура.
         </div>
-        <div v-if="options.length > 2" class="flex flex-col text-left mt-10 lg:mt-5">
+        <div
+            v-if="status !== 'not_paid' && options.length > 2"
+            class="flex flex-col text-left mt-10 lg:mt-5"
+        >
             <div>
                 Оплатить
                 <span class="font-bold">{{

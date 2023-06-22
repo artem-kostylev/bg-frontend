@@ -188,8 +188,6 @@ const autoComplete = async (doc: Document) => {
         doc,
     });
 
-    // showModal.value = false;
-
     await nextTick(() => {
         v$.value.$validate();
     });

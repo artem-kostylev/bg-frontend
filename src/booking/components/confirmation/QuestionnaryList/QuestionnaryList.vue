@@ -301,6 +301,7 @@ onMounted(() => {
         :key="index"
         :default-open="collapsed.includes(index)"
         :id="`collapse-${index}`"
+        :disabled="currentFormIndex < index"
     >
         <QuestionnaryCard
             v-if="documents"

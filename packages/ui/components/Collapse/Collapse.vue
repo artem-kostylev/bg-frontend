@@ -13,6 +13,7 @@ const collapsed = ref(props.defaultOpen);
     <div>
         <Paper
             as="button"
+            :disabled="disabled"
             @click="collapsed = !collapsed"
             class="text-left px-5 py-4 flex items-center w-full"
         >

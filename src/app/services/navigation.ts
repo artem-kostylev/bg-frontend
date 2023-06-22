@@ -2,7 +2,7 @@ import { http } from '@/app/lib';
 import type { Filters } from '@/app/types';
 
 export type FetchNavigationPayload = {
-    tour_type?: 'packages';
+    tour_type?: 'packages' | 'classic';
     status:
         | 'packages'
         | 'hotels'
@@ -13,7 +13,7 @@ export type FetchNavigationPayload = {
         | 'payment';
     filters: Filters;
     package_tour_id?: number;
-    accommodations_unikey: string[];
+    accommodations_unikey?: string[];
     route_id?: string[];
     tour_id?: string[];
 };

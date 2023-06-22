@@ -30,3 +30,9 @@ export type Document = {
     updated_at: string;
     user_id: number;
 };
+
+export type UpperCaseKeys = {
+    first_name: string;
+    last_name: string;
+    second_name: string;
+};

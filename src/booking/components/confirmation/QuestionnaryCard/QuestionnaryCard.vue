@@ -20,7 +20,8 @@ import {
 import { AutocompleteModal, SelectInsuranceModal } from '@/booking/components';
 import { useAuthStore } from '@/auth/stores';
 import { vMaska } from 'maska';
-import type { Document } from '@/account/types';
+import type { Document, UpperCaseKeys } from '@/account/types';
+import { textTransform } from '@/app/lib';
 
 const { isAuthenticated } = storeToRefs(useAuthStore());
 
@@ -41,7 +42,7 @@ const emit = defineEmits<{
         e: 'update-form',
         value: {
             index: number;
-            doc: Document;
+            doc?: Document;
             key?: keyof Omit<
                 Document,
                 | 'id'
@@ -193,8 +194,24 @@ const autoComplete = async (doc: Document) => {
         v$.value.$validate();
     });
 };
-</script>
 
+const upperCaseKeys: (keyof Omit<UpperCaseKeys, 'second_name'>)[] = ['first_name', 'last_name'];
+
+upperCaseKeys.forEach(key => {
+    watch(
+        () => props.questionnary.form[key],
+        () => {
+            if (props.questionnary.form && props.questionnary.form[key]) {
+                emit('update-form', {
+                    index: props.index,
+                    key: key,
+                    newValue: textTransform(props.questionnary.form[key] as string),
+                });
+            }
+        }
+    );
+});
+</script>
 <template>
     <Card body-class="grid gap-5">
         <div class="flex justify-end" v-if="isAuthenticated">

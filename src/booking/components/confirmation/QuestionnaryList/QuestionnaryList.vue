@@ -91,7 +91,7 @@ const formKeys: (keyof Partial<
 
 const updateForm = (value: {
     index: number;
-    doc: Document;
+    doc?: Document;
     key?: keyof Omit<
         Document,
         | 'id'

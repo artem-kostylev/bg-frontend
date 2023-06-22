@@ -19,6 +19,7 @@ import type {
     Insurance,
     Transfer,
     General,
+    OrderDetailGeneral,
     Movement,
     ExtraActivity,
     IncludedActivity,
@@ -36,7 +37,7 @@ import {
 } from '@ui/icons';
 
 type Props = {
-    general: General;
+    general: General | OrderDetailGeneral;
     accommodations: Accommodation[];
     transfers: Transfer[];
     insurances: Insurance[];

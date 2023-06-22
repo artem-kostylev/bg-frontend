@@ -10,11 +10,11 @@ export type FetchInsurancesResponse = {
     data: {
         id: number;
         name: string;
-        price: number;
         description: {
             sum: number;
             currency: string;
         };
+        price?: number;
     }[];
 };
 

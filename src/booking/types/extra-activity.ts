@@ -10,8 +10,8 @@ export type ExtraActivity = {
     option: string;
     name: string;
     description: string;
-    image: Image;
-    items_id: number;
+    item_id: number;
     ticket: { price_type: 'adult' | 'child'; qty: number }[];
-    price: number;
+    image?: Image;
+    price?: number;
 };

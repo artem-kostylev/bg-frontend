@@ -35,3 +35,4 @@ export * from './Checkbox';
 export * from './Radio';
 export * from './Slider';
 export * from './Dropdown';
+export * from './MessageProvider';

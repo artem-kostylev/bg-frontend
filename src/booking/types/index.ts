@@ -7,3 +7,4 @@ export * from './questionnary';
 export * from './accommodation';
 export * from './activity-search';
 export * from './extra-activity';
+export * from './pay';

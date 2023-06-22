@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { Transfer } from '@/booking/types';
+import type { Transfer, AdditionalTransfer } from '@/booking/types';
 import { Grid } from '@ui/components';
 import { AdditionalTransferCard } from '@/booking/components';
 
 type Props = {
     transfer: Transfer;
-    additionalTransfers: Transfer[];
+    additionalTransfers: AdditionalTransfer[];
 };
 
 defineProps<Props>();

@@ -1,3 +1,5 @@
+import type { OrderPaymentOptions } from '@/booking/types';
+
 export type GroupTourist = {
     description: string;
     min: string;
@@ -10,12 +12,23 @@ export type Group = {
     tourists: GroupTourist[];
 };
 
-export type General = {
+export type CommonGeneral = {
     date_finish: string;
     date_start: string;
     duration: number;
     from: string;
     qty_tourists: number;
-    groups: Group[];
     total_price: number;
+};
+
+export type General = CommonGeneral & { groups: Group[] };
+
+export type OrderDetailGeneral = CommonGeneral & {
+    tourists: string[];
+    order_id: number;
+    order_number: number;
+    order_status: string;
+    support_id: number | null;
+    order_can_been_annulled: boolean;
+    payment_options: OrderPaymentOptions;
 };

@@ -1,3 +1,4 @@
+export * from './AuthMenu';
 export * from './AuthModal';
 export * from './Auth';
 export * from './AuthConfirmation';

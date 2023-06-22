@@ -26,7 +26,15 @@ const props = defineProps<Props>();
 const { selectedDates } = storeToRefs(useRoomsStore());
 
 const availableDates = computed(() => {
-    return mergeSelectedDates(selectedDates.value);
+    const dates = mergeSelectedDates(selectedDates.value);
+
+    const result = dates.sort((a, b) => {
+        const dateA = new Date(a.begin_date);
+        const dateB = new Date(b.begin_date);
+        return dateA.getTime() - dateB.getTime();
+    });
+
+    return result;
 });
 
 const NuxtLink = resolveComponent('NuxtLink');

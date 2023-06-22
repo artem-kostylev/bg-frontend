@@ -33,7 +33,7 @@ const reset = () => {
         <Header />
         <Page :meta="meta">
             <div class="flex flex-col items-center justify-center flex-1">
-                <h1 class="text-8xl font-semibold">{{ error.statusCode }}</h1>
+                <h1 class="text-8xl font-semibold">{{ error.statusCode ?? 500 }}</h1>
                 <p class="text-2xl text-secondary-500">{{ meta.title }}</p>
                 <Button variant="primary" size="sm" class="mt-5" @click="reset">
                     Перейти на главную

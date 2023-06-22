@@ -12,7 +12,8 @@ const emit = defineEmits<{
 
 const checked = computed(() => {
     return props.multiple
-        ? (props.modelValue as StringOrNumber[]).includes(props.value as StringOrNumber)
+        ? !!props.modelValue &&
+              (props.modelValue as StringOrNumber[]).includes(props.value as StringOrNumber)
         : props.modelValue === props.trueValue;
 });
 

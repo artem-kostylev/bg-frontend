@@ -5,3 +5,5 @@ export * from './OrderInfo';
 export * from './OrderActions';
 export * from './OrderPayment';
 export * from './PaymentChart';
+export * from './PaymentStatus';
+export * from './PaymentCard';

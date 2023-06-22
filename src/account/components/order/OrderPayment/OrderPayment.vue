@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import type { FetchOrderDetailResponse, FetchPaymentStatusResponse } from '@/booking/services';
-import type { OrderPaymentOption } from '@/booking/types';
 import type { ChartAmounts } from '@/account/types';
-import { PaymentChart } from '@/account/components';
+import { PaymentChart, PaymentStatus } from '@/account/components';
+import { usePaymentOptions } from '@/booking/composables';
 
 type Props = {
     order: FetchOrderDetailResponse;
@@ -12,14 +12,13 @@ type Props = {
 
 const props = defineProps<Props>();
 
-const paymentOptionsAsc = computed(() => {
-    return Object.entries(props.order.general.payment_options)
-        .map(([key, value]: [string, OrderPaymentOption]) => ({ key, ...value }))
-        .sort((a, b) => a.percent - b.percent);
+const order = computed(() => {
+    return props.order;
 });
 
-const minPayment = computed(() => {
-    return paymentOptionsAsc.value[0];
+const { paymentOptionsAsc, minPayment, paymentOptions } = usePaymentOptions({
+    order,
+    includedPaid: true,
 });
 
 const paymentChartAmounts = computed(() => {
@@ -47,6 +46,12 @@ const paymentChartAmounts = computed(() => {
             <PaymentChart
                 :amounts="paymentChartAmounts"
                 :payment-options-length="paymentOptionsAsc.length"
+            />
+        </div>
+        <div v-if="paymentStatus.status !== 'fully_paid'">
+            <PaymentStatus
+                :options="paymentOptions"
+                :payment-deferment-in-days="minPayment.paymentDefermentInDays"
             />
         </div>
     </div>

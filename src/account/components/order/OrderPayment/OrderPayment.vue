@@ -52,6 +52,7 @@ const paymentChartAmounts = computed(() => {
             <PaymentStatus
                 :options="paymentOptions"
                 :payment-deferment-in-days="minPayment.paymentDefermentInDays"
+                :status="paymentStatus.status"
             />
         </div>
     </div>

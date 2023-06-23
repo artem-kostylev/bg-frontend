@@ -19,7 +19,7 @@ const params = useParams<{ id: number }>();
 
 const router = useRouter();
 
-const pay = async (optionKey: string) => {
+const pay = (optionKey: string) => {
     router.push({
         name: 'booking-pay',
         query: { order_id: params.value.id, selected_option: optionKey },

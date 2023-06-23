@@ -17,4 +17,6 @@ export type AlertProps = {
     text?: string;
     title?: string;
     startIcon?: Component;
+    // TODO: можно сделать по-другому ?
+    iconProps?: unknown;
 };

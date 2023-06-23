@@ -7,3 +7,4 @@ export * from './OrderPayment';
 export * from './PaymentChart';
 export * from './PaymentStatus';
 export * from './PaymentCard';
+export * from './OrderAlerts';

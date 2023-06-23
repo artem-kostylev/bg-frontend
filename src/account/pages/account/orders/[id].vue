@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { definePageMeta, useHead, useLazyAsyncData } from '#imports';
 import { useParams, useQuery } from '@/app/composables';
 import { Page } from '@/app/components';
 import { fetchOrderDetail, fetchPaymentStatus } from '@/booking/services';
 import { Selected } from '@/booking/components';
 import { Memo } from '@/account/components';
-import { Grid, Spin, Typography, Alert } from '@ui/components';
-import { OrderContainer } from '@/account/components';
+import { Grid, Spin, Typography } from '@ui/components';
+import { OrderContainer, OrderAlerts } from '@/account/components';
 
 definePageMeta({
     middleware: 'auth',
@@ -31,23 +30,13 @@ useHead({
 const meta = {
     description: 'Описание страницы Мои поездки',
 };
-
-const successMessage = computed(() => {
-    //${user.value?.email}
-    return `Договор и информация по туру направлена на вашу почту — . Со всей информацией по предстоящему туру можно ознакомиться в разделе Мои поездки в Личном кабинете.`;
-});
 </script>
 
 <template>
     <Page :meta="meta">
         <Spin v-if="pendingOrder" color="primary" />
         <Grid gap="5" v-else-if="order && paymentStatus">
-            <Alert
-                v-if="query.status === 'success'"
-                variant="success"
-                title="Оплата прошла успешно"
-                :text="successMessage"
-            />
+            <OrderAlerts :order="order" :status="query.status" />
             <OrderContainer :order="order" :payment-status="paymentStatus" />
             <Selected v-bind="order" default-open />
             <Typography variant="h3"> Памятка путешественника </Typography>

@@ -16,7 +16,7 @@ const params = useParams<{ id: number }>();
 
 const router = useRouter();
 
-const pay = async () => {
+const pay = () => {
     router.push({
         name: 'booking-pay',
         query: { order_id: params.value.id, selected_option: props.option.key },
@@ -57,7 +57,7 @@ const pay = async () => {
                 <span v-if="option.important"> * </span>
             </div>
             <div class="mt-1 text-secondary-500 text-center">
-                <span> ({{ option.percent }}% {{ option.label }})</span>
+                <span>{{ option.percent }}% {{ option.label }}</span>
             </div>
             <div class="mb-3 w-full sm:w-max">
                 <Button

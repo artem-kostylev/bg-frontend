@@ -4,6 +4,7 @@ import type { Profile } from '@/account/types';
 import { Input, Typography, Tooltip } from '@ui/components';
 import { vMaska } from 'maska';
 import { CheckIcon, QuestionIcon } from '@ui/icons';
+import { ChangeEmail } from './components';
 
 const { data } = useNuxtData<Profile>('account-profile');
 </script>
@@ -60,6 +61,7 @@ const { data } = useNuxtData<Profile>('account-profile');
                     </Tooltip>
                 </template>
             </Input>
+            <ChangeEmail />
         </div>
     </div>
 </template>

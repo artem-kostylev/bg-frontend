@@ -17,6 +17,27 @@
     .radio-icon {
         background-image: url("data:image/svg+xml,%3csvg width='14' height='14' viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");
     }
+
+    .switch {
+        @apply relative inline-block w-10 mr-2 align-middle select-none transition duration-300;
+    }
+    
+    .switch__input {
+        @apply absolute block w-6 h-6 rounded-full bg-white border-4 border-secondary-300 appearance-none cursor-pointer transition duration-300;
+    }
+    
+    .switch__input:checked {
+        @apply border-primary-500;
+        transform: translateX(1rem);
+    }
+    
+    .switch__label {
+        @apply block overflow-hidden h-6 rounded-full bg-secondary-300 cursor-pointer transition duration-300;
+    }
+    
+    .switch__input:checked  + .switch__label {
+        @apply bg-primary-500;
+    }
 }
 
 .slider-target,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useLazyAsyncData, definePageMeta } from '#imports';
 import { TourList, TourFilters } from '@/tours/components';
 import { fetchTours } from '@/tours/services';
@@ -17,7 +17,7 @@ const query = useQuery<FiltersRaw>();
 const page = ref(1);
 const sort = ref('tour.price:asc');
 
-const { data, pending, error } = useLazyAsyncData(
+const { data, pending, error, refresh } = useLazyAsyncData(
     'tours',
     () => fetchTours(query.value, name.value, page.value, sort.value),
     { watch: [sort] }
@@ -30,6 +30,8 @@ const { targetRef, loadingMore } = useInfinity(async () => {
 });
 
 const filters = computed(() => formatFilters(data.value!.filters));
+
+watch(query, () => refresh());
 </script>
 
 <template>
@@ -52,7 +54,7 @@ const filters = computed(() => formatFilters(data.value!.filters));
             </template>
             <Empty
                 v-else
-                title="Ничего не нашлось"
+                title="По вашему запросу ничего не нашлось"
                 description="Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры"
             />
         </template>

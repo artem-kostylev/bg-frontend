@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useRouter } from '#imports';
 import type { FetchOrderDetailResponse } from '@/booking/services';
 import { Alert } from '@ui/components';
 import { HourglassIcon } from '@ui/icons';
-import { PercentIcon } from './components';
+import { PercentIcon, PayDeadlineExpiredText, MinPayIsWrongText } from './components';
 import { formatCurrency } from '@/app/lib';
 import { usePaymentOptions } from '@/booking/composables';
 import { useAuthStore } from '@/auth/stores';
@@ -53,28 +52,13 @@ const alertTitle = computed(() => {
         : '';
 });
 
-const startIcon = computed(() => {
-    if (errorType.value === 'PayDeadlineExpired') {
-        return HourglassIcon;
-    } else {
-        return PercentIcon;
-    }
-});
+const startIcon = computed(() =>
+    errorType.value === 'PayDeadlineExpired' ? HourglassIcon : PercentIcon
+);
 
 const { minPayment } = usePaymentOptions({
     order,
 });
-
-const router = useRouter();
-
-const pay = (optionKey: string) => {
-    router.push({
-        name: 'booking-pay',
-        query: { order_id: order.value.general.order_id, selected_option: optionKey },
-    });
-};
-
-// TODO: Добавить NuxtLink на условия договора
 </script>
 
 <template>
@@ -94,48 +78,17 @@ const pay = (optionKey: string) => {
             <span class="font-bold text-black">{{ alertTitle }}</span>
         </template>
         <template #text>
-            <div class="text-black">
-                <div v-if="errorType === 'PayDeadlineExpired' && paymentDetail.mustPayedToFullCost">
-                    <span>В связи с тем, что сегодня истек срок оплаты остатка </span>
-                    <span
-                        >{{ formatCurrency(paymentDetail.mustPayedToFullCost.amount, true) }} ({{
-                            paymentDetail.mustPayedToFullCost.percent
-                        }}% от общей суммы тура)</span
-                    >
-                    <span>, а указанная сумма не была оплачена в срок, в соответствии с</span>
-                    <span class="text-primary-500 hover:text-primary-400 cursor-pointer">
-                        условиями Договора</span
-                    >
-                    <span
-                        >, Заказ №{{ order.general.order_number }} будет аннулирован и проведен
-                        возврат средств.</span
-                    >
-                </div>
-                <div v-else-if="paymentDetail.mustPayedToMinimal">
-                    <span>В соответствии с</span>
-                    <span class="text-primary-500 hover:text-primary-400 cursor-pointer">
-                        условиями Договора</span
-                    >
-                    <span
-                        >, минимальный размер предоплаты для принятия заказа в работу составляет
-                        {{ formatCurrency(minPayment.paymentAmount, true) }} ({{
-                            minPayment.percent
-                        }}% от общей суммы тура).</span
-                    >
-                    <div>
-                        Для принятия и подтверждения заказа
-                        <span
-                            class="text-primary-500 hover:text-primary-400 cursor-pointer"
-                            @click="pay(minPayment.key)"
-                            >проведите доплату
-                            {{
-                                formatCurrency(paymentDetail.mustPayedToMinimal.amount, true)
-                            }}</span
-                        >
-                        до минимальной суммы предоплаты.
-                    </div>
-                </div>
-            </div>
+            <PayDeadlineExpiredText
+                v-if="errorType === 'PayDeadlineExpired' && paymentDetail.mustPayedToFullCost"
+                :must-payed-to-full-cost="paymentDetail.mustPayedToFullCost"
+                :order-number="order.general.order_number"
+            />
+            <MinPayIsWrongText
+                v-else-if="paymentDetail.mustPayedToMinimal"
+                :min-payment="minPayment"
+                :must-payed-to-minimal="paymentDetail.mustPayedToMinimal"
+                :order-id="order.general.order_id"
+            />
         </template>
     </Alert>
 </template>

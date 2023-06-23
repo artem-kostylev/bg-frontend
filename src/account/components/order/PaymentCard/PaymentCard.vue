@@ -4,7 +4,7 @@ import { CheckIcon, CrossInCircleIcon } from '@ui/icons';
 import type { PaymentProcedureOption } from '@/booking/types';
 import { formatCurrency } from '@/app/lib';
 import { useParams } from '@/app/composables';
-import { useRouter } from '#imports';
+import { useGoToPay } from '@/account/composables';
 
 type Props = {
     option: PaymentProcedureOption;
@@ -14,14 +14,10 @@ const props = defineProps<Props>();
 
 const params = useParams<{ id: number }>();
 
-const router = useRouter();
-
-const pay = () => {
-    router.push({
-        name: 'booking-pay',
-        query: { order_id: params.value.id, selected_option: props.option.key },
-    });
-};
+const { pay } = useGoToPay({
+    orderId: params.value.id,
+    optionKey: props.option.key,
+});
 </script>
 
 <template>

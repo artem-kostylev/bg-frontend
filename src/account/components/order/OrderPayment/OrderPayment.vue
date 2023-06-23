@@ -42,7 +42,7 @@ const paymentChartAmounts = computed(() => {
 
 <template>
     <div>
-        <div v-if="paymentStatus.status !== 'not_paid'" class="w-full mb-16">
+        <div v-if="paymentStatus.status !== 'not_paid'" class="w-full mt-16 mb-16">
             <PaymentChart
                 :amounts="paymentChartAmounts"
                 :payment-options-length="paymentOptionsAsc.length"

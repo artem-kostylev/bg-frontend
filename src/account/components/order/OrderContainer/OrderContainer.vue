@@ -28,13 +28,8 @@ const paymentIsAvailable = computed(() => {
 </script>
 
 <template>
-    <div class="w-full">
+    <div class="w-full mb-3">
         <OrderDetails :general="order.general" :status="paymentStatus.status" />
-        <OrderPayment
-            v-if="paymentIsAvailable"
-            :order="order"
-            :payment-status="paymentStatus"
-            class="mt-12"
-        />
+        <OrderPayment v-if="paymentIsAvailable" :order="order" :payment-status="paymentStatus" />
     </div>
 </template>

@@ -5,7 +5,7 @@ import { PaymentCard } from '@/account/components';
 import type { PaymentProcedureOptions } from '@/booking/types';
 import { formatCurrency } from '@/app/lib';
 import { useParams } from '@/app/composables';
-import { useRouter } from '#imports';
+import { useGoToPay } from '@/account/composables';
 
 type Props = {
     options: PaymentProcedureOptions;
@@ -17,14 +17,9 @@ const props = defineProps<Props>();
 
 const params = useParams<{ id: number }>();
 
-const router = useRouter();
-
-const pay = (optionKey: string) => {
-    router.push({
-        name: 'booking-pay',
-        query: { order_id: params.value.id, selected_option: optionKey },
-    });
-};
+const { pay } = useGoToPay({
+    orderId: params.value.id,
+});
 
 const paymentOptions = computed(() => {
     if (props.status !== 'not_paid') {
@@ -37,7 +32,7 @@ const paymentOptions = computed(() => {
 
 <template>
     <div>
-        <div class="flex flex-wrap sm:flex-nowrap gap-2.5 mt-6">
+        <div class="flex flex-wrap sm:flex-nowrap gap-5 sm:gap-2.5 mt-6">
             <div
                 v-for="option in paymentOptions"
                 :key="option.key"

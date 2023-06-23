@@ -35,7 +35,7 @@ export function usePaymentOptions({
         }
 
         const {
-            prepaymentStatus: { defermentInDaysDeadline },
+            prepaymentStatus: { defermentInDaysDeadline, money },
             ...rest
         } = order.value.payment_detail;
 
@@ -52,8 +52,9 @@ export function usePaymentOptions({
                         : 'от стоимости тура',
                 important:
                     percent < 100 &&
-                    option === 'mustPayedToMinimal' &&
-                    defermentInDaysDeadline === 'before',
+                    defermentInDaysDeadline === 'before' &&
+                    (option === 'mustPayedToMinimal' ||
+                        (option === 'mustPayedToFullCost' && money === 'moreOrEqualThanMinimal')),
                 status: option.includes('must') ? 'not_paid' : 'paid',
             })
         );

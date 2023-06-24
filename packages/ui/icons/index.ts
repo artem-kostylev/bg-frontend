@@ -53,3 +53,6 @@ export { default as QRIcon } from './QR.vue';
 export { default as CheckListIcon } from './CheckList.vue';
 export { default as CrossInCircleIcon } from './CrossInCircle.vue';
 export { default as HourglassIcon } from './Hourglass.vue';
+export { default as BuildingIcon } from './Building.vue';
+export { default as ShieldIcon } from './Shield.vue';
+export { default as PyramidIcon } from './Pyramid.vue';

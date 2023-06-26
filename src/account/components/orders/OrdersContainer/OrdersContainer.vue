@@ -26,6 +26,8 @@ const { targetRef, loadingMore } = useInfinity(async () => {
     data.value!.has_next = response.has_next;
     data.value!.orders.push(...response.orders);
 });
+
+// TODO: Добавить блок "рекомендуемые туры"
 </script>
 
 <template>

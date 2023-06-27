@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, resolveComponent } from 'vue';
 import type { RouteLocationNamedRaw } from 'vue-router';
-import { useLazyAsyncData } from '#imports';
+import { definePageMeta, useLazyAsyncData } from '#imports';
 import { useQuery } from '@/app/composables';
 import { Page } from '@/app/components';
 import { Spin, Typography, Button, Grid } from '@ui/components';
@@ -9,6 +9,8 @@ import { fetchComposition, type FetchCompositionQuery } from '@/booking/services
 import { Selected, ActivityContainer } from '@/booking/components';
 import { useCompositionStore } from '@/booking/stores';
 import { storeToRefs } from 'pinia';
+
+definePageMeta({ navigation: true });
 
 const query = useQuery<FetchCompositionQuery>();
 

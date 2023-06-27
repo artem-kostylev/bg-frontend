@@ -19,7 +19,7 @@ export type FetchCompositionResponse = {
 };
 
 export type FetchCompositionQuery = {
-    ids: string[];
+    tour_ids: string[];
     tours_hash: string;
     tour_type: TourType;
     has_movements?: 'false';
@@ -31,21 +31,21 @@ type FetchCompositionPayload = FetchCompositionQuery;
 const fetchCompositionWithMovements = async (payload: FetchCompositionPayload) => {
     const response = await http<FetchCompositionResponse>('tour/detail', {
         method: 'POST',
-        body: { ids: payload.ids, tours_hash: payload.tours_hash },
+        body: { tour_ids: payload.tour_ids, tours_hash: payload.tours_hash },
     });
 
     return response;
 };
 
 const fetchCompositionWithoutMovements = async (payload: FetchCompositionPayload) => {
-    let ids: string[][] | undefined;
+    let tour_ids: string[][] | undefined;
 
     /**
      * Так как у нас может пропускаться шаг с выбором билетов
      * поэтому нужно запрашивать параметр tour_id
      */
 
-    if (!payload.ids) {
+    if (!payload.tour_ids) {
         const response = await http<{ tour_id: string[][] }>('tour/not_movement', {
             method: 'POST',
             body: {
@@ -54,12 +54,12 @@ const fetchCompositionWithoutMovements = async (payload: FetchCompositionPayload
             },
         });
 
-        ids = response.tour_id;
+        tour_ids = response.tour_id;
     }
 
     return await http<FetchCompositionResponse>('tour/detail', {
         method: 'POST',
-        body: { ids: ids ?? payload.ids },
+        body: { tour_ids: tour_ids ?? payload.tour_ids },
     });
 };
 

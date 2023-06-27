@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { definePageMeta, useLazyAsyncData } from '#imports';
 import { Page } from '@/app/components';
 import { Grid, Tabs, Spin, Typography } from '@ui/components';
@@ -29,6 +29,11 @@ const tabs = [
 ];
 
 const page = ref(1);
+
+watch(currentTab, () => {
+    pending.value = false;
+    page.value = 1;
+});
 
 const { pending } = useLazyAsyncData(
     'orders',

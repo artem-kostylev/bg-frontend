@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Component } from 'vue';
+import { IconFilled } from '@ui/components';
 
 type Props = {
     icon: Component;
@@ -10,10 +11,13 @@ defineProps<Props>();
 </script>
 
 <template>
-    <div class="flex space-x-2 items-center">
-        <div class="rounded-md bg-secondary-200 p-1">
-            <component :is="icon" width="1.2em" height="1.2em" class="shrink-0" />
-        </div>
-        <div>{{ label }}</div>
-    </div>
+    <IconFilled
+        :icon="icon"
+        :label="label"
+        width="1.1em"
+        height="1.1em"
+        padding="p-1"
+        rounded="rounded-md"
+        variant="secondary"
+    />
 </template>

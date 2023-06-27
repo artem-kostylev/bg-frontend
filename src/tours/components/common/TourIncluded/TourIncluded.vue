@@ -5,7 +5,7 @@ import {
     BuildingsIcon,
     BusIcon,
     ShieldIcon,
-    MountainIcon,
+    PyramidIcon,
     LightingIcon,
 } from '@ui/icons';
 
@@ -45,7 +45,7 @@ defineProps<Props>();
         </Tooltip>
         <Tooltip v-if="excursion_included" text="Экскурсия включена">
             <template #trigger="{ vbind }">
-                <IconFilled v-bind="vbind" :icon="MountainIcon" variant="primary" />
+                <IconFilled v-bind="vbind" :icon="PyramidIcon" variant="primary" />
             </template>
         </Tooltip>
         <Tooltip v-if="instant_booking" text="Мгновенное бронирование">

@@ -18,8 +18,8 @@ const { data, pending, execute } = useLazyAsyncData('booking-tickets', () => {
 });
 
 whenever(
-    () => query.value.ids,
-    value => !Array.isArray(value[0]) && execute()
+    () => query.value.route_ids,
+    () => execute()
 );
 </script>
 

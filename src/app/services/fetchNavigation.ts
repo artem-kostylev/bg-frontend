@@ -6,7 +6,7 @@ export type FetchNavigationQuery = FiltersRaw & {
     tour_type?: 'package' | 'classic';
     package_tour_id?: number;
     accommodations_unikey?: string[][];
-    ids?: string[];
+    route_ids?: string[];
     tour_id?: string[];
     hotel_ids?: number[];
 };
@@ -31,7 +31,7 @@ export const fetchNavigation = async (
         accommodations_unikey,
         tour_id,
         hotel_ids,
-        ids,
+        route_ids,
         ...filters
     } = query;
 
@@ -44,7 +44,7 @@ export const fetchNavigation = async (
     isPackage && (payload.package_tour_id = Number(package_tour_id ?? params.id));
     accommodations_unikey && (payload.accommodations_unikey = accommodations_unikey);
     tour_id && (payload.tour_id = tour_id);
-    ids && (payload.route_id = ids[0]);
+    route_ids && (payload.route_ids = route_ids);
 
     switch (name) {
         case 'tours-multi-id':

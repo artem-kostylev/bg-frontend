@@ -10,6 +10,7 @@ import { vMaska } from 'maska';
 import { useMessage } from '@ui/composables';
 import { FetchError } from 'ofetch';
 import type { Profile } from '@/account/types';
+import { Confirmation } from '@/app/components';
 
 const { data } = useNuxtData<Profile>('account-profile');
 
@@ -84,18 +85,13 @@ const sendEmail = async () => {
         <template #trigger="{ vbind }">
             <Button v-bind="vbind">изменить</Button>
         </template>
-        <div v-if="showCode" class="space-y-5">
-            <div>
-                Введите код, высланный Вам на <span class="font-medium">{{ form.value }}</span>
-            </div>
-            <Input
-                v-model="code"
-                justify="center"
-                placeholder="_ _ _ _"
-                v-maska
-                data-maska="####"
-            />
-        </div>
+        <Confirmation v-if="showCode">
+            <template #label>
+                <div>
+                    Введите код, высланный Вам на <span class="font-medium">{{ form.value }}</span>
+                </div>
+            </template>
+        </Confirmation>
         <div class="space-y-5" v-else>
             <div v-if="type === 'phone'">Мы вышлем код подтверждения на новый телефон</div>
             <div v-else>Мы вышлем код подтверждения на новую электронную почту</div>
@@ -104,6 +100,7 @@ const sendEmail = async () => {
                 v-model="v$.value.$model"
                 :error="v$.value.$errors[0]?.$message"
                 :start-icon="AtSignIcon"
+                placeholder="Мобильный телефон"
             />
             <Input
                 v-else
@@ -112,6 +109,7 @@ const sendEmail = async () => {
                 :start-icon="MobilePhoneIcon"
                 v-maska
                 :data-maska="'+7 (###) ### ## ##'"
+                placeholder="Email"
             />
             <Button variant="primary" :loading="sending" block @click="sendEmail">
                 Выслать код

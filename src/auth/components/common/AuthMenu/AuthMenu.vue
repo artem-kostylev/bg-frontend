@@ -10,7 +10,7 @@ const { user } = storeToRefs(useAuthStore());
 const options = [
     { label: 'Персональная информация', value: '/account/profile' },
     { label: 'Документы туристов', value: '/account/documents' },
-    { label: 'Мои поездки', value: '/account/trips' },
+    { label: 'Мои поездки', value: '/account/orders' },
     { label: 'Мои отзывы', value: '/account/reviews' },
     { label: 'Обратная связь', value: '/account/support' },
     { label: 'Выход', value: '' },

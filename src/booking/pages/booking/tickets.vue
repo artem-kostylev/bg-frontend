@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { whenever } from '@vueuse/core';
-import { useLazyAsyncData, useName } from '#imports';
+import { definePageMeta, useLazyAsyncData, useName } from '#imports';
 import { useQuery } from '@/app/composables';
 import { Page, Empty } from '@/app/components';
 import { MovementList } from '@/booking/components';
 import type { FetchMovementsQuery } from '@/booking/services';
 import { fetchMovements } from '@/booking/services';
 import { Spin, Typography } from '@ui/components';
+
+definePageMeta({ navigation: true });
 
 const name = useName<'booking-tickets' | 'avia-search'>();
 const query = useQuery<FetchMovementsQuery>();

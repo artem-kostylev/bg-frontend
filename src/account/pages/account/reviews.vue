@@ -1,24 +1,44 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useLazyAsyncData, definePageMeta } from '#imports';
-import { fetchDocuments } from '@/account/services';
+import { fetchReviewableHotels, fetchAccountReviews } from '@/account/services';
 import { Page } from '@/app/components';
-import { Spin } from '@ui/components';
+import { Grid, Spin, Typography } from '@ui/components';
+import { ReviewableHotels, ReviewsContainer } from '@/account/components';
 
 definePageMeta({
     middleware: 'auth',
 });
 
-const { data, pending } = useLazyAsyncData('account-reviews', () => fetchDocuments());
+const { data: reviewableHotels, pending: pendingHotels } = useLazyAsyncData(
+    'reviewable-hotels',
+    () => fetchReviewableHotels()
+);
+
+const page = ref(1);
+
+const { data: accountReviews, pending: pendingReviews } = useLazyAsyncData('account-reviews', () =>
+    fetchAccountReviews({ page: page.value })
+);
 
 const meta = {
     title: 'Мои отзывы',
-    description: 'Описание страницы',
+    description: 'Описание страницы Мои отзывы',
 };
 </script>
 
 <template>
     <Page :meta="meta">
-        <Spin v-if="pending" />
-        <div v-else-if="data">{{ data }}</div>
+        <Grid gap="5">
+            <Typography variant="h1" as="h1">Мои поездки</Typography>
+            <Spin v-if="pendingHotels || pendingReviews" />
+            <div v-else>
+                <ReviewableHotels :hotels="reviewableHotels" />
+                <ReviewsContainer
+                    v-if="accountReviews?.reviews.length"
+                    :reviews="accountReviews.reviews"
+                />
+            </div>
+        </Grid>
     </Page>
 </template>

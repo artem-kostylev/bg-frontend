@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, nextTick } from 'vue';
+import { ref, reactive, nextTick } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, sameAs } from '@vuelidate/validators';
 import { InputPassword, Button, Typography } from '@ui/components';
@@ -24,7 +24,7 @@ const message = useMessage();
 const sending = ref(false);
 const errors = ref<Errors | null>(null);
 
-const form = ref({
+const form = reactive({
     current_password: '',
     new_password: '',
     new_password_confirmation: '',
@@ -46,9 +46,9 @@ const rules = {
         minOneSpecialSymbol,
     },
     new_password_confirmation: {
-        sameAs: helpers.withMessage(
+        sameAsPassword: helpers.withMessage(
             'Введенные пароли должны совпадать',
-            sameAs(form.value.new_password)
+            sameAs(form.new_password)
         ),
     },
 };
@@ -60,7 +60,7 @@ const submit = async () => {
 
     try {
         sending.value = true;
-        await updatePassword(form.value);
+        await updatePassword(form);
         message.success('Пароль успешно изменен');
         nextTick(() => v$.value.$reset());
     } catch (err) {
@@ -80,6 +80,7 @@ const submit = async () => {
         <Typography variant="h2" as="h2">Безопасность</Typography>
         <div class="w-1/4">
             <InputPassword
+                autocomplete="off"
                 v-model="form.current_password"
                 label="Текущий пароль"
                 :error="v$.current_password.$errors[0]?.$message || errors?.current_password?.[0]"

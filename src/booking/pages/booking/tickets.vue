@@ -23,7 +23,7 @@ whenever(
 
 <template>
     <Page :meta="data?.meta">
-        <Spin v-if="pending" color="primary" />
+        <Spin class="flex-1" v-if="pending" color="primary" />
         <div v-else-if="data" class="relative">
             <Typography variant="h1" as="h1" class="mb-5">{{ data.direction }}</Typography>
             <MovementList

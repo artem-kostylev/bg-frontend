@@ -18,7 +18,7 @@ const meta = {
 
 <template>
     <Page :meta="meta">
-        <Spin v-if="pending" />
+        <Spin class="flex-1" v-if="pending" />
         <div v-else-if="data">{{ data }}</div>
     </Page>
 </template>

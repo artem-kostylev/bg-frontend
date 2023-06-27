@@ -18,8 +18,7 @@ const meta = {
 
 <template>
     <Page :meta="meta">
-        {{ data }}
-        <Spin v-if="pending" color="primary" />
+        <Spin class="flex-1" v-if="pending" color="primary" />
         <div v-else-if="data" class="space-y-5">
             <Typography variant="h1" as="h1">Персональная информация</Typography>
             <UserForm />

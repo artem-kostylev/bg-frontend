@@ -1,1 +1,2 @@
-export * from './ChangeEmail';
+export * from './Change';
+export * from './Confirmation';

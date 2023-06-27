@@ -49,7 +49,7 @@ const to = computed(() => {
 
 <template>
     <Page :meta="meta">
-        <Spin v-if="pending" color="primary" />
+        <Spin class="flex-1" v-if="pending" color="primary" />
         <Grid gap="5" v-else-if="data">
             <Typography variant="h1" as="h1">Состав</Typography>
             <Selected v-bind="data" :default-open="true" />

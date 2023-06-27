@@ -1,12 +1,12 @@
 import { http } from '@/app/lib';
-import type { AccountReview } from '@/account/types';
+import type { Review } from '@/tours/types';
 
 type FetchAccountReviewsPayload = {
     page: number;
 };
 
 export type FetchAccountReviewsResponse = {
-    reviews: AccountReview[];
+    reviews: Review[];
     has_next: boolean;
 };
 

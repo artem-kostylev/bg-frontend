@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Review } from '@/tours/types';
+import type { ReviewRating } from '@/tours/types';
 import { Info, Content } from './components';
 
 type Props = {
-    review: Review;
+    review: ReviewRating;
 };
 
 defineProps<Props>();
@@ -13,6 +13,7 @@ defineProps<Props>();
     <div class="flex flex-wrap -mx-5 -mb-5">
         <div class="w-full md:w-1/6 px-5 mb-5">
             <Info
+                v-if="review.created_at"
                 :average_rating="review.average_rating"
                 :user="review.user"
                 :created_at="review.created_at"

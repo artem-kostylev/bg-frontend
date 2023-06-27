@@ -1,9 +1,9 @@
 import { http } from '@/app/lib';
-import type { Review } from '@/tours/types';
+import type { ReviewRating } from '@/tours/types';
 import { parseSortToString } from '@/tours/lib';
 
 export type FetchHotelReviewsResponse = {
-    reviews: Review[];
+    reviews: ReviewRating[];
     has_next: boolean;
     total: number;
 };

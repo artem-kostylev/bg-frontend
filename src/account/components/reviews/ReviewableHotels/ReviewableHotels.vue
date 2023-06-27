@@ -2,18 +2,30 @@
 import { Grid, Alert } from '@ui/components';
 import { SearchIcon } from '@ui/icons';
 import type { ReviewableHotel } from '@/account/types';
+import { ReviewCard } from '@/account/components';
 
 type Props = {
     hotels: ReviewableHotel[] | null;
 };
 
 defineProps<Props>();
+
+const open = () => {};
 </script>
 
 <template>
-    <div>
+    <Grid gap="5">
+        <div class="text-xl lg:text-2xl">Добавьте новый отзыв</div>
         <div v-if="hotels?.length">
-            <Grid cols="2" gap="5"> </Grid>
+            <Grid cols="2" gap="5">
+                <ReviewCard
+                    v-for="hotel in hotels"
+                    :key="hotel.hotel_id"
+                    :hotel="hotel"
+                    action="add"
+                    @open="open"
+                />
+            </Grid>
         </div>
         <div v-else>
             <Alert
@@ -23,5 +35,5 @@ defineProps<Props>();
                 :start-icon="SearchIcon"
             />
         </div>
-    </div>
+    </Grid>
 </template>

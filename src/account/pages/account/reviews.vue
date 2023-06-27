@@ -36,7 +36,9 @@ const meta = {
                 <ReviewableHotels :hotels="reviewableHotels" />
                 <ReviewsContainer
                     v-if="accountReviews?.reviews.length"
-                    :reviews="accountReviews.reviews"
+                    :page="page"
+                    @increment-page="++page"
+                    class="mt-10"
                 />
             </div>
         </Grid>

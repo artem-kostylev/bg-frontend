@@ -80,7 +80,11 @@ onBeforeUnmount(() => {
             </div>
         </div>
         <Spin v-if="pending" class="py-5" color="primary" />
-        <Empty v-else-if="error" />
+        <Empty
+            v-else-if="error"
+            title="Что-то пошло не так"
+            description="Ошибка получения данных, попробуйте повторить запрос позже"
+        />
         <div v-else-if="data" class="py-5">
             <template v-for="(group, index) in data.groups" :key="index">
                 <Transition
@@ -98,7 +102,11 @@ onBeforeUnmount(() => {
                                 :is-last-group="isLastGroup"
                             />
                         </Grid>
-                        <Empty v-else />
+                        <Empty
+                            v-else
+                            title="По вашему запросу ничего не нашлось"
+                            description="Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры"
+                        />
                     </template>
                 </Transition>
             </template>

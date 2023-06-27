@@ -1,7 +1,7 @@
 import type { StringOrNumber } from '@ui/types';
 
 export type CheckboxProps = {
-    modelValue?: boolean | StringOrNumber[];
+    modelValue?: StringOrNumber | StringOrNumber[] | boolean;
     disabled?: boolean;
     value?: string | number;
     multiple?: boolean;

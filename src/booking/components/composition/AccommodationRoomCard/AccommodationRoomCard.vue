@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { Card, IconFilled, Typography } from '@ui/components';
+import { ref, defineAsyncComponent } from 'vue';
+import { useNuxtData } from '#imports';
+import { Card, IconFilled, Typography, Button } from '@ui/components';
 import type { AccommodationRoom } from '@/booking/types';
-import { ArmchairAndLampIcon, ForkAndKnifeIcon, UsersIcon } from '@ui/icons';
+import { ArmchairAndLampIcon, ForkAndKnifeIcon, UsersIcon, CheckListIcon } from '@ui/icons';
 import { RoomDetailsModal } from '@/tours/components';
+import { type FetchPaymentStatusResponse } from '@/booking/services';
 
 type Props = {
     accommodationRoom: AccommodationRoom;
@@ -10,6 +13,14 @@ type Props = {
 };
 
 defineProps<Props>();
+
+const show = ref(false);
+
+const AccommodationRoomWishes = defineAsyncComponent(
+    () => import('../AccommodationRoomWishes/AccommodationRoomWishes.vue')
+);
+
+const { data: paymentStatus } = useNuxtData<FetchPaymentStatusResponse>('booking-pay-status');
 </script>
 
 <template>
@@ -24,6 +35,12 @@ defineProps<Props>();
             <IconFilled :icon="ArmchairAndLampIcon" :label="accommodationRoom.name" />
             <IconFilled :icon="ForkAndKnifeIcon" :label="accommodationRoom.board" />
             <IconFilled :icon="UsersIcon" :label="accommodationRoom.tourists.join(', ')" />
+        </div>
+        <div v-if="paymentStatus?.status === 'not_paid'" class="flex justify-end mt-2.5">
+            <Button :start-icon="CheckListIcon" variant="secondary" @click="show = true">
+                Дополнительные пожелания
+            </Button>
+            <AccommodationRoomWishes v-model="show" :accommodation-room="accommodationRoom" />
         </div>
     </Card>
 </template>

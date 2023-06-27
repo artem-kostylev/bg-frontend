@@ -10,7 +10,8 @@ export type MenuOption = {
 export type MenuProps = {
     multiple?: boolean;
     options: MenuOption[];
-    modelValue: StringOrNumber | StringOrNumber[];
+    modelValue?: StringOrNumber | StringOrNumber[];
+    dropdown?: boolean;
 };
 
 export const defaultMenuProps = {

@@ -22,10 +22,14 @@ export const formatNumber = (num: number, options?: Intl.NumberFormatOptions) =>
  *  Форматирует валюту
  * @example formatCurrency(1000) // 1 000
  */
-export const formatCurrency = (num: number, currency = 'RUB') => {
+export const formatCurrency = (num: number | string, isPennies = false, currency = 'RUB') => {
     currency === 'RUR' && (currency = 'RUB');
 
-    return formatNumber(num, {
+    // TODO: Сделать чтобы везде с бэкенда приходили суммы в копейках
+    /* isPennies - флаг, показывающий, что сумма передана в копейках, необходимо отбросить копейки */
+    isPennies && (num = Math.floor(Number(num) / 100));
+
+    return formatNumber(+num, {
         style: 'currency',
         currency,
         maximumFractionDigits: 0,

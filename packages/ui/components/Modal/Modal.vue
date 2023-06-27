@@ -12,6 +12,7 @@ const sizes = {
     '2xl': 'max-w-2xl',
     '3xl': 'max-w-3xl',
     '4xl': 'max-w-4xl',
+    '5xl': 'max-w-5xl',
     '7xl': 'max-w-7xl',
 };
 
@@ -21,6 +22,7 @@ type Props = {
     size?: keyof typeof sizes;
     title?: string;
     loading?: boolean;
+    persistent?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -55,6 +57,8 @@ const hide = () => {
 watch(visible, value => (isLocked.value = value));
 
 onClickOutside(targetRef, () => {
+    if (props.persistent) return;
+
     const elements = document.body.querySelectorAll('[data-clickoutside]');
     const lastElement = elements[elements.length - 1];
 
@@ -114,6 +118,9 @@ const vbind = { onClick: show };
                             </div>
                         </template>
                         <slot />
+                        <template v-if="$slots.footer" #footer>
+                            <slot name="footer" />
+                        </template>
                     </Card>
                 </div>
             </div>

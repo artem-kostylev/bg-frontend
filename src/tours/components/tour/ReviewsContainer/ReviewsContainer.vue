@@ -47,7 +47,11 @@ const title = computed(() => {
             </div>
         </div>
         <Spin v-if="pending" class="py-5" color="primary" />
-        <Empty v-else-if="error" />
+        <Empty
+            v-else-if="error"
+            title="Что-то пошло не так"
+            description="Ошибка получения данных, попробуйте повторить запрос позже"
+        />
         <div v-else-if="data" class="py-5">
             <template v-if="data.reviews.length">
                 <ReviewList :reviews="data.reviews" />

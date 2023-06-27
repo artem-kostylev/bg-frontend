@@ -16,3 +16,6 @@ export * from './AccommodationRoomCard';
 export * from './AccommodationRoomList';
 export * from './ActivityVariantCard';
 export * from './ActivityVariantList';
+export * from './ExtraActivityCard';
+export * from './ExtraActivityList';
+export * from './AccommodationRoomWishes';

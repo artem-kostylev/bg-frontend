@@ -13,6 +13,6 @@ defineProps<Props>();
 <template>
     <div class="flex mb-8 flex-col sm:flex-row sm:mb-10 sm:justify-between">
         <OrderInfo :general="general" :status="status" />
-        <OrderActions :general="general" />
+        <OrderActions :general="general" :align="true" />
     </div>
 </template>

@@ -28,7 +28,7 @@ const startIcon = computed(() => {
     <div :class="['px-4 py-3 flex items-start border rounded-xl', alertVariants[variant]]">
         <component
             :is="startIcon"
-            class="mr-3 mt-[3px] flex-shrink-0"
+            class="mr-3 mt-[3px] shrink-0"
             width="1.4em"
             height="1.4em"
             v-bind="iconProps"

@@ -2,8 +2,8 @@
 import { provide, ref } from 'vue';
 
 const types = {
-    success: 'bg-green-100 text-green-800 border border-green-200',
-    danger: 'bg-red-100 text-red-800 border border-red-200',
+    success: 'bg-success-100 text-success-800 border border-success-200',
+    danger: 'bg-danger-100 text-danger-800 border border-danger-200',
 };
 
 type Type = keyof typeof types;

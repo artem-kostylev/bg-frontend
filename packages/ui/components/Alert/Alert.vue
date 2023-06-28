@@ -31,6 +31,7 @@ const startIcon = computed(() => {
             class="mr-3 mt-[3px] flex-shrink-0"
             width="1.4em"
             height="1.4em"
+            v-bind="iconProps"
         />
         <div>
             <div v-if="title" class="font-medium leading-5 mb-0.5">{{ title }}</div>

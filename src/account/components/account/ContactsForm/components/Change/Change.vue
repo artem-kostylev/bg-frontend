@@ -74,6 +74,8 @@ const sendEmail = async () => {
         sending.value = false;
     }
 };
+
+const submit = () => {};
 </script>
 
 <template>
@@ -85,7 +87,7 @@ const sendEmail = async () => {
         <template #trigger="{ vbind }">
             <Button v-bind="vbind">изменить</Button>
         </template>
-        <Confirmation v-if="showCode">
+        <Confirmation v-if="showCode" @submit="submit">
             <template #label>
                 <div>
                     Введите код, высланный Вам на <span class="font-medium">{{ form.value }}</span>

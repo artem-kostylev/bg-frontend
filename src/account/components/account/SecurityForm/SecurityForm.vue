@@ -78,24 +78,24 @@ const submit = async () => {
 <template>
     <div class="flex flex-col space-y-5">
         <Typography variant="h2" as="h2">Безопасность</Typography>
-        <div class="w-1/4">
+        <div class="w-full lg:w-1/4">
             <InputPassword
                 autocomplete="off"
-                v-model="form.current_password"
+                v-model="v$.current_password.$model"
                 label="Текущий пароль"
                 :error="v$.current_password.$errors[0]?.$message || errors?.current_password?.[0]"
             />
         </div>
-        <div class="w-1/4">
+        <div class="w-full lg:w-1/4">
             <InputPassword
-                v-model="form.new_password"
+                v-model="v$.new_password.$model"
                 label="Новый пароль"
                 :error="v$.new_password.$errors[0]?.$message || errors?.new_password?.[0]"
             />
         </div>
-        <div class="w-1/4">
+        <div class="w-full lg:w-1/4">
             <InputPassword
-                v-model="form.new_password_confirmation"
+                v-model="v$.new_password_confirmation.$model"
                 label="Повторить новый пароль"
                 :error="
                     v$.new_password_confirmation.$errors[0]?.$message ||

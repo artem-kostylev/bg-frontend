@@ -15,16 +15,19 @@ export type OrderPaymentOptions = {
     [key: string]: OrderPaymentOption;
 };
 
-export type OrderPaymentDetail = {
-    prepaymentStatus: {
-        money: 'notPayed' | 'lessThanMinimal' | 'moreOrEqualThanMinimal';
-        defermentInDaysDeadline: 'before' | 'after';
-    };
+export type PrepaymentStatus = {
+    money: 'notPayed' | 'lessThanMinimal' | 'moreOrEqualThanMinimal';
+    defermentInDaysDeadline: 'before' | 'after';
+};
+
+export type PrepaymentDetail = {
     mustPayedToFullCost?: { amount: number; percent: number };
     mustPayedToMinimal?: { amount: number; percent: number };
     payedToFullCost?: { amount: number; percent: number };
     payedToMinimal?: { amount: number; percent: number };
 };
+
+export type OrderPaymentDetail = { prepaymentStatus: PrepaymentStatus } & PrepaymentDetail;
 
 export type Transaction = {
     url: string | null;
@@ -36,10 +39,14 @@ export type Transaction = {
     qr_code: string | null;
 };
 
-export type PaymentProcedureOptions = {
-    key: string;
+export type PaymentProcedureOption = {
     percent: number;
     paymentAmount: number;
+    key: string;
     label: string;
     important: boolean;
-}[];
+    status: 'paid' | 'not_paid';
+    option?: keyof PrepaymentDetail;
+};
+
+export type PaymentProcedureOptions = PaymentProcedureOption[];

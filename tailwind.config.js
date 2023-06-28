@@ -13,6 +13,10 @@ module.exports = {
             boxShadow: {
                 primary: 'rgba(17, 24, 39, .15) 0 0 10px 0',
             },
+            borderWidth: {
+                5: '5px',
+                10: '10px',
+            },
         },
         colors: {
             white: colors.white,

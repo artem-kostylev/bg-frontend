@@ -5,7 +5,7 @@ import type { Filters } from '@/app/types';
 export type FetchMovementResponse = Movement;
 
 export type FetchMovementQuery = {
-    ids?: string[];
+    route_ids?: string[];
     tour_type?: string;
     package_tour_id?: string;
     accommodations_unikey: string[];
@@ -26,7 +26,7 @@ export const fetchMovement = async (
     name: 'booking-tickets' | 'avia-search'
 ) => {
     const body: FetchMovementBody = {
-        ids: payload.ids,
+        route_ids: payload.route_ids,
         accommodations_unikey: payload.accommodations_unikey,
         tour_from: payload.tour_from,
         tour_type: name === 'avia-search' ? 'avia' : payload.tour_type,

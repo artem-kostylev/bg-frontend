@@ -25,8 +25,8 @@ export type Document = {
     last_name: string;
     nationality_id: number;
     phone: string;
-    second_name: string | null;
-    sex: string;
+    second_name: string;
+    sex: 'female' | 'male';
     updated_at: string;
     user_id: number;
 };

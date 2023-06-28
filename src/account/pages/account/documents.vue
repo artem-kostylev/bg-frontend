@@ -72,14 +72,11 @@ const meta = {
                         >
                     </div>
                 </template>
-                <template #default="{ close }">
+                <template #default>
                     <DocsForm
                         :form="form"
                         type="add"
-                        @success="
-                            execute();
-                            close();
-                        "
+                        @success="execute()"
                         @clear-form="clearForm"
                         @update-data="updateData"
                     />
@@ -111,16 +108,13 @@ const meta = {
                                     <span>Изменить</span>
                                 </button>
                             </template>
-                            <template #default="{ close }">
+                            <template #default>
                                 <DocsForm
                                     :form="item"
                                     type="edit"
                                     :id="item.id"
                                     :index="index"
-                                    @success="
-                                        execute();
-                                        close();
-                                    "
+                                    @success="execute()"
                                     @clear-form="clearForm"
                                     @update-data="updateData"
                                 />
@@ -134,18 +128,18 @@ const meta = {
                                     <span>Удалить</span>
                                 </button>
                             </template>
-                            <template #default="{ close }">
+                            <template #default>
                                 <div class="flex flex-col items-center">
                                     <TrashIcon
                                         width="2.5em"
                                         height="2.5em"
                                         class="text-danger-700"
                                     />
-                                    <div class="max-w-56 text-center m-b-6">
+                                    <div class="max-w-4xl text-center m-6">
                                         Вы уверены что хотите удалить этот документ?
                                     </div>
                                     <div class="flex space-x-4">
-                                        <Button @click="close">Отменить</Button>
+                                        <Button>Отменить</Button>
                                         <Button variant="primary" @click="deleteDoc(item.id)"
                                             >Да</Button
                                         >

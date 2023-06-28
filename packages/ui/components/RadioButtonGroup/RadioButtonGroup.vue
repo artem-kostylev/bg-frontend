@@ -3,7 +3,9 @@ import Button from '../Button/Button.vue';
 import type { Item, RadioButtonGroupProps } from './radioButtonGroup';
 
 const props = defineProps<RadioButtonGroupProps>();
-const emit = defineEmits<{ (e: 'update:modelValue', value: string | number | boolean): void }>();
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: string | number | boolean | null): void;
+}>();
 
 const select = (item: Item) => {
     emit('update:modelValue', item.value);

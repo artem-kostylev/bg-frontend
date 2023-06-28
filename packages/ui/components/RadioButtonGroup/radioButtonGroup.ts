@@ -11,6 +11,6 @@ export type RadioButtonGroupProps = {
     hint?: string;
     label?: string;
     error?: boolean;
-    modelValue?: string | number | boolean;
+    modelValue?: string | number | boolean | null;
     required?: boolean;
 };

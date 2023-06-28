@@ -74,7 +74,7 @@ const documents = computed(() => {
 });
 
 const documentsOptions = computed(() => {
-    return documents.value.map(document => {
+    return documents.value.map((document: { name: string; id: number }) => {
         return {
             label: document.name,
             value: document.id,
@@ -84,7 +84,7 @@ const documentsOptions = computed(() => {
 
 const selectedDoc = computed(() => {
     if (!documents.value.length) return;
-    return documents.value?.find((doc: any) => doc.id === props.form.document_type_id);
+    return documents.value?.find((doc: { id: number }) => doc.id === props.form.document_type_id);
 });
 
 const rules = computed(() => ({
@@ -161,7 +161,7 @@ const docMask = computed(() => {
     if (!v$.value.document_type_id.$model || !documents.value?.length) return '#### ######';
 
     const template = documents.value.find(
-        doc => doc.id === v$.value.document_type_id.$model
+        (doc: { id: number }) => doc.id === v$.value.document_type_id.$model
     )?.template;
 
     if (template?.length) {
@@ -204,8 +204,11 @@ const submit = async () => {
 
         emit('success');
         error.value = null;
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
         error.value = 'Ошибка. Проверьте корректность введенных данных';
+        // eslint-disable-next-line
         console.log('Error ', err.data.message);
     } finally {
         sending.value = false;

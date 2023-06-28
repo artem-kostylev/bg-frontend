@@ -13,7 +13,7 @@ import { Field } from '@ui/components';
 
 const props = withDefaults(defineProps<SelectProps>(), defaultSelectProps);
 const emit = defineEmits<{
-    'update:modelValue': [StringOrNumber | StringOrNumber[] | undefined];
+    'update:modelValue': [StringOrNumber | StringOrNumber[] | null | undefined];
 }>();
 
 const modelValue = computed({

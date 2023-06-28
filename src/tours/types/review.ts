@@ -1,26 +1,8 @@
 import type { Ratings } from '@/tours/types';
 import type { Image, Location } from '@/app/types';
 
-export type ReviewCreator = {
-    name: string;
-    surname: string;
-    id: number;
-};
-
-export type ReviewComments = {
-    comment: string | null;
-    liked: string | null;
-    disliked: string | null;
-};
-
-type ReviewStatus = {
-    description: 'На проверке' | 'Опубликован' | 'Отклонен';
-    key_name: 'NEW' | 'ACCEPTED' | 'REJECTED';
-    value: 0 | 1 | 2;
-};
-
 // TODO: Поменять на бэкенде date_from на date_start и date_to на date_finish (чтобы везде был одинаковый формат)
-type HotelInfo = {
+export type HotelInfo = {
     hotel_id: number;
     name: string;
     date_from: string;
@@ -31,10 +13,28 @@ type HotelInfo = {
     location?: Location[];
 };
 
+export type ReviewStatus = {
+    description: 'На проверке' | 'Опубликован' | 'Отклонен';
+    key_name: 'NEW' | 'ACCEPTED' | 'REJECTED';
+    value: 0 | 1 | 2;
+};
+
 export type Review = HotelInfo & {
     review_id?: number;
     status?: ReviewStatus;
     created_at?: string;
+};
+
+export type ReviewCreator = {
+    name: string;
+    surname: string;
+    id: number;
+};
+
+export type ReviewComments = {
+    comment: string | null;
+    liked: string | null;
+    disliked: string | null;
 };
 
 export type ReviewRating = Review & {

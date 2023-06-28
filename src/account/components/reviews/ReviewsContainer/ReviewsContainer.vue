@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useNuxtData } from '#imports';
 import { Grid, Spin } from '@ui/components';
 import { ReviewCard } from '@/account/components';
@@ -24,7 +25,11 @@ const { targetRef, loadingMore } = useInfinity(async () => {
     accountReviews.value!.reviews.push(...response.reviews);
 });
 
-const open = () => {};
+const hotelId = ref<number | null>(null);
+
+const open = (hotel_id: number) => {
+    hotelId.value = hotel_id;
+};
 </script>
 
 <template>

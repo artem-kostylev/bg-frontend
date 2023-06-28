@@ -7,7 +7,7 @@ import { RatingBadge } from '@/app/components';
 type Props = {
     average_rating: string;
     user: ReviewCreator;
-    created_at: string;
+    created_at?: string;
 };
 
 defineProps<Props>();
@@ -19,7 +19,7 @@ defineProps<Props>();
             <Avatar :initials="`${user.name}${user.surname}`" width="48px" height="48px" />
             <div>
                 <Typography variant="h5">{{ user.name }}</Typography>
-                <Typography variant="description">
+                <Typography v-if="created_at" variant="description">
                     {{ formatDate(created_at, 'D MMM YYYY') }}
                 </Typography>
             </div>

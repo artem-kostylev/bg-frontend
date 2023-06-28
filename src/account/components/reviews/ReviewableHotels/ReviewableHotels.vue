@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { Grid, Alert } from '@ui/components';
 import { SearchIcon } from '@ui/icons';
 import type { ReviewableHotel } from '@/account/types';
-import { ReviewCard } from '@/account/components';
+import { ReviewCard, AddReviewModal } from '@/account/components';
 
 type Props = {
     hotels: ReviewableHotel[] | null;
@@ -10,7 +11,14 @@ type Props = {
 
 defineProps<Props>();
 
-const open = () => {};
+const hotelId = ref<number | null>(null);
+
+const open = (hotel_id: number) => {
+    hotelId.value = hotel_id;
+    showModal.value = true;
+};
+
+const showModal = ref(false);
 </script>
 
 <template>
@@ -26,6 +34,7 @@ const open = () => {};
                     @open="open"
                 />
             </Grid>
+            <AddReviewModal v-if="hotelId" v-model="showModal" :hotel-id="hotelId" />
         </div>
         <div v-else>
             <Alert

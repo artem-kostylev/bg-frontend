@@ -10,4 +10,5 @@ export type SliderProps = {
     range?: boolean;
     modelValue?: number | number[] | string | string[];
     disabled?: boolean;
+    tooltip?: boolean;
 };

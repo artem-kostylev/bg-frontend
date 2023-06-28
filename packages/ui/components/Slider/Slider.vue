@@ -22,13 +22,15 @@ const getValue = () => {
 };
 
 onMounted(() => {
-    const value = props.range
+    let value = props.range
         ? props.modelValue === undefined || props.modelValue === null
             ? [props.min, props.max]
             : (props.modelValue as number[]).length
             ? props.modelValue
             : [props.min, props.max]
         : props.min;
+
+    props.tooltip && (nouislider.cssClasses.tooltip += ' slider-tooltip-top');
 
     slider$ = nouislider.create(slider.value, {
         cssPrefix: 'slider-',
@@ -39,6 +41,11 @@ onMounted(() => {
             min: props.min,
             max: props.max,
         },
+        format: {
+            from: Number,
+            to: value => Math.round(value),
+        },
+        tooltips: props.tooltip ? true : false,
     });
 
     slider$.on('set', () => {

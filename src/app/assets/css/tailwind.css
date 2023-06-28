@@ -215,12 +215,23 @@
     background: var(--slider-tooltip-bg, #10b981);
 }
 
+.slider-tooltip {
+    display: inline;
+    background: none;
+    border: none;
+    color: black;
+    min-width: unset;
+    font-weight: 700;
+    padding: 0;
+}
+
+
 .slider-horizontal .slider-tooltip-top {
     -webkit-transform: translate(-50%, 0);
     transform: translate(-50%, 0);
     left: 50%;
     bottom: calc(
-        var(--slider-handle-height, 16px) + var(--slider-tooltip-arrow-size, 5px) +
+        var(--slider-handle-height, 16px) +
             var(--slider-tooltip-distance, 3px)
     );
 }
@@ -235,6 +246,10 @@
     border: var(--slider-tooltip-arrow-size, 5px) solid transparent;
     border-top-color: inherit;
     transform: translate(-50%);
+}
+
+.slider-horizontal .slider-tooltip-top:before {
+    content: none;
 }
 
 .slider-horizontal .slider-tooltip-bottom {

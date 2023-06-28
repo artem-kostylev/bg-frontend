@@ -64,7 +64,7 @@ const meta = {
     <Page :meta="meta">
         <div class="flex flex-col justify-between mb-10">
             <Typography as="h1" variant="h1">Документы туристов</Typography>
-            <Modal v-model="newModal" label="Добавить документ" size="3xl">
+            <Modal v-model="newModal" title="Добавить документ" size="3xl">
                 <template #trigger="{ vbind }">
                     <div v-if="data?.length" class="flex w-full mt-7">
                         <Button variant="secondary" v-bind="vbind" class="block w-full md:w-auto"
@@ -91,9 +91,9 @@ const meta = {
         </div>
         <Card v-else-if="data?.length">
             <div
-                v-for="item in formatDocuments(data)"
+                v-for="(item, index) in formatDocuments(data)"
                 :key="item.id"
-                class="flex flex-col space-y-2 md:grid md:grid-cols-3 md:space-y-0 p-4 border-b border-dashed last:border-none md:items-center"
+                class="flex flex-col space-y-2 md:grid md:grid-cols-3 md:space-y-0 p-4 border-b border-secondary-200 border-dashed last:border-none md:items-center"
             >
                 <div>{{ item.name }}</div>
                 <div
@@ -104,7 +104,7 @@ const meta = {
                 </div>
                 <div class="justify-self-end">
                     <div class="flex space-x-4">
-                        <Modal label="Изменить документ">
+                        <Modal title="Изменить документ" size="3xl">
                             <template #trigger="{ vbind }">
                                 <button class="flex space-x-2" v-bind="vbind">
                                     <EditIcon width="1.5em" />

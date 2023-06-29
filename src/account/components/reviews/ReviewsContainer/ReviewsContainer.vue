@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useNuxtData } from '#imports';
 import { Grid, Spin } from '@ui/components';
-import { ReviewCard } from '@/account/components';
+import { ReviewCard, ReadReviewModal } from '@/account/components';
 import { fetchAccountReviews, type FetchAccountReviewsResponse } from '@/account/services';
 import { useInfinity } from '@/app/composables';
 
@@ -27,9 +27,23 @@ const { targetRef, loadingMore } = useInfinity(async () => {
 
 const hotelId = ref<number | null>(null);
 
+const hotel = computed(() => {
+    if (!accountReviews.value || !hotelId.value) return;
+    return accountReviews.value.reviews.find(review => review.hotel_id === hotelId.value);
+});
+
+const showModal = ref(false);
+
 const open = (hotel_id: number) => {
     hotelId.value = hotel_id;
+    showModal.value = true;
 };
+
+watch(showModal, value => {
+    if (!value) {
+        hotelId.value = null;
+    }
+});
 </script>
 
 <template>
@@ -44,6 +58,12 @@ const open = (hotel_id: number) => {
                 @open="open"
             />
         </Grid>
+        <ReadReviewModal
+            v-if="hotel?.review_id"
+            v-model="showModal"
+            :hotel="hotel"
+            :review-id="hotel.review_id"
+        />
         <template v-if="accountReviews.has_next">
             <Spin v-if="loadingMore" color="primary" class="my-12" />
             <div v-else ref="targetRef"></div>

@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref } from 'vue';
 import { useVModel } from '@vueuse/core';
 import { Modal, Grid, Card, Button } from '@ui/components';
 import { ReviewHeader } from '@/account/components';
 import { RatingCriteria, RatingItem, RatingComment, RatingErrorAlert } from './components';
-import { ref, useNuxtData } from '#imports';
 import type { ReviewableHotel } from '@/account/types';
 import type { SubmitError } from '@/app/types';
 import { fetchAddReview, type FetchAddReviewPayload } from '@/account/services';
@@ -13,8 +12,8 @@ import { useVuelidate } from '@vuelidate/core';
 // import { useMessage } from '@ui/composables';
 
 type Props = {
-    hotelId: number;
     modelValue: boolean;
+    hotel: ReviewableHotel;
 };
 
 const props = defineProps<Props>();
@@ -23,12 +22,6 @@ const emit = defineEmits<{
     (e: 'close'): void;
 }>();
 const show = useVModel(props, 'modelValue', emit);
-
-const { data: reviewableHotels } = useNuxtData<ReviewableHotel[]>('reviewable-hotels');
-
-const hotel = computed(() => {
-    return reviewableHotels.value?.find(hotel => hotel.hotel_id === props.hotelId);
-});
 
 const form = ref({
     amenities: null,
@@ -77,9 +70,7 @@ const submit = async () => {
         return;
     }
 
-    if (!hotel.value) return;
-    const { hotel_id, order_id } = hotel.value;
-
+    const { hotel_id, order_id } = props.hotel;
     const { amenities, staff, cleanliness, location, ...rest } = form.value;
     if (!(amenities && staff && cleanliness && location)) return;
 
@@ -114,7 +105,7 @@ const submit = async () => {
     <Modal v-model="show" size="3xl" title="Добавить отзыв">
         <template #header><div ref="topRef" tabindex="0"></div></template>
         <Grid gap="4">
-            <ReviewHeader v-if="hotel" :hotel="hotel" />
+            <ReviewHeader :hotel="hotel" />
             <RatingCriteria />
             <Card>
                 <Grid gap="6" class="mt-3">

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { Grid, Alert } from '@ui/components';
 import { SearchIcon } from '@ui/icons';
 import type { ReviewableHotel } from '@/account/types';
@@ -9,16 +9,21 @@ type Props = {
     hotels: ReviewableHotel[] | null;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const hotelId = ref<number | null>(null);
+
+const hotel = computed(() => {
+    if (!props.hotels || !hotelId.value) return;
+    return props.hotels.find(hotel => hotel.hotel_id === hotelId.value);
+});
+
+const showModal = ref(false);
 
 const open = (hotel_id: number) => {
     hotelId.value = hotel_id;
     showModal.value = true;
 };
-
-const showModal = ref(false);
 
 const close = () => {
     showModal.value = false;
@@ -47,7 +52,7 @@ watch(showModal, value => {
                     @open="open"
                 />
             </Grid>
-            <AddReviewModal v-if="hotelId" v-model="showModal" :hotel-id="hotelId" @close="close" />
+            <AddReviewModal v-if="hotel" v-model="showModal" :hotel="hotel" @close="close" />
         </div>
         <div v-else>
             <Alert

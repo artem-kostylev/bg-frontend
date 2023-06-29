@@ -27,7 +27,7 @@ import type {
 import { Divider, Collapse, Grid, IconFilled } from '@ui/components';
 import {
     BusIcon,
-    ShildIcon,
+    ShieldIcon,
     AirplaneTakeoffIcon,
     AirplaneIcon,
     CalendarIcon,
@@ -103,7 +103,7 @@ const dates = computed(() => {
         </Collapse>
         <Collapse
             v-if="insurances?.length"
-            :start-icon="ShildIcon"
+            :start-icon="ShieldIcon"
             :default-open="defaultOpen"
             title="Страховки"
         >

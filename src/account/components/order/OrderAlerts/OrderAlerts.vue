@@ -26,6 +26,8 @@ const paymentDetail = computed(() => {
 const errorType = computed(() => {
     const { prepaymentStatus } = paymentDetail.value;
 
+    if (prepaymentStatus.money === 'notPayed') return;
+
     return prepaymentStatus.defermentInDaysDeadline === 'after'
         ? 'PayDeadlineExpired'
         : prepaymentStatus.money === 'lessThanMinimal'

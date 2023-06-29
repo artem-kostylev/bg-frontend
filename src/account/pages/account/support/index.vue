@@ -84,12 +84,7 @@ onBeforeUnmount(() => {
                             >
                         </NuxtLink>
                         от
-                        {{
-                            formatDate(
-                                addedAppeal.appeal_created_at,
-                                'day:numeric|month:long|year:numeric|hour:2-digit|minute:2-digit'
-                            )
-                        }}
+                        {{ formatDate(addedAppeal.appeal_created_at, 'DD MMMM YYYY, HH:mm') }}
                         по
                         <NuxtLink
                             :to="{

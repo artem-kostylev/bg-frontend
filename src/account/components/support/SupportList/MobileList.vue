@@ -24,7 +24,7 @@ const STATUSES: Record<string, string> = {
         <div
             v-for="(appeal, index) in appeals"
             :key="appeal.id"
-            class="flex flex-col w-full hover:bg-slate-100 pt-3"
+            class="flex flex-col w-full hover:bg-secondary-100 pt-3"
         >
             <NuxtLink
                 :to="{
@@ -34,7 +34,7 @@ const STATUSES: Record<string, string> = {
                 }"
                 class="flex w-full gap-5"
             >
-                <div class="w-1/2 font-bold text-slate-600/60">
+                <div class="w-1/2 font-bold text-secondary-600/60">
                     <div class="py-3">№ Обращения</div>
                     <div class="py-3">Дата обращения</div>
                     <div class="py-3">№ Заказа</div>
@@ -43,7 +43,7 @@ const STATUSES: Record<string, string> = {
                 <div class="w-1/2">
                     <div class="grid grid-row-4 w-full">
                         <div class="py-3">
-                            <div class="font-bold text-blue-700 hover:text-blue-600">
+                            <div class="font-bold text-primary-500 hover:text-primary-600">
                                 {{ appeal.id }}
                             </div>
                         </div>
@@ -57,7 +57,7 @@ const STATUSES: Record<string, string> = {
                             <div
                                 :class="[
                                     'py-1 px-2 rounded-[5px] w-max',
-                                    appeal.status === 0 && 'bg-slate-600/10 text-slate-700',
+                                    appeal.status === 0 && 'bg-secondary-600/10 text-secondary-700',
                                     appeal.status === 1 && 'bg-green-600/20 text-green-700',
                                 ]"
                             >
@@ -69,7 +69,7 @@ const STATUSES: Record<string, string> = {
             </NuxtLink>
             <div
                 v-if="index + 1 < appeals.length"
-                class="mt-3 h-[1px] w-full border-1 border-dashed border-slate-300"
+                class="mt-3 h-[1px] w-full border-1 border-dashed border-secondary-300"
             ></div>
         </div>
     </div>

@@ -72,13 +72,14 @@ onBeforeUnmount(() => {
                     <span class="font-bold">
                         Ваше обращение
                         <NuxtLink
+                            v-if="addedAppeal"
                             :to="{
                                 name: 'account-support-id',
                                 params: { id: addedAppeal.appeal_id },
-                                query: route.query,
+                                query: $route.query,
                             }"
                         >
-                            <span class="text-blue-700 hover:text-blue-600"
+                            <span class="text-primary-500 hover:text-primary-600"
                                 >№{{ addedAppeal.appeal_id }}</span
                             >
                         </NuxtLink>
@@ -97,7 +98,7 @@ onBeforeUnmount(() => {
                                 query: route.query,
                             }"
                         >
-                            <span class="text-blue-700 hover:text-blue-600"
+                            <span class="text-primary-500 hover:text-primary-600"
                                 >Заказу №{{ addedAppeal.order_number }}</span
                             >
                         </NuxtLink>

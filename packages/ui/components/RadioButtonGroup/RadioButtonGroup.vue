@@ -30,7 +30,7 @@ const selected = (item: Item) => {
                 @click="select(item)"
                 :class="[
                     'hover:z-10 focus:z-10 [&:not(:last-child)]:rounded-r-none [&:not(:first-child)]:rounded-l-none [&:not(:first-child)]:ml-[-1px]',
-                    selected(item) && '!bg-secondary-50 !text-primary-700',
+                    selected(item) && '!bg-secondary-50 !text-primary-500',
                 ]"
             >
                 {{ item.label }}

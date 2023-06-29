@@ -108,7 +108,7 @@ const onSubmit = async () => {
     if (!form.value.orderId) return;
 
     const body = {
-        order_id: form.value.orderId,
+        order_id: Number(form.value.orderId),
         text: form.value.text,
     };
 
@@ -136,7 +136,7 @@ const onSubmit = async () => {
 <template>
     <div>
         <div v-if="showOrderNumber && pending" class="flex items-center justify-center py-10">
-            <Spin width="2.4em" height="2.4em" class="text-blue-700" />
+            <Spin width="2.4em" height="2.4em" class="text-primary-500" />
         </div>
         <div v-else>
             <div>Номер заказа, по которому будет обращение</div>
@@ -166,7 +166,7 @@ const onSubmit = async () => {
                             id="text"
                             name="text"
                             :class="[
-                                'focus:outline-none block w-full appearance-none transition-colors bg-white rounded-xl shadow-sm border border-slate-300 hover:border-slate-400 placeholder-slate-500 py-[.563em] px-[.875em] focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:opacity-60 disabled:pointer-events-none',
+                                'focus:outline-none block w-full appearance-none transition-colors bg-white rounded-xl shadow-sm border border-secondary-300 hover:border-secondary-400 placeholder-secondary-500 py-[.563em] px-[.875em] focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:opacity-60 disabled:pointer-events-none',
                                 'resize-none min-h-[144px]',
                             ]"
                         />

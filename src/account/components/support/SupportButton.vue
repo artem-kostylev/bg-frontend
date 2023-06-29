@@ -15,13 +15,13 @@ const route = useRoute();
 
 const toSupport = async () => {
     if (props.supportId) {
-        router.push({
+        await router.push({
             name: 'account-support-id',
             params: { id: props.supportId },
             query: route.query,
         });
     } else if (props.orderNumber) {
-        router.push({
+        await router.push({
             name: 'account-support',
             query: { ...route.query, order_number: props.orderNumber },
         });

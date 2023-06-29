@@ -95,19 +95,19 @@ const orders = computed(() => {
         <Card>
             <div class="relative">
                 <div class="absolute inset-y-0 flex items-center px-5 pointer-events-none">
-                    <button class="focus:outline-none -ml-1 text-slate-500">
+                    <button class="focus:outline-none -ml-1 text-secondary-500">
                         <SearchIcon width="1rem" height="1rem" />
                     </button>
                 </div>
                 <input
-                    class="focus:outline-none border-b border-slate-200 w-full px-12 py-3.5 placeholder-slate-500"
+                    class="focus:outline-none border-b border-secondary-200 w-full px-12 py-3.5 placeholder-secondary-500"
                     placeholder="Поиск по номеру заказа"
                     v-model="search"
                     ref="inputSearchRef"
                 />
                 <div class="absolute inset-y-0 right-0 flex items-center px-5">
                     <button
-                        class="focus:outline-none sm:hidden -mr-1 text-slate-500"
+                        class="focus:outline-none sm:hidden -mr-1 text-secondary-500"
                         @click="show = false"
                     >
                         <XIcon width="1.2rem" height="1.2rem" />
@@ -116,7 +116,7 @@ const orders = computed(() => {
             </div>
             <div class="sm:overflow-y-auto sm:max-h-[410px]">
                 <div v-if="loadingSearch" class="flex items-center justify-center py-12">
-                    <Spin width="1.9em" height="1.9em" class="text-blue-700" />
+                    <Spin width="1.9em" height="1.9em" class="text-primary-500" />
                 </div>
                 <Menu
                     v-else

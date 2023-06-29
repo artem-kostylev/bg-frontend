@@ -56,7 +56,7 @@ useIntersectionObserver(target, async ([{ isIntersecting }]) => {
     <div>
         <div v-if="data?.data.length" class="text-2xl mb-3 sm:mb-4">Список обращений</div>
         <div v-if="pending" class="flex items-center justify-center py-10">
-            <Spin width="2.4em" height="2.4em" class="text-blue-700" />
+            <Spin width="2.4em" height="2.4em" class="text-primary-500" />
         </div>
         <div v-else-if="data?.data.length" class="mb-5">
             <DesktopList :appeals="data.data" class="hidden sm:block" />

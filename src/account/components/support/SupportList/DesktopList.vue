@@ -22,7 +22,7 @@ const STATUSES: Record<string, string> = {
 <template>
     <div>
         <div
-            class="grid grid-cols-4 items-center w-full border-b border-slate-200 font-bold text-slate-600/60 text-center"
+            class="grid grid-cols-4 items-center w-full border-b border-secondary-200 font-bold text-secondary-600/60 text-center"
         >
             <div class="py-3">№ Обращения</div>
             <div class="py-3">Дата обращения</div>
@@ -37,9 +37,9 @@ const STATUSES: Record<string, string> = {
                     query: $route.query,
                 }"
             >
-                <div class="grid grid-cols-4 items-center w-full hover:bg-slate-100">
+                <div class="grid grid-cols-4 items-center w-full hover:bg-primary-100/20">
                     <div class="py-3 font-bold text-center">
-                        <div class="fonr-bold text-blue-700 hover:text-blue-600">
+                        <div class="font-bold text-primary-500 hover:text-primary-600">
                             {{ appeal.id }}
                         </div>
                     </div>
@@ -55,8 +55,8 @@ const STATUSES: Record<string, string> = {
                         <div
                             :class="[
                                 'py-1 px-2 rounded-[5px] w-max',
-                                appeal.status === 0 && 'bg-slate-600/10 text-slate-700',
-                                appeal.status === 1 && 'bg-green-600/20 text-green-700',
+                                appeal.status === 0 && 'bg-secondary-600/10 text-secondary-700',
+                                appeal.status === 1 && 'bg-success-600/20 text-success-700',
                             ]"
                         >
                             {{ STATUSES[appeal.status] }}

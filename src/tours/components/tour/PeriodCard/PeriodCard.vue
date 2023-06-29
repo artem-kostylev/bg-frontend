@@ -20,7 +20,7 @@ const onSelect = (item: PeriodItem) => {
         name: 'booking-composition',
         query: {
             ...query.value,
-            ids: item.tour_id as never,
+            tour_ids: item.tour_id as never,
             tour_type: 'package',
             package_tour_id: params.value.id,
         },

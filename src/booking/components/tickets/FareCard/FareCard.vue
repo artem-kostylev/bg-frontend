@@ -9,7 +9,7 @@ import type { FiltersRaw } from '@/app/types';
 import { formatCurrency } from '@/app/lib';
 
 const name = useName();
-const query = useQuery<FiltersRaw & { ids: string[] }>();
+const query = useQuery<FiltersRaw & { route_ids: string[] }>();
 
 type Props = {
     fare: Fare;
@@ -30,11 +30,11 @@ const getTo = (fare: Fare) => {
     if (props.isRouteLast) {
         to.name = 'booking-composition';
 
-        to.query.ids = fare.tour_id;
+        to.query.tour_ids = fare.tour_id;
         to.query.tours_hash = fare.tours_hash;
     } else {
         to.name = 'booking-tickets';
-        to.query.ids = [...(query.value.ids ?? ''), fare.route_id];
+        to.query.route_ids = [...(query.value.route_ids ?? ''), fare.route_id];
     }
 
     return to;

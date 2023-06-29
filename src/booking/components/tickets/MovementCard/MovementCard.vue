@@ -27,10 +27,10 @@ const to = computed(() => {
         route.query.tours_hash = props.movement.flight_hash;
         // TODO: Fix this
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        route.query.ids = [[props.movement.tour_id]] as any;
+        route.query.tour_ids = [[props.movement.tour_id]] as any;
     } else {
         route.name = 'booking-tickets';
-        route.query.ids = [props.movement.route_id];
+        route.query.route_ids = [props.movement.route_id];
     }
 
     return route;

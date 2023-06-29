@@ -4,4 +4,5 @@ export type CollapseProps = {
     title: string;
     startIcon?: Component;
     defaultOpen?: boolean;
+    disabled?: boolean;
 };

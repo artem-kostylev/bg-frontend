@@ -12,6 +12,7 @@ const sizes = {
     '2xl': 'max-w-2xl',
     '3xl': 'max-w-3xl',
     '4xl': 'max-w-4xl',
+    '5xl': 'max-w-5xl',
     '7xl': 'max-w-7xl',
 };
 
@@ -117,6 +118,9 @@ const vbind = { onClick: show };
                             </div>
                         </template>
                         <slot />
+                        <template v-if="$slots.footer" #footer>
+                            <slot name="footer" />
+                        </template>
                     </Card>
                 </div>
             </div>

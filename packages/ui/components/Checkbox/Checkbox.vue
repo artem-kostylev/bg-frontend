@@ -12,7 +12,8 @@ const emit = defineEmits<{
 
 const checked = computed(() => {
     return props.multiple
-        ? (props.modelValue as StringOrNumber[]).includes(props.value as StringOrNumber)
+        ? !!props.modelValue &&
+              (props.modelValue as StringOrNumber[]).includes(props.value as StringOrNumber)
         : props.modelValue === props.trueValue;
 });
 
@@ -38,7 +39,7 @@ const change = () => {
         <input
             type="checkbox"
             :class="[
-                'focus:outline-none appearance-none transition-colors inline-block align-middle bg-origin-border select-none flex-shrink-0 w-5 h-5 text-primary-500 rounded-[7px] shadow-sm border border-secondary-300',
+                'focus:outline-none appearance-none transition-colors inline-block align-middle bg-origin-border select-none shrink-0 w-5 h-5 text-primary-500 rounded-[7px] shadow-sm border border-secondary-300',
                 'checked:border-transparent checked:bg-current checked:bg-no-repeat checked:bg-center checked:checkbox-icon',
             ]"
             :checked="checked"

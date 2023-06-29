@@ -78,12 +78,10 @@ const submit = async () => {
     }
 
     if (!hotel.value) return;
-
     const { hotel_id, order_id } = hotel.value;
-    const { amenities, staff, cleanliness, location, ...rest } = form.value;
 
-    const isFieldsNotNull = amenities && staff && cleanliness && location;
-    if (!isFieldsNotNull) return;
+    const { amenities, staff, cleanliness, location, ...rest } = form.value;
+    if (!(amenities && staff && cleanliness && location)) return;
 
     const body: FetchAddReviewPayload = {
         hotel_id,

@@ -11,9 +11,11 @@ type Props = {
 
 const props = defineProps<Props>();
 
+const emit = defineEmits<{ (e: 'add-review'): void }>();
+
 const hotelId = ref<number | null>(null);
 
-const hotel = computed(() => {
+const selectedHotel = computed(() => {
     if (!props.hotels || !hotelId.value) return;
     return props.hotels.find(hotel => hotel.hotel_id === hotelId.value);
 });
@@ -25,16 +27,17 @@ const open = (hotel_id: number) => {
     showModal.value = true;
 };
 
-const close = () => {
-    showModal.value = false;
-    hotelId.value = null;
-};
-
 watch(showModal, value => {
     if (!value) {
         hotelId.value = null;
     }
 });
+
+const addReview = () => {
+    emit('add-review');
+    showModal.value = false;
+    hotelId.value = null;
+};
 
 // TODO: Добавить блок "рекомендуемые туры"
 </script>
@@ -52,7 +55,12 @@ watch(showModal, value => {
                     @open="open"
                 />
             </Grid>
-            <AddReviewModal v-if="hotel" v-model="showModal" :hotel="hotel" @close="close" />
+            <AddReviewModal
+                v-if="selectedHotel"
+                v-model="showModal"
+                :hotel="selectedHotel"
+                @add-review="addReview"
+            />
         </div>
         <div v-else>
             <Alert

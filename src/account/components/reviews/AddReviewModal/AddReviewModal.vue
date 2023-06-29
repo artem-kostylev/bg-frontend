@@ -19,7 +19,7 @@ type Props = {
 const props = defineProps<Props>();
 const emit = defineEmits<{
     (e: 'update:modelValue', value: boolean): void;
-    (e: 'close'): void;
+    (e: 'add-review'): void;
 }>();
 const show = useVModel(props, 'modelValue', emit);
 
@@ -58,15 +58,13 @@ const COMMENTS = {
     comment: 'Комментарии',
 };
 
-const topRef = ref<HTMLDivElement>();
-
 const pending = ref(false);
 
 // const message = useMessage();
 
 const submit = async () => {
     if (!(await v$.value.$validate())) {
-        topRef.value?.scrollIntoView({ behavior: 'smooth' });
+        // message.danger('Заполните обязательные поля');
         return;
     }
 
@@ -89,7 +87,7 @@ const submit = async () => {
     try {
         pending.value = true;
         await fetchAddReview(body);
-        emit('close');
+        emit('add-review');
     } catch (e) {
         const err = e as SubmitError;
         const errorMessage = err.data.message ? err.data.message : 'Ошибка при добавлении отзыва';
@@ -103,7 +101,6 @@ const submit = async () => {
 
 <template>
     <Modal v-model="show" size="3xl" title="Добавить отзыв">
-        <template #header><div ref="topRef" tabindex="0"></div></template>
         <Grid gap="4">
             <ReviewHeader :hotel="hotel" />
             <RatingCriteria />

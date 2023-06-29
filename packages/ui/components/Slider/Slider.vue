@@ -53,6 +53,10 @@ onMounted(() => {
         emit('update:modelValue', value);
     });
 
+    /* 
+        TODO: fix this, if initial value of modelValue === null, show tooltip only after modelValue was change
+        via dragging, tapping and other actions with the slider
+    */
     slider$.on('start', () => {
         slider$?.updateOptions(
             {

@@ -27,7 +27,7 @@ const { targetRef, loadingMore } = useInfinity(async () => {
 
 const hotelId = ref<number | null>(null);
 
-const hotel = computed(() => {
+const selectedHotel = computed(() => {
     if (!accountReviews.value || !hotelId.value) return;
     return accountReviews.value.reviews.find(review => review.hotel_id === hotelId.value);
 });
@@ -59,10 +59,10 @@ watch(showModal, value => {
             />
         </Grid>
         <ReadReviewModal
-            v-if="hotel?.review_id"
+            v-if="selectedHotel?.review_id"
             v-model="showModal"
-            :hotel="hotel"
-            :review-id="hotel.review_id"
+            :hotel="selectedHotel"
+            :review-id="selectedHotel.review_id"
         />
         <template v-if="accountReviews.has_next">
             <Spin v-if="loadingMore" color="primary" class="my-12" />

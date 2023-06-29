@@ -105,7 +105,6 @@ const vbind = { onClick: show };
                         :body-class="scrollable && 'overflow-y-auto'"
                     >
                         <template #header>
-                            <slot v-if="$slots.header" name="header" />
                             <div class="flex items-center justify-between">
                                 <Typography variant="h3" class="truncate">
                                     {{ title }}

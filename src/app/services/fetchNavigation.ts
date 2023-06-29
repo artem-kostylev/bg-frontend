@@ -67,7 +67,7 @@ export const fetchNavigation = async (
             break;
 
         default:
-            payload.status = 'accomodations';
+            payload.status = 'accommodations';
     }
 
     const response = await http<FetchNavigationResponse>(`tour/navigation`, {

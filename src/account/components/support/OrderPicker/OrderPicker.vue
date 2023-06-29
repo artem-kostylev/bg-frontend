@@ -61,18 +61,20 @@ const endIcon = computed(() => {
 
 const matches = useMediaQuery('(max-width: 640px)');
 
-const { modelValue, search } = useVModels(props, emit);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const { modelValue, search }: any = useVModels(props, emit);
 
 watch(modelValue, () => (show.value = false));
 watch(show, value => {
     value && setTimeout(() => inputSearchRef.value?.focus(), 200);
 });
 
-const orders = computed(() => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const orders = computed((): any => {
     return props.items.map(item => {
         return {
             label: item.label,
-            value: item.order_id,
+            value: item,
         };
     });
 });

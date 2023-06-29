@@ -108,7 +108,7 @@ const onSubmit = async () => {
     if (!form.value.orderId) return;
 
     const body = {
-        order_id: Number(form.value.orderId.order_id),
+        order_id: Number(form.value.orderId.order_id || form.value.orderId),
         text: form.value.text,
     };
 

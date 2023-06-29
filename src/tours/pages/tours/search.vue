@@ -9,7 +9,7 @@ import { formatFilters } from '@/app/lib';
 import { useQuery, useName, useInfinity } from '@/app/composables';
 import { Empty, Page } from '@/app/components';
 
-definePageMeta({ filters: true });
+definePageMeta({ filters: true, navigation: true });
 
 const name = useName<string>();
 const query = useQuery<FiltersRaw>();

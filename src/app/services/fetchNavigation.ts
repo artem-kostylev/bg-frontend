@@ -66,6 +66,14 @@ export const fetchNavigation = async (
             payload.status = 'confirmation';
             break;
 
+        case 'hotels-search':
+        case 'tours-search':
+        case 'tours-multi-search':
+        case 'tours-activity-search':
+        case 'avia-search':
+            payload.status = 'hotels';
+            break;
+
         default:
             payload.status = 'accommodations';
     }

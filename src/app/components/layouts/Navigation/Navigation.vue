@@ -3,6 +3,7 @@ import { useLazyAsyncData } from '#imports';
 import { fetchNavigation } from '@/app/services';
 import { useQuery, useName, useParams } from '@/app/composables';
 import type { FiltersRaw } from '@/app/types';
+import { Container } from '@ui/components';
 
 const name = useName<string>();
 const params = useParams<{ id: string }>();
@@ -16,15 +17,13 @@ const { data } = useLazyAsyncData(
 </script>
 
 <template>
-    <div class="flex space-x-2.5 border-b border-secondary-200">
-        <div>
-            <div
-                v-for="(item, index) in data"
-                :key="index"
-                :class="['p-2', item.is_current && 'text-primary-500']"
-            >
-                {{ item.name }}
-            </div>
+    <Container class="flex w-full space-x-5">
+        <div
+            v-for="(item, index) in data"
+            :key="index"
+            :class="[item.is_current && 'text-primary-500']"
+        >
+            {{ item.name }}
         </div>
-    </div>
+    </Container>
 </template>

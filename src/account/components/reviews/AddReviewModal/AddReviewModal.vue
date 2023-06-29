@@ -3,13 +3,14 @@ import { computed } from 'vue';
 import { useVModel } from '@vueuse/core';
 import { Modal, Grid, Card, Button } from '@ui/components';
 import { ReviewHeader } from '@/account/components';
-import { RatingCriteria, RatingItem, RatingComment } from './components';
+import { RatingCriteria, RatingItem, RatingComment, RatingErrorAlert } from './components';
 import { ref, useNuxtData } from '#imports';
 import type { ReviewableHotel } from '@/account/types';
 import type { SubmitError } from '@/app/types';
 import { fetchAddReview, type FetchAddReviewPayload } from '@/account/services';
-import { required } from '@/app/lib';
+import { required, commentLength } from '@/app/lib';
 import { useVuelidate } from '@vuelidate/core';
+// import { useMessage } from '@ui/composables';
 
 type Props = {
     hotelId: number;
@@ -19,7 +20,7 @@ type Props = {
 const props = defineProps<Props>();
 const emit = defineEmits<{
     (e: 'update:modelValue', value: boolean): void;
-    (e: 'success'): void;
+    (e: 'close'): void;
 }>();
 const show = useVModel(props, 'modelValue', emit);
 
@@ -30,13 +31,13 @@ const hotel = computed(() => {
 });
 
 const form = ref({
-    amenities: 0,
-    staff: 0,
-    cleanliness: 0,
-    location: 0,
-    comment: '',
+    amenities: null,
+    staff: null,
+    cleanliness: null,
+    location: null,
     liked: '',
     disliked: '',
+    comment: '',
 });
 
 const rules = {
@@ -44,9 +45,9 @@ const rules = {
     staff: { required },
     cleanliness: { required },
     location: { required },
-    comment: { required },
-    liked: { required },
-    disliked: { required },
+    liked: { commentLength },
+    disliked: { commentLength },
+    comment: { commentLength },
 };
 
 const v$ = useVuelidate(rules, form);
@@ -67,7 +68,8 @@ const COMMENTS = {
 const topRef = ref<HTMLDivElement>();
 
 const pending = ref(false);
-const error = ref<string | null>(null);
+
+// const message = useMessage();
 
 const submit = async () => {
     if (!(await v$.value.$validate())) {
@@ -79,6 +81,9 @@ const submit = async () => {
 
     const { hotel_id, order_id } = hotel.value;
     const { amenities, staff, cleanliness, location, ...rest } = form.value;
+
+    const isFieldsNotNull = amenities && staff && cleanliness && location;
+    if (!isFieldsNotNull) return;
 
     const body: FetchAddReviewPayload = {
         hotel_id,
@@ -94,14 +99,13 @@ const submit = async () => {
 
     try {
         pending.value = true;
-        error.value = null;
-
         await fetchAddReview(body);
-        emit('success');
-        // useClearForm(form); ???
+        emit('close');
     } catch (e) {
         const err = e as SubmitError;
-        error.value = err.data.message ? err.data.message : 'Ошибка при добавлении отзыва';
+        const errorMessage = err.data.message ? err.data.message : 'Ошибка при добавлении отзыва';
+        console.log(errorMessage);
+        // message.danger(errorMessage);
     } finally {
         pending.value = false;
     }
@@ -110,28 +114,29 @@ const submit = async () => {
 
 <template>
     <Modal v-model="show" size="3xl" title="Добавить отзыв">
-        <Grid gap="4" ref="topRef" tabindex="0">
+        <template #header><div ref="topRef" tabindex="0"></div></template>
+        <Grid gap="4">
             <ReviewHeader v-if="hotel" :hotel="hotel" />
             <RatingCriteria />
             <Card>
-                <Grid gap="6">
+                <Grid gap="6" class="mt-3">
                     <RatingItem
                         v-for="(rating, key) in RATINGS"
                         :key="key"
                         v-model="v$[key].$model"
                         :label="rating"
+                        :is-error="v$[key].$errors?.length > 0"
                     />
                 </Grid>
             </Card>
             <div class="mt-4">Оставьте отзыв</div>
-            <Grid gap="2.5">
-                <RatingComment
-                    v-for="(comment, key) in COMMENTS"
-                    :key="key"
-                    v-model="v$[key].$model"
-                    :type="key"
-                    :placeholder="comment"
+            <Grid gap="2.5" v-for="(comment, key) in COMMENTS" :key="key">
+                <RatingErrorAlert
+                    v-if="v$[key].$errors?.length"
+                    :show="v$[key].$errors?.length > 0"
+                    :text="v$[key].$errors[0]?.$message"
                 />
+                <RatingComment v-model="v$[key].$model" :type="key" :placeholder="comment" />
             </Grid>
             <div>
                 <Button

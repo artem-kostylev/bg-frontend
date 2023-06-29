@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Grid, Alert } from '@ui/components';
 import { SearchIcon } from '@ui/icons';
 import type { ReviewableHotel } from '@/account/types';
@@ -19,6 +19,19 @@ const open = (hotel_id: number) => {
 };
 
 const showModal = ref(false);
+
+const close = () => {
+    showModal.value = false;
+    hotelId.value = null;
+};
+
+watch(showModal, value => {
+    if (!value) {
+        hotelId.value = null;
+    }
+});
+
+// TODO: Добавить блок "рекомендуемые туры"
 </script>
 
 <template>
@@ -34,7 +47,7 @@ const showModal = ref(false);
                     @open="open"
                 />
             </Grid>
-            <AddReviewModal v-if="hotelId" v-model="showModal" :hotel-id="hotelId" />
+            <AddReviewModal v-if="hotelId" v-model="showModal" :hotel-id="hotelId" @close="close" />
         </div>
         <div v-else>
             <Alert

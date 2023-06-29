@@ -45,12 +45,21 @@ onMounted(() => {
             from: Number,
             to: value => Math.round(value),
         },
-        tooltips: props.tooltip ? true : false,
+        tooltips: props.tooltip && props.modelValue !== null ? true : false,
     });
 
     slider$.on('set', () => {
         const value = getValue();
         emit('update:modelValue', value);
+    });
+
+    slider$.on('start', () => {
+        slider$?.updateOptions(
+            {
+                tooltips: props.tooltip ? true : false,
+            },
+            true
+        );
     });
 });
 

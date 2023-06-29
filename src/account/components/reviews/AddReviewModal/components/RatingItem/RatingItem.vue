@@ -4,7 +4,7 @@ import { Slider } from '@ui/components';
 import { SmileFaceIcon, SadFaceIcon } from '@ui/icons';
 
 type Props = {
-    modelValue: number;
+    modelValue: number | null;
     label: string;
     isError?: boolean;
 };

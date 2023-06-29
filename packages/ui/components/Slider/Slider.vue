@@ -22,7 +22,7 @@ const getValue = () => {
 };
 
 onMounted(() => {
-    let value = props.range
+    const value = props.range
         ? props.modelValue === undefined || props.modelValue === null
             ? [props.min, props.max]
             : (props.modelValue as number[]).length

@@ -33,10 +33,6 @@ const form = reactive({
 const rules = {
     current_password: {
         required,
-        minPassword,
-        minOneDigit,
-        upperAndLowerCase,
-        minOneSpecialSymbol,
     },
     new_password: {
         required,

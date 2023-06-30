@@ -102,7 +102,7 @@ const submit = () => {};
                 v-model="v$.value.$model"
                 :error="v$.value.$errors[0]?.$message"
                 :start-icon="AtSignIcon"
-                placeholder="Мобильный телефон"
+                placeholder="Email"
             />
             <Input
                 v-else
@@ -111,7 +111,7 @@ const submit = () => {};
                 :start-icon="MobilePhoneIcon"
                 v-maska
                 :data-maska="'+7 (###) ### ## ##'"
-                placeholder="Email"
+                placeholder="Мобильный телефон"
             />
             <Button variant="primary" :loading="sending" block @click="sendEmail">
                 Выслать код

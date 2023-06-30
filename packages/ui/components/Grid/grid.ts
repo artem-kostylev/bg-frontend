@@ -5,6 +5,7 @@ export const gridColumns = {
 };
 
 export const gridGaps = {
+    '4': 'gap-4',
     '5': 'gap-5',
     '2.5': 'gap-2.5',
     '8': 'gap-8',

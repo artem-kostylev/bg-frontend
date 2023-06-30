@@ -20,6 +20,8 @@ import {
 import { AutocompleteModal, SelectInsuranceModal } from '@/booking/components';
 import { useAuthStore } from '@/auth/stores';
 import { vMaska } from 'maska';
+import type { Document, UpperCaseKeys } from '@/account/types';
+import { textTransform } from '@/app/lib';
 
 const { isAuthenticated } = storeToRefs(useAuthStore());
 
@@ -36,6 +38,27 @@ const props = defineProps<Props>();
 const emit = defineEmits<{
     (e: 'success'): void;
     (e: 'clear-form', value: number): void;
+    (
+        e: 'update-form',
+        value: {
+            index: number;
+            doc?: Document;
+            key?: keyof Omit<
+                Document,
+                | 'id'
+                | 'created_at'
+                | 'second_name'
+                | 'deleted_at'
+                | 'document_series'
+                | 'document_type'
+                | 'document_type_name'
+                | 'name'
+                | 'updated_at'
+                | 'user_id'
+            >;
+            newValue?: string;
+        }
+    ): void;
 }>();
 
 const documents = computed(() => {
@@ -158,25 +181,52 @@ const submit = async () => {
     if (!(await v$.value.$validate())) return;
     emit('success');
 };
-</script>
 
+const autoComplete = async (doc: Document) => {
+    emit('update-form', {
+        index: props.index,
+        doc,
+    });
+
+    await nextTick(() => {
+        v$.value.$validate();
+    });
+};
+
+const upperCaseKeys: (keyof Omit<UpperCaseKeys, 'second_name'>)[] = ['first_name', 'last_name'];
+
+upperCaseKeys.forEach(key => {
+    watch(
+        () => props.questionnary.form[key],
+        () => {
+            if (props.questionnary.form && props.questionnary.form[key]) {
+                emit('update-form', {
+                    index: props.index,
+                    key: key,
+                    newValue: textTransform(props.questionnary.form[key] as string),
+                });
+            }
+        }
+    );
+});
+</script>
 <template>
     <Card body-class="grid gap-5">
         <div class="flex justify-end" v-if="isAuthenticated">
-            <AutocompleteModal />
+            <AutocompleteModal @complete="autoComplete" />
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             <Input
                 label="Фамилия"
                 required
-                v-model="v$.first_name.$model"
-                :error="v$.first_name.$errors[0]?.$message"
+                v-model="v$.last_name.$model"
+                :error="v$.last_name.$errors[0]?.$message"
             />
             <Input
                 label="Имя"
                 required
-                v-model="v$.last_name.$model"
-                :error="v$.last_name.$errors[0]?.$message"
+                v-model="v$.first_name.$model"
+                :error="v$.first_name.$errors[0]?.$message"
             />
             <Input
                 label="Дата рождения"

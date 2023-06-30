@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { useLazyAsyncData } from '#imports';
+import { definePageMeta, useLazyAsyncData } from '#imports';
 import { useQuery } from '@/app/composables';
 import { Page } from '@/app/components';
 import type { FetchConfirmationQuery } from '@/booking/services';
 import { fetchConfirmation } from '@/booking/services';
 import { Selected, QuestionnaryList } from '@/booking/components';
 import { Grid, Spin, Typography } from '@ui/components';
+
+definePageMeta({ navigation: true });
 
 const query = useQuery<FetchConfirmationQuery>();
 

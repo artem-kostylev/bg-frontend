@@ -7,7 +7,7 @@ withDefaults(defineProps<IconFilledProps>(), iconFilledDefaultProps);
 
 <template>
     <div class="flex items-center space-x-2">
-        <div :class="['p-1.5 rounded-xl border', iconFilledVariants[variant]]">
+        <div :class="['border', rounded, padding, iconFilledVariants[variant]]">
             <component :is="icon" :width="width" :height="height" />
         </div>
         <span v-if="label">{{ label }}</span>

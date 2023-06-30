@@ -37,3 +37,4 @@ export * from './Slider';
 export * from './Dropdown';
 export * from './MessageProvider';
 export * from './Carousel';
+export * from './Gallery';

@@ -5,11 +5,22 @@ import type { FiltersRaw } from '@/app/types';
 import { LocationList } from '@/app/components';
 import { formatCurrency, formatDistance } from '@/app/lib';
 import { useQuery, useParams } from '@/app/composables';
-import { Button, Card, Typography, Image, Stars, Divider, IconFilled } from '@ui/components';
+import {
+    Button,
+    Card,
+    Typography,
+    Image,
+    Stars,
+    Divider,
+    IconFilled,
+    Carousel,
+    CarouselItem,
+} from '@ui/components';
 import { UmbrellaIcon, AirplaneIcon, ForkAndKnifeIcon } from '@ui/icons';
 import { formatFood } from '@/tours/lib';
 import { TourIncluded, HotelBadges } from '@/tours/components';
 import type { Tour } from '@/tours/types';
+import Images from './Images.vue';
 
 const params = useParams<{ id: string }>();
 const query = useQuery<{ accommodations_unikey?: string[][]; hotel_ids?: number[] }>();
@@ -64,11 +75,10 @@ const getTo = (id: number) => {
 <template>
     <Card cover-class="h-[14rem] bg-secondary-100" body-class="flex flex-col justify-end">
         <template #cover>
-            <Image
-                v-if="tour.hotel.images[0]"
-                :src="tour.hotel.images[0].url"
-                :alt="tour.hotel.name"
-                class="w-full h-full object-cover"
+            <Images
+                v-if="tour.hotel.images"
+                :images="tour.hotel.images"
+                :url="getTo(tour.hotel.id)"
             />
         </template>
         <template #header>

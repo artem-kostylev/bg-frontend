@@ -38,3 +38,4 @@ export * from './Dropdown';
 export * from './MessageProvider';
 export * from './Carousel';
 export * from './Gallery';
+export * from './ImageLike';

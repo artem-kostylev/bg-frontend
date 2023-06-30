@@ -52,3 +52,5 @@ export { default as QuestionIcon } from './Question.vue';
 export { default as BankCardIcon } from './BankCard.vue';
 export { default as QRIcon } from './QR.vue';
 export { default as CheckListIcon } from './CheckList.vue';
+export { default as CheckInCircleIcon } from './CheckInCircle.vue';
+export { default as PenIcon } from './Pen.vue';

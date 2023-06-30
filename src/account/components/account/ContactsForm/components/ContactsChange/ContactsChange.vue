@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { reactive, ref, computed, watch } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { useNuxtData } from '#imports';
 import { Modal, Input, Button } from '@ui/components';
-import { AtSignIcon, MobilePhoneIcon } from '@ui/icons';
+import { AtSignIcon, MobilePhoneIcon, PenIcon } from '@ui/icons';
 import { email, maskedPhoneNumber, required } from '@/app/lib';
 import { verifyPhoneOrEmail, updatePhoneOrEmail } from '@/account/services';
 import { vMaska } from 'maska';
 import { useMessage } from '@ui/composables';
 import { FetchError } from 'ofetch';
 import type { Profile } from '@/account/types';
+import type { ConfirmError } from '@/auth/types';
 import { Confirmation } from '@/app/components';
 
 const { data } = useNuxtData<Profile>('account-profile');
@@ -24,7 +25,6 @@ const form = reactive({
     value: '',
 });
 
-const code = ref('');
 const show = ref(false);
 
 const showCode = ref(false);
@@ -35,26 +35,6 @@ const rules = computed(() => {
     return props.type === 'phone'
         ? { value: { required, maskedPhoneNumber } }
         : { value: { required, email } };
-});
-
-watch(code, async value => {
-    if (value.length === 4) {
-        try {
-            await updatePhoneOrEmail({ [props.type]: form.value, code: value });
-            show.value = false;
-            data.value![props.type] = form.value;
-            const text =
-                props.type === 'phone'
-                    ? 'Телефон успешно изменен'
-                    : 'Электронная почта успешно изменина';
-
-            message.success(text);
-        } catch (error) {
-            if (error instanceof FetchError) {
-                message.danger(error.data.message);
-            }
-        }
-    }
 });
 
 const v$ = useVuelidate(rules, form);
@@ -75,7 +55,33 @@ const sendEmail = async () => {
     }
 };
 
-const submit = () => {};
+const error = ref<string | null>(null);
+
+const submit = async (code: string) => {
+    try {
+        error.value = null;
+        sending.value = true;
+        await updatePhoneOrEmail({ [props.type]: form.value, code });
+        show.value = false;
+        data.value![props.type] = form.value;
+        const text =
+            props.type === 'phone'
+                ? 'Телефон успешно изменен'
+                : 'Электронная почта успешно изменина';
+
+        message.success(text);
+    } catch (e) {
+        const err = e as ConfirmError;
+
+        if (err.status === 422 && err.data?.errors?.code?.length) {
+            error.value = err.data.errors.code[0];
+        } else {
+            error.value = 'Неизвестная ошибка';
+        }
+    } finally {
+        sending.value = false;
+    }
+};
 </script>
 
 <template>
@@ -85,9 +91,16 @@ const submit = () => {};
         size="sm"
     >
         <template #trigger="{ vbind }">
-            <Button v-bind="vbind">изменить</Button>
+            <Button
+                v-bind="vbind"
+                variant="ghost"
+                :start-icon="PenIcon"
+                class="!text-black mt-2 sm:mt-0 sm:mb-2"
+            >
+                Изменить
+            </Button>
         </template>
-        <Confirmation v-if="showCode" @submit="submit">
+        <Confirmation v-if="showCode" :error="error" :input-disabled="sending" @submit="submit">
             <template #label>
                 <div>
                     Введите код, высланный Вам на <span class="font-medium">{{ form.value }}</span>

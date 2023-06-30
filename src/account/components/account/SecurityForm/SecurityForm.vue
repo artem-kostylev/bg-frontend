@@ -74,7 +74,7 @@ const submit = async () => {
 <template>
     <div class="flex flex-col space-y-5">
         <Typography variant="h2" as="h2">Безопасность</Typography>
-        <div class="w-full md:w-1/3 lg:w-1/4">
+        <div class="w-full sm:max-w-xs">
             <InputPassword
                 autocomplete="off"
                 v-model="v$.current_password.$model"
@@ -82,14 +82,14 @@ const submit = async () => {
                 :error="v$.current_password.$errors[0]?.$message || errors?.current_password?.[0]"
             />
         </div>
-        <div class="w-full md:w-1/3 lg:w-1/4">
+        <div class="w-full sm:max-w-xs">
             <InputPassword
                 v-model="v$.new_password.$model"
                 label="Новый пароль"
                 :error="v$.new_password.$errors[0]?.$message || errors?.new_password?.[0]"
             />
         </div>
-        <div class="w-full md:w-1/3 lg:w-1/4">
+        <div class="w-full sm:max-w-xs">
             <InputPassword
                 v-model="v$.new_password_confirmation.$model"
                 label="Повторить новый пароль"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Location, Image } from '@/app/types';
 import { LocationList, ImageGrid } from '@/app/components';
-import { Typography, Stars } from '@ui/components';
+import { Typography, Stars, Gallery } from '@ui/components';
 import { HotelBadges } from '@/tours/components';
 
 type Entity = {
@@ -32,11 +32,14 @@ defineProps<Props>();
         </div>
         <Typography variant="h1" as="h1">{{ entity.name }}</Typography>
         <LocationList v-if="entity.location?.length" :location="entity.location" class="mt-1.5" />
-        <ImageGrid
-            v-if="entity.images.length"
-            :images="entity.images"
-            :alt="entity.name"
-            class="mt-6"
-        />
+        <Gallery v-if="entity.images.length" :images="entity.images">
+            <template #trigger="{ open }">
+                <ImageGrid
+                    :images="entity.images"
+                    :alt="entity.name"
+                    class="cursor-pointer mt-6"
+                    @click="open"
+            /></template>
+        </Gallery>
     </div>
 </template>

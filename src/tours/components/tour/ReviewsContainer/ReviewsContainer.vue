@@ -46,7 +46,7 @@ const title = computed(() => {
                 <ReviewSort v-model="sort" />
             </div>
         </div>
-        <Spin v-if="pending" class="py-5" color="primary" />
+        <Spin v-if="pending" class="py-5 flex-1" color="primary" />
         <Empty
             v-else-if="error"
             title="Что-то пошло не так"
@@ -56,7 +56,7 @@ const title = computed(() => {
             <template v-if="data.reviews.length">
                 <ReviewList :reviews="data.reviews" />
                 <template v-if="data.has_next">
-                    <Spin v-if="loadingMore" color="primary" class="my-12" />
+                    <Spin v-if="loadingMore" color="primary" class="my-12 flex-1" />
                     <div v-else ref="targetRef"></div>
                 </template>
             </template>

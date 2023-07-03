@@ -35,7 +35,7 @@ onBeforeUnmount(() => clearNuxtData('hotel-rating'));
             <Typography variant="h2" as="h2">Рейтинг</Typography>
             <RatingBadge :rating="rating" />
         </div>
-        <Spin v-if="pending" class="py-5" color="primary" />
+        <Spin v-if="pending" class="py-5 flex-1" color="primary" />
         <Grid cols="4" gap="5">
             <div v-for="(value, key) in criteria" :key="key">
                 <div class="flex items-center justify-between mb-2.5">

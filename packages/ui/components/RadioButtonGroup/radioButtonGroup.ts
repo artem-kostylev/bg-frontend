@@ -1,16 +1,13 @@
-export type Item = {
+import type { ButtonProps } from '@ui/components/Button/button';
+import type { FieldProps } from '@ui/components/Field/field';
+
+export type Option = {
     label: string;
     value: string | number | boolean;
 };
 
-export type RadioButtonGroupProps = {
-    items: Item[];
-    variant?: 'base' | 'primary' | 'secondary';
-    size?: 'sm' | 'md' | 'lg';
-    name?: string;
-    hint?: string;
-    label?: string;
-    error?: boolean;
-    modelValue?: string | number | boolean | null;
-    required?: boolean;
-};
+export type RadioButtonGroupProps = ButtonProps &
+    FieldProps & {
+        options?: Option[];
+        modelValue?: string | number | boolean;
+    };

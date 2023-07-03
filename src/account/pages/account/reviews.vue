@@ -41,7 +41,8 @@ const addReview = () => {
 
 <template>
     <Page :meta="meta">
-        <Grid gap="5">
+        <Spin class="flex-1" v-if="pendingHotels || pendingReviews" color="primary" />
+        <Grid gap="5" v-else>
             <Typography variant="h1" as="h1">Мои отзывы</Typography>
             <Alert
                 v-if="success"
@@ -51,8 +52,7 @@ const addReview = () => {
                 text="Ожидайте, пока оператор опубликует ваш отзыв"
                 class="mt-5"
             />
-            <Spin v-if="pendingHotels || pendingReviews" color="primary" />
-            <div v-else>
+            <div>
                 <ReviewableHotels :hotels="reviewableHotels" @add-review="addReview" />
                 <ReviewsContainer
                     v-if="accountReviews?.reviews.length"

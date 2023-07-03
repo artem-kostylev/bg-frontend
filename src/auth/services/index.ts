@@ -6,3 +6,4 @@ export * from './fetchRegister';
 export * from './fetchUser';
 export * from './fetchForgotCheck';
 export * from './fetchForgotSend';
+export * from './fetchLogout';

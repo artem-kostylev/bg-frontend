@@ -15,7 +15,7 @@ const { data, pending } = useLazyAsyncData('index-page', () => fetchSections(nam
 
 <template>
     <Page :meta="data?.meta">
-        <Spin v-if="pending" color="primary" />
+        <Spin class="flex-1" v-if="pending" color="primary" />
         <SectionList class="grid gap-8" v-else-if="data" :sections="data.sections" />
     </Page>
 </template>

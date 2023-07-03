@@ -36,7 +36,7 @@ watch(query, () => refresh());
 
 <template>
     <Page :meta="data?.meta">
-        <Spin v-if="pending" color="primary" />
+        <Spin class="flex-1" v-if="pending" color="primary" />
         <Empty
             v-else-if="error"
             title="Что-то пошло не так"
@@ -48,7 +48,7 @@ watch(query, () => refresh());
             <template v-if="data.tours.length">
                 <TourList :tours="data.tours" :name="name" :filters="filters" />
                 <template v-if="data.has_next">
-                    <Spin v-if="loadingMore" color="primary" class="my-12" />
+                    <Spin v-if="loadingMore" color="primary" class="my-12 flex-1" />
                     <div v-else ref="targetRef"></div>
                 </template>
             </template>

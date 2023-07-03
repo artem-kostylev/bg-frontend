@@ -12,7 +12,7 @@ const { data, pending } = useLazyAsyncData('page', () => fetchPage(params.value.
 
 <template>
     <Page :meta="data?.meta">
-        <Spin v-if="pending" color="primary" />
+        <Spin class="flex-1" v-if="pending" color="primary" />
         <div v-else-if="data" class="prose max-w-none">
             <h1>{{ data.data.title }}</h1>
             <div v-html="data.data.context" />

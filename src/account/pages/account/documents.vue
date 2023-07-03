@@ -62,15 +62,11 @@ const meta = {
 
 <template>
     <Page :meta="meta">
-        <div class="flex flex-col justify-between mb-10">
+        <div class="flex items-center justify-between mb-10">
             <Typography as="h1" variant="h1">Документы туристов</Typography>
             <Modal v-model="newModal" title="Добавить документ" size="3xl">
                 <template #trigger="{ vbind }">
-                    <div v-if="data?.length" class="flex w-full mt-7">
-                        <Button variant="secondary" v-bind="vbind" class="block w-full md:w-auto"
-                            >+ Добавить документ</Button
-                        >
-                    </div>
+                    <Button variant="primary" v-bind="vbind">Добавить документ</Button>
                 </template>
                 <template #default>
                     <DocsForm
@@ -100,10 +96,10 @@ const meta = {
                     <div>{{ item.document_number }}</div>
                 </div>
                 <div class="justify-self-end">
-                    <div class="flex space-x-4">
+                    <div class="flex items-center space-x-4">
                         <Modal title="Изменить документ" size="3xl">
                             <template #trigger="{ vbind }">
-                                <button class="flex space-x-2" v-bind="vbind">
+                                <button class="flex space-x-2 items-center" v-bind="vbind">
                                     <EditIcon width="1.5em" />
                                     <span>Изменить</span>
                                 </button>
@@ -135,14 +131,14 @@ const meta = {
                                         height="2.5em"
                                         class="text-danger-700"
                                     />
-                                    <div class="max-w-4xl text-center m-6">
+                                    <Typography variant="h3" class="max-w-4xl text-center m-6">
                                         Вы уверены что хотите удалить этот документ?
-                                    </div>
+                                    </Typography>
                                     <div class="flex space-x-4">
-                                        <Button>Отменить</Button>
-                                        <Button variant="primary" @click="deleteDoc(item.id)"
-                                            >Да</Button
-                                        >
+                                        <Button> Отменить </Button>
+                                        <Button variant="primary" @click="deleteDoc(item.id)">
+                                            Удалить
+                                        </Button>
                                     </div>
                                 </div>
                             </template>
@@ -155,9 +151,9 @@ const meta = {
             <PlusDocumentIcon />
             <div class="mt-7">У Вас пока нет сохраненных документов.</div>
             <div class="flex justify-center w-full mt-7">
-                <Button variant="secondary" @click="openNew" class="block w-full md:w-auto"
-                    >+ Добавить документ</Button
-                >
+                <Button variant="primary" @click="openNew" class="block w-full md:w-auto">
+                    Добавить документ
+                </Button>
             </div>
         </div>
     </Page>

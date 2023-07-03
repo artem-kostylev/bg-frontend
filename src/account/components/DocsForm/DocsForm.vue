@@ -230,9 +230,7 @@ onBeforeUnmount(() => {
                     required
                     name="lastname"
                     label="Фамилия"
-                    :error="!!v$.last_name.$errors[0]"
-                    :hint="v$.last_name.$errors[0]?.$message as string"
-                    :status="v$.last_name.$errors[0] && 'error'"
+                    :error="v$.last_name.$errors[0]?.$message"
                 />
             </div>
             <div class="w-full sm:w-1/2 md:w-1/3 px-2.5 mb-5">
@@ -241,9 +239,7 @@ onBeforeUnmount(() => {
                     required
                     name="firstname"
                     label="Имя"
-                    :error="!!v$.first_name.$errors[0]"
-                    :hint="v$.first_name.$errors[0]?.$message as string"
-                    :status="v$.first_name.$errors[0] && 'error'"
+                    :error="v$.first_name.$errors[0]?.$message"
                 />
             </div>
             <div class="w-full sm:w-1/2 md:w-1/3 px-2.5 mb-5">
@@ -252,22 +248,18 @@ onBeforeUnmount(() => {
                     required
                     name="secondname"
                     label="Отчество"
-                    :error="!!v$.second_name.$errors[0]"
-                    :hint="v$.second_name.$errors[0]?.$message as string"
-                    :status="v$.second_name.$errors[0] && 'error'"
+                    :error="v$.second_name.$errors[0]?.$message"
                 />
             </div>
             <div class="flex flex-wrap w-full px-2.5 mb-5">
-                <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 mb-5 sm:mr-5 md:mr-5 lg:mr-5">
+                <div class="w-full sm:w-1/2 md:w-1/3 mb-5 sm:mr-5 md:mr-5 lg:mr-5">
                     <Input
                         v-model="v$.birthday.$model"
                         required
                         name="birthday"
                         label="Дата рождения"
                         placeholder="дд.мм.гггг"
-                        :error="!!v$.birthday.$errors[0]"
-                        :hint="v$.birthday.$errors[0]?.$message as string"
-                        :status="v$.birthday.$errors[0] && 'error'"
+                        :error="v$.birthday.$errors[0]?.$message"
                         v-maska
                         :data-maska="'##.##.####'"
                     />
@@ -284,6 +276,7 @@ onBeforeUnmount(() => {
                     :options="nationalities"
                     label-key="nationality_name"
                     value-key="nationality_id"
+                    block
                 />
             </div>
             <div class="w-full md:w-1/2 px-2.5 mb-5">
@@ -295,6 +288,7 @@ onBeforeUnmount(() => {
                     :options="documentsOptions"
                     value-key="id"
                     label-key="name"
+                    block
                 />
             </div>
             <div class="w-full sm:w-1/2 px-2.5 mb-5">
@@ -304,9 +298,7 @@ onBeforeUnmount(() => {
                     name="seriesAndNumber"
                     label="Серия и номер
                 документа"
-                    :error="!!v$.document_number.$errors[0]"
-                    :hint="v$.document_number.$errors[0]?.$message as string"
-                    :status="v$.document_number.$errors[0] && 'error'"
+                    :error="v$.document_number.$errors[0]?.$message"
                     v-maska:[options]
                 />
             </div>
@@ -317,9 +309,7 @@ onBeforeUnmount(() => {
                     name="validity"
                     label="Срок действия"
                     placeholder="дд.мм.гггг"
-                    :error="!!v$.document_till.$errors[0]"
-                    :hint="v$.document_till.$errors[0]?.$message as string"
-                    :status="v$.document_till.$errors[0] && 'error'"
+                    :error="v$.document_till.$errors[0]?.$message"
                     v-maska
                     :data-maska="'##.##.####'"
                 />
@@ -330,9 +320,7 @@ onBeforeUnmount(() => {
                     required
                     name="phone"
                     label="Мобильный телефон"
-                    :error="!!v$.phone.$errors[0]"
-                    :hint="v$.phone.$errors[0]?.$message as string"
-                    :status="v$.phone.$errors[0] && 'error'"
+                    :error="v$.phone.$errors[0]?.$message"
                     v-maska
                     :data-maska="'+7 (###) ### ## ##'"
                 />
@@ -343,9 +331,7 @@ onBeforeUnmount(() => {
                     required
                     name="email"
                     label="E-mail"
-                    :error="!!v$.email.$errors[0]"
-                    :hint="v$.email.$errors[0]?.$message as string"
-                    :status="v$.email.$errors[0] && 'error'"
+                    :error="v$.email.$errors[0]?.$message"
                 />
             </div>
         </div>

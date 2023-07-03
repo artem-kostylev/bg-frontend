@@ -6,7 +6,7 @@ import { CheckInCircleIcon } from '@ui/icons';
 import { fetchVerifyCheck } from '@/auth/services';
 import { useMessage } from '@ui/composables';
 import type { Profile } from '@/account/types';
-import { unmaskPhone } from '~/lib';
+import { unmaskPhone } from '@/app/lib';
 import { Confirmation } from '@/app/components';
 import type { ConfirmError } from '@/auth/types';
 import { useRequestStatus, useVerify } from '@/auth/composables';

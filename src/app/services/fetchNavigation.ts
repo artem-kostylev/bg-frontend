@@ -83,5 +83,12 @@ export const fetchNavigation = async (
         body: payload,
     });
 
+    response.forEach(item => {
+        if (item.route?.query) {
+            Object.assign(item.route.query, item.route.query.filters);
+            delete item.route.query.filters;
+        }
+    });
+
     return response;
 };

@@ -79,7 +79,7 @@ onBeforeUnmount(() => {
                 />
             </div>
         </div>
-        <Spin v-if="pending" class="py-5" color="primary" />
+        <Spin v-if="pending" class="py-5 flex-1" color="primary" />
         <Empty
             v-else-if="error"
             title="Что-то пошло не так"

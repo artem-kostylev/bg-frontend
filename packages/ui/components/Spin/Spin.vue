@@ -6,7 +6,7 @@ withDefaults(defineProps<SpinProps>(), spinDefaultProps);
 </script>
 
 <template>
-    <div class="flex justify-center items-center flex-1">
+    <div class="flex justify-center items-center">
         <svg
             :class="['animate-spin', spinColors[color]]"
             :width="width"

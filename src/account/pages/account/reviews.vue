@@ -51,7 +51,7 @@ const addReview = () => {
                 text="Ожидайте, пока оператор опубликует ваш отзыв"
                 class="mt-5"
             />
-            <Spin v-if="pendingHotels || pendingReviews" />
+            <Spin v-if="pendingHotels || pendingReviews" color="primary" />
             <div v-else>
                 <ReviewableHotels :hotels="reviewableHotels" @add-review="addReview" />
                 <ReviewsContainer

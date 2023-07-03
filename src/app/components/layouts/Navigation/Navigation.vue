@@ -30,7 +30,10 @@ const getTo = (item: Navigation) => {
 
     const payload = {} as RouteLocationPathRaw;
     payload.path = item.route.path;
-    payload.query = formatFilters(item.route.query) as LocationQueryRaw;
+    payload.query = {
+        ...formatFilters(item.route.filters),
+        ...item.route.query,
+    } as LocationQueryRaw;
 
     return payload;
 };

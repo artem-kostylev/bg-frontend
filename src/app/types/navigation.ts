@@ -6,7 +6,7 @@ export type Navigation = {
     is_current: boolean;
     route: {
         path: string;
-        params: Record<string, string>;
-        query: Filters & LocationQueryRaw;
+        filters: Filters;
+        query: LocationQueryRaw;
     };
 };

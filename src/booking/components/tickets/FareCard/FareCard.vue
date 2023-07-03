@@ -32,6 +32,7 @@ const getTo = (fare: Fare) => {
 
         to.query.tour_ids = fare.tour_id;
         to.query.tours_hash = fare.tours_hash;
+        to.query.route_ids = [...(query.value.route_ids ?? ''), fare.route_id];
     } else {
         to.name = 'booking-tickets';
         to.query.route_ids = [...(query.value.route_ids ?? ''), fare.route_id];

@@ -1,18 +1,26 @@
 <script setup lang="ts">
+import type { Component } from 'vue';
 import { Button } from '@ui/components';
 import { QuestionInCircleIcon } from '@ui/icons';
 import { useRouter, useRoute } from '#imports';
 
 type Props = {
+    orderNumber: number;
     supportId?: number | null;
-    orderNumber?: number;
+    label?: string;
+    icon?: Component;
 };
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    supportId: null,
+    label: undefined,
+    icon: QuestionInCircleIcon,
+});
 
 const router = useRouter();
 const route = useRoute();
 
+// TODO: добавить автоматическую отправку запроса если переход был через "Помощь оператора"
 const toSupport = async () => {
     if (props.supportId) {
         router.push({
@@ -32,11 +40,12 @@ const toSupport = async () => {
 <template>
     <Button
         variant="secondary"
-        :start-icon="QuestionInCircleIcon"
+        :start-icon="icon"
         icon-class="w-5 h-5"
         class="w-full sm:w-max"
         @click="toSupport"
     >
-        {{ supportId ? 'Общение с поддержкой' : 'Обращение в поддержку' }}
+        <span v-if="label">{{ label }}</span>
+        <span v-else> {{ supportId ? 'Общение с поддержкой' : 'Обращение в поддержку' }}</span>
     </Button>
 </template>

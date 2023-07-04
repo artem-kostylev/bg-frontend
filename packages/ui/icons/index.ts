@@ -60,3 +60,5 @@ export { default as PyramidIcon } from './Pyramid.vue';
 export { default as CommentIcon } from './Comment.vue';
 export { default as ReadCommentIcon } from './ReadComment.vue';
 export { default as ClockIcon } from './Clock.vue';
+export { default as BuildingWithArrowsIcon } from './BuildingWithArrows.vue';
+export { default as HeadsetIcon } from './Headset.vue';

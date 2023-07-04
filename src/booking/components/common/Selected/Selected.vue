@@ -61,6 +61,12 @@ const dates = computed(() => {
     )}
     на ${duration.value}`;
 });
+
+const accommodationsError = computed(() => {
+    return props.accommodations.some(accommodation =>
+        accommodation.rooms.some(room => room.status === 2)
+    );
+});
 </script>
 
 <template>
@@ -82,6 +88,7 @@ const dates = computed(() => {
             :start-icon="BuildingsIcon"
             :default-open="defaultOpen"
             title="Проживание"
+            :error="accommodationsError"
         >
             <AccommodationList :accommodations="accommodations" />
         </Collapse>

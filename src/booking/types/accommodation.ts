@@ -8,6 +8,8 @@ export interface AccommodationRoom {
     wishes: string[] | null;
     order_accommodation_id: number;
     group_id?: number;
+    // TODO исправить статусы
+    status?: 0 | 1 | 2;
 }
 
 export type Accommodation = {

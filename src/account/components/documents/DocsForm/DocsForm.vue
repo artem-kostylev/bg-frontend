@@ -169,6 +169,7 @@ const docMask = computed(() => {
     )?.template;
 
     if (template?.length) {
+        // проверяем есть ли пробел в template и добавляем если нет, чтобы могли разделить серию и номер
         return template[0].includes(' ') ? template[0] : template[0].replace('#', ' #');
     } else {
         return '#### ######';

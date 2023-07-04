@@ -4,8 +4,8 @@ import { useLazyAsyncData, definePageMeta } from '#imports';
 import { fetchDocuments } from '@/account/services';
 import { Page } from '@/app/components';
 import { Typography, Spin, Card, Button, Modal } from '@ui/components';
-import { DocsForm } from '@/account/components';
-import { PlusDocumentIcon, EditIcon, TrashIcon } from '@ui/icons';
+import { DocsForm, DeleteDocModal } from '@/account/components';
+import { PlusDocumentIcon, EditIcon } from '@ui/icons';
 import { formatDocuments } from '@/app/lib';
 import type { NewDocument, UpperCaseKeys } from '@/account/types';
 import { deleteUserDoc } from '@/account/services';
@@ -117,32 +117,7 @@ const meta = {
                             </template>
                         </Modal>
 
-                        <Modal>
-                            <template #trigger="{ vbind }">
-                                <button class="flex space-x-2 text-danger-700" v-bind="vbind">
-                                    <TrashIcon width="1.5em" height="1.5em" />
-                                    <span>Удалить</span>
-                                </button>
-                            </template>
-                            <template #default>
-                                <div class="flex flex-col items-center">
-                                    <TrashIcon
-                                        width="2.5em"
-                                        height="2.5em"
-                                        class="text-danger-700"
-                                    />
-                                    <Typography variant="h3" class="max-w-4xl text-center m-6">
-                                        Вы уверены что хотите удалить этот документ?
-                                    </Typography>
-                                    <div class="flex space-x-4">
-                                        <Button> Отменить </Button>
-                                        <Button variant="primary" @click="deleteDoc(item.id)">
-                                            Удалить
-                                        </Button>
-                                    </div>
-                                </div>
-                            </template>
-                        </Modal>
+                        <DeleteDocModal :id="item.id" @delete="deleteDoc" />
                     </div>
                 </div>
             </div>

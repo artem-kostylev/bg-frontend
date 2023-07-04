@@ -9,5 +9,5 @@ export type Option = {
 export type RadioButtonGroupProps = ButtonProps &
     FieldProps & {
         options?: Option[];
-        modelValue?: string | number | boolean;
+        modelValue?: string | number | boolean | null;
     };

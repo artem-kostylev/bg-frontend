@@ -267,7 +267,7 @@ onBeforeUnmount(() => {
                     />
                 </div>
                 <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4">
-                    <RadioButtonGroup label="Пол" v-model="v$.sex.$model" :items="sexItems" />
+                    <RadioButtonGroup label="Пол" v-model="v$.sex.$model" :options="sexItems" />
                 </div>
             </div>
             <div class="w-full md:w-1/2 px-2.5 mb-5">

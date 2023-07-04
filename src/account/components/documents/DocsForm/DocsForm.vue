@@ -26,18 +26,20 @@ type Props = {
 
 const props = defineProps<Props>();
 
+const newForm = ref({ ...props.form });
+
 const upperCaseKeys: (keyof UpperCaseKeys)[] = ['first_name', 'last_name', 'second_name'];
 
 // transform some fields to upper case
 upperCaseKeys.forEach(key => {
     watch(
-        () => props.form[key],
+        () => newForm.value[key],
         () => {
-            if (props.form && props.form[key]) {
+            if (newForm.value && newForm.value[key]) {
                 emit('update-data', {
                     index: props.index,
                     key,
-                    value: textTransform(props.form[key] as string),
+                    value: textTransform(newForm.value[key] as string),
                 });
             }
         }
@@ -66,10 +68,10 @@ const { data: docsType } = useLazyAsyncData('documents', () => getDocumentsTypes
 });
 
 const documents = computed(() => {
-    if (!props.form.nationality_id || !docsType.value) return [];
+    if (!newForm.value.nationality_id || !docsType.value) return [];
 
     return docsType?.value?.filter(
-        (item: { nationality_id: number }) => item.nationality_id === props.form.nationality_id
+        (item: { nationality_id: number }) => item.nationality_id === newForm.value.nationality_id
     );
 });
 
@@ -84,7 +86,9 @@ const documentsOptions = computed(() => {
 
 const selectedDoc = computed(() => {
     if (!documents.value.length) return;
-    return documents.value?.find((doc: { id: number }) => doc.id === props.form.document_type_id);
+    return documents.value?.find(
+        (doc: { id: number }) => doc.id === newForm.value.document_type_id
+    );
 });
 
 const rules = computed(() => ({
@@ -131,12 +135,12 @@ const sexItems = [
     { label: 'Женский', value: 'female' },
 ];
 
-let v$ = useVuelidate(rules, props.form);
+let v$ = useVuelidate(rules, newForm.value);
 
 watch(selectedDoc, (newDoc, prevDoc) => {
     if (newDoc?.is_cyrillic === prevDoc?.is_cyrillic) return;
 
-    v$ = useVuelidate(rules, props.form);
+    v$ = useVuelidate(rules, newForm.value);
 
     v$.value.$reset();
 
@@ -165,7 +169,7 @@ const docMask = computed(() => {
     )?.template;
 
     if (template?.length) {
-        return template.indexOf(' ') >= 0 ? template[0] : template[0].replace('#', ' #');
+        return template[0].includes(' ') ? template[0] : template[0].replace('#', ' #');
     } else {
         return '#### ######';
     }
@@ -189,7 +193,7 @@ const submit = async () => {
     try {
         sending.value = true;
 
-        const result = { ...props.form };
+        const result = { ...newForm.value };
 
         result.birthday = convertToDate(result.birthday);
         result.document_till = convertToDate(result.document_till);
@@ -256,11 +260,9 @@ onBeforeUnmount(() => {
             <div class="flex flex-wrap w-full px-2.5 mb-5">
                 <div class="w-full sm:w-1/2 md:w-1/3 mb-5 sm:mr-5 md:mr-5 lg:mr-5">
                     <Input
-                        v-model="v$.birthday.$model"
-                        required
-                        name="birthday"
                         label="Дата рождения"
-                        placeholder="дд.мм.гггг"
+                        required
+                        v-model="v$.birthday.$model"
                         :error="v$.birthday.$errors[0]?.$message"
                         v-maska
                         :data-maska="'##.##.####'"

@@ -86,7 +86,7 @@ const meta = {
             <div
                 v-for="(item, index) in formatDocuments(data)"
                 :key="item.id"
-                class="flex flex-col space-y-2 md:grid md:grid-cols-[1fr_2fr_1fr] md:space-y-0 p-4 border-b border-secondary-200 border-dashed last:border-none md:items-center"
+                class="flex flex-col space-y-2 md:grid md:grid-cols-[1fr_2fr_1fr] md:space-y-0 p-4 border-b border-secondary-200 border-dashed last:border-none first:pt-0 last:pb-0 md:items-center"
             >
                 <div>{{ item.name }}</div>
                 <div

@@ -92,7 +92,8 @@ const paymentIsAvailable = computed(() => {
     return (
         props.order &&
         STATUSES_TO_PAY.includes(props.order.general.order_status) &&
-        props.paymentStatus.status !== 'fully_paid'
+        props.paymentStatus.status !== 'fully_paid' &&
+        Object.keys(props.order.general.payment_options).length
     );
 });
 

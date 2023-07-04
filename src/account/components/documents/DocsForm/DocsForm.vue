@@ -10,11 +10,11 @@ import {
     cyrillicText,
     phoneNumber,
     email,
+    textTransform,
 } from '@/app/lib';
 import { useLazyAsyncData } from '#imports';
 import { addDocument, editUserDoc, getDocumentsTypes, getNationalities } from '@/account/services';
 import type { NewDocument, Document, UpperCaseKeys } from '@/account/types';
-import { textTransform } from '@/app/lib';
 import { vMaska } from 'maska';
 
 type Props = {
@@ -165,7 +165,7 @@ const docMask = computed(() => {
     )?.template;
 
     if (template?.length) {
-        return template[0];
+        return template.indexOf(' ') >= 0 ? template[0] : template[0].replace('#', ' #');
     } else {
         return '#### ######';
     }
@@ -193,6 +193,8 @@ const submit = async () => {
 
         result.birthday = convertToDate(result.birthday);
         result.document_till = convertToDate(result.document_till);
+        result.document_series = result.document_number.split(' ')[0];
+        result.document_number = result.document_number.split(' ')[1];
 
         if (props.type === 'add') {
             await addDocument(result);

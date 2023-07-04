@@ -43,6 +43,7 @@ export type NewDocument = UpperCaseKeys & {
     nationality_id: number | null;
     document_type_id: number | null;
     document_number: string;
+    document_series: string | null;
     document_till: string;
     phone: string;
     email: string;

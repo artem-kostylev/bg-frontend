@@ -82,11 +82,11 @@ const meta = {
         <div v-if="pending" class="flex items-center justify-center">
             <Spin width="2.4em" height="2.4em" class="text-blue-700" />
         </div>
-        <Card v-else-if="data?.length">
+        <Card v-else-if="data?.length" class="py-0">
             <div
                 v-for="(item, index) in formatDocuments(data)"
                 :key="item.id"
-                class="flex flex-col space-y-2 md:grid md:grid-cols-3 md:space-y-0 p-4 border-b border-secondary-200 border-dashed last:border-none md:items-center"
+                class="flex flex-col space-y-2 md:grid md:grid-cols-[1fr_2fr_1fr] md:space-y-0 p-4 border-b border-secondary-200 border-dashed last:border-none md:items-center"
             >
                 <div>{{ item.name }}</div>
                 <div

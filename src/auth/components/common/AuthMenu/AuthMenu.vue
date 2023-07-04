@@ -1,11 +1,9 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
 import { Avatar, Dropdown } from '@ui/components';
 import { useAuthStore } from '@/auth/stores';
 import type { StringOrNumber } from '@ui/types';
 import { useRouter } from 'vue-router';
-
-const { user } = storeToRefs(useAuthStore());
+import { fetchLogout } from '@/auth/services';
 
 const options = [
     { label: 'Персональная информация', value: '/account/profile' },
@@ -13,17 +11,22 @@ const options = [
     { label: 'Мои поездки', value: '/account/orders' },
     { label: 'Мои отзывы', value: '/account/reviews' },
     { label: 'Обратная связь', value: '/account/support' },
-    { label: 'Выход', value: '' },
+    { label: 'Выход', value: '/' },
 ];
 
 const router = useRouter();
+const authStore = useAuthStore();
+const { user, setAccessToken, setUser } = authStore;
 
-const select = (value?: StringOrNumber | StringOrNumber[]) => {
-    if (!value) {
-        console.log('logout');
-    } else {
-        router.push(value as string);
-    }
+const logout = async () => {
+    await fetchLogout();
+    setAccessToken(null);
+    setUser(null);
+};
+
+const select = async (value?: StringOrNumber | StringOrNumber[]) => {
+    value === '/' && (await logout());
+    router.push(value as string);
 };
 </script>
 

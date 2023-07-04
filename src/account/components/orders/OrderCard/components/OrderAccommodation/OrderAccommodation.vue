@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import type { OrderDetailGeneral, Accommodation } from '@/booking/types';
+import { ref, watch, computed } from 'vue';
 import { Button } from '@ui/components';
 import { BuildingIcon } from '@ui/icons';
+import type { OrderDetailGeneral, Accommodation } from '@/booking/types';
+import type { ReviewableHotel } from '@/account/types';
+import { AddReviewModal } from '@/account/components';
+// import { useMessage } from '@ui/composables';
 
 type Props = {
     general: OrderDetailGeneral;
@@ -33,15 +36,36 @@ const hasReview = computed(() => {
     );
 });
 
-const addReview = ({
-    order_id,
-    accommodation,
-}: {
-    order_id: number;
-    accommodation: Accommodation;
-}) => {
-    console.log(order_id);
-    console.log(accommodation);
+const showModal = ref(false);
+const selectedHotel = ref<ReviewableHotel | null>(null);
+
+const open = (accommodation: Accommodation) => {
+    showModal.value = true;
+
+    // TODO: Поменять на бэкенде date_from на date_start и date_to на date_finish (чтобы везде был одинаковый формат)
+    selectedHotel.value = {
+        order_id: props.general.order_id,
+        hotel_id: accommodation.id,
+        name: accommodation.name,
+        date_from: accommodation.date_start,
+        date_to: accommodation.date_finish,
+        duration: accommodation.duration,
+        location: accommodation.location,
+    };
+};
+
+watch(showModal, value => {
+    if (!value) {
+        selectedHotel.value = null;
+    }
+});
+
+// const message = useMessage();
+
+const addReview = () => {
+    // message.success('Ваш отзыв направлен на проверку');
+    showModal.value = false;
+    selectedHotel.value = null;
 };
 </script>
 
@@ -59,13 +83,17 @@ const addReview = ({
                 <span>{{ accommodation.name }}</span>
             </div>
             <div>
-                <Button
-                    v-if="hasReview"
-                    variant="ghost"
-                    @click="addReview({ order_id: general.order_id, accommodation })"
+                <Button v-if="hasReview" variant="ghost" @click="open(accommodation)"
                     >Оставить отзыв</Button
                 >
             </div>
         </div>
+
+        <AddReviewModal
+            v-if="selectedHotel"
+            v-model="showModal"
+            :hotel="selectedHotel"
+            @add-review="addReview"
+        />
     </div>
 </template>

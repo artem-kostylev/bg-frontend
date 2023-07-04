@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { Review } from '@/tours/types';
+import type { ReviewRating } from '@/tours/types';
 import { ReviewCard } from '../ReviewCard';
 import { Divider } from '@ui/components';
 
 type Props = {
-    reviews: Review[];
+    reviews: ReviewRating[];
 };
 
 defineProps<Props>();

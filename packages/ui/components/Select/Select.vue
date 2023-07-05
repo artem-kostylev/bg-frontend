@@ -4,7 +4,7 @@ export default { inheritAttrs: false };
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
-import { Menu, Popover } from '@ui/components';
+import { Menu, Popover, Field } from '@ui/components';
 import type { StringOrNumber, UnknownObject } from '@ui/types';
 import type { SelectProps } from '@ui/components/Select/select';
 import { defaultSelectProps } from '@ui/components/Select/select';
@@ -58,18 +58,27 @@ watch(modelValue, () => {
 <template>
     <Popover v-model="open" :placement="placement">
         <template #trigger="{ vbind }">
-            <SelectButton
+            <Field
                 :name="name"
                 :required="required"
                 :label="label"
                 :hint="hint"
                 :error="error"
                 :success="success"
-                :value="selected"
-                :placeholder="placeholder"
-                :open="open"
-                v-bind="vbind"
-            />
+            >
+                <SelectButton
+                    :name="name"
+                    :required="required"
+                    :label="label"
+                    :hint="hint"
+                    :error="error"
+                    :success="success"
+                    :value="selected"
+                    :placeholder="placeholder"
+                    :open="open"
+                    v-bind="vbind"
+                />
+            </Field>
         </template>
         <Menu
             v-model="modelValue"

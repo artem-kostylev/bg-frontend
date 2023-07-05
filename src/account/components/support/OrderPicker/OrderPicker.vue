@@ -4,7 +4,7 @@ export default { inheritAttrs: false };
 
 <script setup lang="ts">
 import { watch, ref } from 'vue';
-import { Menu, Paper, Spin, Popover, SelectButton } from '@ui/components';
+import { Menu, Paper, Spin, Popover, SelectButton, Field } from '@ui/components';
 import { SearchIcon } from '@ui/icons';
 import { useVModels } from '@vueuse/core';
 
@@ -71,16 +71,18 @@ watch(show, value => {
 <template>
     <Popover v-model="show">
         <template #trigger="{ vbind }">
-            <SelectButton
-                :value="modelValue?.[labelKey]"
-                :open="show"
-                v-bind="{ ...vbind, ...$attrs }"
-                :error="error"
-                :label="label"
-                :block="block"
-                :required="required"
-                :loading="loading"
-            />
+            <Field :required="required" :label="label" :error="error">
+                <SelectButton
+                    :value="modelValue?.[labelKey]"
+                    :open="show"
+                    v-bind="{ ...vbind, ...$attrs }"
+                    :error="error"
+                    :label="label"
+                    :block="block"
+                    :required="required"
+                    :loading="loading"
+                />
+            </Field>
         </template>
         <Paper>
             <div class="relative">

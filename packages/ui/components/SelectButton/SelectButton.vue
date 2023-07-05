@@ -6,7 +6,7 @@ export default { inheritAttrs: false };
 import { computed, h } from 'vue';
 import type { SelectButtonProps } from './selectButton';
 import { defaultSelectButtonProps } from './selectButton';
-import { Field, Button } from '@ui/components';
+import { Button } from '@ui/components';
 import { ChevronDownIcon } from '@ui/icons';
 import type { StringOrNumber } from '@ui/types';
 
@@ -41,28 +41,19 @@ const buttonClass = computed(() => {
 </script>
 
 <template>
-    <Field
+    <Button
         :name="name"
-        :required="required"
-        :label="label"
-        :hint="hint"
-        :error="error"
-        :success="success"
+        v-bind="$attrs"
+        :end-icon="endIcon"
+        :class="open && buttonClass"
+        :variant="buttonVariant"
+        :strong="strong && !!value"
+        justify="between"
+        :block="block"
+        :disabled="disabled"
+        :loading="loading"
     >
-        <Button
-            :name="name"
-            v-bind="$attrs"
-            :end-icon="endIcon"
-            :class="open && buttonClass"
-            :variant="buttonVariant"
-            :strong="strong && !!value"
-            justify="between"
-            :block="block"
-            :disabled="disabled"
-            :loading="loading"
-        >
-            <template v-if="value">{{ value }}</template>
-            <span v-else :class="buttonPlaceholderClass">{{ placeholder }}</span>
-        </Button>
-    </Field>
+        <template v-if="value">{{ value }}</template>
+        <span v-else :class="buttonPlaceholderClass">{{ placeholder }}</span>
+    </Button>
 </template>

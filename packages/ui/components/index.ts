@@ -13,6 +13,7 @@ export * from './Stars';
 export * from './Divider';
 export * from './IconFilled';
 export * from './Avatar';
+export * from './Textarea';
 export * from './CollapseTransition';
 export * from './Collapse';
 export * from './Paper';

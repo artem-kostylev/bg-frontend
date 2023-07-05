@@ -1,21 +1,20 @@
 <script setup lang="ts">
-import { defineAsyncComponent, watch, ref, computed, type Component } from 'vue';
-import { Input, Menu, Card, Spin } from '@ui/components';
-import { ChevronDownIcon, SearchIcon, XIcon } from '@ui/icons';
-import { useMediaQuery, useVModels } from '@vueuse/core';
+import { watch, ref, computed, type Component } from 'vue';
+import { Button, Menu, Paper, Spin, Popover } from '@ui/components';
+import { ChevronDownIcon, SearchIcon } from '@ui/icons';
+import { useVModels } from '@vueuse/core';
 
-const Mobile = defineAsyncComponent(() => import('./Mobile.vue'));
-const Desktop = defineAsyncComponent(() => import('./Desktop.vue'));
+type Value = {
+    created_at: string;
+    label: string;
+    order_id: number;
+    order_number: number;
+};
 
 type Props = {
     bordered?: boolean;
-    modelValue?: {
-        created_at: string;
-        label: string;
-        order_id: number;
-        order_number: number;
-    };
-    labelKey?: string;
+    modelValue?: Value;
+    labelKey?: keyof Value;
     valueKey?: string;
     descriptionKey?: string;
     childrenKey?: string;
@@ -35,7 +34,7 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    labelKey: 'label',
+    labelKey: 'order_id',
     valueKey: 'value',
     descriptionKey: 'description',
     childrenKey: 'children',
@@ -59,10 +58,7 @@ const endIcon = computed(() => {
     return props.loading ? Spin : props.endIcon || ChevronDownIcon;
 });
 
-const matches = useMediaQuery('(max-width: 640px)');
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const { modelValue, search }: any = useVModels(props, emit);
+const { modelValue, search } = useVModels(props, emit);
 
 watch(modelValue, () => (show.value = false));
 watch(show, value => {
@@ -81,20 +77,13 @@ const orders = computed((): any => {
 </script>
 
 <template>
-    <component :is="matches ? Mobile : Desktop" v-model="show">
-        <template #trigger="slotProps">
-            <Input
-                :model-value="modelValue?.[labelKey]"
-                v-bind="slotProps.props"
-                readonly
-                :end-icon="endIcon"
-                :status="status"
-                :hint="hint"
-                :required="required"
-                clickable
-            />
+    <Popover v-model="show">
+        <template #trigger="{ vbind }">
+            <Button :end-icon="endIcon" v-bind="vbind" block justify="between">
+                {{ modelValue?.[labelKey] ?? 'ㅤ' }}
+            </Button>
         </template>
-        <Card>
+        <Paper>
             <div class="relative">
                 <div class="absolute inset-y-0 flex items-center px-5 pointer-events-none">
                     <button class="focus:outline-none -ml-1 text-secondary-500">
@@ -107,22 +96,13 @@ const orders = computed((): any => {
                     v-model="search"
                     ref="inputSearchRef"
                 />
-                <div class="absolute inset-y-0 right-0 flex items-center px-5">
-                    <button
-                        class="focus:outline-none sm:hidden -mr-1 text-secondary-500"
-                        @click="show = false"
-                    >
-                        <XIcon width="1.2rem" height="1.2rem" />
-                    </button>
-                </div>
             </div>
             <div class="sm:overflow-y-auto sm:max-h-[410px]">
                 <div v-if="loadingSearch" class="flex items-center justify-center py-12">
-                    <Spin width="1.9em" height="1.9em" class="text-primary-500" />
+                    <Spin width="1.9em" height="1.9em" color="primary" />
                 </div>
                 <Menu
                     v-else
-                    :size="matches ? 'lg' : 'md'"
                     v-model="modelValue"
                     :options="orders"
                     :label-key="labelKey"
@@ -138,6 +118,6 @@ const orders = computed((): any => {
                     </template>
                 </Menu>
             </div>
-        </Card>
-    </component>
+        </Paper>
+    </Popover>
 </template>

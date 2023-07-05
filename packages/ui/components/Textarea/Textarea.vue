@@ -7,17 +7,17 @@ export default {
 <script setup lang="ts">
 import { computed, useAttrs } from 'vue';
 import { Spin, Field } from '@ui/components';
-import type { InputProps } from './input';
-import { defaultInputProps } from './input';
+import type { TextareaProps } from './textarea';
+import { defaultTextareaProps } from './textarea';
 
-const props = withDefaults(defineProps<InputProps>(), defaultInputProps);
+const props = withDefaults(defineProps<TextareaProps>(), defaultTextareaProps);
 
 const emit = defineEmits<{ (e: 'update:modelValue', value: string): void }>();
 
 const { class: classes, ...attrs } = useAttrs();
 
-const inputPaddingClass = computed(() => {
-    const classes = [];
+const textareaPaddingClass = computed(() => {
+    const classes: string[] = [];
 
     props.startIcon ? classes.push('pl-10') : classes.push('pl-4');
     props.endIcon ? classes.push('pr-10') : classes.push('pr-4');
@@ -49,10 +49,9 @@ const endIcon = computed(() => (props.loading ? Spin : props.endIcon));
                     />
                 </slot>
             </div>
-            <input
+            <textarea
                 v-bind="attrs"
                 :value="modelValue"
-                :type="type"
                 :placeholder="placeholder"
                 @input="onInput"
                 :disabled="disabled"
@@ -67,8 +66,7 @@ const endIcon = computed(() => (props.loading ? Spin : props.endIcon));
                         !success &&
                         'border-secondary-300 hover:border-secondary-400 focus:border-secondary-400 placeholder-secondary-500',
                     disabled && 'pointer-events-none opacity-60',
-                    ...inputPaddingClass,
-                    justify && 'text-center',
+                    ...textareaPaddingClass,
                 ]"
             />
             <div

@@ -2,10 +2,11 @@
 import { ref } from 'vue';
 import { useIntersectionObserver } from '@vueuse/core';
 import { useLazyAsyncData, watch } from '#imports';
-import { Spin } from '@ui/components';
+import { Spin, Typography } from '@ui/components';
 import { getSupportList } from '@/account/services';
 import DesktopList from './DesktopList.vue';
 import MobileList from './MobileList.vue';
+import { Empty } from '@/app/components';
 
 type Props = {
     success?: boolean;
@@ -54,14 +55,13 @@ useIntersectionObserver(target, async ([{ isIntersecting }]) => {
 
 <template>
     <div>
-        <div v-if="data?.data.length" class="text-2xl mb-3 sm:mb-4">Список обращений</div>
-        <div v-if="pending" class="flex items-center justify-center py-10">
-            <Spin width="2.4em" height="2.4em" class="text-primary-500" />
-        </div>
-        <div v-else-if="data?.data.length" class="mb-5">
+        <Typography variant="h2" class="mb-5">Список обращений</Typography>
+        <Spin v-if="pending" width="2.4em" height="2.4em" color="primary" />
+        <div v-else-if="data?.data.length">
             <DesktopList :appeals="data.data" class="hidden sm:block" />
             <MobileList :appeals="data.data" class="block sm:hidden" />
             <div v-if="page < data.meta.pagination.total_pages && !loadingMore" ref="target"></div>
         </div>
+        <Empty title="У вас нет ни одного обращения" />
     </div>
 </template>

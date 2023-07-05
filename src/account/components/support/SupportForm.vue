@@ -173,9 +173,9 @@ const onSubmit = async () => {
                     </Field>
                 </div>
             </div>
-            <Button variant="primary" :loading="sending" @click="onSubmit" class="mt-5 <sm:w-full"
-                >Отправить</Button
-            >
+            <Button variant="primary" :loading="sending" @click="onSubmit" class="mt-5 <sm:w-full">
+                Отправить
+            </Button>
         </div>
     </div>
 </template>

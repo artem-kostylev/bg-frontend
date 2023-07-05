@@ -5,15 +5,19 @@ export default { inheritAttrs: true };
 <script setup lang="ts">
 import { computed, h, ref, watch } from 'vue';
 import { Menu, Button, Popover } from '@ui/components';
-import type { StringOrNumber } from '@ui/types';
+import type { StringOrNumber, UnknownObject } from '@ui/types';
 import { ChevronDownIcon } from '@ui/icons';
 import type { SelectProps } from '@ui/components/Select/select';
 import { defaultSelectProps } from '@ui/components/Select/select';
 import { Field } from '@ui/components';
+import isEqual from 'lodash.isequal';
 
 const props = withDefaults(defineProps<SelectProps>(), defaultSelectProps);
 const emit = defineEmits<{
-    'update:modelValue': [StringOrNumber | StringOrNumber[] | undefined];
+    (
+        e: 'update:modelValue',
+        value?: StringOrNumber | StringOrNumber[] | UnknownObject | UnknownObject[]
+    ): void;
 }>();
 
 const modelValue = computed({
@@ -24,18 +28,23 @@ const modelValue = computed({
 const open = ref(false);
 
 const selected = computed(() => {
-    if (props.multiple) {
-        const result = props.options
-            .filter(option => (modelValue.value as StringOrNumber[]).includes(option.value))
-            .map(option => option.label);
+    if (!props.modelValue) return '';
 
-        return result.join(', ');
+    if (props.multiple) {
+        const selected = props.options.filter(item => {
+            const result = props.returnObject ? item : item[props.valueKey];
+            return (props.modelValue as StringOrNumber[])?.includes(result as StringOrNumber);
+        });
+
+        return selected.map(item => item[props.labelKey]).join(', ');
     }
 
-    if (!props.options) return '';
+    const selected = props.options.find(item => {
+        const result = props.returnObject ? item : item[props.valueKey];
+        return props.returnObject ? isEqual(result, props.modelValue) : result === props.modelValue;
+    });
 
-    const value = props.options.find(option => option.value === modelValue.value);
-    return value?.label;
+    return selected?.[props.labelKey] || '';
 });
 
 const endIcon = (props: Record<string, StringOrNumber>) => {
@@ -95,12 +104,26 @@ const buttonPlaceholderClass = computed(() => {
                     justify="between"
                     :block="block"
                     :disabled="disabled"
+                    :loading="loading"
                 >
                     <template v-if="selected">{{ selected }}</template>
                     <span v-else :class="buttonPlaceholderClass">{{ placeholder }}</span>
                 </Button>
             </Field>
         </template>
-        <Menu v-model="modelValue" :options="options" :multiple="multiple" />
+        <Menu
+            v-model="modelValue"
+            :options="options"
+            :multiple="multiple"
+            :label-key="labelKey"
+            :value-key="valueKey"
+            :children-key="childrenKey"
+            :description-key="descriptionKey"
+            :return-object="returnObject"
+        >
+            <template v-if="$slots.empty" #empty>
+                <slot name="empty" />
+            </template>
+        </Menu>
     </Popover>
 </template>

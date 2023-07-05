@@ -4,6 +4,7 @@ import { useName, useParams } from '@/app/composables';
 import { Page, DetailsHeader } from '@/app/components';
 import { fetchAttraction } from '@/attractions/services';
 import { Spin } from '@ui/components';
+import { Tours, Regions } from '@/attractions/components';
 
 const name = useName<'locations-id' | 'attractions-id' | 'activities-id'>();
 const params = useParams<{ id: string }>();
@@ -23,6 +24,8 @@ const { data, pending } = useLazyAsyncData('attraction', () =>
                 v-html="data.entity.description"
                 class="prose max-w-none mt-6"
             />
+            <Tours :id="String(params.id)" />
+            <Regions :id="String(params.id)" />
         </template>
     </Page>
 </template>

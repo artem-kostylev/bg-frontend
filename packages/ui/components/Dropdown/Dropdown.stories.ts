@@ -23,6 +23,7 @@ export const Default: Story = {
             ];
 
             const onSelect = value => {
+                // eslint-disable-next-line
                 console.log(value);
             };
 

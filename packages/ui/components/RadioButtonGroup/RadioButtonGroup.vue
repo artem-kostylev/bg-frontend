@@ -4,7 +4,9 @@ import { Field } from '../Field';
 import type { Option, RadioButtonGroupProps } from './radioButtonGroup';
 
 const props = defineProps<RadioButtonGroupProps>();
-const emit = defineEmits<{ (e: 'update:modelValue', value: string | number | boolean): void }>();
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: string | number | boolean | null): void;
+}>();
 
 const select = (option: Option) => {
     emit('update:modelValue', option.value);

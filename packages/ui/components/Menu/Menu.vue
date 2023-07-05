@@ -7,7 +7,7 @@ import { CheckIcon } from '@ui/icons';
 
 const props = withDefaults(defineProps<MenuProps>(), defaultMenuProps);
 const emit = defineEmits<{
-    'update:modelValue': [StringOrNumber | StringOrNumber[] | undefined];
+    'update:modelValue': [StringOrNumber | StringOrNumber[] | undefined | null];
     select: [StringOrNumber | StringOrNumber[] | undefined];
 }>();
 

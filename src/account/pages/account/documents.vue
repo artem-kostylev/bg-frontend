@@ -80,7 +80,7 @@ const meta = {
             </Modal>
         </div>
         <div v-if="pending" class="flex items-center justify-center">
-            <Spin width="2.4em" height="2.4em" class="text-blue-700" />
+            <Spin width="2.4em" height="2.4em" color="primary" />
         </div>
         <Card v-else-if="data?.length" class="py-0">
             <div

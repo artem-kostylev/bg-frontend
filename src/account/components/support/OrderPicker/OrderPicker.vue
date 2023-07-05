@@ -1,7 +1,11 @@
+<script lang="ts">
+export default { inheritAttrs: false };
+</script>
+
 <script setup lang="ts">
-import { watch, ref, computed, type Component } from 'vue';
-import { Button, Menu, Paper, Spin, Popover } from '@ui/components';
-import { ChevronDownIcon, SearchIcon } from '@ui/icons';
+import { watch, ref } from 'vue';
+import { Menu, Paper, Spin, Popover, SelectButton } from '@ui/components';
+import { SearchIcon } from '@ui/icons';
 import { useVModels } from '@vueuse/core';
 
 type Value = {
@@ -12,13 +16,15 @@ type Value = {
 };
 
 type Props = {
+    block?: boolean;
     bordered?: boolean;
     modelValue?: Value;
     labelKey?: keyof Value;
     valueKey?: string;
     descriptionKey?: string;
     childrenKey?: string;
-    items: {
+    label?: string;
+    options: {
         order_id: number;
         order_number: number;
         created_at: string;
@@ -28,18 +34,18 @@ type Props = {
     loading?: boolean;
     loadingSearch?: boolean;
     required?: boolean;
-    endIcon?: Component;
-    status?: 'error' | 'success';
-    hint?: string;
+    error?: string;
 };
 
 const props = withDefaults(defineProps<Props>(), {
     labelKey: 'order_id',
     valueKey: 'value',
+    label: '',
+    error: '',
     descriptionKey: 'description',
     childrenKey: 'children',
     modelValue: undefined,
-    items: () => [],
+    options: () => [],
     bordered: true,
     endIcon: undefined,
     hint: '',
@@ -54,34 +60,27 @@ const emit = defineEmits<{
 const show = ref(false);
 const inputSearchRef = ref<HTMLInputElement>();
 
-const endIcon = computed(() => {
-    return props.loading ? Spin : props.endIcon || ChevronDownIcon;
-});
-
 const { modelValue, search } = useVModels(props, emit);
 
 watch(modelValue, () => (show.value = false));
 watch(show, value => {
     value && setTimeout(() => inputSearchRef.value?.focus(), 200);
 });
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const orders = computed((): any => {
-    return props.items.map(item => {
-        return {
-            label: item.label,
-            value: item,
-        };
-    });
-});
 </script>
 
 <template>
     <Popover v-model="show">
         <template #trigger="{ vbind }">
-            <Button :end-icon="endIcon" v-bind="vbind" block justify="between">
-                {{ modelValue?.[labelKey] ?? 'ㅤ' }}
-            </Button>
+            <SelectButton
+                :value="modelValue?.[labelKey]"
+                :open="show"
+                v-bind="{ ...vbind, ...$attrs }"
+                :error="error"
+                :label="label"
+                :block="block"
+                :required="required"
+                :loading="loading"
+            />
         </template>
         <Paper>
             <div class="relative">
@@ -104,7 +103,7 @@ const orders = computed((): any => {
                 <Menu
                     v-else
                     v-model="modelValue"
-                    :options="orders"
+                    :options="options"
                     :label-key="labelKey"
                     :value-key="valueKey"
                     :description-key="descriptionKey"

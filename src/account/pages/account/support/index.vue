@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { definePageMeta, onBeforeUnmount, useHead, useRoute } from '#imports';
-import { Typography, Alert, Collapse, Divider } from '@ui/components';
+import { Typography, Alert, Collapse } from '@ui/components';
 import { Page } from '@/app/components';
 import { SuccessEnvelopeIcon, QuestionPlusIcon } from '@ui/icons';
 import { SupportForm, SupportList } from '@/account/components';
@@ -117,7 +117,6 @@ onBeforeUnmount(() => {
             >
                 <SupportForm @added="added" @error="handleError" />
             </Collapse>
-            <Divider class="sm:hidden" />
         </div>
         <div class="mt-8">
             <SupportList :success="success" @update="updateSupportList" />

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { computed, nextTick, onMounted, useLazyAsyncData, useRoute } from '#imports';
-import { Button, Field, Spin } from '@ui/components';
+import { computed, onMounted, useLazyAsyncData, useRoute } from '#imports';
+import { Button, Card, Grid, Spin, Textarea } from '@ui/components';
 import { getOrdersForSupport, addAppeal } from '@/account/services';
 import { required } from '@/app/lib';
 import { useVuelidate } from '@vuelidate/core';
@@ -49,8 +49,6 @@ const rules = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const v$ = useVuelidate<any>(rules, form);
 
-const inputRef = ref<HTMLInputElement>();
-
 const selectedOrder = computed(() => {
     return orders.value?.find(
         (order: SupportOrder) => order.order_number === Number(route.query.order_number)
@@ -64,14 +62,6 @@ const transformOrders = async () => {
         if (!selectedOrder.value) {
             const selectedNumber = await getOrdersForSupport(route.query.order_number.toString());
             orders.value = selectedNumber.concat(orders.value);
-        }
-
-        if (selectedOrder.value) {
-            form.value.orderId = selectedOrder.value;
-
-            nextTick(() => {
-                inputRef.value?.focus();
-            });
         }
     }
 
@@ -134,48 +124,33 @@ const onSubmit = async () => {
 </script>
 
 <template>
-    <div>
-        <div v-if="showOrderNumber && pending" class="flex items-center justify-center py-10">
-            <Spin width="2.4em" height="2.4em" class="text-primary-500" />
-        </div>
-        <div v-else>
-            <div>Номер заказа, по которому будет обращение</div>
-            <div class="mt-2 w-full sm:w-[300px]">
-                <OrderPicker
-                    v-model="v$.orderId.$model"
-                    v-model:search="search"
-                    :items="orders"
-                    label-key="label"
-                    value-key="order_id"
-                    :loading="!orders.length && pending"
-                    :loading-search="!!orders.length && pending"
-                    :status="v$.orderId.$errors[0] && 'error'"
-                    :hint="v$.orderId.$errors[0]?.$message"
-                />
+    <Card>
+        <Spin v-if="showOrderNumber && pending" width="2.4em" height="2.4em" color="primary" />
+        <Grid gap="2.5" v-else>
+            <OrderPicker
+                v-model="v$.orderId.$model"
+                v-model:search="search"
+                label="Номер заказа, по которому будет обращение"
+                :options="orders"
+                label-key="label"
+                value-key="order_id"
+                block
+                :loading="!orders.length && pending"
+                :loading-search="!!orders.length && pending"
+                :error="v$.orderId.$errors[0]?.$message"
+                class="sm:max-w-[400px]"
+                required
+            />
+            <Textarea
+                v-model="v$.text.$model"
+                :rows="5"
+                label="Текст обращения"
+                :error="v$.text.$errors[0]?.$message"
+                required
+            />
+            <div>
+                <Button variant="primary" :loading="sending" @click="onSubmit">Отправить</Button>
             </div>
-            <div class="mt-6">
-                <label for="text">Текст обращения</label>
-                <div class="mt-2">
-                    <Field
-                        :hint="v$.text.$errors[0]?.$message"
-                        :status="v$.text.$errors[0] ? 'error' : undefined"
-                    >
-                        <textarea
-                            ref="inputRef"
-                            v-model="v$.text.$model"
-                            id="text"
-                            name="text"
-                            :class="[
-                                'focus:outline-none block w-full appearance-none transition-colors bg-white rounded-xl shadow-sm border border-secondary-300 hover:border-secondary-400 placeholder-secondary-500 py-[.563em] px-[.875em] focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 disabled:opacity-60 disabled:pointer-events-none',
-                                'resize-none min-h-[144px]',
-                            ]"
-                        />
-                    </Field>
-                </div>
-            </div>
-            <Button variant="primary" :loading="sending" @click="onSubmit" class="mt-5 <sm:w-full">
-                Отправить
-            </Button>
-        </div>
-    </div>
+        </Grid>
+    </Card>
 </template>

@@ -1,15 +1,14 @@
 <script lang="ts">
-export default { inheritAttrs: true };
+export default { inheritAttrs: false };
 </script>
 
 <script setup lang="ts">
-import { computed, h, ref, watch } from 'vue';
-import { Menu, Button, Popover } from '@ui/components';
+import { computed, ref, watch } from 'vue';
+import { Menu, Popover } from '@ui/components';
 import type { StringOrNumber, UnknownObject } from '@ui/types';
-import { ChevronDownIcon } from '@ui/icons';
 import type { SelectProps } from '@ui/components/Select/select';
 import { defaultSelectProps } from '@ui/components/Select/select';
-import { Field } from '@ui/components';
+import { SelectButton } from '@ui/components';
 import isEqual from 'lodash.isequal';
 
 const props = withDefaults(defineProps<SelectProps>(), defaultSelectProps);
@@ -47,13 +46,6 @@ const selected = computed(() => {
     return selected?.[props.labelKey] || '';
 });
 
-const endIcon = (props: Record<string, StringOrNumber>) => {
-    return h(ChevronDownIcon, {
-        ...props,
-        class: ['transition-transform', open.value && 'rotate-180'],
-    });
-};
-
 watch(modelValue, () => {
     if (!props.multiple) return (open.value = false);
 
@@ -61,55 +53,23 @@ watch(modelValue, () => {
         open.value = false;
     }
 });
-
-const buttonVariant = computed(() => {
-    return props.error ? 'danger-outline' : props.success ? 'success-outline' : 'base';
-});
-
-const buttonClass = computed(() => {
-    return props.error
-        ? 'border-danger-700'
-        : props.success
-        ? 'border-success-700'
-        : 'border-secondary-400';
-});
-
-const buttonPlaceholderClass = computed(() => {
-    return props.error
-        ? 'text-danger-500'
-        : props.success
-        ? 'text-success-600'
-        : 'text-secondary-500';
-});
 </script>
 
 <template>
     <Popover v-model="open" :placement="placement">
         <template #trigger="{ vbind }">
-            <Field
+            <SelectButton
                 :name="name"
                 :required="required"
                 :label="label"
                 :hint="hint"
                 :error="error"
                 :success="success"
-            >
-                <Button
-                    :name="name"
-                    v-bind="{ ...vbind, ...$attrs }"
-                    :end-icon="endIcon"
-                    :class="open && buttonClass"
-                    :variant="buttonVariant"
-                    :strong="strong && !!selected"
-                    justify="between"
-                    :block="block"
-                    :disabled="disabled"
-                    :loading="loading"
-                >
-                    <template v-if="selected">{{ selected }}</template>
-                    <span v-else :class="buttonPlaceholderClass">{{ placeholder }}</span>
-                </Button>
-            </Field>
+                :value="selected"
+                :placeholder="placeholder"
+                :open="open"
+                v-bind="vbind"
+            />
         </template>
         <Menu
             v-model="modelValue"

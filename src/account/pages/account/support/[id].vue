@@ -228,7 +228,7 @@ useIntersectionObserver(target, async ([{ isIntersecting }]) => {
                     variant="primary"
                     :loading="sending"
                     @click="onSubmit"
-                    class="mt-5 <sm:w-full"
+                    class="mt-5 w-full sm:w-max"
                     >Отправить
                 </Button>
             </div>

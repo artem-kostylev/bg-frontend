@@ -149,7 +149,13 @@ const onSubmit = async () => {
                 required
             />
             <div>
-                <Button variant="primary" :loading="sending" @click="onSubmit">Отправить</Button>
+                <Button
+                    variant="primary"
+                    :loading="sending"
+                    @click="onSubmit"
+                    class="mt-2.5 w-full sm:w-max"
+                    >Отправить</Button
+                >
             </div>
         </Grid>
     </Card>

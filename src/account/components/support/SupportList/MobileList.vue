@@ -48,7 +48,7 @@ const STATUSES: Record<string, string> = {
                             </div>
                         </div>
                         <div class="py-3">
-                            {{ formatDate(appeal.created_at, 'DD.MM.YYYY') }}
+                            {{ formatDate(appeal.created_at, 'DD.MM.YYYY, HH:mm') }}
                         </div>
                         <div class="py-3">
                             {{ appeal.order_number }}
@@ -58,7 +58,7 @@ const STATUSES: Record<string, string> = {
                                 :class="[
                                     'py-1 px-2 rounded-[5px] w-max',
                                     appeal.status === 0 && 'bg-secondary-600/10 text-secondary-700',
-                                    appeal.status === 1 && 'bg-green-600/20 text-green-700',
+                                    appeal.status === 1 && 'bg-success-600/20 text-success-700',
                                 ]"
                             >
                                 <span class="flex flex-wrap"> {{ STATUSES[appeal.status] }}</span>
@@ -69,7 +69,7 @@ const STATUSES: Record<string, string> = {
             </NuxtLink>
             <div
                 v-if="index + 1 < appeals.length"
-                class="mt-3 h-[1px] w-full border-1 border-dashed border-secondary-300"
+                class="mt-3 h-[1px] w-full border border-dashed border-secondary-300"
             ></div>
         </div>
     </div>

@@ -45,7 +45,7 @@ const STATUSES: Record<string, string> = {
                     </div>
 
                     <div class="py-3 text-center">
-                        {{ formatDate(appeal.created_at, 'DD.MM.YYYY') }}
+                        {{ formatDate(appeal.created_at, 'DD.MM.YYYY, HH:mm') }}
                     </div>
                     <div class="py-3 text-center">
                         {{ appeal.order_number }}

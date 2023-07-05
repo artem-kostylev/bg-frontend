@@ -15,7 +15,7 @@ export type MenuProps = {
     returnObject?: boolean;
     multiple?: boolean;
     options: MenuOption[];
-    modelValue?: StringOrNumber | StringOrNumber[] | UnknownObject | UnknownObject[];
+    modelValue?: StringOrNumber | StringOrNumber[] | UnknownObject | UnknownObject[] | null;
     dropdown?: boolean;
 };
 

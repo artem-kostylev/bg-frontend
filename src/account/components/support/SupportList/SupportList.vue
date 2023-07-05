@@ -62,6 +62,6 @@ useIntersectionObserver(target, async ([{ isIntersecting }]) => {
             <MobileList :appeals="data.data" class="block sm:hidden" />
             <div v-if="page < data.meta.pagination.total_pages && !loadingMore" ref="target"></div>
         </div>
-        <Empty title="У вас нет ни одного обращения" />
+        <Empty v-else title="У вас нет ни одного обращения" />
     </div>
 </template>

@@ -14,8 +14,8 @@ defineProps<Props>();
 <template>
     <Grid cols="3" gap="5">
         <MovementCard
-            v-for="(movement, index) in movements"
-            :key="index"
+            v-for="movement in movements"
+            :key="`${movement.route_id}${Date.now()}`"
             :movement="movement"
             :price="price"
         />

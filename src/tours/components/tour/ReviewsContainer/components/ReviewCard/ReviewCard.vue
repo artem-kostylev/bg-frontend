@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Review } from '@/tours/types';
+import type { ReviewRating } from '@/tours/types';
 import { Info, Content } from './components';
 
 type Props = {
-    review: Review;
+    review: ReviewRating;
 };
 
 defineProps<Props>();

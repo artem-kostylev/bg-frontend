@@ -10,9 +10,9 @@ const props = withDefaults(defineProps<MenuProps>(), defaultMenuProps);
 const emit = defineEmits<{
     (
         e: 'update:modelValue',
-        value?: StringOrNumber | StringOrNumber[] | UnknownObject | UnknownObject[]
+        value?: StringOrNumber | StringOrNumber[] | UnknownObject | UnknownObject[] | undefined | null
     ): void;
-    (e: 'select', value: StringOrNumber | UnknownObject): void;
+    (e: 'select', value: StringOrNumber | UnknownObject | undefined): void;
 }>();
 
 const selected = (option: MenuOption) => {

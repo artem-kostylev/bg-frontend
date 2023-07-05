@@ -1,24 +1,32 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
 import { Avatar, Dropdown } from '@ui/components';
 import { useAuthStore } from '@/auth/stores';
 import type { StringOrNumber } from '@ui/types';
-
-const { user } = storeToRefs(useAuthStore());
+import { useRouter } from 'vue-router';
+import { fetchLogout } from '@/auth/services';
 
 const options = [
-    { label: 'Персональная информация', value: 1 },
-    { label: 'Документы туристов', value: 2 },
-    { label: 'Мои поездки', value: 3 },
-    { label: 'Мои отзывы', value: 4 },
-    { label: 'Обратная связь', value: 4 },
-    { label: 'Выход', value: 4 },
+    { label: 'Персональная информация', value: '/account/profile' },
+    { label: 'Документы туристов', value: '/account/documents' },
+    { label: 'Мои поездки', value: '/account/orders' },
+    { label: 'Мои отзывы', value: '/account/reviews' },
+    { label: 'Обратная связь', value: '/account/support' },
+    { label: 'Выход', value: '/' },
 ];
 
-const select = (value?: StringOrNumber | StringOrNumber[]) => {
-    // TODO FIX THIS
-    // eslint-disable-next-line no-console
-    console.log(value);
+const router = useRouter();
+const authStore = useAuthStore();
+const { user, setAccessToken, setUser } = authStore;
+
+const logout = async () => {
+    await fetchLogout();
+    setAccessToken(null);
+    setUser(null);
+};
+
+const select = async (value?: StringOrNumber | StringOrNumber[]) => {
+    value === '/' && (await logout());
+    router.push(value as string);
 };
 </script>
 

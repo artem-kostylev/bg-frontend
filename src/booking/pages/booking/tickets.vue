@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { whenever } from '@vueuse/core';
 import { definePageMeta, useLazyAsyncData, useName } from '#imports';
 import { useQuery } from '@/app/composables';
 import { Page, Empty } from '@/app/components';
@@ -7,6 +6,7 @@ import { MovementList } from '@/booking/components';
 import type { FetchMovementsQuery } from '@/booking/services';
 import { fetchMovements } from '@/booking/services';
 import { Spin, Typography } from '@ui/components';
+import { whenever } from '@vueuse/core';
 
 definePageMeta({ navigation: true });
 
@@ -19,13 +19,17 @@ const { data, pending, execute } = useLazyAsyncData('booking-tickets', () => {
 
 whenever(
     () => query.value.route_ids,
-    () => execute()
+    value => {
+        if (!data.value) return;
+
+        value.length < data.value.general.qty_movements && execute();
+    }
 );
 </script>
 
 <template>
     <Page :meta="data?.meta">
-        <Spin v-if="pending" color="primary" />
+        <Spin class="flex-1" v-if="pending" color="primary" />
         <div v-else-if="data" class="relative">
             <Typography variant="h1" as="h1" class="mb-5">{{ data.direction }}</Typography>
             <MovementList

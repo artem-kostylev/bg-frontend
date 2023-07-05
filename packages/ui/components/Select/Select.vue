@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<SelectProps>(), defaultSelectProps);
 const emit = defineEmits<{
     (
         e: 'update:modelValue',
-        value?: StringOrNumber | StringOrNumber[] | UnknownObject | UnknownObject[]
+        value?: StringOrNumber | StringOrNumber[] | UnknownObject | UnknownObject[] | null | undefined
     ): void;
 }>();
 

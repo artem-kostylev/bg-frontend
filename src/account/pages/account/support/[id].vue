@@ -7,7 +7,7 @@ import {
     useLazyAsyncData,
     nextTick,
     watch,
-    onDeactivated,
+    onBeforeUnmount,
 } from '#imports';
 import { Typography, Button, Field, Spin } from '@ui/components';
 import { Page } from '@/app/components';
@@ -89,7 +89,7 @@ const update = async () => {
 
 const refreshInterval = setInterval(() => update(), 60000);
 
-onDeactivated(() => {
+onBeforeUnmount(() => {
     clearInterval(refreshInterval);
 });
 

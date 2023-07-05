@@ -64,7 +64,7 @@ const dates = computed(() => {
 
 const accommodationsError = computed(() => {
     return props.accommodations.some(accommodation =>
-        accommodation.rooms.some(room => room.status === 2)
+        accommodation.rooms.some(room => room.status?.key_name === 'NOT_CONFIRMED')
     );
 });
 </script>

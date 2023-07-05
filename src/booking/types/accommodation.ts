@@ -1,16 +1,55 @@
-export interface AccommodationRoom {
-    accommodation_unikey: string;
-    board: string;
-    tourists: string[];
+export interface Room {
     id: number;
     name: string;
+    board: string;
+    tourists: string[];
+    group_id?: number;
+}
+
+export type AccommodationStatus =
+    | {
+          description: 'Подбор тура';
+          key_name: 'TOUR_SELECTION';
+          value: 1;
+      }
+    | {
+          description: 'Бронирование';
+          key_name: 'RESERVATION';
+          value: 2;
+      }
+    | {
+          description: 'Подтверждено';
+          key_name: 'CONFIRMED';
+          value: 3;
+      }
+    | {
+          description: 'Не подтверждено';
+          key_name: 'NOT_CONFIRMED';
+          value: 4;
+      }
+    | {
+          description: 'Без проживания';
+          key_name: 'NO_ACCOMMODATION';
+          value: 5;
+      }
+    | {
+          description: 'Аннуляция';
+          key_name: 'CANCELLATION';
+          value: 6;
+      }
+    | {
+          description: 'Аннулировано';
+          key_name: 'CANCELED';
+          value: 7;
+      };
+
+export type AccommodationRoom = Room & {
+    accommodation_unikey: string;
+    order_accommodation_id: number;
     view: string[];
     wishes: string[] | null;
-    order_accommodation_id: number;
-    group_id?: number;
-    // TODO исправить статусы
-    status?: 0 | 1 | 2;
-}
+    status?: AccommodationStatus;
+};
 
 export type Accommodation = {
     id: number;

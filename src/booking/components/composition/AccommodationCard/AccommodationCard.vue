@@ -29,7 +29,7 @@ const dates = computed(() => {
 const { data: order } = useNuxtData<FetchOrderDetailResponse>('order-detail');
 
 const accommodationError = computed(() => {
-    return props.accommodation.rooms.some(room => room.status === 2);
+    return props.accommodation.rooms.some(room => room.status?.key_name === 'NOT_CONFIRMED');
 });
 </script>
 

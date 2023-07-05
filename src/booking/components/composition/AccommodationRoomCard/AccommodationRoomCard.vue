@@ -26,7 +26,9 @@ const { data: paymentStatus } = useNuxtData<FetchPaymentStatusResponse>('booking
 <template>
     <Card
         body-class="relative"
-        :class="[accommodationRoom.status === 2 && 'border border-danger-500']"
+        :class="[
+            accommodationRoom.status?.key_name === 'NOT_CONFIRMED' && 'border border-danger-500',
+        ]"
     >
         <template #header>
             <div class="flex items-start justify-between space-x-5 mb-1">

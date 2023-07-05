@@ -1,6 +1,6 @@
 import type { Hotel } from '@/tours/types';
 
-type ShortHotel = Hotel & { food: { name: string }[] };
+export type ShortHotel = Hotel & { food: { name: string }[] };
 
 export type Tour = {
     hotel: ShortHotel;

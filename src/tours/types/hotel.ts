@@ -31,11 +31,11 @@ export type Hotel = {
     stars?: number;
     rating: string;
     reviews: number;
-    address: string;
+    address: string | null;
     images: Image[];
     location: Location[];
     airport_remoteness?: number;
-    beach_remoteness?: number;
+    beach_remoteness?: number | null;
     food?: HotelFood[];
     general?: HotelGeneral;
     infrastructure?: HotelInfrastructure;

@@ -21,6 +21,10 @@ export const formatDocuments = (documents: Document[]) => {
         if (document.document_till) {
             document.document_till = formatDate(document.document_till, 'DD.MM.YYYY');
         }
+
+        if (document.document_series?.length) {
+            document.document_number = document.document_series + ' ' + document.document_number;
+        }
     });
 
     return documents;

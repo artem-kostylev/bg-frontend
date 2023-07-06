@@ -63,7 +63,6 @@ const { data: documents } = useLazyAsyncData('form-documents', () =>
 const formKeys: (keyof Partial<
     Omit<
         Document,
-        | 'id'
         | 'created_at'
         | 'second_name'
         | 'deleted_at'
@@ -75,6 +74,7 @@ const formKeys: (keyof Partial<
         | 'user_id'
     >
 >)[] = [
+    'id',
     'first_name',
     'last_name',
     'birthday',
@@ -92,7 +92,6 @@ const updateForm = (value: {
     doc?: Document;
     key?: keyof Omit<
         Document,
-        | 'id'
         | 'created_at'
         | 'second_name'
         | 'deleted_at'

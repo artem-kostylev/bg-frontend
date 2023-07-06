@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onBeforeUnmount } from 'vue';
+import { ref, computed, onBeforeUnmount } from 'vue';
 import { Button, Modal, Alert } from '@ui/components';
 import { useLazyAsyncData, clearNuxtData } from '#imports';
 import { fetchDocuments } from '@/account/services';
@@ -8,6 +8,11 @@ import { formatDocuments } from '@/app/lib';
 
 const { data, pending, execute } = useLazyAsyncData('documents', () => fetchDocuments(), {
     immediate: false,
+});
+
+const formattedData = computed(() => {
+    if (!data.value) return;
+    return formatDocuments(data.value);
 });
 
 const show = ref(false);
@@ -33,7 +38,7 @@ onBeforeUnmount(() => clearNuxtData('documents'));
             <div class="grid" v-if="data?.length">
                 <div
                     class="cursor-pointer text-primary-500 hover:text-primary-600 w-full border-b last:border-b-0 border-secondary-300 border-dashed py-2.5 first:pt-0 last:pb-0"
-                    v-for="doc in formatDocuments(data)"
+                    v-for="doc in formattedData"
                     :key="doc.id"
                     @click="choose(doc)"
                 >

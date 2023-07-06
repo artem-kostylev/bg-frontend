@@ -22,6 +22,7 @@ import { useAuthStore } from '@/auth/stores';
 import { vMaska } from 'maska';
 import type { Document, UpperCaseKeys } from '@/account/types';
 import { textTransform } from '@/app/lib';
+import { addDocument, editUserDoc } from '@/account/services';
 
 const { isAuthenticated } = storeToRefs(useAuthStore());
 
@@ -93,7 +94,7 @@ const docMask = computed(() => {
     )?.template;
 
     if (template?.length) {
-        return template.indexOf(' ') >= 0 ? template[0] : template[0].replace('#', ' #');
+        return template[0].includes(' ') ? template[0] : template[0].replace('#', ' #');
     } else {
         return '#### ######';
     }
@@ -120,6 +121,7 @@ const rules = computed(() => ({
                 : latinText
             : '',
     },
+    second_name: {},
     birthday: { required, isValidDate, birthday },
     sex: { required },
     service_insurance_id: { required },
@@ -179,6 +181,13 @@ const clearForm = () => {
 
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
+    const form = { ...props.questionnary.form };
+    const splitDocumentNumber = form.document_number!.split(' ');
+    form.document_series = splitDocumentNumber[0];
+    form.document_number = splitDocumentNumber[1];
+    props.questionnary.form.id
+        ? await editUserDoc(props.questionnary.form.id, form as Document)
+        : await addDocument(form as Document);
     emit('success');
 };
 
@@ -227,6 +236,11 @@ upperCaseKeys.forEach(key => {
                 required
                 v-model="v$.first_name.$model"
                 :error="v$.first_name.$errors[0]?.$message"
+            />
+            <Input
+                label="Отчество"
+                v-model="v$.second_name.$model"
+                :error="v$.second_name.$errors[0]?.$message"
             />
             <Input
                 label="Дата рождения"

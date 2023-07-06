@@ -8,8 +8,8 @@ export default {
 import { useLazyAsyncData, useRoute, useRouter } from '#imports';
 import { ref, reactive, computed, onMounted, watch } from 'vue';
 import type { General, Insurance, Accommodation } from '@/booking/types';
-import { Button, Typography, Collapse, Checkbox, Radio, Card, Modal } from '@ui/components';
-import { QuestionnaryCard, ModalForm } from '@/booking/components';
+import { Button, Typography, Collapse, Checkbox } from '@ui/components';
+import { QuestionnaryCard } from '@/booking/components';
 import { fetchAvailableDocuments, createOrder } from '@/booking/services';
 import type { Questionnary, QuestionnaryForm } from '@/booking/types';
 import type { Document } from '@/account/types';
@@ -137,7 +137,6 @@ const clearForm = (index: number) => {
 
 const currentFormIndex = ref(0);
 const collapsed = ref([0]);
-const showFormModal = ref(false);
 
 const rules = {
     agreeWithTerms: { required, sameAsTrue: sameAs(true) },
@@ -248,26 +247,6 @@ watch(documents, value => {
     );
 });
 
-const isAdult = (dateOfBirth?: string) => {
-    if (!dateOfBirth) return true;
-
-    const now = new Date();
-    const birthDate = new Date(dateOfBirth.split('.').reverse().join('-'));
-    const ageInMilliseconds = now.getTime() - birthDate.getTime();
-    const ageInYears = ageInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
-    return ageInYears >= 18;
-};
-
-const onModalSubmit = () => {
-    showFormModal.value = false;
-};
-
-const onModalClose = () => {
-    showFormModal.value = false;
-    form.clientId = undefined;
-    modalForm.value = undefined;
-};
-
 onMounted(() => {
     form.questionnaries = props.general.groups.flatMap(({ tourists, tour_id }) =>
         tourists.map(({ description }) => ({
@@ -315,36 +294,6 @@ onMounted(() => {
             @update-form="updateForm"
         />
     </Collapse>
-    <div class="border-t border-b border-secondary-200 border-dashed py-5">
-        <Typography variant="h3" class="mb-5">
-            Анкета для оформления договора
-            <span class="text-danger-600">*</span>
-        </Typography>
-        <div class="flex flex-col space-y-4">
-            <template v-for="(entity, index) in form.questionnaries" :key="index">
-                <Radio v-if="isAdult(entity.form.birthday)" v-model="form.clientId" :value="index">
-                    Использовать для анкеты данные Туриста №{{ index + 1 }}
-                </Radio>
-            </template>
-            <Modal v-model="showFormModal" persistent>
-                <template #trigger="{ vbind }">
-                    <Radio v-bind="vbind" v-model="form.clientId" :value="-1">
-                        Заполнить анкету
-                    </Radio>
-                </template>
-                <Card>
-                    <template #header>
-                        <Typography variant="h3">Анкета</Typography>
-                    </template>
-                    <ModalForm
-                        :questionnary="modalForm"
-                        @submit="onModalSubmit"
-                        @close="onModalClose"
-                    />
-                </Card>
-            </Modal>
-        </div>
-    </div>
     <div class="flex flex-col space-y-4">
         <Checkbox v-model="v$.agreeWithTerms.$model">
             Я ознакомлен, принимаю и соглашаюсь с условиями

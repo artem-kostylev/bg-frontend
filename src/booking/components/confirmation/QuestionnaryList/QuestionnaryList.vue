@@ -27,7 +27,6 @@ const router = useRouter();
 const { showAuthModal, isAuthenticated } = storeToRefs(useAuthStore());
 
 type Form = {
-    clientId?: number;
     questionnaries: Questionnary[];
     news: {};
 };
@@ -43,7 +42,6 @@ const props = defineProps<Props>();
 const sending = ref(false);
 const error = ref('');
 const newPrice = ref<number | null>(null);
-const modalForm = ref<QuestionnaryForm>();
 
 // const message = useMessage();
 
@@ -141,7 +139,6 @@ const collapsed = ref([0]);
 const rules = {
     agreeWithTerms: { required, sameAsTrue: sameAs(true) },
     agreeWithPersonalData: { required, sameAsTrue: sameAs(true) },
-    // clientId: { required },
     agreeWithReceiveNews: {},
 };
 
@@ -183,7 +180,8 @@ const sendOrder = async () => {
                 .map((questionnary: Questionnary) => {
                     return {
                         ...questionnary.form,
-                        service_insurance_id: String(questionnary.form.service_insurance_id),
+                        // service_visa_id: questionnary.form,
+                        service_insurance_id: questionnary.form.service_insurance_id,
                     };
                 }),
         };
@@ -192,11 +190,6 @@ const sendOrder = async () => {
     // TODO
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const payload: any = { groups };
-
-    if (form.clientId !== undefined) {
-        payload.client =
-            form.clientId === -1 ? modalForm.value : form.questionnaries[form.clientId];
-    }
 
     tickets && (payload.tickets = parseTickets(tickets as string[]));
     transfers && (payload.transfers = JSON.parse(transfers as string));

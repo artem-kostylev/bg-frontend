@@ -1,15 +1,14 @@
 import { http } from '@/app/lib';
-import type { QuestionnaryForm } from '@/booking/types';
 
 export type CreateOrderPayload = {
-    client: {
-        label: string;
-        tour_id: string;
-        form: Partial<QuestionnaryForm>;
-    };
+    order_id?: number;
     groups: {
         tour_id: string;
-        tourists: Partial<QuestionnaryForm>[];
+        tourists: {
+            document_id: number;
+            service_visa_id?: number;
+            service_insurance_id: number;
+        };
     }[];
     tickets?: {
         id: number;
@@ -22,16 +21,13 @@ export type CreateOrderPayload = {
 };
 
 export type CreateOrderResponse = {
-    createOrderDTO: null;
     order_id: number;
     price: number;
-    status: string;
+    status: 'created' | 'newprice' | 'exist' | 'errorBGO';
 };
 
-// TODO
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createOrder = async (body: CreateOrderPayload) => {
-    return await http<CreateOrderResponse>('tour/create_order', {
+    return await http<CreateOrderResponse>('tour/order/create', {
         body,
         method: 'post',
     });

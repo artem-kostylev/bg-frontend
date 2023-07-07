@@ -238,6 +238,7 @@ upperCaseKeys.forEach(key => {
                 :error="v$.first_name.$errors[0]?.$message"
             />
             <Input
+                v-if="selectedDoc && selectedDoc.is_cyrillic"
                 label="Отчество"
                 v-model="v$.second_name.$model"
                 :error="v$.second_name.$errors[0]?.$message"

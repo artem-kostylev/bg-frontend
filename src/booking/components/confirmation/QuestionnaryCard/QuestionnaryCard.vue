@@ -179,15 +179,25 @@ const clearForm = () => {
     });
 };
 
+const createDoc = async (form: Document) => {
+    const result = await addDocument(form);
+    form.id = result.id;
+    emit('update-form', {
+        index: props.index,
+        doc: form,
+    });
+};
+
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
     const form = { ...props.questionnary.form };
     const splitDocumentNumber = form.document_number!.split(' ');
     form.document_series = splitDocumentNumber[0];
     form.document_number = splitDocumentNumber[1];
+    emit('success');
     props.questionnary.form.id
         ? await editUserDoc(props.questionnary.form.id, form as Document)
-        : await addDocument(form as Document);
+        : await createDoc(form as Document);
     emit('success');
 };
 

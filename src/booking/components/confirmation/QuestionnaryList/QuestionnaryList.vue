@@ -178,8 +178,8 @@ const sendOrder = async () => {
                 )
                 .map((questionnary: Questionnary) => {
                     return {
-                        ...questionnary.form,
                         // service_visa_id: questionnary.form,
+                        document_id: questionnary.form.id,
                         service_insurance_id: questionnary.form.service_insurance_id,
                     };
                 }),

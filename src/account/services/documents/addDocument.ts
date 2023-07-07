@@ -1,6 +1,14 @@
 import { http } from '@/app/lib';
 import type { NewDocument, Document } from '@/account/types';
 
+export type addDocumentResponse = {
+    data: Document;
+};
+
 export const addDocument = async (form: NewDocument | Document) => {
-    await http('tourists_documents', { body: form, method: 'post' });
+    const result = await http<addDocumentResponse>('tourists_documents', {
+        body: form,
+        method: 'post',
+    });
+    return result.data;
 };

@@ -30,5 +30,6 @@ export const createOrder = async (body: CreateOrderPayload) => {
     return await http<CreateOrderResponse>('tour/order/create', {
         body,
         method: 'post',
+        version: 2,
     });
 };

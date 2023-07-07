@@ -1,19 +1,22 @@
 <script lang="ts">
-export default { inheritAttrs: true };
+export default { inheritAttrs: false };
 </script>
 
 <script setup lang="ts">
-import { computed, h, ref, watch } from 'vue';
-import { Menu, Button, Popover } from '@ui/components';
-import type { StringOrNumber } from '@ui/types';
-import { ChevronDownIcon } from '@ui/icons';
+import { computed, ref, watch } from 'vue';
+import { Menu, Popover, Field } from '@ui/components';
+import type { StringOrNumber, UnknownObject } from '@ui/types';
 import type { SelectProps } from '@ui/components/Select/select';
 import { defaultSelectProps } from '@ui/components/Select/select';
-import { Field } from '@ui/components';
+import { SelectButton } from '@ui/components';
+import isEqual from 'lodash.isequal';
 
 const props = withDefaults(defineProps<SelectProps>(), defaultSelectProps);
 const emit = defineEmits<{
-    'update:modelValue': [StringOrNumber | StringOrNumber[] | null | undefined];
+    (
+        e: 'update:modelValue',
+        value?: StringOrNumber | StringOrNumber[] | UnknownObject | UnknownObject[] | null | undefined
+    ): void;
 }>();
 
 const modelValue = computed({
@@ -24,26 +27,24 @@ const modelValue = computed({
 const open = ref(false);
 
 const selected = computed(() => {
-    if (props.multiple) {
-        const result = props.options
-            .filter(option => (modelValue.value as StringOrNumber[]).includes(option.value))
-            .map(option => option.label);
+    if (!props.modelValue) return '';
 
-        return result.join(', ');
+    if (props.multiple) {
+        const selected = props.options.filter(item => {
+            const result = props.returnObject ? item : item[props.valueKey];
+            return (props.modelValue as StringOrNumber[])?.includes(result as StringOrNumber);
+        });
+
+        return selected.map(item => item[props.labelKey]).join(', ');
     }
 
-    if (!props.options) return '';
-
-    const value = props.options.find(option => option.value === modelValue.value);
-    return value?.label;
-});
-
-const endIcon = (props: Record<string, StringOrNumber>) => {
-    return h(ChevronDownIcon, {
-        ...props,
-        class: ['transition-transform', open.value && 'rotate-180'],
+    const selected = props.options.find(item => {
+        const result = props.returnObject ? item : item[props.valueKey];
+        return props.returnObject ? isEqual(result, props.modelValue) : result === props.modelValue;
     });
-};
+
+    return selected?.[props.labelKey] || '';
+});
 
 watch(modelValue, () => {
     if (!props.multiple) return (open.value = false);
@@ -51,26 +52,6 @@ watch(modelValue, () => {
     if (props.options.length === (modelValue.value as StringOrNumber[]).length) {
         open.value = false;
     }
-});
-
-const buttonVariant = computed(() => {
-    return props.error ? 'danger-outline' : props.success ? 'success-outline' : 'base';
-});
-
-const buttonClass = computed(() => {
-    return props.error
-        ? 'border-danger-700'
-        : props.success
-        ? 'border-success-700'
-        : 'border-secondary-400';
-});
-
-const buttonPlaceholderClass = computed(() => {
-    return props.error
-        ? 'text-danger-500'
-        : props.success
-        ? 'text-success-600'
-        : 'text-secondary-500';
 });
 </script>
 
@@ -85,22 +66,33 @@ const buttonPlaceholderClass = computed(() => {
                 :error="error"
                 :success="success"
             >
-                <Button
+                <SelectButton
                     :name="name"
-                    v-bind="{ ...vbind, ...$attrs }"
-                    :end-icon="endIcon"
-                    :class="open && buttonClass"
-                    :variant="buttonVariant"
-                    :strong="strong && !!selected"
-                    justify="between"
-                    :block="block"
-                    :disabled="disabled"
-                >
-                    <template v-if="selected">{{ selected }}</template>
-                    <span v-else :class="buttonPlaceholderClass">{{ placeholder }}</span>
-                </Button>
+                    :required="required"
+                    :label="label"
+                    :hint="hint"
+                    :error="error"
+                    :success="success"
+                    :value="selected"
+                    :placeholder="placeholder"
+                    :open="open"
+                    v-bind="vbind"
+                />
             </Field>
         </template>
-        <Menu v-model="modelValue" :options="options" :multiple="multiple" />
+        <Menu
+            v-model="modelValue"
+            :options="options"
+            :multiple="multiple"
+            :label-key="labelKey"
+            :value-key="valueKey"
+            :children-key="childrenKey"
+            :description-key="descriptionKey"
+            :return-object="returnObject"
+        >
+            <template v-if="$slots.empty" #empty>
+                <slot name="empty" />
+            </template>
+        </Menu>
     </Popover>
 </template>

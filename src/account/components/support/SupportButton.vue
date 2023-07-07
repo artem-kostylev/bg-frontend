@@ -31,10 +31,9 @@ const toSupport = async () => {
 
 <template>
     <Button
-        variant="secondary"
         :start-icon="QuestionInCircleIcon"
+        variant="secondary"
         icon-class="w-5 h-5"
-        class="w-full sm:w-max"
         @click="toSupport"
     >
         {{ supportId ? 'Общение с поддержкой' : 'Обращение в поддержку' }}

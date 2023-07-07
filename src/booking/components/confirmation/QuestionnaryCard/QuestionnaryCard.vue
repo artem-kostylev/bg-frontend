@@ -7,7 +7,7 @@ import { Card, Input, Button, RadioButtonGroup, Select } from '@ui/components';
 import { XIcon } from '@ui/icons';
 import type { Questionnary, QuestionnaryForm, Insurance } from '@/booking/types';
 import type { FetchAvailableDocumentsResponse } from '@/booking/services';
-import { fetchInsurances } from '@/booking/services';
+import { fetchInsurances, fetchVisaTypes } from '@/booking/services';
 import {
     required,
     email,
@@ -165,11 +165,40 @@ const {
     }
 );
 
+const { data: visaTypes, execute: visaTypesExecute } = useLazyAsyncData(
+    'form-visa',
+    () => fetchVisaTypes(props.questionnary),
+    {
+        server: false,
+        immediate: false,
+    }
+);
+
 const canFetchInsurance = computed(() => {
     return !!v$.value.nationality_id.$model && !v$.value.birthday.$invalid;
 });
 
 watch(canFetchInsurance, value => value && insurancesExecute());
+
+const visaRequired = computed(() => {
+    if (!v$.value.document_type_id.$model || !documents.value) return;
+
+    return documents.value.find(document => document.id === v$.value.document_type_id.$model)
+        ?.is_visa;
+});
+
+watch(visaRequired, value => value && visaTypesExecute());
+
+const visaItems = computed(() => {
+    if (!visaTypes.value) return [{ label: '', value: '' }];
+
+    return visaTypes.value.map(visa => {
+        return {
+            label: visa.name,
+            value: visa.id,
+        };
+    });
+});
 
 const clearForm = () => {
     emit('clear-form', props.index);
@@ -324,6 +353,9 @@ upperCaseKeys.forEach(key => {
                 :options="fetchedInsurances"
                 :disabled="!fetchedInsurances"
             />
+            <!--TODO-->
+            <!--Сделать модалку с выбором-->
+            <Select v-if="visaTypes && visaTypes.length" :options="visaItems" />
         </div>
         <div>
             <button @click="clearForm">

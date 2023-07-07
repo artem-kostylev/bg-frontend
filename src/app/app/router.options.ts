@@ -38,19 +38,19 @@ export default <RouterConfig>{
         {
             name: 'hotels-id',
             path: '/hotels/:id',
-            meta: { navigation: true },
+            meta: { filters: true, navigation: true },
             component: () => import('@/tours/pages/tours/[id].vue'),
         },
         {
             name: 'tours-multi-id',
             path: '/tours-multi/:id',
-            meta: { navigation: true },
+            meta: { filters: true, navigation: true },
             component: () => import('@/tours/pages/tours/[id].vue'),
         },
         {
             name: 'tours-activity-id',
             path: '/tours-activity/:id',
-            meta: { navigation: true },
+            meta: { filters: true, navigation: true },
             component: () => import('@/tours/pages/tours/[id].vue'),
         },
         {

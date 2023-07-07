@@ -8,8 +8,8 @@ const route = useRoute();
 
 <template>
     <main class="flex-1 flex flex-col">
+        <Navigation v-if="route.meta.navigation" class="mt-5" />
         <Filters v-if="route.meta.filters" />
-        <Navigation v-if="route.meta.navigation" />
         <slot />
     </main>
 </template>

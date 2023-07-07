@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { Container, Tabs } from '@ui/components';
 import { useName } from '@/app/composables';
 import { PalmIcon, BuildingsIcon, AirplaneIcon } from '@ui/icons';
+import { Content } from './components';
 
 const tabs = [
     { value: 'index', label: 'Туры', startIcon: PalmIcon },
@@ -29,6 +30,14 @@ const onUpdate = (value: string | number) => {
 
 <template>
     <Container class="w-full pt-8">
-        <Tabs :model-value="currentTab" @update:model-value="onUpdate" :tabs="tabs" />
+        <Tabs
+            :model-value="currentTab"
+            @update:model-value="onUpdate"
+            :tabs="tabs"
+            class="mb-2.5"
+        />
+        <div class="bg-gradient-to-r from-primary-50/25 to-danger-50 p-1.5 rounded-2xl">
+            <Content />
+        </div>
     </Container>
 </template>

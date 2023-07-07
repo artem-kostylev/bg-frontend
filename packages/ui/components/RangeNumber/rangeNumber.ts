@@ -11,4 +11,5 @@ export type RangeNumberProps = {
 export const defaultRangeNumberProps = {
     start: 1,
     end: 28,
-};
+    modelValue: null,
+} as const;

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { defaultMenuProps } from './menu';
+import { defaultMenuProps, menuSizes } from './menu';
 import type { MenuProps, MenuOption } from './menu';
 import type { StringOrNumber } from '@ui/types';
 import { CheckIcon } from '@ui/icons';
@@ -42,7 +42,10 @@ const select = (option: MenuOption) => {
             v-for="option in options"
             :key="option.value"
             @click="select(option)"
-            class="px-4 py-1.5 flex items-center w-full text-left hover:bg-secondary-100 transition-colors duration-200"
+            :class="[
+                'flex items-center w-full text-left hover:bg-secondary-100 transition-colors duration-200',
+                menuSizes[size],
+            ]"
         >
             <component :is="option.startIcon" width="1.1em" class="mr-3.5 text-primary-500" />
             <span class="flex-1">{{ option.label }}</span>

@@ -41,7 +41,7 @@ const getTo = (item: Navigation) => {
 
 <template>
     <Container
-        class="flex w-full overflow-hidden overflow-x-auto space-x-5 pt-5 scrollbar-hidden"
+        class="flex w-full overflow-hidden overflow-x-auto space-x-5 scrollbar-hidden"
         v-if="data"
     >
         <ol class="flex items-center whitespace-nowrap">

@@ -4,31 +4,21 @@ import { useScrollLock, onClickOutside } from '@vueuse/core';
 import { Overlay, Card, Typography } from '@ui/components';
 import { XIcon } from '@ui/icons';
 
-const sizes = {
-    auto: 'w-max',
-    sm: 'max-w-sm',
-    md: 'max-w-md',
-    lg: 'max-w-lg',
-    xl: 'max-w-xl',
-    '2xl': 'max-w-2xl',
-    '3xl': 'max-w-3xl',
-    '4xl': 'max-w-4xl',
-    '5xl': 'max-w-5xl',
-    '7xl': 'max-w-7xl',
+const placements = {
+    top: 'flex items-start min-h-full md:h-[80vh] md:min-h-[80vh]',
+    bottom: 'flex items-end min-h-full',
 };
 
 type Props = {
     modelValue?: boolean | null;
-    scrollable?: boolean;
-    fullscreen?: boolean;
-    size?: keyof typeof sizes;
+    placement?: keyof typeof placements;
     title?: string;
     loading?: boolean;
     persistent?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    size: 'md',
+    placement: 'top',
     title: '',
     modelValue: null,
 });
@@ -76,40 +66,25 @@ const vbind = { onClick: show };
         <Transition
             appear
             enter-active-class="transform ease-out duration-300"
-            enter-from-class="translate-y-14"
+            enter-from-class="-translate-y-full"
             enter-to-class="translate-y-0"
             leave-active-class="transform ease-in duration-200"
             leave-from-class="translate-y-0"
-            leave-to-class="translate-y-14"
+            leave-to-class="-translate-y-full"
         >
-            <div
-                :class="[
-                    'fixed top-0 left-0 w-full h-full overflow-x-hidden overflow-y-auto',
-                    scrollable ? 'pointer-events-none' : 'pointer-events-auto',
-                ]"
-            >
+            <div :class="['fixed top-0 left-0 w-full h-full overflow-x-hidden overflow-y-auto']">
                 <div
                     :class="[
-                        'relative w-auto pointer-events-none mx-auto',
-                        'flex items-center min-h-[calc(100%-2.5rem)]',
-                        sizes[size],
-                        scrollable && 'h-[calc(100%-2.5rem)]',
-                        fullscreen ? 'm-0 w-screen !h-full !max-w-none sm:m-5' : 'm-5',
+                        'relative w-auto sm:mx-auto pointer-events-none h-full ',
+                        placements[placement],
                     ]"
                 >
                     <Card
                         ref="targetRef"
                         :data-clickoutside="visible"
-                        :class="[
-                            'w-full pointer-events-auto',
-                            scrollable && 'max-h-full overflow-hidden',
-                            fullscreen && '!rounded-none h-full',
-                        ]"
+                        :class="['w-full max-h-full pointer-events-auto rounded-none']"
                         header-class="-my-2"
-                        :body-class="[
-                            scrollable && 'overflow-y-auto',
-                            fullscreen && 'overflow-y-auto',
-                        ]"
+                        body-class="overflow-y-auto"
                     >
                         <template #header>
                             <div class="flex items-center justify-between">

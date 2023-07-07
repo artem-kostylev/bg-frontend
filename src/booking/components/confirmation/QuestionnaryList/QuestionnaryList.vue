@@ -6,7 +6,7 @@ export default {
 
 <script setup lang="ts">
 import { useLazyAsyncData, useRoute, useRouter } from '#imports';
-import { ref, reactive, computed, onMounted, watch } from 'vue';
+import { ref, reactive, computed, onMounted, watch, defineAsyncComponent } from 'vue';
 import type { General, Insurance, Accommodation } from '@/booking/types';
 import { Button, Typography, Collapse, Checkbox } from '@ui/components';
 import { QuestionnaryCard } from '@/booking/components';
@@ -24,7 +24,7 @@ import { parseTickets } from '@/booking/lib/helpers';
 const route = useRoute();
 const router = useRouter();
 
-const { showAuthModal, isAuthenticated } = storeToRefs(useAuthStore());
+const { isAuthenticated } = storeToRefs(useAuthStore());
 
 type Form = {
     questionnaries: Questionnary[];
@@ -221,7 +221,7 @@ const submit = async () => {
     if (!(await v$.value.$validate())) return;
 
     if (!isAuthenticated.value) {
-        showAuthModal.value = true;
+        showAuth.value = true;
         return;
     }
 
@@ -238,6 +238,12 @@ watch(documents, value => {
         }))
     );
 });
+
+const AuthModal = defineAsyncComponent(() =>
+    import('@/auth/components').then(meta => meta.AuthModal)
+);
+
+const showAuth = ref(false);
 
 onMounted(() => {
     form.questionnaries = props.general.groups.flatMap(({ tourists, tour_id }) =>
@@ -264,7 +270,8 @@ onMounted(() => {
             Для того чтобы заполненные ниже данные анкет сохранились в Системе, войдите в Личный
             кабинет, либо зарегистрируйтесь:
         </p>
-        <Button variant="primary" @click="showAuthModal = true">Войти в личный кабинет</Button>
+        <Button variant="primary" @click="showAuth = true">Войти в личный кабинет</Button>
+        <AuthModal v-if="!isAuthenticated" v-model="showAuth" />
     </div>
     <Collapse
         v-for="(questionnary, index) in form.questionnaries"

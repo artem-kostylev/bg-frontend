@@ -106,7 +106,7 @@ const vbind = { onClick: show };
                                 <div class="absolute top-0 right-0 p-5">
                                     <button
                                         @click="hide"
-                                        class="focus:outline-none bg-secondary-900/60 hover:bg-slate-900/70 text-white rounded-full p-2"
+                                        class="focus:outline-none bg-secondary-900/60 hover:bg-secondary-900/70 text-white rounded-full p-2"
                                     >
                                         <XIcon width="1.3em" height="1.3em" />
                                     </button>

@@ -40,12 +40,14 @@ const endIcon = computed(() => (props.loading ? Spin : props.endIcon));
                 v-if="startIcon || $slots['start-icon']"
                 class="absolute inset-y-0 left-0 flex items-center justify-center pl-4"
             >
-                <component
-                    :is="startIcon"
-                    width="1.2em"
-                    height="1.2em"
-                    class="text-secondary-500"
-                />
+                <slot name="start-icon">
+                    <component
+                        :is="startIcon"
+                        width="1.2em"
+                        height="1.2em"
+                        class="text-secondary-500"
+                    />
+                </slot>
             </div>
             <input
                 v-bind="attrs"

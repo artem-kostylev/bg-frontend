@@ -1,5 +1,5 @@
 import type { Component } from 'vue';
-import type { StringOrNumber } from '@ui/types';
+import type { StringOrNumber, UnknownObject } from '@ui/types';
 
 export const menuSizes = {
     md: 'px-4 py-1.5',
@@ -7,15 +7,19 @@ export const menuSizes = {
 };
 
 export type MenuOption = {
-    label: string;
-    value: StringOrNumber;
     startIcon?: Component;
+    [key: string]: unknown;
 };
 
 export type MenuProps = {
+    labelKey?: string;
+    valueKey?: string;
+    descriptionKey?: string;
+    childrenKey?: string;
+    returnObject?: boolean;
     multiple?: boolean;
-    options: MenuOption[];
-    modelValue?: StringOrNumber | StringOrNumber[] | null;
+    options?: MenuOption[] | null;
+    modelValue?: StringOrNumber | StringOrNumber[] | UnknownObject | UnknownObject[] | null;
     dropdown?: boolean;
     size?: keyof typeof menuSizes;
 };
@@ -23,4 +27,8 @@ export type MenuProps = {
 export const defaultMenuProps = {
     modelValue: '',
     size: 'md',
+    labelKey: 'label',
+    valueKey: 'value',
+    descriptionKey: 'description',
+    childrenKey: 'children',
 } as const;

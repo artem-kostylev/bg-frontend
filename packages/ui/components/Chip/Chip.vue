@@ -18,8 +18,8 @@ const close = () => {
 <template>
     <div
         :class="[
-            'select-none inline-flex items-center bg-slate-200 border border-transparent rounded-full px-2.5 py-1 text-sm font-medium transition-colors',
-            clicable && 'hover:bg-slate-300 cursor-pointer',
+            'select-none inline-flex items-center bg-secondary-200 border border-transparent rounded-full px-2.5 py-1 text-sm font-medium transition-colors',
+            clicable && 'hover:bg-secondary-300 cursor-pointer',
         ]"
     >
         <div :class="['truncate w-full']">
@@ -29,7 +29,7 @@ const close = () => {
             <XIcon
                 width="1.1em"
                 height="1.1em"
-                class="ml-1.5 text-slate-500 -mr-1 hover:text-slate-900"
+                class="ml-1.5 text-secondary-500 -mr-1 hover:text-secondary-900"
             />
         </button>
     </div>

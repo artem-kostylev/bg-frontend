@@ -4,6 +4,7 @@ import { Popover } from '@ui/components';
 
 type Props = {
     modelValue: boolean;
+    title?: string;
 };
 
 const props = defineProps<Props>();

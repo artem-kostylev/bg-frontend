@@ -3,17 +3,24 @@ export default { inheritAttrs: false };
 </script>
 
 <script setup lang="ts">
+import { computed } from 'vue';
 import type { Component } from 'vue';
+import { Spin } from '@ui/components';
 
 type Props = {
     label: string;
     modelValue?: string | number | null;
     readonly: boolean;
+    loading?: boolean;
     endIcon: Component;
 };
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     modelValue: '',
+});
+
+const endIcon = computed(() => {
+    return props.loading ? Spin : props.endIcon;
 });
 </script>
 

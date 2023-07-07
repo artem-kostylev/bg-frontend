@@ -3,7 +3,7 @@ import { defineAsyncComponent, computed, watch, ref } from 'vue';
 import { FloatingInput, Menu } from '@ui/components';
 import { useMediaQuery } from '@vueuse/core';
 import { MapMarkerIcon } from '@ui/icons';
-// import type { MenuOption } from '@ui/components/Menu/menu';
+import type { MenuOption } from '@ui/components/Menu/menu';
 
 const Mobile = defineAsyncComponent(() => import('./Mobile.vue'));
 const Desktop = defineAsyncComponent(() => import('./Desktop.vue'));
@@ -12,8 +12,7 @@ type Props = {
     modelValue?: number;
     labelKey?: string;
     valueKey?: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    options?: any;
+    options?: MenuOption[] | null;
     loading?: boolean;
 };
 
@@ -36,11 +35,10 @@ const value = computed({
 });
 
 const selected = computed(() => {
-    if (!props.modelValue) return;
+    if (!props.modelValue || !props.options) return;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const item = props.options.find((item: any) => item[props.valueKey] === props.modelValue);
-    return item?.[props.labelKey];
+    const item = props.options.find(item => item[props.valueKey] === props.modelValue);
+    return item?.[props.labelKey] as string;
 });
 
 watch(value, () => (show.value = false));

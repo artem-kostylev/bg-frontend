@@ -16,7 +16,7 @@ type Props = {
     valueKey?: string;
     descriptionKey?: string;
     childrenKey?: string;
-    options: MenuOption[];
+    options?: MenuOption[] | null;
     search: string;
     loading?: boolean;
     loadingSearch?: boolean;
@@ -62,7 +62,7 @@ watch(show, value => {
                 :loading="loading"
             />
         </template>
-        <div class="!sm:w-[350px] -mb-5 sm:mb-0 -mx-5 sm:mx-0">
+        <div class="sm:w-[350px] -mb-5 sm:mb-0 -mx-5 sm:mx-0">
             <div class="relative">
                 <div class="absolute inset-y-0 flex items-center px-5 pointer-events-none">
                     <button class="focus:outline-none -ml-1 text-secondary-500">
@@ -78,7 +78,7 @@ watch(show, value => {
             </div>
             <div class="sm:overflow-y-auto sm:max-h-[410px]">
                 <div v-if="loadingSearch" class="flex items-center justify-center py-12">
-                    <Spin width="1.9em" height="1.9em" class="text-blue-700" />
+                    <Spin width="1.9em" height="1.9em" color="primary" />
                 </div>
                 <Menu
                     v-else

@@ -7,11 +7,13 @@ export const defaultSelectProps = {
     strong: true,
     placeholder: 'ㅤ',
     modelValue: '',
+    labelKey: 'label',
+    valueKey: 'value',
 } as const;
 
 export type SelectProps = FieldProps &
     Omit<PopoverProps, 'modelValue'> &
-    Pick<ButtonProps, 'strong' | 'block' | 'disabled'> &
+    Pick<ButtonProps, 'strong' | 'block' | 'disabled' | 'loading'> &
     MenuProps & {
         placeholder?: string;
     };

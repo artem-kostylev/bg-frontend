@@ -124,7 +124,7 @@ const label = computed(() => {
                     <Tooltip placement="bottom" text="Удалить номер" v-if="value.length > 1">
                         <template #trigger="{ vbind }">
                             <button
-                                v-bind="{ vbind }"
+                                v-bind="vbind"
                                 class="focus:outline-none"
                                 @click="removeRoom(index)"
                             >

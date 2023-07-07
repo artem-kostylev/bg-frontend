@@ -65,3 +65,5 @@ export { default as EditIcon } from './Edit.vue';
 export { default as TrashIcon } from './Trash.vue';
 export { default as MapMarkerIcon } from './MapMarker.vue';
 export { default as EarthIcon } from './Earth.vue';
+export { default as SuccessEnvelopeIcon } from './SuccessEnvelope.vue';
+export { default as QuestionPlusIcon } from './QuestionPlus.vue';

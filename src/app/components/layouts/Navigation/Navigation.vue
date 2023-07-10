@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useLazyAsyncData } from '#imports';
+import { clearNuxtData, onBeforeUnmount, useLazyAsyncData } from '#imports';
 import { fetchNavigation } from '@/app/services';
 import { useQuery, useName, useParams } from '@/app/composables';
 import type { FiltersRaw, Navigation } from '@/app/types';
 import { Container } from '@ui/components';
 import { CheckIcon } from '@ui/icons';
-import { formatFilters } from '~/lib';
+import { formatFilters } from '@/app/lib';
 import type { RouteLocationPathRaw, LocationQueryRaw } from 'vue-router';
 
 const name = useName<string>();
@@ -20,7 +20,7 @@ const { data } = useLazyAsyncData(
 );
 
 const currentIndex = computed(() => {
-    if (!data.value) return -1;
+    if (!data.value) return 0;
 
     return data.value.findIndex(item => item.is_current);
 });
@@ -37,11 +37,13 @@ const getTo = (item: Navigation) => {
 
     return payload;
 };
+
+onBeforeUnmount(() => clearNuxtData('navigation'));
 </script>
 
 <template>
     <Container
-        class="flex w-full overflow-hidden overflow-x-auto space-x-5 pt-5 scrollbar-hidden"
+        class="flex w-full overflow-hidden overflow-x-auto space-x-5 scrollbar-hidden"
         v-if="data"
     >
         <ol class="flex items-center whitespace-nowrap">

@@ -15,7 +15,13 @@ const props = withDefaults(defineProps<SelectProps>(), defaultSelectProps);
 const emit = defineEmits<{
     (
         e: 'update:modelValue',
-        value?: StringOrNumber | StringOrNumber[] | UnknownObject | UnknownObject[] | null | undefined
+        value?:
+            | StringOrNumber
+            | StringOrNumber[]
+            | UnknownObject
+            | UnknownObject[]
+            | null
+            | undefined
     ): void;
 }>();
 
@@ -27,7 +33,7 @@ const modelValue = computed({
 const open = ref(false);
 
 const selected = computed(() => {
-    if (!props.modelValue) return '';
+    if (!props.modelValue || !props.options) return '';
 
     if (props.multiple) {
         const selected = props.options.filter(item => {
@@ -49,7 +55,7 @@ const selected = computed(() => {
 watch(modelValue, () => {
     if (!props.multiple) return (open.value = false);
 
-    if (props.options.length === (modelValue.value as StringOrNumber[]).length) {
+    if (props.options?.length === (modelValue.value as StringOrNumber[]).length) {
         open.value = false;
     }
 });

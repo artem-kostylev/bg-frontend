@@ -1,32 +1,25 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useScrollLock, onClickOutside } from '@vueuse/core';
-import { Overlay, Card, Typography, Image } from '@ui/components';
+import { Overlay, Card, Typography } from '@ui/components';
 import { XIcon } from '@ui/icons';
 
-const sizes = {
-    sm: 'max-w-sm',
-    md: 'max-w-md',
-    lg: 'max-w-lg',
-    xl: 'max-w-xl',
-    '2xl': 'max-w-2xl',
-    '3xl': 'max-w-3xl',
-    '4xl': 'max-w-4xl',
-    '7xl': 'max-w-7xl',
+const placements = {
+    top: 'flex items-start min-h-full md:h-[80vh] md:min-h-[80vh]',
+    bottom: 'flex items-end min-h-full',
 };
 
 type Props = {
     modelValue?: boolean | null;
-    cover?: string;
-    size?: keyof typeof sizes;
-    title: string;
+    placement?: keyof typeof placements;
+    title?: string;
     loading?: boolean;
+    persistent?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    size: 'md',
+    placement: 'top',
     title: '',
-    cover: '',
     modelValue: null,
 });
 
@@ -56,6 +49,8 @@ const hide = () => {
 watch(visible, value => (isLocked.value = value));
 
 onClickOutside(targetRef, () => {
+    if (props.persistent) return;
+
     const elements = document.body.querySelectorAll('[data-clickoutside]');
     const lastElement = elements[elements.length - 1];
 
@@ -71,49 +66,43 @@ const vbind = { onClick: show };
         <Transition
             appear
             enter-active-class="transform ease-out duration-300"
-            enter-from-class="translate-y-14"
+            enter-from-class="-translate-y-full"
             enter-to-class="translate-y-0"
             leave-active-class="transform ease-in duration-200"
             leave-from-class="translate-y-0"
-            leave-to-class="translate-y-14"
+            leave-to-class="-translate-y-full"
         >
             <div :class="['fixed top-0 left-0 w-full h-full overflow-x-hidden overflow-y-auto']">
                 <div
                     :class="[
-                        'relative w-auto m-5 pointer-events-none sm:mx-auto',
-                        'flex items-center min-h-[calc(100%-2.5rem)]',
-                        sizes[size],
+                        'relative w-auto sm:mx-auto pointer-events-none h-full ',
+                        placements[placement],
                     ]"
                 >
                     <Card
                         ref="targetRef"
                         :data-clickoutside="visible"
-                        :class="['w-full pointer-events-auto']"
+                        :class="['w-full max-h-full pointer-events-auto rounded-none']"
                         header-class="-my-2"
+                        body-class="overflow-y-auto"
                     >
-                        <template #cover>
-                            <div class="relative h-72 bg-secondary-100">
-                                <Image :src="cover" class="w-full h-full object-cover" />
-                                <div
-                                    class="inset-0 absolute bg-gradient-to-b from-transparent via-transparent to-secondary-900/90"
-                                ></div>
-                                <Typography
-                                    variant="h3"
-                                    class="absolute bottom-0 inset-x-0 px-5 py-4 text-white"
-                                >
+                        <template #header>
+                            <div class="flex items-center justify-between">
+                                <Typography variant="h3" class="truncate">
                                     {{ title }}
                                 </Typography>
-                                <div class="absolute top-0 right-0 p-5">
-                                    <button
-                                        @click="hide"
-                                        class="focus:outline-none bg-secondary-900/60 hover:bg-secondary-900/70 text-white rounded-full p-2"
-                                    >
-                                        <XIcon width="1.3em" height="1.3em" />
-                                    </button>
-                                </div>
+                                <button
+                                    @click="hide"
+                                    class="text-secondary-500 p-2 -mr-2 hover:bg-secondary-200 transition-colors rounded-full"
+                                >
+                                    <XIcon width="1.4em" height="1.4em" />
+                                </button>
                             </div>
                         </template>
                         <slot />
+                        <template v-if="$slots.footer" #footer>
+                            <slot name="footer" />
+                        </template>
                     </Card>
                 </div>
             </div>

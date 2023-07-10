@@ -3,6 +3,10 @@ import { computed, defineAsyncComponent } from 'vue';
 import { TourTypeChoose } from '@/tours/components';
 import { useName } from '@/app/composables';
 import { Select } from '@ui/components';
+import { useNuxtData } from '#imports';
+import type { FetchToursResponse } from '@/tours/services';
+
+const { data } = useNuxtData<FetchToursResponse>('tours');
 
 const AdvancedFilters = defineAsyncComponent(() =>
     import('@/tours/components').then(meta => meta.AdvancedFilters)
@@ -45,6 +49,7 @@ const canShowAdvancedFilters = computed(() => {
                 <TourTypeChoose />
             </div>
             <div
+                v-if="data?.tours.length"
                 :class="[
                     'px-2.5 flex items-center justify-between space-x-2.5 mb-5',
                     canShowTourType ? 'md:justify-end flex-1 md:flex-none' : ' flex-1',

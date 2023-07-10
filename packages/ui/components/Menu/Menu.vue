@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defaultMenuProps } from './menu';
+import { defaultMenuProps, menuSizes } from './menu';
 import type { MenuProps, MenuOption } from './menu';
 import type { StringOrNumber, UnknownObject } from '@ui/types';
 import { CheckIcon } from '@ui/icons';
@@ -10,7 +10,13 @@ const props = withDefaults(defineProps<MenuProps>(), defaultMenuProps);
 const emit = defineEmits<{
     (
         e: 'update:modelValue',
-        value?: StringOrNumber | StringOrNumber[] | UnknownObject | UnknownObject[] | undefined | null
+        value?:
+            | StringOrNumber
+            | StringOrNumber[]
+            | UnknownObject
+            | UnknownObject[]
+            | undefined
+            | null
     ): void;
     (e: 'select', value: StringOrNumber | UnknownObject | undefined): void;
 }>();
@@ -54,11 +60,11 @@ const select = (option: MenuOption) => {
 
 <template>
     <div class="py-1 bg-white">
-        <template v-if="options.length">
+        <template v-if="options?.length">
             <template v-for="(item, index) in options" :key="item[valueKey] || index">
                 <template v-if="item.children">
                     <Divider v-if="index !== 0" class="mt-1" />
-                    <div class="px-5 py-2.5">
+                    <div :class="menuSizes[size]">
                         <Typography variant="description">
                             {{ item[labelKey] }}
                         </Typography>
@@ -72,7 +78,7 @@ const select = (option: MenuOption) => {
                         :aria-selected="selected(child)"
                         :class="[
                             'hover:bg-secondary-100 flex flex-col w-full whitespace-nowrap',
-                            `px-4 py-1.5`,
+                            menuSizes[size],
                             selected(child) && 'bg-secondary-50 hover:bg-secondary-50',
                         ]"
                     >
@@ -118,7 +124,10 @@ const select = (option: MenuOption) => {
                                 height="1em"
                             />
                         </div>
-                        <div v-if="item[descriptionKey]" class="truncate text-slate-500 text-sm">
+                        <div
+                            v-if="item[descriptionKey]"
+                            class="truncate text-secondary-500 text-sm"
+                        >
                             {{ item[descriptionKey] }}
                         </div>
                     </button>

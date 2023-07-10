@@ -9,7 +9,7 @@ const route = useRoute();
 <template>
     <main class="flex-1 flex flex-col">
         <Filters v-if="route.meta.filters" />
-        <Navigation v-if="route.meta.navigation" />
+        <Navigation v-if="route.meta.navigation" class="mt-5" />
         <slot />
     </main>
 </template>

@@ -38,4 +38,7 @@ export * from './Slider';
 export * from './Dropdown';
 export * from './MessageProvider';
 export * from './Switch';
+export * from './FloatingInput';
+export * from './Drawer';
+export * from './Chip';
 export * from './SelectButton';

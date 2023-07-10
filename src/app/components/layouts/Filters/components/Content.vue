@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { BeginDatePicker, FromPicker, ToPicker, DurationPicker, RoomPicker } from './elements';
 import { SearchIcon } from '@ui/icons';
 import { Button } from '@ui/components';
@@ -10,15 +10,17 @@ import type { Filters, FiltersRaw } from '@/app/types';
 import { useRouter } from 'vue-router';
 import type { LocationQueryRaw } from 'vue-router';
 import { useName } from '@/app/composables';
-import { formatFilters } from '@/app/lib';
+import { formatFilters, parseFilters } from '@/app/lib';
 import { useDebounceFn } from '@vueuse/core';
+import cloneDeep from 'lodash.clonedeep';
+import isEqual from 'lodash.isequal';
 
 const query = useQuery<FiltersRaw>();
 const router = useRouter();
 const name = useName<string>();
 const search = ref('');
 
-const { data } = useLazyAsyncData('main-filters', () => fetchMainFilters(query.value), {
+const { data, refresh } = useLazyAsyncData('main-filters', () => fetchMainFilters(query.value), {
     server: false,
     default: () => ({} as Filters),
 });
@@ -45,16 +47,51 @@ watch(search, (value, prevValue) => {
     }
 });
 
+const mainFilters = computed(() => {
+    const { tour_from, tour_to, tour_begin_date, tour_tourists, tour_duration } = parseFilters(
+        query.value
+    );
+
+    const payload: Filters = {};
+    tour_from && (payload.tour_from = tour_from);
+    tour_to && (payload.tour_to = tour_to);
+    tour_begin_date && (payload.tour_begin_date = tour_begin_date);
+    tour_tourists && (payload.tour_tourists = tour_tourists);
+    tour_duration && (payload.tour_duration = tour_duration);
+
+    return payload;
+});
+
 const onSearch = () => {
-    const correctName = name.value === 'index' ? 'tours-search' : `${name.value}-search`;
+    const correctName =
+        name.value === 'index'
+            ? 'tours-search'
+            : name.value.endsWith('-search')
+            ? name.value
+            : `${name.value}-search`;
+
+    const payload = formatFilters(data.value);
+
+    if (payload.tour_begin_date && !payload.tour_begin_date?.[1]) {
+        payload.tour_begin_date.length = payload.tour_begin_date?.length - 1;
+    }
 
     router.push({ name: correctName, query: formatFilters(data.value) as LocationQueryRaw });
 };
+
+watch(mainFilters, value => {
+    if (Object.keys(value).length) {
+        const main = cloneDeep(data.value);
+        delete main.tour_to?.title;
+
+        !isEqual(value, main) && refresh();
+    }
+});
 </script>
 
 <template>
     <div class="flex flex-wrap items-stretch -mx-1 -mb-2">
-        <div class="w-full md:w-1/2 lg:w-1/6 px-1 mb-2">
+        <div v-if="!name.startsWith('hotels')" class="w-full md:w-1/2 lg:w-1/6 px-1 mb-2">
             <FromPicker
                 v-model="data.tour_from"
                 label-key="name"
@@ -75,18 +112,35 @@ const onSearch = () => {
                 :loading-search="!!to?.length && pendingTo"
             />
         </div>
-        <div class="w-1/2 lg:w-1/6 px-1 mb-2">
-            <BeginDatePicker v-model="data.tour_begin_date" />
-        </div>
-        <div class="w-1/2 lg:w-1/6 px-1 mb-2">
-            <DurationPicker v-model="data.tour_duration" />
-        </div>
+        <template v-if="name.startsWith('avia')">
+            <div class="w-1/2 lg:w-1/6 px-1 mb-2">
+                <BeginDatePicker v-model="(data.tour_begin_date ?? [])[0]" title="Туда" />
+            </div>
+            <div class="w-1/2 lg:w-1/6 px-1 mb-2">
+                <BeginDatePicker
+                    v-model="(data.tour_begin_date ?? [])[1]"
+                    title="Обратно"
+                    clearable
+                />
+            </div>
+        </template>
+        <template v-else>
+            <div class="w-1/2 lg:w-1/6 px-1 mb-2">
+                <BeginDatePicker v-model="data.tour_begin_date" range title="Когда" />
+            </div>
+            <div class="w-1/2 lg:w-1/6 px-1 mb-2">
+                <DurationPicker v-model="data.tour_duration" />
+            </div>
+        </template>
         <div class="w-full lg:w-1/6 px-1 mb-2">
             <RoomPicker v-model="data.tour_tourists" />
         </div>
         <div class="flex w-full lg:w-auto px-1 mb-2">
             <Button variant="primary" block @click="onSearch">
-                <SearchIcon width="1.2em" height="1.2em" class="m-1.5" />
+                <div class="flex items-center m-1.5 space-x-2.5">
+                    <SearchIcon width="1.15em" height="1.15em" />
+                    <span class="lg:hidden">Найти</span>
+                </div>
             </Button>
         </div>
     </div>

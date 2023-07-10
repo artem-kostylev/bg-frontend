@@ -10,25 +10,24 @@ const Mobile = defineAsyncComponent(() => import('./Mobile.vue'));
 const Desktop = defineAsyncComponent(() => import('./Desktop.vue'));
 
 type Props = {
-    bordered?: boolean;
     modelValue?: string[] | string;
     title?: string;
     range?: boolean;
     format?: string;
-    returnTicket?: boolean;
+    clearable?: boolean;
 };
 
 const props = withDefaults(defineProps<Props>(), {
     modelValue: undefined,
-    bordered: true,
-    title: 'Когда',
-    range: true,
+    title: '',
     format: 'DD.MM',
 });
 
 const show = ref(false);
 
-const emit = defineEmits<{ (event: 'update:modelValue', value?: string[] | string): void }>();
+const emit = defineEmits<{
+    (event: 'update:modelValue', value?: unknown): void;
+}>();
 
 const matches = useMediaQuery('(max-width: 640px)');
 
@@ -57,6 +56,8 @@ watch(value, v => {
 const dateDisabled = (date: Dayjs) => {
     return date.add(1, 'day') < dayjs(new Date());
 };
+
+const update = (value?: unknown) => emit('update:modelValue', value);
 </script>
 
 <template>
@@ -65,9 +66,10 @@ const dateDisabled = (date: Dayjs) => {
             <FloatingInput
                 v-bind="vbind"
                 :model-value="selected"
-                :bordered="bordered"
+                @update:model-value="update"
                 :end-icon="CalendarIcon"
                 :label="title"
+                :clearable="clearable"
                 readonly
             />
         </template>

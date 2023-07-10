@@ -12,5 +12,8 @@ export const fetchMainFilters = async (payload: FetchMainFiltersPayload) => {
         body: { filters: parseFilters(payload) },
     });
 
+    // TODO: Москва
+    !response.data.tour_from && (response.data.tour_from = 260);
+
     return response.data;
 };

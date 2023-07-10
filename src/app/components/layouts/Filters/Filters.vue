@@ -29,7 +29,7 @@ const onUpdate = (value: string | number) => {
 </script>
 
 <template>
-    <Container class="w-full pt-8">
+    <Container class="w-full mt-2 lg:mt-5">
         <Tabs
             :model-value="currentTab"
             @update:model-value="onUpdate"

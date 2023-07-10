@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ImageLike, Carousel, CarouselItem, Image } from '@ui/components';
+import type { RouteLocationNamedRaw } from 'vue-router';
+import type { Image as TImage } from '@/app/types';
 
 type Props = {
-    variant?: 'standart' | 'multi' | 'excursion';
-    images?: { url: string }[];
-    url?: string;
+    images?: TImage[];
+    url?: RouteLocationNamedRaw;
 };
 
 defineProps<Props>();

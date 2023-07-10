@@ -39,7 +39,8 @@ defineProps<Props>();
                     :alt="entity.name"
                     class="cursor-pointer mt-6"
                     @click="open"
-            /></template>
+                />
+            </template>
         </Gallery>
     </div>
 </template>

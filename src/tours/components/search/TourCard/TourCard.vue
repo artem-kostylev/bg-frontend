@@ -5,17 +5,7 @@ import type { FiltersRaw } from '@/app/types';
 import { LocationList } from '@/app/components';
 import { formatCurrency, formatDistance } from '@/app/lib';
 import { useQuery, useParams } from '@/app/composables';
-import {
-    Button,
-    Card,
-    Typography,
-    Image,
-    Stars,
-    Divider,
-    IconFilled,
-    Carousel,
-    CarouselItem,
-} from '@ui/components';
+import { Button, Card, Typography, Stars, Divider, IconFilled } from '@ui/components';
 import { UmbrellaIcon, AirplaneIcon, ForkAndKnifeIcon } from '@ui/icons';
 import { formatFood } from '@/tours/lib';
 import { TourIncluded, HotelBadges } from '@/tours/components';

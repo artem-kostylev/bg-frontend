@@ -99,7 +99,7 @@ onBeforeUnmount(() => {
                 <div class="absolute top-0 right-0 p-3">
                     <button
                         @click="close"
-                        class="text-secondary-500 p-2 -mr-2 bg-secondary-300 hover:bg-secondary-100 transition-colors rounded-full"
+                        class="text-white p-2.5 bg-white/10 hover:bg-white/20 transition-colors rounded-full"
                     >
                         <XIcon width="1.4em" height="1.4em" />
                     </button>
@@ -109,7 +109,7 @@ onBeforeUnmount(() => {
                         v-show="state.hasPrev"
                         @click="slide('prev')"
                         @keyup.left="slide('prev')"
-                        class="text-secondary-500 p-2.5 bg-secondary-300 hover:bg-secondary-100 transition-colors rounded-full"
+                        class="text-white p-2.5 bg-white/10 hover:bg-white/20 transition-colors rounded-full"
                     >
                         <ArrowLeftIcon />
                     </button>
@@ -119,7 +119,7 @@ onBeforeUnmount(() => {
                         v-show="state.hasNext"
                         @click="slide('next')"
                         @keyup.right="slide('next')"
-                        class="text-secondary-500 p-2.5 bg-secondary-300 hover:bg-secondary-100 transition-colors rounded-full"
+                        class="text-white p-2.5 bg-white/10 hover:bg-white/20 transition-colors rounded-full"
                     >
                         <ArrowRightIcon />
                     </button>

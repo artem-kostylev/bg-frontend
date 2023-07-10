@@ -1,5 +1,59 @@
 <script setup lang="ts">
 import { Container, Typography } from '@ui/components';
+import { TelegramIcon, VkIcon } from '@ui/icons';
+
+const links = [
+    [
+        {
+            label: 'О компании',
+            slug: 'about',
+        },
+        {
+            label: 'Вакансии',
+            slug: 'job',
+        },
+        {
+            label: 'Контакты и Реквизиты',
+            slug: 'contacts',
+        },
+        {
+            label: 'Офисы продаж',
+            slug: 'offices',
+        },
+    ],
+    [
+        {
+            label: 'Акции и предложения',
+            slug: 'promotions',
+        },
+        {
+            label: 'Бронирование',
+            slug: 'rules',
+        },
+        {
+            label: 'Памятки туристам',
+            slug: 'memos',
+        },
+    ],
+    [
+        {
+            label: 'Кабинет агенствам',
+            slug: 'account',
+        },
+        {
+            label: 'Правила взаимодействия',
+            slug: 'rules-agency',
+        },
+        {
+            label: 'Как стать агентом',
+            slug: 'for-new-agency',
+        },
+        {
+            label: 'API',
+            slug: 'api',
+        },
+    ],
+];
 </script>
 
 <template>
@@ -10,30 +64,15 @@ import { Container, Typography } from '@ui/components';
                     <Typography variant="h3">8 800 775 25 00</Typography>
                     <Typography variant="description">Звонок по России бесплатный</Typography>
                 </div>
-                <div class="space-y-2.5 flex flex-col">
+                <div v-for="(link, index) in links" :key="index" class="space-y-2.5 flex flex-col">
                     <NuxtLink
-                        :to="{ name: 'pages-slug', params: { slug: 'contacts' } }"
+                        v-for="item in link"
+                        :key="item.slug"
+                        :to="{ name: 'pages-slug', params: { slug: item.slug } }"
                         class="hover:text-primary-500"
                     >
-                        О компании
+                        {{ item.label }}
                     </NuxtLink>
-                    <NuxtLink to="#" class="hover:text-primary-500">Вакансии</NuxtLink>
-                    <NuxtLink to="#" class="hover:text-primary-500">Визы и паспорта</NuxtLink>
-                    <NuxtLink to="#" class="hover:text-primary-500">Документы</NuxtLink>
-                </div>
-                <div class="space-y-2.5 flex flex-col">
-                    <NuxtLink to="#" class="hover:text-primary-500">
-                        Акции и спецпредложения
-                    </NuxtLink>
-                    <NuxtLink to="#" class="hover:text-primary-500">Бронирование</NuxtLink>
-                    <NuxtLink to="#" class="hover:text-primary-500">Реквизиты</NuxtLink>
-                    <NuxtLink to="#" class="hover:text-primary-500">Контакты</NuxtLink>
-                </div>
-                <div class="space-y-2.5 flex flex-col">
-                    <NuxtLink to="#" class="hover:text-primary-500">Кабинет агентства</NuxtLink>
-                    <NuxtLink to="#" class="hover:text-primary-500">Сотрудничество</NuxtLink>
-                    <NuxtLink to="#" class="hover:text-primary-500">Франчайзинг</NuxtLink>
-                    <NuxtLink to="#" class="hover:text-primary-500">API</NuxtLink>
                 </div>
             </div>
             <div class="border-t border-secondary-200 border-dashed py-4">
@@ -41,6 +80,26 @@ import { Container, Typography } from '@ui/components';
                     <Typography variant="description">
                         © {{ new Date().getFullYear() }} «Библио-Глобус»
                     </Typography>
+                    <div class="flex space-x-4">
+                        <a
+                            href="https://vk.com/bgoperatorb2c"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                        >
+                            <VkIcon
+                                width="1.4rem"
+                                height="1.4rem"
+                                class="text-secondary-500 hover:text-secondary-700 transition-colors"
+                            />
+                        </a>
+                        <a href="https://t.me/bgoperator" rel="noopener noreferrer" target="_blank">
+                            <TelegramIcon
+                                width="1.4rem"
+                                height="1.4rem"
+                                class="text-secondary-500 hover:text-secondary-700 transition-colors"
+                            />
+                        </a>
+                    </div>
                 </div>
             </div>
         </Container>

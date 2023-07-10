@@ -16,8 +16,8 @@ const { isAuthenticated } = storeToRefs(useAuthStore());
 </script>
 
 <template>
-    <header class="border-b border-secondary-200 bg-white sticky md:static top-0 z-30">
-        <Container class="flex items-center justify-between py-3">
+    <header class="border-b border-secondary-200 bg-white">
+        <Container class="flex items-center justify-between py-3.5">
             <NuxtLink :to="{ name: 'index' }">
                 <img
                     src="@/app/assets/images/logo.svg"

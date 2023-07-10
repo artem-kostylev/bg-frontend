@@ -67,3 +67,5 @@ export { default as MapMarkerIcon } from './MapMarker.vue';
 export { default as EarthIcon } from './Earth.vue';
 export { default as SuccessEnvelopeIcon } from './SuccessEnvelope.vue';
 export { default as QuestionPlusIcon } from './QuestionPlus.vue';
+export { default as TelegramIcon } from './Telegram.vue';
+export { default as VkIcon } from './Vk.vue';

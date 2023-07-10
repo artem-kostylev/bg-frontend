@@ -15,5 +15,9 @@ export const fetchMainFilters = async (payload: FetchMainFiltersPayload) => {
     // TODO: Москва
     !response.data.tour_from && (response.data.tour_from = 260);
 
+    if (payload.tour_begin_date && !payload.tour_begin_date?.[1] && response.data.tour_begin_date) {
+        response.data.tour_begin_date = [payload.tour_begin_date[0]];
+    }
+
     return response.data;
 };

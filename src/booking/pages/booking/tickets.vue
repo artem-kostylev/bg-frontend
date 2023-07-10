@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { definePageMeta, useLazyAsyncData, useName } from '#imports';
+import { definePageMeta, useLazyAsyncData, useName, watch } from '#imports';
 import { useQuery } from '@/app/composables';
 import { Page, Empty } from '@/app/components';
 import { MovementList } from '@/booking/components';
 import type { FetchMovementsQuery } from '@/booking/services';
 import { fetchMovements } from '@/booking/services';
 import { Spin, Typography } from '@ui/components';
-import { whenever } from '@vueuse/core';
 
 definePageMeta({ navigation: true });
 
@@ -17,14 +16,14 @@ const { data, pending, execute } = useLazyAsyncData('booking-tickets', () => {
     return fetchMovements(query.value, name.value);
 });
 
-whenever(
-    () => query.value.route_ids,
-    value => {
-        if (!data.value) return;
-
-        value.length < data.value.general.qty_movements && execute();
+watch(query, value => {
+    if (!value.route_ids) {
+        execute();
+        return;
     }
-);
+
+    value.route_ids.length < data.value!.general.qty_movements && execute();
+});
 </script>
 
 <template>

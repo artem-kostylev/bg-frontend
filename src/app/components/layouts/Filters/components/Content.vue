@@ -79,13 +79,13 @@ const onSearch = () => {
             ? name.value
             : `${name.value}-search`;
 
-    const payload = formatFilters(data.value);
+    const payload = cloneDeep(formatFilters(data.value));
 
     if (payload.tour_begin_date && !payload.tour_begin_date?.[1]) {
         payload.tour_begin_date.length = payload.tour_begin_date?.length - 1;
     }
 
-    router.push({ name: correctName, query: formatFilters(data.value) as LocationQueryRaw });
+    router.push({ name: correctName, query: payload as LocationQueryRaw });
 };
 
 watch(mainFilters, value => {

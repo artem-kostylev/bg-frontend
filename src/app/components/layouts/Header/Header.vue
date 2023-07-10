@@ -2,7 +2,7 @@
 import { ref, defineAsyncComponent } from 'vue';
 import { storeToRefs } from 'pinia';
 import { Container } from '@ui/components';
-import { UserIcon, HeartIcon } from '@ui/icons';
+import { UserIcon } from '@ui/icons';
 import { useAuthStore } from '@/auth/stores';
 import { AuthMenu } from '@/auth/components';
 
@@ -23,17 +23,11 @@ const { isAuthenticated } = storeToRefs(useAuthStore());
                     src="@/app/assets/images/logo.svg"
                     loading="lazy"
                     alt="Библио глобус"
-                    width="185"
-                    height="33"
+                    width="190"
+                    height="29"
                 />
             </NuxtLink>
             <div class="flex items-center space-x-4 text-secondary-500">
-                <button
-                    class="text-secondary-500 hover:text-secondary-600 transition-colors duration-300"
-                    aria-label="Мои избранные"
-                >
-                    <HeartIcon width="1.6em" height="1.6em" />
-                </button>
                 <AuthMenu v-if="isAuthenticated" />
                 <button
                     v-else

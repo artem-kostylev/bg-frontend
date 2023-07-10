@@ -2,13 +2,15 @@
 import type { Room } from '@/tours/types';
 import { formatCurrency } from '@/app/lib';
 import { useRoomsStore } from '@/tours/stores';
-import { Button, Card, Typography, Image } from '@ui/components';
+import { Button, Card, Typography, Image, Divider, IconFilled } from '@ui/components';
+import { ForkAndKnifeIcon, UsersIcon } from '@ui/icons';
 import { formatBeds, formatView } from '@/tours/lib';
 import { RoomFacilityList, RoomDetailsModal } from '@/tours/components';
 
 type Props = {
     room: Room;
-    isLastGroup: boolean;
+    isLastGroup?: boolean;
+    footer?: boolean;
 };
 
 defineProps<Props>();
@@ -47,9 +49,29 @@ const { selectDates } = useRoomsStore();
             class="border-t border-secondary-200 border-dashed py-1.5 last:pb-0 flex items-center justify-between"
         >
             <Typography>{{ food.name }}</Typography>
-            <Button variant="primary" size="xs" @click="selectDates(food.dates, isLastGroup)">
+            <Button
+                v-if="isLastGroup !== undefined"
+                variant="primary"
+                size="xs"
+                @click="selectDates(food.dates, isLastGroup)"
+            >
                 от {{ formatCurrency(food.price) }}
             </Button>
+        </div>
+        <div v-if="footer" class="space-y-4">
+            <Divider dashed />
+            <IconFilled
+                v-if="room.board"
+                :icon="ForkAndKnifeIcon"
+                :label="room.board"
+                variant="secondary"
+            />
+            <IconFilled
+                v-if="room.tourists"
+                :icon="UsersIcon"
+                :label="room.tourists.join(', ')"
+                variant="secondary"
+            />
         </div>
     </Card>
 </template>

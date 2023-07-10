@@ -1,4 +1,5 @@
 import type { Image, Location } from '@/app/types';
+import type { TourIncluded } from '@/tours/types';
 
 export type TourPackage = {
     id: number;
@@ -7,9 +8,4 @@ export type TourPackage = {
     images: Image[];
     location: Location[];
     description?: string;
-    flight_included?: boolean;
-    instant_booking?: boolean;
-    transfer_included?: boolean;
-    excursion_included?: boolean;
-    insurance_included?: boolean;
-};
+} & TourIncluded;

@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import { useLazyAsyncData, useHead, definePageMeta } from '#imports';
 import { fetchAlternativeHotels } from '@/account/services';
 import { Empty, Page } from '@/app/components';
-import { Spin, Typography, IconFilled } from '@ui/components';
+import { Spin, Grid, Typography, IconFilled } from '@ui/components';
 import { CalendarIcon } from '@ui/icons';
 import { useQuery, useInfinity } from '@/app/composables';
 import { formatDate, pluralize } from '@/app/lib';
@@ -62,15 +62,13 @@ const dates = computed(() => {
 <template>
     <Page :meta="meta">
         <Spin class="flex-1" v-if="pending" color="primary" />
-        <div v-else-if="data" class="space-y-5">
+        <Grid v-else-if="data" gap="5">
             <Typography variant="h1" as="h1"
                 >Выбор другого варианта проживания для отеля №{{
                     query.hotel_index + 1
                 }}</Typography
             >
-            <div class="px-2.5 mb-2.5">
-                <IconFilled :icon="CalendarIcon" :label="dates" />
-            </div>
+            <IconFilled :icon="CalendarIcon" :label="dates" class="mb-2.5" />
             <template v-if="data.accommodations.length">
                 <AlternativeHotelList :accommodations="data.accommodations" />
                 <template v-if="data.has_next">
@@ -79,6 +77,6 @@ const dates = computed(() => {
                 </template>
             </template>
             <Empty v-else title="Других вариантов проживания для отеля не нашлось" />
-        </div>
+        </Grid>
     </Page>
 </template>

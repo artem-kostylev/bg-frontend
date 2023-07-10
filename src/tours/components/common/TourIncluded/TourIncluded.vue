@@ -8,15 +8,9 @@ import {
     PyramidIcon,
     LightingIcon,
 } from '@ui/icons';
+import type { TourIncluded } from '@/tours/types';
 
-type Props = {
-    flight_included?: boolean;
-    transfer_included?: boolean;
-    insurance_included?: boolean;
-    excursion_included?: boolean;
-    instant_booking?: boolean;
-    accommodation_included?: boolean;
-};
+type Props = TourIncluded;
 
 defineProps<Props>();
 </script>

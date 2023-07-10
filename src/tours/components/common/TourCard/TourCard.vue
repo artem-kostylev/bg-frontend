@@ -7,24 +7,24 @@ import { Button, Card, Typography, Image, Stars, Divider, IconFilled } from '@ui
 import { UmbrellaIcon, AirplaneIcon, ForkAndKnifeIcon } from '@ui/icons';
 import { formatFood } from '@/tours/lib';
 import { TourIncluded, HotelBadges } from '@/tours/components';
-import type { ShortHotel, Tour } from '@/tours/types';
-import type { AlternativeHotel } from '@/account/types';
+import type { ShortHotel } from '@/tours/types';
+import type { TourIncluded as Included } from '@/tours/types';
 
 type Props = {
-    hotel: ShortHotel | AlternativeHotel;
-    tour?: Tour & { qty_hotels?: number };
+    hotel: ShortHotel;
     to: RouteLocationNamedRaw;
-    included: boolean;
     btn: boolean;
-    target?: '_blank';
     shadow: boolean;
+    included?: Included;
+    tourPrice?: number;
+    target?: '_blank';
 };
 
 withDefaults(defineProps<Props>(), {
-    tour: undefined,
-    included: true,
-    btn: true,
+    included: undefined,
+    tourPrice: undefined,
     target: undefined,
+    btn: true,
     shadow: true,
 });
 
@@ -89,9 +89,16 @@ const NuxtLink = resolveComponent('NuxtLink');
             </div>
         </div>
         <Divider v-if="included || btn" dashed class="mb-4" />
-        <TourIncluded v-if="tour && included" v-bind="tour" class="mb-4" />
-        <Button v-if="tour && btn" :as="NuxtLink" :to="to" variant="primary" :target="target" block>
-            от {{ formatCurrency(tour.price) }}
+        <TourIncluded v-if="included" v-bind="included" class="mb-4" />
+        <Button
+            v-if="tourPrice !== undefined && btn"
+            :as="NuxtLink"
+            :to="to"
+            variant="primary"
+            :target="target"
+            block
+        >
+            от {{ formatCurrency(tourPrice) }}
         </Button>
     </Card>
 </template>

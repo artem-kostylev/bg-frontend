@@ -38,7 +38,7 @@ export type RoomView = {
 export type Room = {
     id: number;
     name: string;
-    food: RoomFood[];
+    food?: RoomFood[];
     size: number;
     beds: Bed[];
     images: Image[];
@@ -46,7 +46,11 @@ export type Room = {
     facilities: Facility[];
     max_number_of_tourists: number;
     room_location: { label: string }[];
-    rooms: number;
-    facilities_for_description: string[];
-    description: string;
+    rooms?: number;
+    facilities_for_description?: string[];
+    description?: string;
+    tour_id?: number;
+    group_id?: number;
+    tourists?: string[];
+    board?: string;
 };

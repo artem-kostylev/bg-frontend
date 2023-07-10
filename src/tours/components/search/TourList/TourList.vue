@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Grid } from '@ui/components';
-import { TourCard } from '@/tours/components';
+import { TourPackage } from '@/tours/components';
 import type { FiltersRaw } from '@/app/types';
 import type { Tour } from '@/tours/types';
 
@@ -15,7 +15,7 @@ defineProps<Props>();
 
 <template>
     <Grid cols="3" gap="5">
-        <TourCard
+        <TourPackage
             v-for="tour in tours"
             :key="tour.hotel.id"
             :tour="tour"

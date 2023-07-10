@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { RouteLocationNamedRaw } from 'vue-router';
 import { Card, Grid, Divider, Typography, Button } from '@ui/components';
-import { TourMainCard } from '@/tours/components/common';
+import { TourCard } from '@/tours/components';
 import { AlternativeRoomCard } from '@/account/components';
 import type { AlternativeHotel } from '@/account/types';
 import { formatCurrency } from '@/app/lib';
@@ -22,13 +22,13 @@ const to: RouteLocationNamedRaw = {
 <template>
     <Card body-class="p-5 flex flex-wrap md:flex-nowrap gap-5">
         <div class="w-full md:w-1/3">
-            <TourMainCard
+            <TourCard
                 :hotel="accommodation"
                 :to="to"
                 target="_blank"
-                :included="false"
                 :btn="false"
                 :shadow="false"
+                class="h-full"
             />
         </div>
         <div class="w-full md:w-2/3">

@@ -183,10 +183,10 @@ const options = reactive({
 const sending = ref(false);
 const error = ref<string | null>(null);
 
-const convertToDate = (date: string) => {
-    const d = date.split('.');
-    return d[2] + '-' + d[1] + '-' + d[0];
-};
+// const convertToDate = (date: string) => {
+//     const d = date.split('.');
+//     return d[2] + '-' + d[1] + '-' + d[0];
+// };
 
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
@@ -196,8 +196,8 @@ const submit = async () => {
 
         const result = { ...newForm.value };
 
-        result.birthday = convertToDate(result.birthday);
-        result.document_till = convertToDate(result.document_till);
+        // result.birthday = convertToDate(result.birthday);
+        // result.document_till = convertToDate(result.document_till);
         result.document_series = result.document_number.split(' ')[0];
         result.document_number = result.document_number.split(' ')[1];
 

@@ -44,7 +44,7 @@ const endIcon = computed(() => {
         </span>
         <div
             v-if="clearable && modelValue"
-            @click="emit('update:modelValue', '')"
+            @click.prevent="emit('update:modelValue', '')"
             class="absolute top-0 bottom-0 right-0 flex items-center justify-center px-3.5 text-primary-500 cursor-pointer"
         >
             <XIcon width="1.2em" height="1.2em" />

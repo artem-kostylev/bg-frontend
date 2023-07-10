@@ -70,8 +70,11 @@ export const fetchNavigation = async (
         case 'tours-search':
         case 'tours-multi-search':
         case 'tours-activity-search':
-        case 'avia-search':
             payload.status = 'hotels';
+            break;
+
+        case 'avia-search':
+            payload.status = 'tickets';
             break;
 
         default:

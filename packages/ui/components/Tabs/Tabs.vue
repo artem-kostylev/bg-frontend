@@ -26,8 +26,8 @@ const selected = (tab: Tab) => {
                 'select-none py-4 border-b-2 flex items-center whitespace-nowrap',
                 tab.disabled && 'opacity-60 pointer-events-none',
                 selected(tab)
-                    ? 'text-primary-500 hover:text-primary-500/95 border-primary-500 cursor-auto'
-                    : 'border-transparent',
+                    ? 'text-primary-500 border-primary-500 cursor-auto'
+                    : 'border-transparent hover:text-primary-500',
             ]"
         >
             <component :is="tab.startIcon" class="mr-2.5" />

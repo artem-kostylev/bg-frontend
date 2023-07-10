@@ -23,7 +23,7 @@ const selected = (tab: Tab) => {
             @click="select(tab)"
             :disabled="tab.disabled"
             :class="[
-                'select-none py-4 border-b-2 -mb-px flex items-center whitespace-nowrap',
+                'select-none py-4 border-b-2 flex items-center whitespace-nowrap',
                 tab.disabled && 'opacity-60 pointer-events-none',
                 selected(tab)
                     ? 'text-primary-500 hover:text-primary-500/95 border-primary-500 cursor-auto'

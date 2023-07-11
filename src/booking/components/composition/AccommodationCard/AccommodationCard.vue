@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, resolveComponent } from 'vue';
+import type { RouteLocationNamedRaw } from 'vue-router';
 import { useNuxtData } from '#imports';
 import { BuildingsIcon, CalendarIcon, BuildingWithArrowsIcon, HeadsetIcon } from '@ui/icons';
 import type { Accommodation } from '@/booking/types';
@@ -12,6 +13,7 @@ import type { FetchOrderDetailResponse } from '@/booking/services';
 
 type Props = {
     accommodation: Accommodation;
+    accommodationIndex: number;
 };
 
 const props = defineProps<Props>();
@@ -31,6 +33,20 @@ const { data: order } = useNuxtData<FetchOrderDetailResponse>('order-detail');
 const accommodationError = computed(() => {
     return props.accommodation.rooms.some(room => room.status?.key_name === 'NOT_CONFIRMED');
 });
+
+const NuxtLink = resolveComponent('NuxtLink');
+
+const to = computed(() => {
+    const route: RouteLocationNamedRaw = {
+        name: 'account-alternative-hotel',
+    };
+    route.query = {
+        hotel_index: props.accommodationIndex,
+        order_accommodation_id: props.accommodation.rooms.map(room => room.order_accommodation_id),
+    };
+    order.value && (route.query.order_id = order.value.general.order_id);
+    return route;
+});
 </script>
 
 <template>
@@ -39,7 +55,12 @@ const accommodationError = computed(() => {
         <div class="w-full space-y-5">
             <div v-if="order && accommodationError" class="flex items-center gap-4">
                 <div class="text-danger-600 text-xl">Бронь этого отеля не подтверждена</div>
-                <Button variant="primary" :start-icon="BuildingWithArrowsIcon" icon-class="w-6 h-6"
+                <Button
+                    :as="NuxtLink"
+                    :to="to"
+                    variant="primary"
+                    :start-icon="BuildingWithArrowsIcon"
+                    icon-class="w-6 h-6"
                     >Выбрать другой отель</Button
                 >
                 <Support

@@ -49,8 +49,6 @@ export type Room = {
     rooms?: number;
     facilities_for_description?: string[];
     description?: string;
-    tour_id?: number;
-    group_id?: number;
     tourists?: string[];
     board?: string;
 };

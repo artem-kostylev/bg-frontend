@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref, resolveComponent } from 'vue';
 import { useLazyAsyncData } from '#imports';
 import { Grid, Typography, IconFilled, Spin, Button } from '@ui/components';
 import { RoomCard } from '@/tours/components';
 import { CalendarIcon } from '@ui/icons';
 import { formatDate, pluralize, formatCurrency } from '@/app/lib';
 import { useQuery } from '@/app/composables';
-import { fetchAlternativeHotel } from '@/account/services';
+import { useMessage } from '@ui/composables';
+import { fetchAlternativeHotel, fetchChangeAcommodation } from '@/account/services';
+import { FetchError } from 'ofetch';
 
 const query = useQuery<{
     order_id: number;
@@ -32,6 +34,32 @@ const dates = computed(() => {
         'DD.MM.YYYY'
     )} (${duration})`;
 });
+
+const NuxtLink = resolveComponent('NuxtLink');
+
+const message = useMessage();
+const sending = ref(false);
+
+const changeAcommodation = async () => {
+    if (!data.value?.accommodations.length) return;
+
+    try {
+        sending.value = true;
+        await fetchChangeAcommodation({
+            order_id: query.value.order_id,
+            groups: data.value.accommodations[0].rooms.map(room => {
+                const { tour_id, group_id } = room;
+                return { tour_id, group_id };
+            }),
+        });
+    } catch (error) {
+        if (error instanceof FetchError) {
+            message.danger(error.data.message);
+        }
+    } finally {
+        sending.value = false;
+    }
+};
 </script>
 
 <template>
@@ -56,8 +84,18 @@ const dates = computed(() => {
                     }}</span>
                 </Typography>
                 <div class="flex gap-2.5">
-                    <Button variant="primary" class="w-1/2 sm:w-max"> Выбрать этот отель </Button>
-                    <Button variant="secondary" class="w-1/2 sm:w-max">
+                    <Button variant="primary" class="w-1/2 sm:w-max" @click="changeAcommodation">
+                        Выбрать этот отель
+                    </Button>
+                    <Button
+                        :as="NuxtLink"
+                        :to="{
+                            name: 'account-alternative-hotel',
+                            query: $route.query,
+                        }"
+                        variant="secondary"
+                        class="w-1/2 sm:w-max"
+                    >
                         Выбрать другой отель
                     </Button>
                 </div>

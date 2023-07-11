@@ -13,7 +13,7 @@ defineProps<Props>();
 <template>
     <Grid gap="5">
         <div v-for="(accommodation, index) in accommodations" :key="accommodation.id">
-            <AccommodationCard :accommodation="accommodation" />
+            <AccommodationCard :accommodation="accommodation" :accommodation-index="index" />
             <Divider v-if="index !== accommodations.length - 1" dashed class="mt-5" />
         </div>
     </Grid>

@@ -21,7 +21,7 @@ const router = useRouter();
 const route = useRoute();
 
 // TODO: добавить автоматическую отправку запроса если переход был через "Помощь оператора"
-const toSupport = async () => {
+const toSupport = () => {
     if (props.supportId) {
         router.push({
             name: 'account-support-id',

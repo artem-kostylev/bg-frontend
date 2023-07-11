@@ -39,6 +39,12 @@ export const fetchOrderDetail = async (order_id: number) => {
             room.tourists = room.tourists.map(
                 (tourist: { fullname: string; age: number }) => tourist.fullname
             );
+
+            room.status = {
+                description: 'Не подтверждено',
+                key_name: 'NOT_CONFIRMED',
+                value: 4,
+            };
         });
     });
 

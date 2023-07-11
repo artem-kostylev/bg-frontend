@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { OrderDetailGeneral } from '@/booking/types';
-import { CancellationContainer, Support } from './components';
+import { CancellationContainer, Support, DownloadDocuments } from './components';
 
 type Props = {
     general: OrderDetailGeneral;
@@ -21,6 +21,11 @@ defineProps<Props>();
         </div>
         <div class="mt-auto flex" :class="align && 'justify-end'">
             <Support :support-id="general.support_id" :order-number="general.order_number" />
+        </div>
+        <div class="mt-auto flex" :class="align && 'justify-end'">
+            <DownloadDocuments
+                href="https://static.stage.bgit.ru/stage1/image/642c15997cfce.jpeg"
+            />
         </div>
     </div>
 </template>

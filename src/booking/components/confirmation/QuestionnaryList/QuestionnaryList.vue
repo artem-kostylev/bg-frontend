@@ -9,7 +9,7 @@ import { useLazyAsyncData, useRoute, useRouter } from '#imports';
 import { ref, reactive, computed, onMounted, watch, defineAsyncComponent } from 'vue';
 import type { General, Insurance, Accommodation } from '@/booking/types';
 import { Button, Typography, Collapse, Checkbox } from '@ui/components';
-import { QuestionnaryCard } from '@/booking/components';
+import { QuestionnaryCard, NewPriceModal } from '@/booking/components';
 import { fetchAvailableDocuments, createOrder } from '@/booking/services';
 import type { Questionnary, QuestionnaryForm } from '@/booking/types';
 import type { Document } from '@/account/types';
@@ -42,6 +42,7 @@ const props = defineProps<Props>();
 const sending = ref(false);
 const error = ref('');
 const newPrice = ref<number | null>(null);
+const orderId = ref<number | null>(null);
 
 // const message = useMessage();
 
@@ -190,6 +191,7 @@ const sendOrder = async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const payload: any = { groups };
 
+    orderId.value && (payload.order_id = orderId.value);
     tickets && (payload.tickets = parseTickets(tickets as string[]));
     transfers && (payload.transfers = JSON.parse(transfers as string));
 
@@ -200,6 +202,7 @@ const sendOrder = async () => {
         if (response.status === 'newprice') {
             error.value = 'newprice';
             newPrice.value = response.price;
+            orderId.value = response.order_id;
             return;
         }
 
@@ -216,6 +219,12 @@ const sendOrder = async () => {
         sending.value = false;
     }
 };
+
+watch(error, (value, prevValue) => {
+    if (prevValue === 'newprice' && value === 'pay') {
+        submit();
+    }
+});
 
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
@@ -317,4 +326,5 @@ onMounted(() => {
             Перейти к оплате
         </Button>
     </div>
+    <NewPriceModal v-model="error" :new-price="newPrice" />
 </template>

@@ -27,9 +27,12 @@ export type CreateOrderResponse = {
 };
 
 export const createOrder = async (body: CreateOrderPayload) => {
-    return await http<CreateOrderResponse>('tour/order/create', {
-        body,
-        method: 'post',
-        version: 2,
-    });
+    return await http<CreateOrderResponse>(
+        'tour/order/create' + (body.order_id ? '?confirm=1' : ''),
+        {
+            body,
+            method: 'post',
+            version: 2,
+        }
+    );
 };

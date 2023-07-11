@@ -63,3 +63,4 @@ export { default as ClockIcon } from './Clock.vue';
 export { default as PlusDocumentIcon } from './PlusDocument.vue';
 export { default as EditIcon } from './Edit.vue';
 export { default as TrashIcon } from './Trash.vue';
+export { default as ChangePriceIcon } from './ChangePrice.vue';

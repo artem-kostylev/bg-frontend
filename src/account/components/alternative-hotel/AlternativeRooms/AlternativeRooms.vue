@@ -70,9 +70,10 @@ const changeAcommodation = async () => {
         <Grid gap="5" v-if="data?.accommodations[0] && data.accommodations[0].rooms.length">
             <Grid cols="3" gap="5">
                 <RoomCard
-                    v-for="room in data.accommodations[0].rooms"
+                    v-for="(room, index) in data.accommodations[0].rooms"
                     :key="room.id"
                     :room="room"
+                    :status="`Номер №${index + 1}`"
                     footer
                 />
             </Grid>

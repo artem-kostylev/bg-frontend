@@ -2,6 +2,7 @@
 import { Card, Image, Typography, Tooltip, Button } from '@ui/components';
 import type { AllActivity } from '@/booking/types';
 import { ActivityDetailsModal } from '@/booking/components';
+import { StatusBadge } from '@/app/components';
 import { CheckIcon, InfoIcon, XIcon } from '@ui/icons';
 import { formatCurrency, pluralize } from '@/app/lib';
 import { useCompositionStore } from '@/booking/stores';
@@ -46,25 +47,18 @@ const selectedPriceType = computed(() => {
                 :alt="activity.name"
                 class="w-full h-full object-cover"
             />
-            <div class="absolute top-0 right-0">
-                <div
-                    v-if="activity.status === 'include'"
-                    class="text-white px-2.5 py-1.5 text-sm rounded-bl-xl space-x-2 flex items-center bg-success-600"
-                >
-                    <CheckIcon width="1.2em" height="1.2em" />
-                    <div>В составе</div>
-                </div>
-                <div
-                    v-else
-                    :class="[
-                        'text-white px-2.5 py-1.5 text-sm rounded-bl-xl space-x-2 flex items-center',
-                        selected ? 'bg-success-600' : 'bg-warning-600',
-                    ]"
-                >
-                    <CheckIcon v-if="selected" width="1.2em" height="1.2em" />
-                    <div>{{ selected ? 'Выбрано' : 'Дополнительно' }}</div>
-                </div>
-            </div>
+            <StatusBadge
+                v-if="activity.status === 'include'"
+                label="В составе"
+                :icon="CheckIcon"
+                classes="bg-success-600"
+            />
+            <StatusBadge
+                v-else
+                :label="selected ? 'Выбрано' : 'Дополнительно'"
+                :icon="selected ? CheckIcon : undefined"
+                :classes="selected ? 'bg-success-600' : 'bg-warning-600'"
+            />
         </template>
         <div class="flex items-start justify-between space-x-5 flex-1">
             <Typography variant="h3" as="h3">{{ activity.name }}</Typography>

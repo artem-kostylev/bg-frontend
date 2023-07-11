@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { CrossInCircleIcon, CheckIcon, ClockIcon } from '@ui/icons';
 import type { ReviewStatus } from '@/tours/types';
+import { StatusBadge } from '@/app/components';
 
 type Props = {
     status: ReviewStatus;
@@ -25,15 +26,9 @@ const STATUSES = {
 </script>
 
 <template>
-    <div class="absolute top-0 right-0">
-        <div
-            :class="[
-                'text-white px-2.5 py-1.5 text-sm rounded-bl-xl space-x-2 flex items-center',
-                STATUSES[status.key_name].background,
-            ]"
-        >
-            <component :is="STATUSES[status.key_name].icon" width="1.2em" height="1.2em" />
-            <div>{{ status.description }}</div>
-        </div>
-    </div>
+    <StatusBadge
+        :label="status.description"
+        :icon="STATUSES[status.key_name].icon"
+        :classes="STATUSES[status.key_name].background"
+    />
 </template>

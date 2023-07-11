@@ -3,7 +3,8 @@ import type { Room } from '@/tours/types';
 import { formatCurrency } from '@/app/lib';
 import { useRoomsStore } from '@/tours/stores';
 import { Button, Card, Typography, Image, Divider, IconFilled } from '@ui/components';
-import { ForkAndKnifeIcon, UsersIcon } from '@ui/icons';
+import { StatusBadge } from '@/app/components';
+import { ForkAndKnifeIcon, UsersIcon, CheckIcon } from '@ui/icons';
 import { formatBeds, formatView } from '@/tours/lib';
 import { RoomFacilityList, RoomDetailsModal } from '@/tours/components';
 
@@ -11,6 +12,7 @@ type Props = {
     room: Room;
     isLastGroup?: boolean;
     footer?: boolean;
+    status?: string;
 };
 
 defineProps<Props>();
@@ -27,6 +29,7 @@ const { selectDates } = useRoomsStore();
                 :alt="room.name"
                 class="w-full h-full object-cover"
             />
+            <StatusBadge v-if="status" :label="status" :icon="CheckIcon" classes="bg-success-600" />
         </template>
         <template #header>
             <div>

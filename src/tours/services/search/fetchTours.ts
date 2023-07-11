@@ -9,7 +9,9 @@ import { parseSort } from '@/tours/lib';
 export type FetchToursResponse = {
     meta: Meta;
     filters: Filters;
+    filter_alternatives: Filters;
     tours: Tour[];
+    alternatives: Tour[];
     has_next: boolean;
 };
 

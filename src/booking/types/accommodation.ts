@@ -5,8 +5,9 @@ export interface AccommodationRoom {
     id: number;
     name: string;
     view: string[];
-    wishes: string[];
+    wishes: string[] | null;
     order_accommodation_id: number;
+    group_id?: number;
 }
 
 export type Accommodation = {
@@ -18,4 +19,5 @@ export type Accommodation = {
     name: string;
     rooms: AccommodationRoom[];
     location: { id: number; name: string; visa: boolean }[];
+    has_review?: boolean;
 };

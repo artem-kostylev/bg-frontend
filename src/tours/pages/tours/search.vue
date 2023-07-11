@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useLazyAsyncData, definePageMeta } from '#imports';
 import { TourList, TourFilters } from '@/tours/components';
 import { fetchTours } from '@/tours/services';
@@ -9,7 +9,7 @@ import { formatFilters } from '@/app/lib';
 import { useQuery, useName, useInfinity } from '@/app/composables';
 import { Empty, Page } from '@/app/components';
 
-definePageMeta({ filters: true });
+definePageMeta({ filters: true, navigation: true });
 
 const name = useName<string>();
 const query = useQuery<FiltersRaw>();
@@ -17,7 +17,7 @@ const query = useQuery<FiltersRaw>();
 const page = ref(1);
 const sort = ref('tour.price:asc');
 
-const { data, pending, error } = useLazyAsyncData(
+const { data, pending, error, refresh } = useLazyAsyncData(
     'tours',
     () => fetchTours(query.value, name.value, page.value, sort.value),
     { watch: [sort] }
@@ -30,11 +30,13 @@ const { targetRef, loadingMore } = useInfinity(async () => {
 });
 
 const filters = computed(() => formatFilters(data.value!.filters));
+
+watch(query, () => refresh());
 </script>
 
 <template>
     <Page :meta="data?.meta">
-        <Spin v-if="pending" color="primary" />
+        <Spin class="flex-1" v-if="pending" color="primary" />
         <Empty
             v-else-if="error"
             title="Что-то пошло не так"
@@ -46,13 +48,13 @@ const filters = computed(() => formatFilters(data.value!.filters));
             <template v-if="data.tours.length">
                 <TourList :tours="data.tours" :name="name" :filters="filters" />
                 <template v-if="data.has_next">
-                    <Spin v-if="loadingMore" color="primary" class="my-12" />
+                    <Spin v-if="loadingMore" color="primary" class="my-12 flex-1" />
                     <div v-else ref="targetRef"></div>
                 </template>
             </template>
             <Empty
                 v-else
-                title="Ничего не нашлось"
+                title="По вашему запросу ничего не нашлось"
                 description="Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры"
             />
         </template>

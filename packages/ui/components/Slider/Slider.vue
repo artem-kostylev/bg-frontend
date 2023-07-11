@@ -30,6 +30,8 @@ onMounted(() => {
             : [props.min, props.max]
         : props.min;
 
+    props.tooltip && (nouislider.cssClasses.tooltip += ' slider-tooltip-top');
+
     slider$ = nouislider.create(slider.value, {
         cssPrefix: 'slider-',
         start: value,
@@ -39,11 +41,29 @@ onMounted(() => {
             min: props.min,
             max: props.max,
         },
+        format: {
+            from: Number,
+            to: value => Math.round(value),
+        },
+        tooltips: props.tooltip && props.modelValue !== null ? true : false,
     });
 
     slider$.on('set', () => {
         const value = getValue();
         emit('update:modelValue', value);
+    });
+
+    /* 
+        TODO: fix this, if initial value of modelValue === null, show tooltip only after modelValue was change
+        via dragging, tapping and other actions with the slider
+    */
+    slider$.on('start', () => {
+        slider$?.updateOptions(
+            {
+                tooltips: props.tooltip ? true : false,
+            },
+            true
+        );
     });
 });
 

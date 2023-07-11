@@ -10,19 +10,19 @@ export default <RouterConfig>{
         {
             name: 'hotels-search',
             path: '/hotels/search',
-            meta: { filters: true },
+            meta: { filters: true, navigation: true },
             component: () => import('@/tours/pages/tours/search.vue'),
         },
         {
             name: 'tours-multi-search',
             path: '/tours-multi/search',
-            meta: { filters: true },
+            meta: { filters: true, navigation: true },
             component: () => import('@/tours/pages/tours/search.vue'),
         },
         {
             name: 'tours-activity-search',
             path: '/tours-activity/search',
-            meta: { filters: true },
+            meta: { filters: true, navigation: true },
             component: () => import('@/tours/pages/tours/search.vue'),
         },
         {
@@ -38,16 +38,19 @@ export default <RouterConfig>{
         {
             name: 'hotels-id',
             path: '/hotels/:id',
+            meta: { filters: true, navigation: true },
             component: () => import('@/tours/pages/tours/[id].vue'),
         },
         {
             name: 'tours-multi-id',
             path: '/tours-multi/:id',
+            meta: { filters: true, navigation: true },
             component: () => import('@/tours/pages/tours/[id].vue'),
         },
         {
             name: 'tours-activity-id',
             path: '/tours-activity/:id',
+            meta: { filters: true, navigation: true },
             component: () => import('@/tours/pages/tours/[id].vue'),
         },
         {
@@ -69,7 +72,7 @@ export default <RouterConfig>{
         {
             name: 'avia-search',
             path: '/avia/search',
-            meta: { filters: true },
+            meta: { filters: true, navigation: true },
             component: () => import('@/booking/pages/booking/tickets.vue'),
         },
     ],

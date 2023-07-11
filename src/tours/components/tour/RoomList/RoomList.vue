@@ -79,7 +79,7 @@ onBeforeUnmount(() => {
                 />
             </div>
         </div>
-        <Spin v-if="pending" class="py-5" color="primary" />
+        <Spin v-if="pending" class="py-5 flex-1" color="primary" />
         <Empty
             v-else-if="error"
             title="Что-то пошло не так"
@@ -104,7 +104,7 @@ onBeforeUnmount(() => {
                         </Grid>
                         <Empty
                             v-else
-                            title="Ничего не нашлось"
+                            title="По вашему запросу ничего не нашлось"
                             description="Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры"
                         />
                     </template>

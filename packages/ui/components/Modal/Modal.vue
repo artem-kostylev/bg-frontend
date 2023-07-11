@@ -5,6 +5,7 @@ import { Overlay, Card, Typography } from '@ui/components';
 import { XIcon } from '@ui/icons';
 
 const sizes = {
+    auto: 'w-max',
     sm: 'max-w-sm',
     md: 'max-w-md',
     lg: 'max-w-lg',
@@ -12,12 +13,14 @@ const sizes = {
     '2xl': 'max-w-2xl',
     '3xl': 'max-w-3xl',
     '4xl': 'max-w-4xl',
+    '5xl': 'max-w-5xl',
     '7xl': 'max-w-7xl',
 };
 
 type Props = {
     modelValue?: boolean | null;
     scrollable?: boolean;
+    fullscreen?: boolean;
     size?: keyof typeof sizes;
     title?: string;
     loading?: boolean;
@@ -87,10 +90,11 @@ const vbind = { onClick: show };
             >
                 <div
                     :class="[
-                        'relative w-auto m-5 pointer-events-none sm:mx-auto',
+                        'relative w-auto pointer-events-none mx-auto',
                         'flex items-center min-h-[calc(100%-2.5rem)]',
                         sizes[size],
                         scrollable && 'h-[calc(100%-2.5rem)]',
+                        fullscreen ? 'm-0 w-screen !h-full !max-w-none sm:m-5' : 'm-5',
                     ]"
                 >
                     <Card
@@ -99,9 +103,13 @@ const vbind = { onClick: show };
                         :class="[
                             'w-full pointer-events-auto',
                             scrollable && 'max-h-full overflow-hidden',
+                            fullscreen && '!rounded-none h-full',
                         ]"
                         header-class="-my-2"
-                        :body-class="scrollable && 'overflow-y-auto'"
+                        :body-class="[
+                            scrollable && 'overflow-y-auto',
+                            fullscreen && 'overflow-y-auto',
+                        ]"
                     >
                         <template #header>
                             <div class="flex items-center justify-between">
@@ -117,6 +125,9 @@ const vbind = { onClick: show };
                             </div>
                         </template>
                         <slot />
+                        <template v-if="$slots.footer" #footer>
+                            <slot name="footer" />
+                        </template>
                     </Card>
                 </div>
             </div>

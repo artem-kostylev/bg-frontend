@@ -10,6 +10,8 @@ import {
 } from '@/tours/components';
 
 definePageMeta({
+    filters: true,
+    navigation: true,
     validate: ({ params }) => /^\d+$/.test(params.id as string),
 });
 

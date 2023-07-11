@@ -12,6 +12,7 @@ import { Button, Typography, Collapse, Checkbox, Radio, Card, Modal } from '@ui/
 import { QuestionnaryCard, ModalForm } from '@/booking/components';
 import { fetchAvailableDocuments, createOrder } from '@/booking/services';
 import type { Questionnary, QuestionnaryForm } from '@/booking/types';
+import type { Document } from '@/account/types';
 import { formatCurrency, required } from '@/app/lib';
 import { useVuelidate } from '@vuelidate/core';
 import { sameAs } from '@vuelidate/validators';
@@ -22,6 +23,8 @@ import { parseTickets } from '@/booking/lib/helpers';
 
 const route = useRoute();
 const router = useRouter();
+
+const { showAuthModal, isAuthenticated } = storeToRefs(useAuthStore());
 
 type Form = {
     clientId?: number;
@@ -58,6 +61,67 @@ const countryIds = computed(() => {
 const { data: documents } = useLazyAsyncData('form-documents', () =>
     fetchAvailableDocuments(countryIds.value)
 );
+
+const formKeys: (keyof Partial<
+    Omit<
+        Document,
+        | 'id'
+        | 'created_at'
+        | 'second_name'
+        | 'deleted_at'
+        | 'document_series'
+        | 'document_type'
+        | 'document_type_name'
+        | 'name'
+        | 'updated_at'
+        | 'user_id'
+    >
+>)[] = [
+    'first_name',
+    'last_name',
+    'birthday',
+    'sex',
+    'nationality_id',
+    'document_type_id',
+    'document_number',
+    'document_till',
+    'phone',
+    'email',
+];
+
+const updateForm = (value: {
+    index: number;
+    doc?: Document;
+    key?: keyof Omit<
+        Document,
+        | 'id'
+        | 'created_at'
+        | 'second_name'
+        | 'deleted_at'
+        | 'document_series'
+        | 'document_type'
+        | 'document_type_name'
+        | 'name'
+        | 'updated_at'
+        | 'user_id'
+    >;
+    newValue?: string;
+}) => {
+    if (!form.questionnaries[value.index] || !form.questionnaries[value.index].form) return;
+
+    value.key && value.newValue
+        ? // TODO
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          (form.questionnaries[value.index].form[value.key] = value.newValue)
+        : value.doc &&
+          formKeys.forEach(key => {
+              // TODO
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              form.questionnaries[value.index].form[key] = value.doc[key];
+          });
+};
 
 const clearForm = (index: number) => {
     if (form.questionnaries[index] && form.questionnaries[index].form) {
@@ -99,8 +163,6 @@ const success = (index: number) => {
 };
 
 const totalPrice = computed(() => props.general.total_price);
-
-const { isAuthenticated } = storeToRefs(useAuthStore());
 
 const sendOrder = async () => {
     const { tickets, transfers } = route.query;
@@ -168,8 +230,7 @@ const submit = async () => {
     if (!(await v$.value.$validate())) return;
 
     if (!isAuthenticated.value) {
-        // showAuthModal.value = true;
-        // TODO: Когда будет готова авторизация
+        showAuthModal.value = true;
         return;
     }
 
@@ -226,12 +287,21 @@ onMounted(() => {
         отказать в посадке, если анкетные данные не совпадут с данными загранпаспорта. Поля со
         знаком <span class="text-danger-600">*</span> обязательны для заполнения.
     </div>
+    <div class="border-b border-secondary-200 pb-8" v-if="!isAuthenticated">
+        <Typography variant="h2" as="h2" class="mb-4">Авторизация</Typography>
+        <p class="mb-4">
+            Для того чтобы заполненные ниже данные анкет сохранились в Системе, войдите в Личный
+            кабинет, либо зарегистрируйтесь:
+        </p>
+        <Button variant="primary" @click="showAuthModal = true">Войти в личный кабинет</Button>
+    </div>
     <Collapse
         v-for="(questionnary, index) in form.questionnaries"
         :title="questionnary.label"
         :key="index"
         :default-open="collapsed.includes(index)"
         :id="`collapse-${index}`"
+        :disabled="currentFormIndex < index"
     >
         <QuestionnaryCard
             v-if="documents"
@@ -242,6 +312,7 @@ onMounted(() => {
             :is-last="form.questionnaries[index + 1] === undefined"
             @success="success(index)"
             @clear-form="clearForm"
+            @update-form="updateForm"
         />
     </Collapse>
     <div class="border-t border-b border-secondary-200 border-dashed py-5">

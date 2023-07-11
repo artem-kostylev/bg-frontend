@@ -31,7 +31,7 @@ const { v$ } = useSimpleForm({
 </script>
 
 <template>
-    <div class="space-y-4">
+    <div class="space-y-5">
         <slot name="label" />
         <Input
             v-model="v$.code.$model"
@@ -40,7 +40,6 @@ const { v$ } = useSimpleForm({
             :error="v$.code.$errors[0]?.$message || error"
             :disabled="inputDisabled"
             justify="center"
-            class="mt-5"
             v-maska
             :data-maska="'####'"
         />

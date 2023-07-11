@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { computed, resolveComponent } from 'vue';
+import { storeToRefs } from 'pinia';
 import type { RouteLocationNamedRaw } from 'vue-router';
-import { useLazyAsyncData } from '#imports';
+import { definePageMeta, useLazyAsyncData } from '#imports';
 import { useQuery } from '@/app/composables';
 import { Page } from '@/app/components';
 import { Spin, Typography, Button, Grid } from '@ui/components';
 import { fetchComposition, type FetchCompositionQuery } from '@/booking/services';
 import { Selected, ActivityContainer } from '@/booking/components';
 import { useCompositionStore } from '@/booking/stores';
-import { storeToRefs } from 'pinia';
+
+definePageMeta({ navigation: true });
 
 const query = useQuery<FetchCompositionQuery>();
 
@@ -49,7 +51,7 @@ const to = computed(() => {
 
 <template>
     <Page :meta="meta">
-        <Spin v-if="pending" color="primary" />
+        <Spin class="flex-1" v-if="pending" color="primary" />
         <Grid gap="5" v-else-if="data">
             <Typography variant="h1" as="h1">Состав</Typography>
             <Selected v-bind="data" :default-open="true" />

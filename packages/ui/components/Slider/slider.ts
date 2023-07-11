@@ -8,6 +8,7 @@ export type SliderProps = {
     max: number;
     step?: number;
     range?: boolean;
-    modelValue?: number | number[];
+    modelValue?: number | number[] | string | string[] | null;
     disabled?: boolean;
+    tooltip?: boolean;
 };

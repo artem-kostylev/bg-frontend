@@ -36,7 +36,7 @@ const endIcon = computed(() => {
             :is="startIcon"
             width="1.2em"
             height="1.2em"
-            :class="['mr-2.5', variant === 'base' && 'text-primary-500 flex-shrink-0', iconClass]"
+            :class="['mr-2.5', variant === 'base' && 'text-primary-500 shrink-0', iconClass]"
         />
         <span class="truncate">
             <slot />
@@ -45,7 +45,11 @@ const endIcon = computed(() => {
             :is="endIcon"
             width="1.2em"
             height="1.2em"
-            :class="['ml-2.5', variant === 'base' && 'text-primary-500 flex-shrink-0', iconClass]"
+            :class="[
+                'ml-2.5',
+                variant === 'base' && 'text-primary-500 shrink-0 !flex-none',
+                iconClass,
+            ]"
         />
     </component>
 </template>

@@ -9,8 +9,8 @@ import type {
     ResetForm as ResetFormType,
     ResetError,
     ResetErrors,
-    SubmitError,
 } from '@/auth/types';
+import type { SubmitError } from '@/app/types';
 import {
     fetchForgotCheck,
     fetchLogin,

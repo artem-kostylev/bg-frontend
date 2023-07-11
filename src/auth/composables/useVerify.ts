@@ -1,6 +1,7 @@
 import { ref, type Ref } from 'vue';
 import { fetchVerifySend } from '@/auth/services';
-import type { LoginInfo, SubmitError } from '@/auth/types';
+import type { LoginInfo } from '@/auth/types';
+import type { SubmitError } from '@/app/types';
 
 export function useVerify(loginInfo: LoginInfo, pending: Ref<boolean>, error: Ref<string | null>) {
     const showConfirmation = ref(false);

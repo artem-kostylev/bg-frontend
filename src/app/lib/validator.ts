@@ -101,3 +101,8 @@ export const minOneSpecialSymbol = helpers.withMessage(
     'Пароль должен содержать минимум один спецсимвол',
     specialSymbol
 );
+
+export const commentLength = helpers.withMessage(
+    'Длина комментария не может быть больше чем 2000 символов',
+    maxLength(2000)
+);

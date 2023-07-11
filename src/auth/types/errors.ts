@@ -17,13 +17,6 @@ export type ConfirmError = {
     };
 };
 
-export type SubmitError = {
-    status: number;
-    data: {
-        message: string;
-    };
-};
-
 export type RegisterError = {
     status: number;
     data: {

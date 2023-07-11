@@ -34,7 +34,7 @@ const close = () => {
             <Typography variant="h3" class="mb-2">Стоимость тура изменилась</Typography>
             <Typography v-if="newPrice">
                 Новая стоимость тура:
-                <span class="font-semibold">{{ formatCurrency(newPrice, true) }}</span>
+                <span class="font-semibold">{{ formatCurrency(newPrice) }}</span>
             </Typography>
         </div>
         <div class="flex space-x-2.5 p-5">

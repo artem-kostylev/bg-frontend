@@ -69,3 +69,4 @@ export { default as SuccessEnvelopeIcon } from './SuccessEnvelope.vue';
 export { default as QuestionPlusIcon } from './QuestionPlus.vue';
 export { default as TelegramIcon } from './Telegram.vue';
 export { default as VkIcon } from './Vk.vue';
+export { default as ChevronLeftIcon } from './ChevronLeft.vue';

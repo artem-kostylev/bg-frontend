@@ -68,6 +68,7 @@ const { pause, resume } = useIntervalFn(
             resume();
         } catch (e) {
             const err = e as PaymentStatusError;
+            // eslint-disable-next-line
             console.log(err.message);
             // message.danger(err.message);
             showQrCode.value = false;
@@ -112,6 +113,7 @@ watchOnce(
                 refreshNuxtData('booking-pay-status');
             } catch (e) {
                 const err = e as PaymentStatusError;
+                // eslint-disable-next-line
                 console.log(err.message);
                 // message.danger(err.message);
             }

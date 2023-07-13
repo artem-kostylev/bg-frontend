@@ -35,7 +35,7 @@ const icon = computed(() => {
     >
         <template #end-icon>
             <button @click="showPassword = !showPassword">
-                <component :is="icon" class="text-secondary-500" />
+                <component :is="icon" class="text-secondary-500" width="1.2em" height="1.2em" />
             </button>
         </template>
     </Input>

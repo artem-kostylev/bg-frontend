@@ -4,8 +4,7 @@ import { MessageProvider } from '@ui/components';
 </script>
 
 <template>
-    <div>
-        <MessageProvider />
+    <MessageProvider>
         <VitePwaManifest />
         <div class="min-h-screen flex flex-col">
             <Header />
@@ -14,5 +13,5 @@ import { MessageProvider } from '@ui/components';
             </NuxtLayout>
         </div>
         <Footer />
-    </div>
+    </MessageProvider>
 </template>

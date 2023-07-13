@@ -48,7 +48,7 @@ const updateTicket = (newTicket: number) => {
 
 <template>
     <Page :meta="meta">
-        <Spin v-if="pendingOrder" color="primary" />
+        <Spin class="flex-1" v-if="pendingOrder" color="primary" />
         <Grid gap="5" v-else-if="order && paymentStatus">
             <Alert
                 v-if="query.status === 'fail' && transactionStatus?.status === 'failed'"

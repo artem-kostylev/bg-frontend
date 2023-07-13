@@ -66,8 +66,19 @@ export const fetchNavigation = async (
             payload.status = 'confirmation';
             break;
 
+        case 'hotels-search':
+        case 'tours-search':
+        case 'tours-multi-search':
+        case 'tours-activity-search':
+            payload.status = 'hotels';
+            break;
+
+        case 'avia-search':
+            payload.status = 'tickets';
+            break;
+
         default:
-            payload.status = 'accomodations';
+            payload.status = 'accommodations';
     }
 
     const response = await http<FetchNavigationResponse>(`tour/navigation`, {

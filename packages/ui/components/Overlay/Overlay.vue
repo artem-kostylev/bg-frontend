@@ -17,7 +17,7 @@ defineProps<OverlayProps>();
         >
             <div v-if="show" class="fixed top-0 left-0 w-screen h-screen bg-secondary-900/90 z-40">
                 <div v-if="loading" class="flex w-full h-full items-center justify-center">
-                    <Spin color="white" />
+                    <Spin class="flex-1" color="white" />
                 </div>
                 <slot v-else />
             </div>

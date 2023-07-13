@@ -93,7 +93,7 @@ const docMask = computed(() => {
     )?.template;
 
     if (template?.length) {
-        return template[0];
+        return template.indexOf(' ') >= 0 ? template[0] : template[0].replace('#', ' #');
     } else {
         return '#### ######';
     }
@@ -236,7 +236,7 @@ upperCaseKeys.forEach(key => {
                 v-maska
                 :data-maska="'##.##.####'"
             />
-            <RadioButtonGroup required label="Пол" v-model="v$.sex.$model" :items="sexItems" />
+            <RadioButtonGroup required label="Пол" v-model="v$.sex.$model" :options="sexItems" />
             <Select
                 v-if="props.availableDocuments && nationalityItems"
                 required

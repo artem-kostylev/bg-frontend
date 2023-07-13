@@ -28,6 +28,7 @@ const to = computed(() => {
         // TODO: Fix this
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         route.query.tour_ids = [[props.movement.tour_id]] as any;
+        route.query.route_ids = [...(route.query.route_ids as string[]), props.movement.route_id];
     } else {
         route.name = 'booking-tickets';
         route.query.route_ids = [props.movement.route_id];

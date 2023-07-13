@@ -119,7 +119,9 @@ const onClear = () => {
                                         multiple
                                     >
                                         {{ child.name }}
-                                        <div class="w-[50px] inline-block text-sm text-slate-500">
+                                        <div
+                                            class="w-[50px] inline-block text-sm text-secondary-500"
+                                        >
                                             ({{ child.quantity }})
                                         </div>
                                     </Checkbox>

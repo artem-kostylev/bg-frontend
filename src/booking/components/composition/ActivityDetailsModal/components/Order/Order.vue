@@ -36,7 +36,7 @@ const { data, pending, execute } = useLazyAsyncData(`activity-search`, getActivi
 <template>
     <div class="space-y-5">
         <Typography variant="h3">Заказ экскурсии</Typography>
-        <Spin v-if="pending" color="primary" />
+        <Spin class="flex-1" v-if="pending" color="primary" />
         <template v-else-if="data">
             <OrderFitlers
                 v-model="filters"

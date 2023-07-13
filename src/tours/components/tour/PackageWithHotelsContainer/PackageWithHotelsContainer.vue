@@ -32,7 +32,7 @@ const filters = computed(() => formatFilters(data.value!.filters));
 
 <template>
     <Page :meta="data?.meta">
-        <Spin v-if="pending" color="primary" />
+        <Spin class="flex-1" v-if="pending" color="primary" />
         <template v-else-if="data">
             <PackageDetails v-if="hotelNumber === 1" :package="data.package" class="mb-5" />
             <Typography variant="h2" as="h2" class="mb-5">

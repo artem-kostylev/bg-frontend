@@ -84,28 +84,26 @@ watch(show, value => {
 
 <template>
     <Modal v-model="show" size="sm" :title="currTitle">
-        <template #default>
-            <Login
-                v-if="currForm === 'login' && loginInfo.loginValue"
-                :login-info="loginInfo"
-                @show-next="showNext"
-                @set-title="setTitle"
-                @close="show = false"
-            />
-            <Registration
-                v-else-if="currForm === 'registration' && loginInfo.loginValue"
-                :login-info="loginInfo"
-                @show-next="showNext"
-                @set-title="setTitle"
-                @close="show = false"
-            />
-            <ResetPassword
-                v-else-if="currForm === 'reset'"
-                :login-info="loginInfo"
-                @show-next="showNext"
-                @close="show = false"
-            />
-            <Auth v-else @show-next="showNext" />
-        </template>
+        <Login
+            v-if="currForm === 'login' && loginInfo.loginValue"
+            :login-info="loginInfo"
+            @show-next="showNext"
+            @set-title="setTitle"
+            @close="show = false"
+        />
+        <Registration
+            v-else-if="currForm === 'registration' && loginInfo.loginValue"
+            :login-info="loginInfo"
+            @show-next="showNext"
+            @set-title="setTitle"
+            @close="show = false"
+        />
+        <ResetPassword
+            v-else-if="currForm === 'reset'"
+            :login-info="loginInfo"
+            @show-next="showNext"
+            @close="show = false"
+        />
+        <Auth v-else @show-next="showNext" />
     </Modal>
 </template>

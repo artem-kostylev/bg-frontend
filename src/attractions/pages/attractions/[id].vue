@@ -3,7 +3,8 @@ import { useLazyAsyncData } from '#imports';
 import { useName, useParams } from '@/app/composables';
 import { Page, DetailsHeader } from '@/app/components';
 import { fetchAttraction } from '@/attractions/services';
-import { Spin } from '@ui/components';
+import { Spin, Grid } from '@ui/components';
+import { LocationDescription, LocationsContainer } from '@/attractions/components';
 
 const name = useName<'locations-id' | 'attractions-id' | 'activities-id'>();
 const params = useParams<{ id: string }>();
@@ -15,14 +16,18 @@ const { data, pending } = useLazyAsyncData('attraction', () =>
 
 <template>
     <Page :meta="data?.meta">
-        <Spin class="flex-1" v-if="pending" color="primary" />
-        <template v-else-if="data">
+        <Spin v-if="pending" color="primary" class="flex-1" />
+        <Grid v-else-if="data" gap="6">
             <DetailsHeader :entity="data.entity" />
-            <div
+            <LocationDescription
                 v-if="data.entity.description"
-                v-html="data.entity.description"
-                class="prose max-w-none mt-6"
+                :description="data.entity.description"
             />
-        </template>
+            <LocationsContainer v-if="name === 'locations-id'" />
+            <LocationDescription
+                v-if="data.entity.additional_description"
+                :description="data.entity.additional_description"
+            />
+        </Grid>
     </Page>
 </template>

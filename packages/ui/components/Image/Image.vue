@@ -1,30 +1,20 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useIntersectionObserver } from '@vueuse/core';
 import type { ImageProps } from '@ui/components/Image/image';
 import { imageDefaultProps } from '@ui/components/Image/image';
 
-const props = withDefaults(defineProps<ImageProps>(), imageDefaultProps);
+withDefaults(defineProps<ImageProps>(), imageDefaultProps);
 
-const targetRef = ref<HTMLImageElement>();
-
-const { stop } = useIntersectionObserver(
-    targetRef,
-    ([{ intersectionRatio }]) => {
-        if (intersectionRatio === 1 && targetRef.value) {
-            stop();
-
-            targetRef.value.src = props.src;
-            targetRef.value.onload = () => targetRef.value?.classList.add('opacity-100');
-        }
-    },
-    { threshold: 1.0 }
-);
+const onLoad = (event: Event) => {
+    const target = event.target as HTMLImageElement;
+    target.classList.add('opacity-100');
+};
 </script>
 
 <template>
     <img
-        ref="targetRef"
+        :src="src"
+        loading="lazy"
+        @load="onLoad"
         class="transition-opacity duration-300 opacity-0"
         :alt="alt"
         :width="width"

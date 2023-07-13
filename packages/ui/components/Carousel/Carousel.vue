@@ -44,7 +44,7 @@ const calculate = () => {
     const { scrollLeft, clientWidth, scrollWidth } = carouselRef.value;
 
     hasPrev.value = scrollLeft !== 0;
-    hasNext.value = scrollLeft + clientWidth !== scrollWidth;
+    hasNext.value = Math.floor(scrollLeft + clientWidth) !== scrollWidth;
 };
 
 const debounceCalculate = useDebounceFn(calculate, 50);

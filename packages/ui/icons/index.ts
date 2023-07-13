@@ -59,6 +59,7 @@ export { default as HourglassIcon } from './Hourglass.vue';
 export { default as BuildingIcon } from './Building.vue';
 export { default as ShieldIcon } from './Shield.vue';
 export { default as PyramidIcon } from './Pyramid.vue';
+export { default as ChevronLeftIcon } from './ChevronLeft.vue';
 export { default as CommentIcon } from './Comment.vue';
 export { default as ReadCommentIcon } from './ReadComment.vue';
 export { default as ClockIcon } from './Clock.vue';

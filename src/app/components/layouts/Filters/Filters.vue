@@ -8,18 +8,18 @@ import { Content } from './components';
 
 const tabs = [
     { value: 'index', label: 'Туры', startIcon: PalmIcon },
-    { value: 'hotels-search', label: 'Отели', startIcon: BuildingsIcon },
-    { value: 'avia-search', label: 'Авиабилеты', startIcon: AirplaneIcon },
-    { value: 'train-search', label: 'Ж/Д Билеты', startIcon: TrainIcon },
-    { value: 'cruises-search', label: 'Круизы', startIcon: BoatIcon },
-    { value: 'tours-activity-search', label: 'Экскурсии', startIcon: PyramidIcon },
+    { value: 'hotels', label: 'Отели', startIcon: BuildingsIcon },
+    { value: 'avia', label: 'Авиабилеты', startIcon: AirplaneIcon },
+    { value: 'train', label: 'Ж/Д Билеты', startIcon: TrainIcon },
+    { value: 'cruises', label: 'Круизы', startIcon: BoatIcon },
+    { value: 'tours-activity', label: 'Экскурсии', startIcon: PyramidIcon },
 ];
 
 const name = useName<string>();
 const router = useRouter();
 
 const currentTab = computed(() => {
-    if (name.value === 'tours-search') return 'index';
+    if (name.value === 'tours') return 'index';
     return name.value;
 });
 

@@ -24,7 +24,7 @@ const getTo = (filters: Filters) => {
 
 <template>
     <div>
-        <Typography as="h1" variant="h1">Туры</Typography>
+        <Typography as="h2" variant="h2" class="mb-5">Туры</Typography>
         <Carousel class="flex gap-2.5" show-actions>
             <CarouselItem
                 v-for="(tour, index) in children"

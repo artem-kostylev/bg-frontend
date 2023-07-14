@@ -16,16 +16,16 @@ const getTo = (filters: Filters) => {
     const query = formatFilters(filters);
 
     return {
-        name: 'tours',
+        name: 'tours-search',
         query,
     } as RouteLocationNamedRaw;
 };
 </script>
 
 <template>
-    <div class="prose max-w-none">
+    <div>
         <Typography as="h1" variant="h1">Туры</Typography>
-        <Carousel class="flex" show-actions>
+        <Carousel class="flex gap-2.5" show-actions>
             <CarouselItem
                 v-for="(tour, index) in children"
                 :key="index"

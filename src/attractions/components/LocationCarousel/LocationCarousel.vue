@@ -25,7 +25,7 @@ const getTo = (tour: ShortAttraction) => {
 </script>
 
 <template>
-    <div class="max-w-none">
+    <div>
         <Typography as="h2" variant="h2" class="mb-5">{{ title }}</Typography>
         <Carousel class="flex gap-2.5" show-actions>
             <CarouselItem

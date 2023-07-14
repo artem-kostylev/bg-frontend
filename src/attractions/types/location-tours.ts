@@ -5,4 +5,5 @@ export type LocationTours = {
     image: Image[];
     preset_filters: Filters;
     best_price: number;
+    count: number;
 };

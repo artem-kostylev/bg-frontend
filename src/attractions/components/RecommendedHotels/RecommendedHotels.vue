@@ -20,7 +20,7 @@ const formattedfilters = computed(() => formatFilters(props.filters));
 </script>
 
 <template>
-    <div class="max-w-none">
+    <div>
         <Typography as="h2" variant="h2" class="mb-5">Рекомендуемые отели</Typography>
         <TourList :filters="formattedfilters" :name="name" :tours="hotels" />
     </div>

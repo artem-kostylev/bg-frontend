@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { RouteLocationNamedRaw } from 'vue-router';
 import { Typography, Carousel, CarouselItem } from '@ui/components';
-import { LocationCard } from '@/attractions/components';
+import { AttractionCard } from '@/attractions/components';
 import { useQuery } from '@/app/composables';
 import type { ShortAttraction } from '@/attractions/types';
 
@@ -36,7 +36,7 @@ const getTo = (tour: ShortAttraction) => {
                     (type === 'regions' || type === 'attractions') && 'lg:w-1/5',
                 ]"
             >
-                <LocationCard
+                <AttractionCard
                     :type="type"
                     :to="getTo(tour)"
                     :image="tour.image"

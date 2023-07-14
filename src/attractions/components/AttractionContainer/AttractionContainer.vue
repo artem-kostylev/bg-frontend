@@ -9,28 +9,37 @@ import {
 } from '@/attractions/services';
 import { Spin } from '@ui/components';
 import {
-    LocationCarousel,
+    AttractionCarousel,
     LocationTours,
     RecommendedHotels,
-    LocationDescription,
+    AttractionDescription,
 } from '@/attractions/components';
 import type { FiltersRaw } from '@/app/types';
+import type { AttractionName } from '@/attractions/types';
 
 type Props = {
+    attractionName: AttractionName;
+    locationId?: number;
     additionalDescription?: string;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const params = useParams<{ id: number }>();
 
+const id = computed(() => {
+    return props.locationId ? props.locationId : params.value.id;
+});
+
 const { data: tours, pending: toursPending } = useLazyAsyncData('location-tours', () =>
-    fetchLocationTours(params.value.id)
+    fetchLocationTours(id.value)
 );
 
-const { data: regions, pending: regionsPending } = useLazyAsyncData('location-regions', () =>
-    fetchShortAttraction(params.value.id, 'populars')
-);
+const { data: regions, pending: regionsPending } = useLazyAsyncData('location-regions', () => {
+    return props.attractionName !== 'attractions-id'
+        ? fetchShortAttraction(id.value, 'populars')
+        : Promise.resolve(null);
+});
 
 const query = useQuery<FiltersRaw>();
 
@@ -41,12 +50,16 @@ const { data: hotels, pending: hotelsPending } = useLazyAsyncData(
 
 const { data: activities, pending: activitiesPending } = useLazyAsyncData(
     'location-activities',
-    () => fetchShortAttraction(params.value.id, 'activities')
+    () => {
+        return props.attractionName !== 'attractions-id'
+            ? fetchShortAttraction(id.value, 'activities')
+            : Promise.resolve(null);
+    }
 );
 
 const { data: attractions, pending: attractionsPending } = useLazyAsyncData(
     'location-attractions',
-    () => fetchShortAttraction(params.value.id, 'attractions')
+    () => fetchShortAttraction(id.value, 'attractions')
 );
 
 const pending = computed(
@@ -62,30 +75,41 @@ const pending = computed(
 <template>
     <Spin v-if="pending" color="primary" class="flex-1" />
     <template v-else>
-        <LocationTours v-if="tours?.children.length" :children="tours.children" />
-        <LocationCarousel
-            v-if="regions?.length"
+        <LocationTours
+            v-if="tours?.children.length"
+            :title="attractionName === 'attractions-id' ? 'Выбрать тур рядом' : 'Туры'"
+            :children="tours.children"
+        />
+        <AttractionCarousel
+            v-if="attractionName !== 'attractions-id' && regions?.length"
             type="regions"
             title="Регионы"
             :children="regions"
         />
         <RecommendedHotels
             v-if="hotels?.children.length"
+            :title="
+                attractionName === 'attractions-id'
+                    ? 'Лучшие отели поблизости'
+                    : 'Рекомендуемые отели'
+            "
             :filters="hotels.filters"
             :hotels="hotels.children"
         />
-        <LocationCarousel
-            v-if="activities?.length"
+        <AttractionCarousel
+            v-if="attractionName !== 'attractions-id' && activities?.length"
             type="activities"
             title="События и экскурсии"
             :children="activities"
         />
-        <LocationCarousel
+        <AttractionCarousel
             v-if="attractions?.length"
             type="attractions"
-            title="Достопримечательности"
+            :title="
+                attractionName === 'attractions-id' ? 'Что еще посмотреть' : 'Достопримечательности'
+            "
             :children="attractions"
         />
-        <LocationDescription v-if="additionalDescription" :description="additionalDescription" />
+        <AttractionDescription v-if="additionalDescription" :description="additionalDescription" />
     </template>
 </template>

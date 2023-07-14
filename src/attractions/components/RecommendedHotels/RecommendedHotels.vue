@@ -8,6 +8,7 @@ import { formatFilters } from '@/app/lib';
 import type { Tour } from '@/tours/types';
 
 type Props = {
+    title: string;
     filters: Filters;
     hotels: Tour[];
 };
@@ -21,7 +22,7 @@ const formattedfilters = computed(() => formatFilters(props.filters));
 
 <template>
     <div>
-        <Typography as="h2" variant="h2" class="mb-5">Рекомендуемые отели</Typography>
+        <Typography as="h2" variant="h2" class="mb-5">{{ title }}</Typography>
         <TourList :filters="formattedfilters" :name="name" :tours="hotels" />
     </div>
 </template>

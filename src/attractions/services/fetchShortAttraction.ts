@@ -10,5 +10,5 @@ export const fetchShortAttraction = async (id: number, path: AttractionPath) => 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response = await http<any>(`location/${id}/${path}`);
 
-    return path === 'populars' ? response.children : response;
+    return (path === 'populars' ? response.children : response) as FetchShortAttractionResponse;
 };

@@ -8,8 +8,19 @@ import {
     fetchRecommendedHotels,
 } from '@/attractions/services';
 import { Spin } from '@ui/components';
-import { LocationCarousel, LocationTours, RecommendedHotels } from '@/attractions/components';
+import {
+    LocationCarousel,
+    LocationTours,
+    RecommendedHotels,
+    LocationDescription,
+} from '@/attractions/components';
 import type { FiltersRaw } from '@/app/types';
+
+type Props = {
+    additionalDescription?: string;
+};
+
+defineProps<Props>();
 
 const params = useParams<{ id: number }>();
 
@@ -75,5 +86,6 @@ const pending = computed(
             title="Достопримечательности"
             :children="attractions"
         />
+        <LocationDescription v-if="additionalDescription" :description="additionalDescription" />
     </template>
 </template>

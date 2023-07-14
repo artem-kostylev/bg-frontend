@@ -23,10 +23,9 @@ const { data, pending } = useLazyAsyncData('attraction', () =>
                 v-if="data.entity.description"
                 :description="data.entity.description"
             />
-            <LocationsContainer v-if="name === 'locations-id'" />
-            <LocationDescription
-                v-if="data.entity.additional_description"
-                :description="data.entity.additional_description"
+            <LocationsContainer
+                v-if="name === 'locations-id'"
+                :additional-description="data.entity.additional_description"
             />
         </div>
     </Page>

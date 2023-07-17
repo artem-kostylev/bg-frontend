@@ -300,9 +300,10 @@ onMounted(() => {
             @success="success(index)"
             @clear-form="clearForm"
             @update-form="updateForm"
+            @auth="showAuth = true"
         />
     </Collapse>
-    <div class="flex flex-col space-y-4">
+    <div v-if="currentFormIndex === form.questionnaries.length" class="flex flex-col space-y-4">
         <Checkbox v-model="v$.agreeWithTerms.$model">
             Я ознакомлен, принимаю и соглашаюсь с условиями
             <a href="#" class="text-primary-500" download target="blank">

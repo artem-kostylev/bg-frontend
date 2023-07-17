@@ -37,6 +37,7 @@ type Props = {
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
+    (e: 'auth'): void;
     (e: 'success'): void;
     (e: 'clear-form', value: number): void;
     (
@@ -219,11 +220,14 @@ const createDoc = async (form: Document) => {
 
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
+    if (!isAuthenticated.value) {
+        emit('auth');
+        return;
+    }
     const form = { ...props.questionnary.form };
     const splitDocumentNumber = form.document_number!.split(' ');
     form.document_series = splitDocumentNumber[0];
     form.document_number = splitDocumentNumber[1];
-    emit('success');
     props.questionnary.form.id
         ? await editUserDoc(props.questionnary.form.id, form as Document)
         : await createDoc(form as Document);
@@ -365,8 +369,10 @@ upperCaseKeys.forEach(key => {
                 </div>
             </button>
         </div>
-        <div v-if="!isLast" class="flex space-x-2.5">
-            <Button variant="primary" @click="submit"> Перейти к следущей анкете </Button>
+        <div class="flex space-x-2.5">
+            <Button variant="primary" @click="submit">
+                {{ isLast ? 'Перейти к условиям' : 'Перейти к следущей анкете' }}
+            </Button>
         </div>
     </Card>
 </template>

@@ -43,21 +43,19 @@ const canShowAdvancedFilters = computed(() => {
 </script>
 
 <template>
-    <div class="mt-5">
-        <div class="flex flex-wrap items-center -mx-2.5 -mb-5 -mt-2">
-            <div v-if="canShowTourType" class="px-2.5 flex-1 mb-5">
-                <TourTypeChoose />
-            </div>
-            <div
-                v-if="data?.tours.length"
-                :class="[
-                    'px-2.5 flex items-center justify-between space-x-2.5 mb-5',
-                    canShowTourType ? 'md:justify-end flex-1 md:flex-none' : ' flex-1',
-                ]"
-            >
-                <AdvancedFilters v-if="canShowAdvancedFilters" />
-                <Select v-model="value" :options="sortOptions" />
-            </div>
+    <div class="flex flex-wrap items-center -mx-2.5 -mb-5 -mt-2">
+        <div v-if="canShowTourType" class="px-2.5 flex-1 mb-5">
+            <TourTypeChoose />
+        </div>
+        <div
+            v-if="data?.tours.length"
+            :class="[
+                'px-2.5 flex items-center justify-between space-x-2.5 mb-5',
+                canShowTourType ? 'md:justify-end flex-1 md:flex-none' : ' flex-1',
+            ]"
+        >
+            <AdvancedFilters v-if="canShowAdvancedFilters" />
+            <Select v-model="value" :options="sortOptions" />
         </div>
     </div>
 </template>

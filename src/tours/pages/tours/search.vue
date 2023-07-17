@@ -3,11 +3,12 @@ import { computed, ref, watch } from 'vue';
 import { useLazyAsyncData, definePageMeta } from '#imports';
 import { TourList, TourFilters } from '@/tours/components';
 import { fetchTours } from '@/tours/services';
-import { Spin, Typography } from '@ui/components';
+import { Spin, Typography, Button } from '@ui/components';
 import type { FiltersRaw } from '@/app/types';
 import { formatFilters } from '@/app/lib';
 import { useQuery, useName, useInfinity } from '@/app/composables';
 import { Empty, Page } from '@/app/components';
+import { MapIcon } from '@ui/icons';
 
 definePageMeta({ filters: true, navigation: true });
 
@@ -16,6 +17,7 @@ const query = useQuery<FiltersRaw>();
 
 const page = ref(1);
 const sort = ref('tour.price:asc');
+const view = ref(1);
 
 const { data, pending, error, refresh } = useLazyAsyncData(
     'tours',
@@ -32,6 +34,10 @@ const { targetRef, loadingMore } = useInfinity(async () => {
 const filters = computed(() => formatFilters(data.value!.filters));
 
 watch(query, () => refresh());
+
+const changeView = () => {
+    view.value !== 3 ? view.value++ : (view.value = 1);
+};
 </script>
 
 <template>
@@ -42,21 +48,30 @@ watch(query, () => refresh());
             title="Что-то пошло не так"
             description="Ошибка получения данных, попробуйте повторить запрос позже"
         />
-        <template v-else-if="data">
-            <Typography variant="h1" as="h1" class="md:mb-2.5">{{ data.meta.title }}</Typography>
-            <TourFilters v-model="sort" class="mb-8" />
-            <template v-if="data.tours.length">
-                <TourList :tours="data.tours" :name="name" :filters="filters" />
-                <template v-if="data.has_next">
-                    <Spin v-if="loadingMore" color="primary" class="my-12 flex-1" />
-                    <div v-else ref="targetRef"></div>
+        <div v-else-if="data" class="flex flex-wrap -mx-5">
+            <div v-if="view !== 3" :class="['px-5', view === 1 && 'w-full', view === 2 && 'w-1/3']">
+                <div class="flex items-center justify-between mb-5">
+                    <Typography variant="h1" as="h1">
+                        {{ data.meta.title }}
+                    </Typography>
+                    <Button v-if="view === 1" :start-icon="MapIcon" @click="changeView">
+                        На карте
+                    </Button>
+                </div>
+                <TourFilters v-if="view === 1" v-model="sort" class="mb-5" />
+                <template v-if="data.tours.length">
+                    <TourList :tours="data.tours" :name="name" :filters="filters" :view="view" />
+                    <template v-if="data.has_next">
+                        <Spin v-if="loadingMore" color="primary" class="my-12 flex-1" />
+                        <div v-else ref="targetRef"></div>
+                    </template>
                 </template>
-            </template>
-            <Empty
-                v-else
-                title="По вашему запросу ничего не нашлось"
-                description="Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры"
-            />
-        </template>
+                <Empty
+                    v-else
+                    title="По вашему запросу ничего не нашлось"
+                    description="Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры"
+                />
+            </div>
+        </div>
     </Page>
 </template>

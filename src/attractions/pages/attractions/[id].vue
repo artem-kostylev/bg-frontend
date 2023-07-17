@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { useLazyAsyncData } from '#imports';
+import { definePageMeta, useLazyAsyncData } from '#imports';
 import { useName, useParams } from '@/app/composables';
 import { Page, DetailsHeader } from '@/app/components';
 import { fetchAttraction } from '@/attractions/services';
 import { Spin } from '@ui/components';
 import { AttractionDescription, AttractionContainer } from '@/attractions/components';
 import type { AttractionName } from '@/attractions/types';
+
+definePageMeta({ filters: true });
 
 const name = useName<AttractionName>();
 const params = useParams<{ id: string }>();

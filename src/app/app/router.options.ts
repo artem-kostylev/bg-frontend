@@ -54,12 +54,6 @@ export default <RouterConfig>{
             component: () => import('@/tours/pages/tours/[id].vue'),
         },
         {
-            name: 'attractions-id',
-            path: '/attractions/:id',
-            meta: { filters: true },
-            component: () => import('@/attractions/pages/attractions/[id].vue'),
-        },
-        {
             name: 'locations-id',
             path: '/locations/:id',
             meta: { filters: true },

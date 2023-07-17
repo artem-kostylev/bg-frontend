@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { clearNuxtData, onBeforeUnmount, useLazyAsyncData } from '#imports';
+import { computed, onBeforeUnmount, watch } from 'vue';
+import { clearNuxtData, useLazyAsyncData } from '#imports';
 import { fetchNavigation } from '@/app/services';
 import { useQuery, useName, useParams } from '@/app/composables';
 import type { FiltersRaw, Navigation } from '@/app/types';
@@ -8,15 +8,25 @@ import { Container } from '@ui/components';
 import { CheckIcon } from '@ui/icons';
 import { formatFilters } from '@/app/lib';
 import type { RouteLocationPathRaw, LocationQueryRaw } from 'vue-router';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const name = useName<string>();
 const params = useParams<{ id: string }>();
 const query = useQuery<FiltersRaw>();
 
-const { data } = useLazyAsyncData(
+const { data, refresh } = useLazyAsyncData(
     'navigation',
     () => fetchNavigation(name.value, params.value, query.value),
-    { server: false, watch: [name, params, query] }
+    { server: false }
+);
+
+watch(
+    () => route.fullPath,
+    () => {
+        route.meta.navigation && refresh();
+    }
 );
 
 const currentIndex = computed(() => {

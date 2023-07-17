@@ -10,3 +10,6 @@ dist
 .vscode
 .ide
 .idea
+.local
+.docker
+storybook-static

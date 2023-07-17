@@ -1,0 +1,15 @@
+services:
+  front:
+    image: <PLACEHOLDER_FRONTEND_IMAGE>
+    restart: always
+    environment:
+      - HOST=0.0.0.0
+      - NUXT_PUBLIC_API_BASE=<PLACEHOLDER_API_ENTRYPOINT_URL>
+      - NUXT_PUBLIC_HOSTNAME=<FRONTEND_PUBLIC_HOSTNAME>
+    ports:
+      - "3000:3000"
+  story:
+    image: <PLACEHOLDER_FRONTEND_IMAGE>-storybook
+    restart: always
+    ports:
+      - "3001:80"

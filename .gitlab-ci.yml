@@ -1,0 +1,107 @@
+stages:
+  - build
+  - image
+  - deploy
+
+frontend-build:
+  image: registry.bgit.ru/bg/docker-image/nodejs:bullseye-18
+  stage: build
+  tags:
+    - docker
+  cache:
+    - key:
+        files:
+          - package-lock.json
+      paths:
+        - .npm
+        - .nuxt
+        - node_modules
+  script:
+    - ./ci.sh ci-app-build
+    - ./ci.sh ci-app-pak
+  artifacts:
+    paths:
+      - frontend.tar.gz
+      - storybook.tar.gz
+    expire_in: 1 week
+
+frontend-image:
+  stage: image
+  tags:
+    - docker
+  script:
+    - apk add bash
+    - ./ci.sh docker-pull
+    - export APP_IMAGE="registry.bgit.ru/${CI_PROJECT_PATH}:${CI_COMMIT_SHORT_SHA}"
+    - ./ci.sh ci-app-image
+    - docker push ${APP_IMAGE}
+
+storybook-image:
+  stage: image
+  tags:
+    - docker
+  script:
+    - apk add bash
+    - export STORYBOOK_IMAGE="registry.bgit.ru/${CI_PROJECT_PATH}:${CI_COMMIT_SHORT_SHA}-storybook"
+    - ./ci.sh ci-storybook-image
+    - docker push ${STORYBOOK_IMAGE}
+
+.deploy:
+  stage: deploy
+  tags:
+    - docker
+  when: manual
+  script:
+    - sed "s;<PLACEHOLDER_FRONTEND_IMAGE>;registry.bgit.ru/${CI_PROJECT_PATH}:${CI_COMMIT_SHORT_SHA};" -i env/stage/docker-compose.yml
+    - sed "s;<PLACEHOLDER_API_ENTRYPOINT_URL>;${DEPLOY_API_ENTRYPOINT_URL};" -i env/stage/docker-compose.yml
+    - sed "s;<FRONTEND_PUBLIC_HOSTNAME>;${DEPLOY_FRONTEND_PUBLIC_HOSTNAME};" -i env/stage/docker-compose.yml
+    - eval $(ssh-agent -s)
+    - cat ${STAGE_BGAGENT1_SSH} | ssh-add -
+    - ssh -o StrictHostKeyChecking=no ${DEPLOY_SSH_DEST} mkdir -p ${CI_PROJECT_PATH}
+    - scp -o StrictHostKeyChecking=no env/stage/docker-compose.yml ${DEPLOY_SSH_DEST}:${CI_PROJECT_PATH}/docker-compose.yml
+    - ssh -o StrictHostKeyChecking=no ${DEPLOY_SSH_DEST} "cd ${CI_PROJECT_PATH} && docker compose pull"
+    - ssh -o StrictHostKeyChecking=no ${DEPLOY_SSH_DEST} "cd ${CI_PROJECT_PATH} && docker compose up -d --remove-orphans"
+
+stage-bgagent1:
+  extends: .deploy
+  only:
+    - master
+  variables:
+    DEPLOY_SSH_DEST: "bgagent@stage-bgagent1.bgto"
+    DEPLOY_API_ENTRYPOINT_URL: "https://api.bgagent1.bgit.ru"
+    DEPLOY_FRONTEND_PUBLIC_HOSTNAME: "bgagent1.bgit.ru"
+
+stage-bgagent2:
+  extends: .deploy
+  variables:
+    DEPLOY_SSH_DEST: "bgagent@stage-bgagent2.bgto"
+    DEPLOY_API_ENTRYPOINT_URL: "https://api.bgagent2.bgit.ru"
+    DEPLOY_FRONTEND_PUBLIC_HOSTNAME: "bgagent2.bgit.ru"
+
+stage-bgagent3:
+  extends: .deploy
+  variables:
+    DEPLOY_SSH_DEST: "bgagent@stage-bgagent3.bgto"
+    DEPLOY_API_ENTRYPOINT_URL: "https://api.bgagent3.bgit.ru"
+    DEPLOY_FRONTEND_PUBLIC_HOSTNAME: "bgagent3.bgit.ru"
+
+stage-bgagent4:
+  extends: .deploy
+  variables:
+    DEPLOY_SSH_DEST: "bgagent@stage-bgagent4.bgto"
+    DEPLOY_API_ENTRYPOINT_URL: "https://api.bgagent4.bgit.ru"
+    DEPLOY_FRONTEND_PUBLIC_HOSTNAME: "bgagent4.bgit.ru"
+
+stage-bgagent5:
+  extends: .deploy
+  variables:
+    DEPLOY_SSH_DEST: "bgagent@stage-bgagent5.bgto"
+    DEPLOY_API_ENTRYPOINT_URL: "https://api.bgagent5.bgit.ru"
+    DEPLOY_FRONTEND_PUBLIC_HOSTNAME: "bgagent5.bgit.ru"
+
+stage-bgagent6:
+  extends: .deploy
+  variables:
+    DEPLOY_SSH_DEST: "bgagent@stage-bgagent6.bgto"
+    DEPLOY_API_ENTRYPOINT_URL: "https://api.bgagent6.bgit.ru"
+    DEPLOY_FRONTEND_PUBLIC_HOSTNAME: "bgagent6.bgit.ru"

@@ -19,8 +19,13 @@ const name = useName<string>();
 const router = useRouter();
 
 const currentTab = computed(() => {
-    if (name.value === 'tours') return 'index';
-    return name.value;
+    if (name.value.startsWith('tours')) return 'index';
+    if (name.value.startsWith('hotels')) return 'hotels';
+    if (name.value.startsWith('avia')) return 'avia';
+    if (name.value.startsWith('train')) return 'train';
+    if (name.value.startsWith('cruises')) return 'cruises';
+
+    return 'index';
 });
 
 const onUpdate = (value: string | number) => {

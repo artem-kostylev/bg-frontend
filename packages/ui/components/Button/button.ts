@@ -38,10 +38,13 @@ export const buttonDefaultProps = {
     iconClass: '',
 } as const;
 
+export type ButtonVariant = keyof typeof buttonVariants;
+export type ButtonSize = keyof typeof buttonSizes;
+
 export type ButtonProps = {
     type?: 'button' | 'reset' | 'submit';
-    variant?: keyof typeof buttonVariants;
-    size?: keyof typeof buttonSizes;
+    variant?: ButtonVariant;
+    size?: ButtonSize;
     justify?: keyof typeof buttonJustifies;
     disabled?: boolean;
     loading?: boolean;

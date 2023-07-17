@@ -15,4 +15,5 @@ export type NumberPickerProps = Pick<ButtonProps, 'endIcon' | 'loading' | 'stron
 export const defaultNumberPickerProps = {
     strong: undefined,
     placeholder: 'ㅤ',
-};
+    modelValue: null,
+} as const;

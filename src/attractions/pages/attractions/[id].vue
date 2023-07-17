@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { useLazyAsyncData } from '#imports';
+import { definePageMeta, useLazyAsyncData } from '#imports';
 import { useName, useParams } from '@/app/composables';
 import { Page, DetailsHeader } from '@/app/components';
 import { fetchAttraction } from '@/attractions/services';
 import { Spin } from '@ui/components';
+import { AttractionDescription, AttractionContainer } from '@/attractions/components';
+import type { AttractionName } from '@/attractions/types';
 
-const name = useName<'locations-id' | 'attractions-id' | 'activities-id'>();
+definePageMeta({ filters: true });
+
+const name = useName<AttractionName>();
 const params = useParams<{ id: string }>();
 
 const { data, pending } = useLazyAsyncData('attraction', () =>
@@ -15,14 +19,19 @@ const { data, pending } = useLazyAsyncData('attraction', () =>
 
 <template>
     <Page :meta="data?.meta">
-        <Spin class="flex-1" v-if="pending" color="primary" />
-        <template v-else-if="data">
+        <Spin v-if="pending" color="primary" class="flex-1" />
+        <div v-else-if="data" class="space-y-6">
             <DetailsHeader :entity="data.entity" />
-            <div
+            <AttractionDescription
                 v-if="data.entity.description"
-                v-html="data.entity.description"
-                class="prose max-w-none mt-6"
+                :description="data.entity.description"
             />
-        </template>
+            <AttractionContainer
+                v-if="name === 'locations-id' || name === 'attractions-id'"
+                :location-id="data.entity.location_id"
+                :attraction-name="name"
+                :additional-description="data.entity.additional_description"
+            />
+        </div>
     </Page>
 </template>

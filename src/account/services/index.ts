@@ -3,3 +3,4 @@ export * from './documents';
 export * from './order';
 export * from './orders';
 export * from './reviews';
+export * from './support';

@@ -1,5 +1,6 @@
 export type MainFiltersTo = {
     id: number;
+    title?: string;
     type: 'location' | 'hotel';
 };
 

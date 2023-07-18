@@ -1,0 +1,24 @@
+services:
+  front:
+    image: registry.bgit.ru/bg/docker-image/nodejs:bullseye-16.17.0
+    restart: always
+    environment:
+      - HOST=0.0.0.0
+      - NUXT_PUBLIC_API_BASE=http://localhost:8080
+      - NUXT_PUBLIC_HOSTNAME=localhost
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    working_dir: /front
+    volumes:
+      - type: bind
+        source: ../../
+        target: /front
+  story:
+    image: nginx:1.23
+    ports:
+      - "3001:80"
+    volumes:
+      - type: bind
+        source: ../../storybook-static
+        target: /usr/share/nginx/html

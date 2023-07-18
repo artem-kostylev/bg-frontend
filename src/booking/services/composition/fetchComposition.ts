@@ -1,4 +1,4 @@
-import { http } from '@/app/lib';
+import { http, parseTourists } from '@/app/lib';
 import type {
     Accommodation,
     Movement,
@@ -23,6 +23,7 @@ export type FetchCompositionQuery = {
     tours_hash: string;
     tour_type: TourType;
     has_movements?: 'false';
+    tour_tourists?: string[];
     accommodations_unikey: string;
 };
 
@@ -31,7 +32,11 @@ type FetchCompositionPayload = FetchCompositionQuery;
 const fetchCompositionWithMovements = async (payload: FetchCompositionPayload) => {
     const response = await http<FetchCompositionResponse>('tour/detail', {
         method: 'POST',
-        body: { tour_ids: payload.tour_ids, tours_hash: payload.tours_hash },
+        body: {
+            tour_ids: payload.tour_ids,
+            tours_hash: payload.tours_hash,
+            tour_tourists: payload.tour_tourists && parseTourists(payload.tour_tourists),
+        },
     });
 
     return response;
@@ -51,6 +56,7 @@ const fetchCompositionWithoutMovements = async (payload: FetchCompositionPayload
             body: {
                 accommodations_unikey: payload.accommodations_unikey,
                 tour_type: payload.tour_type,
+                tour_tourists: payload.tour_tourists && parseTourists(payload.tour_tourists),
             },
         });
 
@@ -59,7 +65,10 @@ const fetchCompositionWithoutMovements = async (payload: FetchCompositionPayload
 
     return await http<FetchCompositionResponse>('tour/detail', {
         method: 'POST',
-        body: { tour_ids: tour_ids ?? payload.tour_ids },
+        body: {
+            tour_ids: tour_ids ?? payload.tour_ids,
+            tour_tourists: payload.tour_tourists && parseTourists(payload.tour_tourists),
+        },
     });
 };
 

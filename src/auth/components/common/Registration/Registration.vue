@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, type Ref } from 'vue';
-import { Alert } from '@ui/components';
+import { Alert, Spin } from '@ui/components';
 import { RegistrationForm } from './components';
 import { AuthConfirmation } from '@/auth/components';
 import type {
@@ -55,12 +55,13 @@ const { pending, error, clearErrors, clearFieldErrors } = useRequestStatus({
 });
 const { showConfirmation, verifySent, verify } = useVerify(props.loginInfo, pending, error);
 
+const sending = ref(false);
 const onSubmit = async (form: RegisterFormType) => {
     const result = prepareData(form);
 
     try {
         clearErrors();
-        pending.value = true;
+        sending.value = true;
         await fetchRegister(result);
         emit(
             'set-title',
@@ -78,7 +79,7 @@ const onSubmit = async (form: RegisterFormType) => {
             error.value = 'Неизвестная ошибка';
         }
     } finally {
-        pending.value = false;
+        sending.value = false;
     }
 };
 
@@ -96,22 +97,25 @@ const changeLogin = () => {
 <template>
     <div class="space-y-4">
         <Alert v-if="error" variant="error" :text="error" />
-        <AuthConfirmation
-            v-if="showConfirmation"
-            :verify-sent="verifySent"
-            :login-info="loginInfo"
-            :password="password"
-            @close="closeConfirmation"
-            @change-login="changeLogin"
-        />
-        <RegistrationForm
-            v-else
-            :login-info="loginInfo"
-            :pending="pending"
-            :is-error="error !== null || errors !== null"
-            :errors="errors"
-            @submit="onSubmit"
-            @clear-errors="clearFieldErrors"
-        />
+        <Spin v-if="pending" color="primary" class="flex-1" />
+        <template v-else>
+            <AuthConfirmation
+                v-if="showConfirmation"
+                :verify-sent="verifySent"
+                :login-info="loginInfo"
+                :password="password"
+                @close="closeConfirmation"
+                @change-login="changeLogin"
+            />
+            <RegistrationForm
+                v-else
+                :login-info="loginInfo"
+                :pending="sending"
+                :is-error="error !== null || errors !== null"
+                :errors="errors"
+                @submit="onSubmit"
+                @clear-errors="clearFieldErrors"
+            />
+        </template>
     </div>
 </template>

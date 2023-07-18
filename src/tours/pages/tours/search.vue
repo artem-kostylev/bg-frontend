@@ -55,7 +55,11 @@ useToursProvide({ changeView, view, openAdvanced });
         <div v-else-if="data" class="flex flex-wrap -mx-2.5 relative">
             <div
                 v-show="view !== 3"
-                :class="['px-2.5', view === 1 && 'w-full', view === 2 && 'w-1/3']"
+                :class="[
+                    'px-2.5',
+                    view === 1 && 'w-full',
+                    view === 2 && 'hidden lg:block lg:w-1/3',
+                ]"
             >
                 <div class="flex items-center justify-between mb-5">
                     <Typography variant="h1" as="h1" class="truncate">
@@ -81,7 +85,11 @@ useToursProvide({ changeView, view, openAdvanced });
             </div>
             <div
                 v-if="view !== 1"
-                :class="['px-2.5 relative', view === 2 && 'w-2/3', view === 3 && 'w-full']"
+                :class="[
+                    'px-2.5 relative',
+                    view === 2 && 'w-full lg:w-2/3',
+                    view === 3 && 'w-full',
+                ]"
             >
                 <TourListMap
                     :tours="data.tours"

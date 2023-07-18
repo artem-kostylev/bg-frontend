@@ -65,5 +65,21 @@ export const fetchTours = async (
         delete response.packages;
     }
 
+    //@MOCK
+    const coordinates = [
+        [37.958362, 55.755934],
+        [37.658362, 55.555934],
+        [37.756372, 55.654944],
+    ];
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    response.tours = response.tours.map((item: any, index: number) => ({
+        ...item,
+        hotel: {
+            ...item.hotel,
+            coordinates: coordinates[index],
+        },
+    }));
+
     return response as FetchToursResponse;
 };

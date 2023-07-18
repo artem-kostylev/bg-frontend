@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useLazyAsyncData, definePageMeta } from '#imports';
-import { TourList, TourFilters } from '@/tours/components';
+import { TourList, TourFilters, TourListMap } from '@/tours/components';
 import { fetchTours } from '@/tours/services';
 import { Spin, Typography, Button } from '@ui/components';
 import type { FiltersRaw } from '@/app/types';
@@ -48,10 +48,13 @@ const changeView = () => {
             title="Что-то пошло не так"
             description="Ошибка получения данных, попробуйте повторить запрос позже"
         />
-        <div v-else-if="data" class="flex flex-wrap -mx-5">
-            <div v-if="view !== 3" :class="['px-5', view === 1 && 'w-full', view === 2 && 'w-1/3']">
+        <div v-else-if="data" class="flex flex-wrap -mx-2.5 relative">
+            <div
+                v-if="view !== 3"
+                :class="['px-2.5', view === 1 && 'w-full', view === 2 && 'w-1/3']"
+            >
                 <div class="flex items-center justify-between mb-5">
-                    <Typography variant="h1" as="h1">
+                    <Typography variant="h1" as="h1" class="truncate">
                         {{ data.meta.title }}
                     </Typography>
                     <Button v-if="view === 1" :start-icon="MapIcon" @click="changeView">
@@ -70,6 +73,15 @@ const changeView = () => {
                     v-else
                     title="По вашему запросу ничего не нашлось"
                     description="Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры"
+                />
+            </div>
+            <div
+                v-if="view !== 1"
+                :class="['px-2.5 relative', view === 2 && 'w-2/3', view === 3 && 'w-full']"
+            >
+                <TourListMap
+                    :tours="data.tours"
+                    class="w-full h-full max-h-screen rounded-xl overflow-hidden sticky top-0"
                 />
             </div>
         </div>

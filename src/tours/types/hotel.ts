@@ -34,6 +34,7 @@ export type Hotel = {
     address: string;
     images: Image[];
     location: Location[];
+    coordinates: [number, number];
     airport_remoteness?: number;
     beach_remoteness?: number;
     food?: HotelFood[];

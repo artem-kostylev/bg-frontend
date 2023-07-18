@@ -39,6 +39,7 @@ export default defineNuxtConfig({
         '@set-cookie-parser': fileURLToPath(
             new URL('./packages/set-cookie-parser', import.meta.url)
         ),
+        '@map': fileURLToPath(new URL('./packages/map', import.meta.url)),
     },
 
     imports: {
@@ -93,6 +94,7 @@ export default defineNuxtConfig({
         public: {
             apiBase: '',
             hostname: '',
+            mapKey: '',
         },
     },
 });

@@ -29,7 +29,11 @@ const hide = () =>
     props.modelValue === undefined ? (open.value = false) : emit('update:modelValue', false);
 const toggle = () => (visible.value ? hide() : show());
 
-const vbind = { ref: referenceRef, onClick: toggle };
+const vbind = computed(() => {
+    return props.trigger === 'hover'
+        ? { ref: referenceRef, onMouseover: show, onMouseleave: hide }
+        : { ref: referenceRef, onClick: toggle };
+});
 
 onClickOutside(
     floatingRef,

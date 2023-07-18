@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 import { useLazyAsyncData, definePageMeta } from '#imports';
-import { TourList, TourFilters, TourListMap } from '@/tours/components';
+import { TourList, TourFilters, TourMapContainer } from '@/tours/components';
 import { fetchTours } from '@/tours/services';
 import { Spin, Typography, Button } from '@ui/components';
 import type { FiltersRaw } from '@/app/types';
@@ -91,8 +91,10 @@ useToursProvide({ changeView, view, openAdvanced });
                     view === 3 && 'w-full',
                 ]"
             >
-                <TourListMap
+                <TourMapContainer
                     :tours="data.tours"
+                    :name="name"
+                    :filters="filters"
                     class="w-full h-full max-h-screen rounded-xl overflow-hidden sticky top-0"
                 />
             </div>

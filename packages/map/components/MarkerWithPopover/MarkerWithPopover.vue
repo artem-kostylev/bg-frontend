@@ -17,7 +17,7 @@ let marker: YMapMarker | undefined;
 onMounted(() => {
     const div = document.createElement('div');
 
-    const componentRef = createApp(() => h(Popover, { trigger: 'hover', placement: 'top' }, slots));
+    const componentRef = createApp(() => h(Popover, { placement: 'top' }, slots));
 
     componentRef.mount(div);
 

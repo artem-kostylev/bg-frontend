@@ -4,7 +4,9 @@ import { useMap } from '@map/composables';
 import { useTours } from '@/tours/composables';
 
 const { addChild } = useMap()!;
-const { openAdvanced, changeView, view } = useTours()!;
+const { openAdvanced, view } = useTours()!;
+
+const toggleButton = () => (view.value = view.value === 2 ? 3 : 2);
 
 onMounted(async () => {
     const { YMapControls, YMapControlButton } = ymaps3;
@@ -13,7 +15,7 @@ onMounted(async () => {
     addChild(new YMapControls({ position: 'right' }).addChild(new YMapZoomControl({})));
 
     const topLeftButtons = new YMapControls({ position: 'top left', orientation: 'vertical' })
-        .addChild(new YMapControlButton({ text: 'Развернуть карту', onClick: changeView }))
+        .addChild(new YMapControlButton({ text: 'Развернуть карту', onClick: toggleButton }))
         .addChild(
             new YMapControlButton({ text: 'Фильтры', onClick: () => (openAdvanced.value = true) })
         );

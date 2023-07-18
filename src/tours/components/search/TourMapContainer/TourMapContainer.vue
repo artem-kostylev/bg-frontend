@@ -2,12 +2,15 @@
 import type { Tour } from '@/tours/types';
 import { formatCurrency } from '@/app/lib';
 import { Map, MarkerWithPopover } from '@map';
-import { SectionCard } from '@/pages/components';
-import { Typography, Stars } from '@ui/components';
 import { ControlButtons } from './components';
+import { TourMapCard } from '@/tours/components';
+import type { FiltersRaw } from '@/app/types';
 
 type Props = {
     tours: Tour[];
+    filters: FiltersRaw;
+    name: string;
+    target?: '_blank';
 };
 
 defineProps<Props>();
@@ -22,17 +25,15 @@ defineProps<Props>();
             :coordinates="tour.hotel.coordinates"
         >
             <template #trigger="{ vbind }">
-                <NuxtLink
+                <button
                     v-bind="vbind"
+                    target="__blank"
                     class="bg-primary-500 hover:bg-primary-600 text-white text-sm whitespace-nowrap px-2 py-1.5 rounded-full transition-colors duration-200 cursor-pointer"
                 >
                     {{ formatCurrency(tour.price) }}
-                </NuxtLink>
+                </button>
             </template>
-            <SectionCard :image="tour.hotel.images[0]" :alt="tour.hotel.name" class="w-[330px]">
-                <Stars :stars="5" class="mb-1.5" />
-                <Typography variant="h3" class="text-white">{{ tour.hotel.name }}</Typography>
-            </SectionCard>
+            <TourMapCard :variant="name" :target="target" :filters="filters" :tour="tour" />
         </MarkerWithPopover>
     </Map>
 </template>

@@ -275,24 +275,25 @@ onBeforeUnmount(() => {
             </div>
             <div class="w-full md:w-1/2 px-2.5 mb-5">
                 <Select
-                    v-model="v$.nationality_id.$model"
+                    v-if="nationalities"
                     required
                     label="Гражданство"
+                    v-model="v$.nationality_id.$model"
                     :options="nationalities"
-                    label-key="nationality_name"
-                    value-key="nationality_id"
+                    :error="v$.nationality_id.$errors[0]?.$message"
                     block
+                    :strong="false"
                 />
             </div>
             <div class="w-full md:w-1/2 px-2.5 mb-5">
                 <Select
+                    v-if="documentsOptions"
                     v-model="v$.document_type_id.$model"
                     required
                     label="Документ"
                     :disabled="!v$.nationality_id.$model"
                     :options="documentsOptions"
-                    value-key="id"
-                    label-key="name"
+                    :error="v$.document_type_id.$errors[0]?.$message"
                     block
                 />
             </div>

@@ -24,6 +24,15 @@ export type CreateOrderResponse = {
     order_id: number;
     price: number;
     status: 'created' | 'newprice' | 'exist' | 'errorBGO';
+    error?: {
+        errors: {
+            error: string;
+            info: string;
+            '@attributes': {
+                id: string;
+            };
+        };
+    };
 };
 
 export const createOrder = async (body: CreateOrderPayload) => {

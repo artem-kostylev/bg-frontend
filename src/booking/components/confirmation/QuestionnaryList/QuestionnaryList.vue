@@ -5,7 +5,7 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { useLazyAsyncData, useRouter } from '#imports';
+import { useLazyAsyncData, useRouter, useRoute } from '#imports';
 import { ref, reactive, computed, onMounted, watch } from 'vue';
 import type { General, Insurance, Accommodation } from '@/booking/types';
 import { Button, Typography, Collapse, Checkbox, Divider } from '@ui/components';
@@ -18,10 +18,10 @@ import { useVuelidate } from '@vuelidate/core';
 import { sameAs } from '@vuelidate/validators';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/auth/stores';
-// import { parseTickets } from '@/booking/lib/helpers';
+import { parseTickets } from '@/booking/lib/helpers';
 // import { useMessage } from '@ui/composables';
 
-// const route = useRoute();
+const route = useRoute();
 const router = useRouter();
 
 const { isAuthenticated, showAuthModal } = storeToRefs(useAuthStore());
@@ -161,8 +161,7 @@ const success = (index: number) => {
 const totalPrice = computed(() => props.general.total_price);
 
 const sendOrder = async () => {
-    // TODO
-    // const { tickets, transfers } = route.query;
+    const { tickets, transfers } = route.query;
     let currentIndex = 0;
 
     const groups = props.general.groups.map((group, index: number) => {
@@ -193,9 +192,8 @@ const sendOrder = async () => {
     const payload: any = { groups };
 
     orderId.value && (payload.order_id = orderId.value);
-    // TODO
-    // tickets && (payload.tickets = parseTickets(tickets as string[]));
-    // transfers && (payload.transfers = JSON.parse(transfers as string));
+    tickets && (payload.tickets = parseTickets(tickets as string[]));
+    transfers && (payload.transfers = JSON.parse(transfers as string));
 
     try {
         sending.value = true;
@@ -229,7 +227,7 @@ watch(error, (value, prevValue) => {
 });
 
 const submit = async () => {
-    // if (!(await v$.value.$validate())) return;
+    if (!(await v$.value.$validate())) return;
 
     if (!isAuthenticated.value) {
         showAuthModal.value = true;

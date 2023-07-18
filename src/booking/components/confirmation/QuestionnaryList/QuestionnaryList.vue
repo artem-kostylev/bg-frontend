@@ -19,7 +19,7 @@ import { sameAs } from '@vuelidate/validators';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/auth/stores';
 import { parseTickets } from '@/booking/lib/helpers';
-// import { useMessage } from '@ui/composables';
+import { useMessage } from '@ui/composables';
 
 const route = useRoute();
 const router = useRouter();
@@ -44,7 +44,7 @@ const error = ref('');
 const newPrice = ref<number | null>(null);
 const orderId = ref<number | null>(null);
 
-// const message = useMessage();
+const message = useMessage();
 
 const form = reactive<Form>({
     questionnaries: [],
@@ -212,9 +212,7 @@ const sendOrder = async () => {
     } catch (error) {
         let errorMessage = 'Unknown Error';
         if (error instanceof Error) errorMessage = error.message;
-        // eslint-disable-next-line
-        console.log(errorMessage);
-        // message.danger(errorMessage);
+        message.danger(errorMessage);
     } finally {
         sending.value = false;
     }

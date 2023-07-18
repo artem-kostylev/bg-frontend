@@ -5,10 +5,10 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { useLazyAsyncData, useRoute, useRouter } from '#imports';
-import { ref, reactive, computed, onMounted, watch, defineAsyncComponent } from 'vue';
+import { useLazyAsyncData, useRouter } from '#imports';
+import { ref, reactive, computed, onMounted, watch } from 'vue';
 import type { General, Insurance, Accommodation } from '@/booking/types';
-import { Button, Typography, Collapse, Checkbox } from '@ui/components';
+import { Button, Typography, Collapse, Checkbox, Divider } from '@ui/components';
 import { QuestionnaryCard, NewPriceModal } from '@/booking/components';
 import { fetchAvailableDocuments, createOrder } from '@/booking/services';
 import type { Questionnary, QuestionnaryForm } from '@/booking/types';
@@ -18,13 +18,13 @@ import { useVuelidate } from '@vuelidate/core';
 import { sameAs } from '@vuelidate/validators';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/auth/stores';
-import { parseTickets } from '@/booking/lib/helpers';
+// import { parseTickets } from '@/booking/lib/helpers';
 // import { useMessage } from '@ui/composables';
 
-const route = useRoute();
+// const route = useRoute();
 const router = useRouter();
 
-const { isAuthenticated } = storeToRefs(useAuthStore());
+const { isAuthenticated, showAuthModal } = storeToRefs(useAuthStore());
 
 type Form = {
     questionnaries: Questionnary[];
@@ -161,7 +161,8 @@ const success = (index: number) => {
 const totalPrice = computed(() => props.general.total_price);
 
 const sendOrder = async () => {
-    const { tickets, transfers } = route.query;
+    // TODO
+    // const { tickets, transfers } = route.query;
     let currentIndex = 0;
 
     const groups = props.general.groups.map((group, index: number) => {
@@ -192,8 +193,9 @@ const sendOrder = async () => {
     const payload: any = { groups };
 
     orderId.value && (payload.order_id = orderId.value);
-    tickets && (payload.tickets = parseTickets(tickets as string[]));
-    transfers && (payload.transfers = JSON.parse(transfers as string));
+    // TODO
+    // tickets && (payload.tickets = parseTickets(tickets as string[]));
+    // transfers && (payload.transfers = JSON.parse(transfers as string));
 
     try {
         sending.value = true;
@@ -227,10 +229,10 @@ watch(error, (value, prevValue) => {
 });
 
 const submit = async () => {
-    if (!(await v$.value.$validate())) return;
+    // if (!(await v$.value.$validate())) return;
 
     if (!isAuthenticated.value) {
-        showAuth.value = true;
+        showAuthModal.value = true;
         return;
     }
 
@@ -247,12 +249,6 @@ watch(documents, value => {
         }))
     );
 });
-
-const AuthModal = defineAsyncComponent(() =>
-    import('@/auth/components').then(meta => meta.AuthModal)
-);
-
-const showAuth = ref(false);
 
 onMounted(() => {
     form.questionnaries = props.general.groups.flatMap(({ tourists, tour_id }) =>
@@ -279,8 +275,7 @@ onMounted(() => {
             Для того чтобы заполненные ниже данные анкет сохранились в Системе, войдите в Личный
             кабинет, либо зарегистрируйтесь:
         </p>
-        <Button variant="primary" @click="showAuth = true">Войти в личный кабинет</Button>
-        <AuthModal v-if="!isAuthenticated" v-model="showAuth" />
+        <Button variant="primary" @click="showAuthModal = true">Войти в личный кабинет</Button>
     </div>
     <Collapse
         v-for="(questionnary, index) in form.questionnaries"
@@ -300,7 +295,7 @@ onMounted(() => {
             @success="success(index)"
             @clear-form="clearForm"
             @update-form="updateForm"
-            @auth="showAuth = true"
+            @auth="showAuthModal = true"
         />
     </Collapse>
     <div v-if="currentFormIndex === form.questionnaries.length" class="flex flex-col space-y-4">
@@ -319,8 +314,9 @@ onMounted(() => {
             Согласен(а) на получение новостных рассылок и предложений
         </Checkbox>
     </div>
-    <div class="space-y-4">
-        <div>
+    <div class="space-y-5">
+        <Divider dashed />
+        <div class="text-2xl tracking-tight">
             Итого за тур: <span class="font-bold">{{ formatCurrency(totalPrice) }}</span>
         </div>
         <Button variant="primary" :disabled="v$.$invalid" :loading="sending" @click="submit">

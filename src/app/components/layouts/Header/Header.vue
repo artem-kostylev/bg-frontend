@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, defineAsyncComponent } from 'vue';
+import { defineAsyncComponent } from 'vue';
 import { storeToRefs } from 'pinia';
 import { Container } from '@ui/components';
 import { UserIcon } from '@ui/icons';
@@ -10,9 +10,7 @@ const AuthModal = defineAsyncComponent(() =>
     import('@/auth/components').then(meta => meta.AuthModal)
 );
 
-const showAuth = ref(false);
-
-const { isAuthenticated } = storeToRefs(useAuthStore());
+const { isAuthenticated, showAuthModal } = storeToRefs(useAuthStore());
 </script>
 
 <template>
@@ -33,12 +31,12 @@ const { isAuthenticated } = storeToRefs(useAuthStore());
                     v-else
                     class="text-secondary-500 hover:text-secondary-600 transition-colors duration-300"
                     aria-label="Авторизация"
-                    @click="showAuth = true"
+                    @click="showAuthModal = true"
                 >
                     <UserIcon width="1.6em" height="1.6em" />
                 </button>
             </div>
         </Container>
-        <AuthModal v-if="!isAuthenticated" v-model="showAuth" />
+        <AuthModal v-if="!isAuthenticated" v-model="showAuthModal" />
     </header>
 </template>

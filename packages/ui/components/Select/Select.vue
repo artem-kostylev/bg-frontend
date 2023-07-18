@@ -83,6 +83,7 @@ watch(modelValue, () => {
                     :placeholder="placeholder"
                     :open="open"
                     v-bind="vbind"
+                    :block="block"
                 />
             </Field>
         </template>

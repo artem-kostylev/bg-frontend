@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import { useMap } from '@map/composables';
+import { useTours } from '@/tours/composables';
 
 const { addChild } = useMap()!;
+const { openAdvanced, changeView, view } = useTours()!;
 
 onMounted(async () => {
     const { YMapControls, YMapControlButton } = ymaps3;
@@ -11,13 +13,15 @@ onMounted(async () => {
     addChild(new YMapControls({ position: 'right' }).addChild(new YMapZoomControl({})));
 
     const topLeftButtons = new YMapControls({ position: 'top left', orientation: 'vertical' })
-        .addChild(new YMapControlButton({ text: 'Развернуть карту' }))
-        .addChild(new YMapControlButton({ text: 'Фильтры' }));
+        .addChild(new YMapControlButton({ text: 'Развернуть карту', onClick: changeView }))
+        .addChild(
+            new YMapControlButton({ text: 'Фильтры', onClick: () => (openAdvanced.value = true) })
+        );
 
     addChild(topLeftButtons);
 
     const topRightButton = new YMapControls({ position: 'top right' }).addChild(
-        new YMapControlButton({ text: 'Списком' })
+        new YMapControlButton({ text: 'Списком', onClick: () => (view.value = 1) })
     );
 
     addChild(topRightButton);

@@ -9,6 +9,7 @@ import { formatFilters } from '@/app/lib';
 import { useQuery, useName, useInfinity } from '@/app/composables';
 import { Empty, Page } from '@/app/components';
 import { MapIcon } from '@ui/icons';
+import { useToursProvide } from '@/tours/composables';
 
 definePageMeta({ filters: true, navigation: true });
 
@@ -18,6 +19,7 @@ const query = useQuery<FiltersRaw>();
 const page = ref(1);
 const sort = ref('tour.price:asc');
 const view = ref(1);
+const openAdvanced = ref(false);
 
 const { data, pending, error, refresh } = useLazyAsyncData(
     'tours',
@@ -38,6 +40,8 @@ watch(query, () => refresh());
 const changeView = () => {
     view.value !== 3 ? view.value++ : (view.value = 1);
 };
+
+useToursProvide({ changeView, view, openAdvanced });
 </script>
 
 <template>
@@ -50,7 +54,7 @@ const changeView = () => {
         />
         <div v-else-if="data" class="flex flex-wrap -mx-2.5 relative">
             <div
-                v-if="view !== 3"
+                v-show="view !== 3"
                 :class="['px-2.5', view === 1 && 'w-full', view === 2 && 'w-1/3']"
             >
                 <div class="flex items-center justify-between mb-5">
@@ -61,7 +65,7 @@ const changeView = () => {
                         На карте
                     </Button>
                 </div>
-                <TourFilters v-if="view === 1" v-model="sort" class="mb-5" />
+                <TourFilters v-show="view === 1" v-model="sort" class="mb-5" />
                 <template v-if="data.tours.length">
                     <TourList :tours="data.tours" :name="name" :filters="filters" :view="view" />
                     <template v-if="data.has_next">

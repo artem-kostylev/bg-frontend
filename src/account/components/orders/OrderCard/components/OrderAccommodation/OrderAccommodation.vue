@@ -5,7 +5,7 @@ import { BuildingIcon } from '@ui/icons';
 import type { OrderDetailGeneral, Accommodation } from '@/booking/types';
 import type { ReviewableHotel } from '@/account/types';
 import { AddReviewModal } from '@/account/components';
-// import { useMessage } from '@ui/composables';
+import { useMessage } from '@ui/composables';
 
 type Props = {
     general: OrderDetailGeneral;
@@ -60,10 +60,10 @@ watch(showModal, value => {
     }
 });
 
-// const message = useMessage();
+const message = useMessage();
 
 const addReview = () => {
-    // message.success('Ваш отзыв направлен на проверку');
+    message.success('Ваш отзыв направлен на проверку');
     showModal.value = false;
     selectedHotel.value = null;
 };

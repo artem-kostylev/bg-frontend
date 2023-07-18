@@ -11,7 +11,7 @@ import {
 } from '#imports';
 import { Typography, Button, Field, Spin } from '@ui/components';
 import { Page } from '@/app/components';
-// import { useMessage } from '@ui/composables';
+import { useMessage } from '@ui/composables';
 import { required, formatDate } from '@/app/lib';
 import { useVuelidate } from '@vuelidate/core';
 import { getAppeal, addAppeal } from '@/account/services/';
@@ -49,6 +49,8 @@ const rules = {
 
 const v$ = useVuelidate(rules, form);
 
+const message = useMessage();
+
 const messagesRef = ref<HTMLDivElement>();
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const messagesArrRef = ref<any[]>([]);
@@ -81,7 +83,7 @@ const update = async () => {
         const hasAnswer = newMessages.some(message => message.type === 1);
 
         if (hasAnswer) {
-            // message.success('Доступны новые сообщения по обращению');
+            message.success('Доступны новые сообщения по обращению');
             await scrollToBottom();
         }
     }
@@ -94,7 +96,6 @@ onBeforeUnmount(() => {
 });
 
 const sending = ref(false);
-// const message = useMessage();
 
 const onSubmit = async () => {
     if (!data.value) return;
@@ -111,7 +112,7 @@ const onSubmit = async () => {
 
     try {
         await addAppeal(body);
-        // message.success('Сообщение успешно отправлено');
+        message.success('Сообщение успешно отправлено');
 
         await update();
         await scrollToBottom();
@@ -121,9 +122,9 @@ const onSubmit = async () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
         if (err.status === 422) {
-            // message.danger(err.data.message);
+            message.danger(err.data.message);
         } else {
-            // message.danger('Неизвестная ошибка');
+            message.danger('Неизвестная ошибка');
         }
     } finally {
         sending.value = false;

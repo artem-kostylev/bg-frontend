@@ -9,7 +9,7 @@ import type { SubmitError } from '@/app/types';
 import { fetchAddReview, type FetchAddReviewPayload } from '@/account/services';
 import { required, commentLength } from '@/app/lib';
 import { useVuelidate } from '@vuelidate/core';
-// import { useMessage } from '@ui/composables';
+import { useMessage } from '@ui/composables';
 
 type Props = {
     modelValue: boolean;
@@ -60,11 +60,11 @@ const COMMENTS = {
 
 const pending = ref(false);
 
-// const message = useMessage();
+const message = useMessage();
 
 const submit = async () => {
     if (!(await v$.value.$validate())) {
-        // message.danger('Заполните обязательные поля');
+        message.danger('Заполните обязательные поля');
         return;
     }
 
@@ -91,8 +91,7 @@ const submit = async () => {
     } catch (e) {
         const err = e as SubmitError;
         const errorMessage = err.data.message ? err.data.message : 'Ошибка при добавлении отзыва';
-        console.log(errorMessage);
-        // message.danger(errorMessage);
+        message.danger(errorMessage);
     } finally {
         pending.value = false;
     }

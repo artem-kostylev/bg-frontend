@@ -4,7 +4,7 @@ import { useNuxtData } from '#imports';
 import type { AccommodationRoom, Accommodation } from '@/booking/types';
 import { Modal, Checkbox, Button } from '@ui/components';
 import { type FetchOrderDetailResponse, fetchWishes } from '@/booking/services';
-// import { useMessage } from '@ui/composables';
+import { useMessage } from '@ui/composables';
 
 import { useVModel } from '@vueuse/core';
 type Props = {
@@ -53,7 +53,7 @@ const items = [
 ];
 
 const pending = ref(false);
-// const message = useMessage();
+const message = useMessage();
 
 const submit = async () => {
     if (!order.value) return;
@@ -85,13 +85,11 @@ const submit = async () => {
                 selectedItems.value;
         }
 
-        // message.success('Пожелания успешно отправлены!');
+        message.success('Пожелания успешно отправлены!');
     } catch (error) {
         let errorMessage = 'Unknown Error';
         if (error instanceof Error) errorMessage = error.message;
-        // eslint-disable-next-line
-        console.log(errorMessage);
-        // message.danger(errorMessage);
+        message.danger(errorMessage);
     } finally {
         pending.value = false;
     }

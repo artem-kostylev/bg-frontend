@@ -14,6 +14,7 @@ import {
 } from '@/app/lib';
 import { useLazyAsyncData } from '#imports';
 import { addDocument, editUserDoc, getDocumentsTypes, getNationalities } from '@/account/services';
+import { useMessage } from '@ui/composables';
 import type { NewDocument, Document, UpperCaseKeys } from '@/account/types';
 import { vMaska } from 'maska';
 
@@ -188,6 +189,8 @@ const convertToDate = (date: string) => {
     return d[2] + '-' + d[1] + '-' + d[0];
 };
 
+const message = useMessage();
+
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
 
@@ -215,8 +218,7 @@ const submit = async () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
         error.value = 'Ошибка. Проверьте корректность введенных данных';
-        // eslint-disable-next-line
-        console.log('Error ', err.data.message);
+        message.danger(err.data.message);
     } finally {
         sending.value = false;
     }

@@ -193,7 +193,7 @@ const sendOrder = async () => {
 
     orderId.value && (payload.order_id = orderId.value);
     tickets && (payload.tickets = parseTickets(tickets as string[]));
-    transfers && (payload.transfers = JSON.parse(transfers as string));
+    // transfers && (payload.transfers = JSON.parse(transfers as string));
 
     try {
         sending.value = true;
@@ -208,6 +208,10 @@ const sendOrder = async () => {
 
         if (response.status === 'created') {
             router.push({ name: 'booking-pay', query: { order_id: response.order_id } });
+        }
+
+        if (response.status === 'errorBGO' && response?.error?.errors.error) {
+            message.danger('Ошибка ПКУП № ' + response.error.errors.error);
         }
     } catch (error) {
         let errorMessage = 'Unknown Error';

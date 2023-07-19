@@ -55,27 +55,28 @@ const alertTitle = computed(() => {
         <template v-else-if="data">
             <Typography variant="h1" as="h1" class="md:mb-2.5">{{ data.meta.title }}</Typography>
             <TourFilters v-model="sort" class="mb-8" />
-            <template v-if="data.tours.length">
-                <TourList :tours="data.tours" :name="name" :filters="filters" />
-                <template v-if="data.has_next">
-                    <Spin v-if="loadingMore" color="primary" class="my-12 flex-1" />
-                    <div v-else ref="targetRef"></div>
+            <div class="space-y-5">
+                <template v-if="data.tours.length">
+                    <TourList :tours="data.tours" :name="name" :filters="filters" />
+                    <template v-if="data.has_next">
+                        <Spin v-if="loadingMore" color="primary" class="my-12 flex-1" />
+                        <div v-else ref="targetRef"></div>
+                    </template>
                 </template>
-            </template>
-            <template v-if="data.alternatives?.length">
-                <Alert
-                    variant="warning"
-                    :title="alertTitle"
-                    text="Измените поисковый запрос или рассмотрите похожие варианты:"
-                    class="mb-5"
+                <template v-if="data.alternatives?.length">
+                    <Alert
+                        variant="warning"
+                        :title="alertTitle"
+                        text="Измените поисковый запрос или рассмотрите похожие варианты:"
+                    />
+                    <TourList :tours="data.alternatives" :name="name" :filters="filters" />
+                </template>
+                <Empty
+                    v-if="!data.tours.length && !data.alternatives?.length"
+                    title="По вашему запросу ничего не нашлось"
+                    description="Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры"
                 />
-                <TourList :tours="data.alternatives" :name="name" :filters="filters" />
-            </template>
-            <Empty
-                v-else
-                title="По вашему запросу ничего не нашлось"
-                description="Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры"
-            />
+            </div>
         </template>
     </Page>
 </template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { Input } from '@ui/components';
 import { required, confirmationCode } from '@/app/lib';
 import { vMaska } from 'maska';
@@ -9,7 +10,11 @@ type Props = {
     inputDisabled?: boolean;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+const isError = computed(() => {
+    return props.error != null;
+});
 
 const emit = defineEmits<{
     (e: 'submit', value: string): void;
@@ -21,6 +26,7 @@ const { v$ } = useSimpleForm({
     fieldRules: [required, confirmationCode],
     emit,
     onChange: true,
+    isError,
 });
 </script>
 

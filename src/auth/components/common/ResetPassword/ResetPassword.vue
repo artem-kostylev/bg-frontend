@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, type Ref } from 'vue';
-import { Alert, Divider } from '@ui/components';
+import { Alert, Divider, Spin } from '@ui/components';
 import { AuthConfirmation } from '@/auth/components';
 import { ResetForm } from './components';
 import type {
@@ -85,13 +85,15 @@ const saveUser = (response: FetchLoginResponse) => {
     setAccessToken(response.token);
 };
 
+const sending = ref(false);
+
 const onSubmit = async (form: ResetFormType) => {
     if (!code.value) return;
     if (!props.loginInfo.loginValue) return;
 
     try {
         clearErrors();
-        pending.value = true;
+        sending.value = true;
 
         const body = { ...form } as FetchForgotCheckBody;
         body.code = code.value;
@@ -111,7 +113,7 @@ const onSubmit = async (form: ResetFormType) => {
             error.value = 'Неизвестная ошибка';
         }
     } finally {
-        pending.value = false;
+        sending.value = false;
     }
 };
 
@@ -123,26 +125,29 @@ const changeLogin = () => {
 <template>
     <div class="space-y-4">
         <Alert v-if="error" variant="error" :text="error" />
-        <AuthConfirmation
-            v-if="showConfirmation"
-            :verify-sent="verifySent"
-            :login-info="loginInfo"
-            @submit="confirm"
-            @change-login="changeLogin"
-            @clear-errors="clearErrors"
-            :only-send="true"
-            :incorrect-code="errors?.code && errors?.code[0]"
-            step="1. "
-        />
-        <Divider dashed />
-        <div>2. Введите новый пароль</div>
-        <ResetForm
-            v-if="verifySent"
-            :pending="pending"
-            :btn-disabled="error !== null || errors !== null"
-            :errors="errors"
-            @submit="onSubmit"
-            @clear-errors="clearErrors"
-        />
+        <Spin v-if="pending" color="primary" class="flex-1" />
+        <template v-else>
+            <AuthConfirmation
+                v-if="showConfirmation"
+                :verify-sent="verifySent"
+                :login-info="loginInfo"
+                @submit="confirm"
+                @change-login="changeLogin"
+                @clear-errors="clearErrors"
+                :only-send="true"
+                :incorrect-code="errors?.code && errors?.code[0]"
+                step="1. "
+            />
+            <template v-if="verifySent">
+                <Divider dashed />
+                <div>2. Введите новый пароль</div>
+                <ResetForm
+                    :pending="sending"
+                    :is-error="error !== null || errors !== null"
+                    :errors="errors"
+                    @submit="onSubmit"
+                    @clear-errors="clearErrors"
+            /></template>
+        </template>
     </div>
 </template>

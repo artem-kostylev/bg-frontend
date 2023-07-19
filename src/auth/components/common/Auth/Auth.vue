@@ -60,9 +60,9 @@ const onSubmit = async (login: string) => {
     <div class="space-y-4">
         <Alert v-if="error" variant="error" :text="error" />
         <AuthForm
-            :error="loginError"
             :pending="pending"
-            :btn-disabled="error !== null || loginError !== null"
+            :error="loginError"
+            :is-error="error !== null || loginError !== null"
             @submit="onSubmit"
             @clear-errors="clearErrors"
         />

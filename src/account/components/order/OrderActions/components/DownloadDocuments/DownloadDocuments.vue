@@ -1,12 +1,20 @@
 <script setup lang="ts">
 import { Button } from '@ui/components';
 import { DownloadArrowIcon } from '@ui/icons';
+import { useLazyAsyncData } from '#imports';
+import { fetchOrderDocuments } from '@/account/services';
 
 type Props = {
+    orderId: number;
     href: string;
 };
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { data, pending } = useLazyAsyncData('order-documents', () =>
+    fetchOrderDocuments(props.orderId)
+);
 </script>
 
 <template>

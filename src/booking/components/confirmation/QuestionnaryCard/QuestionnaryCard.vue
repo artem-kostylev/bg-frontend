@@ -20,7 +20,7 @@ import {
 import { AutocompleteModal, SelectInsuranceModal } from '@/booking/components';
 import { useAuthStore } from '@/auth/stores';
 import { vMaska } from 'maska';
-import type { Document, UpperCaseKeys } from '@/account/types';
+import type { Document } from '@/account/types';
 import { textTransform } from '@/app/lib';
 import { addDocument, editUserDoc } from '@/account/services';
 
@@ -245,22 +245,10 @@ const autoComplete = async (doc: Document) => {
     });
 };
 
-const upperCaseKeys: (keyof Omit<UpperCaseKeys, 'second_name'>)[] = ['first_name', 'last_name'];
-
-upperCaseKeys.forEach(key => {
-    watch(
-        () => props.questionnary.form[key],
-        () => {
-            if (props.questionnary.form && props.questionnary.form[key]) {
-                emit('update-form', {
-                    index: props.index,
-                    key: key,
-                    newValue: textTransform(props.questionnary.form[key] as string),
-                });
-            }
-        }
-    );
-});
+const onInput = (event: Event) => {
+    const target = event.target as HTMLInputElement;
+    target.value = textTransform(target.value);
+};
 </script>
 <template>
     <Card body-class="grid gap-5">
@@ -273,18 +261,21 @@ upperCaseKeys.forEach(key => {
                 required
                 v-model="v$.last_name.$model"
                 :error="v$.last_name.$errors[0]?.$message"
+                @input="onInput"
             />
             <Input
                 label="Имя"
                 required
                 v-model="v$.first_name.$model"
                 :error="v$.first_name.$errors[0]?.$message"
+                @input="onInput"
             />
             <Input
                 v-if="selectedDoc && selectedDoc.is_cyrillic"
                 label="Отчество"
                 v-model="v$.second_name.$model"
                 :error="v$.second_name.$errors[0]?.$message"
+                @input="onInput"
             />
             <Input
                 label="Дата рождения"

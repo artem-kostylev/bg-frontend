@@ -5,14 +5,13 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { formatDate, pluralize } from '@/app/lib';
 import {
     InsuranceList,
     TransferList,
     TicketList,
     AccommodationList,
     ExtraActivityList,
+    BookingSummary,
 } from '@/booking/components';
 import type {
     Accommodation,
@@ -24,17 +23,8 @@ import type {
     ExtraActivity,
     IncludedActivity,
 } from '@/booking/types';
-import { Divider, Collapse, Grid, IconFilled } from '@ui/components';
-import {
-    BusIcon,
-    ShieldIcon,
-    AirplaneTakeoffIcon,
-    AirplaneIcon,
-    CalendarIcon,
-    UsersIcon,
-    BuildingsIcon,
-    PalmIcon,
-} from '@ui/icons';
+import { Divider, Collapse, Grid } from '@ui/components';
+import { BusIcon, ShieldIcon, AirplaneIcon, BuildingsIcon, PalmIcon } from '@ui/icons';
 
 type Props = {
     general: General | OrderDetailGeneral;
@@ -47,35 +37,12 @@ type Props = {
     defaultOpen?: boolean;
 };
 
-const props = defineProps<Props>();
-
-const duration = computed(() => pluralize(props.general.duration, ['ночь', 'ночи', 'ночей']));
-const tourists = computed(() =>
-    pluralize(props.general.qty_tourists, ['турист', 'туриста', 'туристов'])
-);
-
-const dates = computed(() => {
-    return `с ${formatDate(props.general.date_start, 'D')} по ${formatDate(
-        props.general.date_finish,
-        'D MMM'
-    )}
-    на ${duration.value}`;
-});
+defineProps<Props>();
 </script>
 
 <template>
     <Grid class="gap-4 md:gap-6" :class="$attrs.class" :style="$attrs.style">
-        <div class="flex flex-wrap -mx-2.5 -mb-2.5">
-            <div class="px-2.5 mb-2.5" v-if="movements.length">
-                <IconFilled :icon="AirplaneTakeoffIcon" :label="general.from" />
-            </div>
-            <div class="px-2.5 mb-2.5">
-                <IconFilled :icon="CalendarIcon" :label="dates" />
-            </div>
-            <div class="px-2.5 mb-2.5">
-                <IconFilled :icon="UsersIcon" :label="tourists" />
-            </div>
-        </div>
+        <BookingSummary :general="general" :has-movements="!!movements.length" />
         <Divider dashed />
         <Collapse
             v-if="accommodations?.length"

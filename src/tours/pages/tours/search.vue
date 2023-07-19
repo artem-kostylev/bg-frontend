@@ -3,9 +3,9 @@ import { computed, ref, watch } from 'vue';
 import { useLazyAsyncData, definePageMeta } from '#imports';
 import { TourList, TourFilters } from '@/tours/components';
 import { fetchTours } from '@/tours/services';
-import { Spin, Typography } from '@ui/components';
+import { Spin, Typography, Alert } from '@ui/components';
 import type { FiltersRaw } from '@/app/types';
-import { formatFilters } from '@/app/lib';
+import { formatFilters, pluralize } from '@/app/lib';
 import { useQuery, useName, useInfinity } from '@/app/composables';
 import { Empty, Page } from '@/app/components';
 
@@ -32,6 +32,16 @@ const { targetRef, loadingMore } = useInfinity(async () => {
 const filters = computed(() => formatFilters(data.value!.filters));
 
 watch(query, () => name.value === 'tours-search' && refresh());
+
+const alertTitle = computed(() => {
+    return data.value?.tours.length
+        ? `По вашему запросу было найдено ${pluralize(data.value.tours.length, [
+              'тур',
+              'тура',
+              'туров',
+          ])}`
+        : 'По вашему запросу туры не найдены';
+});
 </script>
 
 <template>
@@ -51,6 +61,15 @@ watch(query, () => name.value === 'tours-search' && refresh());
                     <Spin v-if="loadingMore" color="primary" class="my-12 flex-1" />
                     <div v-else ref="targetRef"></div>
                 </template>
+            </template>
+            <template v-if="data.alternatives?.length">
+                <Alert
+                    variant="warning"
+                    :title="alertTitle"
+                    text="Измените поисковый запрос или рассмотрите похожие варианты:"
+                    class="mb-5"
+                />
+                <TourList :tours="data.alternatives" :name="name" :filters="filters" />
             </template>
             <Empty
                 v-else

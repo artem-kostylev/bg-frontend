@@ -2,7 +2,7 @@
 import type { LngLat, YMapMarker } from '@yandex/ymaps3-types';
 import { onBeforeUnmount, onMounted, createApp, useSlots, h } from 'vue';
 import { useMap } from '@map/composables';
-import { Popover } from '@ui/components';
+import { Popover } from '@map/components';
 
 type Props = {
     coordinates: LngLat;
@@ -21,7 +21,7 @@ onMounted(() => {
 
     componentRef.mount(div);
 
-    marker = new ymaps3.YMapMarker({ coordinates: props.coordinates }, div);
+    marker = new ymaps3.YMapMarker({ coordinates: props.coordinates, zIndex: 0 }, div);
 
     addChild(marker);
 });

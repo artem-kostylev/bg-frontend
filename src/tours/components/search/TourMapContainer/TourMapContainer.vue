@@ -54,7 +54,8 @@ const onSubmit = (tour: ShortTour) => {
         }
     }
 
-    router.push(to);
+    const link = router.resolve(to);
+    window.open(link.href, '_blank');
 };
 </script>
 
@@ -67,7 +68,7 @@ const onSubmit = (tour: ShortTour) => {
                     <button
                         v-bind="vbind"
                         target="__blank"
-                        class="bg-primary-500 hover:bg-primary-600 text-white text-sm whitespace-nowrap px-2 py-1.5 rounded-full transition-colors duration-200 cursor-pointer"
+                        class="bg-primary-500 hover:bg-primary-600 text-white text-sm whitespace-nowrap px-2 py-1.5 rounded-full transition-colors duration-200 cursor-pointer -z-10"
                     >
                         {{ formatCurrency(tour.price) }}
                     </button>

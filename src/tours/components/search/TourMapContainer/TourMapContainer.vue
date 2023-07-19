@@ -70,7 +70,7 @@ const onSubmit = (tour: ShortTour) => {
                         target="__blank"
                         class="bg-primary-500 hover:bg-primary-600 text-white text-sm whitespace-nowrap px-2 py-1.5 rounded-full transition-colors duration-200 cursor-pointer -z-10"
                     >
-                        {{ formatCurrency(tour.price) }}
+                        от {{ formatCurrency(tour.price) }}
                     </button>
                 </template>
                 <TourMapCard

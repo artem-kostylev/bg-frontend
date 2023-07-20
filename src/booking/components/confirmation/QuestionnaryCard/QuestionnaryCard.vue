@@ -22,7 +22,6 @@ import { useAuthStore } from '@/auth/stores';
 import { vMaska } from 'maska';
 import type { Document } from '@/account/types';
 import { textTransform } from '@/app/lib';
-import { addDocument, editUserDoc } from '@/account/services';
 
 const { isAuthenticated } = storeToRefs(useAuthStore());
 
@@ -209,28 +208,12 @@ const clearForm = () => {
     });
 };
 
-const createDoc = async (form: Document) => {
-    const result = await addDocument(form);
-    form.id = result.id;
-    emit('update-form', {
-        index: props.index,
-        doc: form,
-    });
-};
-
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
     if (!isAuthenticated.value) {
         emit('auth');
         return;
     }
-    const form = { ...props.questionnary.form };
-    const splitDocumentNumber = form.document_number!.split(' ');
-    form.document_series = splitDocumentNumber[0];
-    form.document_number = splitDocumentNumber[1];
-    props.questionnary.form.id
-        ? await editUserDoc(props.questionnary.form.id, form as Document)
-        : await createDoc(form as Document);
     emit('success');
 };
 
@@ -360,10 +343,8 @@ const onInput = (event: Event) => {
                 </div>
             </button>
         </div>
-        <div class="flex space-x-2.5">
-            <Button variant="primary" @click="submit">
-                {{ isLast ? 'Перейти к условиям' : 'Перейти к следущей анкете' }}
-            </Button>
+        <div v-if="!isLast" class="flex space-x-2.5">
+            <Button variant="primary" @click="submit"> Перейти к следущей анкете </Button>
         </div>
     </Card>
 </template>

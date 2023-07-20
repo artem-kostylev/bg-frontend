@@ -1,7 +1,11 @@
 import { http } from '@/app/lib';
 
-// type FetchOrderDocumentsResponse = {};
-
 export const fetchOrderDocuments = async (order_id: number) => {
-    return http(`orderDocuments/${order_id}`);
+    const response = await http(`orderDocuments3/${order_id}`, {
+        responseType: 'blob',
+    });
+
+    if (response) {
+        return URL.createObjectURL(response);
+    }
 };

@@ -6,19 +6,22 @@ import { fetchOrderDocuments } from '@/account/services';
 
 type Props = {
     orderId: number;
+    orderNumber: number;
     href: string;
 };
 
 const props = defineProps<Props>();
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { data, pending } = useLazyAsyncData('order-documents', () =>
-    fetchOrderDocuments(props.orderId)
-);
+const { data } = useLazyAsyncData('order-documents', () => fetchOrderDocuments(props.orderId));
 </script>
 
 <template>
-    <a :href="href" download target="_blank" class="block w-full">
+    <a
+        v-if="data"
+        :href="data"
+        :download="`Документы по заказу №${orderNumber}.pdf`"
+        class="block w-full"
+    >
         <Button variant="secondary" :start-icon="DownloadArrowIcon" class="w-full sm:w-max">
             Сохранить все документы
         </Button>

@@ -25,6 +25,7 @@ defineProps<Props>();
         <div class="mt-auto flex" :class="align && 'justify-end'">
             <DownloadDocuments
                 :order-id="general.order_id"
+                :order-number="general.order_number"
                 href="https://static.stage.bgit.ru/stage1/image/642c15997cfce.jpeg"
             />
         </div>

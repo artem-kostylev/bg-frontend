@@ -36,7 +36,6 @@ type Props = {
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
-    (e: 'auth'): void;
     (e: 'success'): void;
     (e: 'clear-form', value: number): void;
     (
@@ -210,10 +209,6 @@ const clearForm = () => {
 
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
-    if (!isAuthenticated.value) {
-        emit('auth');
-        return;
-    }
     emit('success');
 };
 

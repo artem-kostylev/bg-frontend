@@ -307,7 +307,6 @@ watch(documents, () => {
             @success="success(index)"
             @clear-form="clearForm"
             @update-form="updateForm"
-            @auth="showAuthModal = true"
         />
     </Collapse>
     <div class="flex flex-col space-y-4">

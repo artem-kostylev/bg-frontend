@@ -27,9 +27,7 @@ const { targetRef, loadingMore } = useInfinity(async () => {
     const response = await fetchTours(query.value, name.value, ++page.value, sort.value);
     data.value!.has_next = response.has_next;
 
-    data.value!.alternatives?.length
-        ? data.value!.alternatives.push(...response.tours)
-        : data.value!.tours.push(...response.tours);
+    data.value!.tours.push(...response.tours);
 });
 
 watch(query, () => name.value === 'tours-search' && refresh());

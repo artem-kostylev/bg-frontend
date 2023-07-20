@@ -31,7 +31,7 @@ const { targetRef, loadingMore } = useInfinity(async () => {
 
 const filters = computed(() => formatFilters(data.value!.filters));
 
-watch(query, () => refresh());
+watch(query, () => name.value === 'tours-search' && refresh());
 </script>
 
 <template>

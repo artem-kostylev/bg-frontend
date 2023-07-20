@@ -42,3 +42,6 @@ export * from './FloatingInput';
 export * from './Drawer';
 export * from './Chip';
 export * from './SelectButton';
+export * from './Carousel';
+export * from './Gallery';
+export * from './ImageLike';

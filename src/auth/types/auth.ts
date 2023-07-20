@@ -23,9 +23,9 @@ export type NextAuthForm = {
 };
 
 export type AuthFormProps = {
-    error?: string | null;
     pending?: boolean;
-    btnDisabled?: boolean;
+    error?: string | null;
+    isError?: boolean;
 };
 
 export type RegisterForm = {

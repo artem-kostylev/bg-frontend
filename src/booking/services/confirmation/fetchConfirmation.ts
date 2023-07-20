@@ -1,4 +1,4 @@
-import { http } from '@/app/lib';
+import { http, parseTourists } from '@/app/lib';
 import { parseTickets } from '@/booking/lib';
 import type {
     Accommodation,
@@ -25,6 +25,7 @@ export type FetchConfirmationQuery = {
     tours_hash: string;
     transfers: string[];
     tickets: string[];
+    tour_tourists?: string[];
 };
 
 type FetchConfirmationPayload = FetchConfirmationQuery;
@@ -38,6 +39,7 @@ export const fetchConfirmation = async (payload: FetchConfirmationPayload) => {
             tour_ids: payload.tour_ids[0],
             tours_hash: payload.tours_hash,
             transfers: payload.transfers,
+            tour_tourists: payload.tour_tourists && parseTourists(payload.tour_tourists),
             tickets,
         },
     });

@@ -75,6 +75,7 @@ export const fetchNavigation = async (
 
         case 'avia-search':
             payload.status = 'tickets';
+            payload.tour_type = 'avia';
             break;
 
         default:

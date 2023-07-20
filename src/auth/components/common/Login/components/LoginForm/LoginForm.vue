@@ -1,11 +1,16 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { InputPassword, Button } from '@ui/components';
 import { LockIcon } from '@ui/icons';
 import { required } from '@/app/lib';
 import type { AuthFormProps } from '@/auth/types';
 import { useSimpleForm } from '@/auth/composables';
 
-defineProps<AuthFormProps>();
+const props = defineProps<AuthFormProps>();
+
+const isError = computed(() => {
+    return props.isError;
+});
 
 const emit = defineEmits<{
     (e: 'submit', value: string): void;
@@ -16,6 +21,7 @@ const { v$, onSubmit } = useSimpleForm({
     field: 'password',
     fieldRules: [required],
     emit,
+    isError,
 });
 </script>
 
@@ -33,7 +39,7 @@ const { v$, onSubmit } = useSimpleForm({
             <Button
                 variant="primary"
                 :loading="pending"
-                :disabled="v$.$errors?.length > 0 || btnDisabled"
+                :disabled="v$.$errors?.length > 0 || isError"
                 @click="onSubmit"
                 >Продолжить</Button
             >

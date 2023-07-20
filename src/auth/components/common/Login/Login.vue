@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { Alert } from '@ui/components';
+import { Alert, Spin } from '@ui/components';
 import { LoginForm, ForgotPasswordTip } from './components';
 import { AuthConfirmation } from '@/auth/components';
 import type { LoginInfo, NextAuthForm, AuthenticationTitle } from '@/auth/types';
@@ -47,10 +47,11 @@ const saveUser = (response: FetchLoginResponse) => {
 };
 
 const showTip = ref(false);
+const sending = ref(false);
 
 const onSubmit = async (password: string) => {
     try {
-        pending.value = true;
+        sending.value = true;
         const response = await fetchLogin(password, props.loginInfo);
         response && saveUser(response);
         emit('close');
@@ -66,7 +67,7 @@ const onSubmit = async (password: string) => {
             error.value = 'Неизвестная ошибка';
         }
     } finally {
-        pending.value = false;
+        sending.value = false;
     }
 };
 const resetPassword = () => {
@@ -90,28 +91,28 @@ const changeLogin = () => {
 <template>
     <div class="space-y-4">
         <Alert v-if="error" variant="error" :text="error" />
-        <AuthConfirmation
-            v-if="showConfirmation"
-            :verify-sent="verifySent"
-            :login-info="loginInfo"
-            @close="closeConfirmation"
-            @change-login="changeLogin"
-        />
-        <div v-else-if="!verifySendError" class="space-y-4">
-            <LoginForm
-                :error="passwordError"
-                :pending="pending"
-                :btn-disabled="passwordError !== null"
-                @submit="onSubmit"
-                @clear-errors="clearErrors"
-            />
-            <ForgotPasswordTip
-                v-model="showTip"
+        <Spin v-if="pending" color="primary" class="flex-1" />
+        <template v-else
+            ><AuthConfirmation
+                v-if="showConfirmation"
+                :verify-sent="verifySent"
                 :login-info="loginInfo"
-                :error="passwordError !== null"
-                :pending="pending"
-                @reset-password="resetPassword"
-            />
-        </div>
+                @close="closeConfirmation"
+                @change-login="changeLogin" />
+            <div v-else-if="!verifySendError" class="space-y-4">
+                <LoginForm
+                    :pending="sending"
+                    :error="passwordError"
+                    :is-error="error !== null || passwordError !== null"
+                    @submit="onSubmit"
+                    @clear-errors="clearErrors"
+                />
+                <ForgotPasswordTip
+                    v-model="showTip"
+                    :login-info="loginInfo"
+                    :is-error="passwordError !== null"
+                    @reset-password="resetPassword"
+                /></div
+        ></template>
     </div>
 </template>

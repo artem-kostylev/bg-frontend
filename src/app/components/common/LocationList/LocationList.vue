@@ -16,7 +16,7 @@ withDefaults(defineProps<Props>(), {
         <NuxtLink
             v-for="(item, index) in location"
             :key="item.id"
-            :to="{ name: 'locations-id', params: { id: item.id } }"
+            :to="{ name: 'locations-id', params: { id: item.id }, query: $route.query }"
             :target="target"
             class="text-sm text-secondary-500 hover:text-secondary-900"
         >

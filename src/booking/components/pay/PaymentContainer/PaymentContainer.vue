@@ -11,7 +11,7 @@ import {
 import type { PayQuery, Transaction } from '@/booking/types';
 import { Modal, Typography, Image } from '@ui/components';
 import { Payment } from '@/booking/components';
-// import { useMessage } from '@ui/composables';
+import { useMessage } from '@ui/composables';
 
 type Props = {
     query: PayQuery;
@@ -29,7 +29,7 @@ const emit = defineEmits<{
 const showQrCode = ref(false);
 
 const router = useRouter();
-// const message = useMessage();
+const message = useMessage();
 
 type PaymentStatusError = {
     errors: { order_id?: string[] };
@@ -68,9 +68,7 @@ const { pause, resume } = useIntervalFn(
             resume();
         } catch (e) {
             const err = e as PaymentStatusError;
-            // eslint-disable-next-line
-            console.log(err.message);
-            // message.danger(err.message);
+            message.danger(err.message);
             showQrCode.value = false;
         }
     },
@@ -113,9 +111,7 @@ watchOnce(
                 refreshNuxtData('booking-pay-status');
             } catch (e) {
                 const err = e as PaymentStatusError;
-                // eslint-disable-next-line
-                console.log(err.message);
-                // message.danger(err.message);
+                message.danger(err.message);
             }
         }
 

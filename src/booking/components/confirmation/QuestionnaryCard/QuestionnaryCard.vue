@@ -7,7 +7,7 @@ import { Card, Input, Button, RadioButtonGroup, Select } from '@ui/components';
 import { XIcon } from '@ui/icons';
 import type { Questionnary, QuestionnaryForm, Insurance } from '@/booking/types';
 import type { FetchAvailableDocumentsResponse } from '@/booking/services';
-import { fetchInsurances } from '@/booking/services';
+import { fetchInsurances, fetchVisaTypes } from '@/booking/services';
 import {
     required,
     email,
@@ -22,6 +22,7 @@ import { useAuthStore } from '@/auth/stores';
 import { vMaska } from 'maska';
 import type { Document, UpperCaseKeys } from '@/account/types';
 import { textTransform } from '@/app/lib';
+import { addDocument, editUserDoc } from '@/account/services';
 
 const { isAuthenticated } = storeToRefs(useAuthStore());
 
@@ -36,6 +37,7 @@ type Props = {
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
+    (e: 'auth'): void;
     (e: 'success'): void;
     (e: 'clear-form', value: number): void;
     (
@@ -93,7 +95,7 @@ const docMask = computed(() => {
     )?.template;
 
     if (template?.length) {
-        return template.indexOf(' ') >= 0 ? template[0] : template[0].replace('#', ' #');
+        return template[0].includes(' ') ? template[0] : template[0].replace('#', ' #');
     } else {
         return '#### ######';
     }
@@ -120,6 +122,7 @@ const rules = computed(() => ({
                 : latinText
             : '',
     },
+    second_name: {},
     birthday: { required, isValidDate, birthday },
     sex: { required },
     service_insurance_id: { required },
@@ -163,11 +166,40 @@ const {
     }
 );
 
+const { data: visaTypes, execute: visaTypesExecute } = useLazyAsyncData(
+    'form-visa',
+    () => fetchVisaTypes(props.questionnary),
+    {
+        server: false,
+        immediate: false,
+    }
+);
+
 const canFetchInsurance = computed(() => {
     return !!v$.value.nationality_id.$model && !v$.value.birthday.$invalid;
 });
 
 watch(canFetchInsurance, value => value && insurancesExecute());
+
+const visaRequired = computed(() => {
+    if (!v$.value.document_type_id.$model || !documents.value) return;
+
+    return documents.value.find(document => document.id === v$.value.document_type_id.$model)
+        ?.is_visa;
+});
+
+watch(visaRequired, value => value && visaTypesExecute());
+
+const visaItems = computed(() => {
+    if (!visaTypes.value) return [{ label: '', value: '' }];
+
+    return visaTypes.value.map(visa => {
+        return {
+            label: visa.name,
+            value: visa.id,
+        };
+    });
+});
 
 const clearForm = () => {
     emit('clear-form', props.index);
@@ -177,8 +209,28 @@ const clearForm = () => {
     });
 };
 
+const createDoc = async (form: Document) => {
+    const result = await addDocument(form);
+    form.id = result.id;
+    emit('update-form', {
+        index: props.index,
+        doc: form,
+    });
+};
+
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
+    if (!isAuthenticated.value) {
+        emit('auth');
+        return;
+    }
+    const form = { ...props.questionnary.form };
+    const splitDocumentNumber = form.document_number!.split(' ');
+    form.document_series = splitDocumentNumber[0];
+    form.document_number = splitDocumentNumber[1];
+    props.questionnary.form.id
+        ? await editUserDoc(props.questionnary.form.id, form as Document)
+        : await createDoc(form as Document);
     emit('success');
 };
 
@@ -227,6 +279,12 @@ upperCaseKeys.forEach(key => {
                 required
                 v-model="v$.first_name.$model"
                 :error="v$.first_name.$errors[0]?.$message"
+            />
+            <Input
+                v-if="selectedDoc && selectedDoc.is_cyrillic"
+                label="Отчество"
+                v-model="v$.second_name.$model"
+                :error="v$.second_name.$errors[0]?.$message"
             />
             <Input
                 label="Дата рождения"
@@ -299,6 +357,9 @@ upperCaseKeys.forEach(key => {
                 :options="fetchedInsurances"
                 :disabled="!fetchedInsurances"
             />
+            <!--TODO-->
+            <!--Сделать модалку с выбором-->
+            <Select v-if="visaTypes && visaTypes.length" :options="visaItems" />
         </div>
         <div>
             <button @click="clearForm">
@@ -308,8 +369,10 @@ upperCaseKeys.forEach(key => {
                 </div>
             </button>
         </div>
-        <div v-if="!isLast" class="flex space-x-2.5">
-            <Button variant="primary" @click="submit"> Перейти к следущей анкете </Button>
+        <div class="flex space-x-2.5">
+            <Button variant="primary" @click="submit">
+                {{ isLast ? 'Перейти к условиям' : 'Перейти к следущей анкете' }}
+            </Button>
         </div>
     </Card>
 </template>

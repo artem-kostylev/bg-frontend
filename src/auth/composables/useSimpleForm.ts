@@ -1,4 +1,4 @@
-import { ref, watch, onBeforeUnmount } from 'vue';
+import { ref, watch, onBeforeUnmount, type ComputedRef } from 'vue';
 import type { ValidationRuleWithParams } from '@vuelidate/core';
 import { useVuelidate } from '@vuelidate/core';
 
@@ -6,6 +6,7 @@ export function useSimpleForm({
     field,
     fieldRules,
     emit,
+    isError,
     onChange,
 }: {
     field: string;
@@ -14,8 +15,8 @@ export function useSimpleForm({
         (e: 'submit', value: string): void;
         (e: 'clear-errors'): void;
     };
+    isError?: ComputedRef<boolean>;
     onChange?: boolean;
-    clearErrors?: boolean;
 }) {
     const form = ref({
         [field]: '',
@@ -34,6 +35,10 @@ export function useSimpleForm({
         emit('submit', form.value[field]);
     };
 
+    watch(form.value, () => {
+        isError?.value && emit('clear-errors');
+    });
+
     if (onChange) {
         watch(
             () => form.value[field],
@@ -42,10 +47,6 @@ export function useSimpleForm({
             }
         );
     }
-
-    watch(form.value, () => {
-        emit('clear-errors');
-    });
 
     onBeforeUnmount(() => {
         form.value[field] = '';

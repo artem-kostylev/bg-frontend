@@ -5,7 +5,7 @@ import { TourList, TourFilters } from '@/tours/components';
 import { fetchTours } from '@/tours/services';
 import { Spin, Typography, Alert } from '@ui/components';
 import type { FiltersRaw } from '@/app/types';
-import { formatFilters, pluralize } from '@/app/lib';
+import { pluralize } from '@/app/lib';
 import { useQuery, useName, useInfinity } from '@/app/composables';
 import { Empty, Page } from '@/app/components';
 
@@ -28,8 +28,6 @@ const { targetRef, loadingMore } = useInfinity(async () => {
     data.value!.has_next = response.has_next;
     data.value!.tours.push(...response.tours);
 });
-
-const filters = computed(() => formatFilters(data.value!.filters));
 
 watch(query, () => name.value === 'tours-search' && refresh());
 
@@ -57,7 +55,7 @@ const alertTitle = computed(() => {
             <TourFilters v-model="sort" class="mb-8" />
             <div class="space-y-5">
                 <template v-if="data.tours.length">
-                    <TourList :tours="data.tours" :name="name" :filters="filters" />
+                    <TourList :tours="data.tours" :name="name" :filters="data.filters" />
                     <template v-if="data.has_next">
                         <Spin v-if="loadingMore" color="primary" class="my-12 flex-1" />
                         <div v-else ref="targetRef"></div>
@@ -69,7 +67,11 @@ const alertTitle = computed(() => {
                         :title="alertTitle"
                         text="Измените поисковый запрос или рассмотрите похожие варианты:"
                     />
-                    <TourList :tours="data.alternatives" :name="name" :filters="filters" />
+                    <TourList
+                        :tours="data.alternatives"
+                        :name="name"
+                        :filters="data.filter_alternatives"
+                    />
                 </template>
                 <Empty
                     v-if="!data.tours.length && !data.alternatives?.length"

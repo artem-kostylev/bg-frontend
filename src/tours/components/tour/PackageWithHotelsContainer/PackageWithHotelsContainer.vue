@@ -5,7 +5,6 @@ import type { FetchTourPackageWithHotelsQuery } from '@/tours/services';
 import { fetchTourPackageWithHotels } from '@/tours/services';
 import { Page } from '@/app/components';
 import { Spin, Typography } from '@ui/components';
-import { formatFilters } from '@/app/lib';
 import { PackageDetails, TourList } from '@/tours/components';
 
 type Props = {
@@ -26,8 +25,6 @@ const hotelNumber = computed(() => {
     if (!accommodations_unikey) return 1;
     return accommodations_unikey[0].length + 1;
 });
-
-const filters = computed(() => formatFilters(data.value!.filters));
 </script>
 
 <template>
@@ -38,7 +35,7 @@ const filters = computed(() => formatFilters(data.value!.filters));
             <Typography variant="h2" as="h2" class="mb-5">
                 Выбор отеля № {{ hotelNumber }}</Typography
             >
-            <TourList :filters="filters" :name="name" :tours="data.tours" />
+            <TourList :filters="data.filters" :name="name" :tours="data.tours" />
         </template>
     </Page>
 </template>

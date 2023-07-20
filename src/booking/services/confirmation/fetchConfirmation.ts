@@ -21,7 +21,7 @@ export type FetchConfirmationResponse = {
 };
 
 export type FetchConfirmationQuery = {
-    tour_ids: string[] | string;
+    tour_ids: string[];
     tours_hash: string;
     transfers: string[];
     tickets: string[];
@@ -33,16 +33,14 @@ type FetchConfirmationPayload = FetchConfirmationQuery;
 export const fetchConfirmation = async (payload: FetchConfirmationPayload) => {
     const tickets = payload.tickets ? parseTickets(payload.tickets) : undefined;
 
-    const response = await http<FetchConfirmationResponse>('tour/confirmation', {
+    return await http<FetchConfirmationResponse>('tour/confirmation', {
         method: 'POST',
         body: {
-            tour_ids: payload.tour_ids[0],
+            tour_ids: payload.tour_ids.flat(1),
             tours_hash: payload.tours_hash,
             transfers: payload.transfers,
             tour_tourists: payload.tour_tourists && parseTourists(payload.tour_tourists),
             tickets,
         },
     });
-
-    return response;
 };

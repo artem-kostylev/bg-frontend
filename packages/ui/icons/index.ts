@@ -74,3 +74,4 @@ export { default as VkIcon } from './Vk.vue';
 export { default as ChevronLeftIcon } from './ChevronLeft.vue';
 export { default as MapIcon } from './Map.vue';
 export { default as ChangePriceIcon } from './ChangePrice.vue';
+export { default as DownloadArrowIcon } from './DownloadArrow.vue';

@@ -3,9 +3,14 @@ import { $fetch, FetchError, type FetchOptions } from 'ofetch';
 import { useAuthStore } from '@/auth/stores/auth';
 import { parse } from '@set-cookie-parser';
 
-type Options = { version?: number } & FetchOptions<'json'>;
+type ResponseType = 'json' | 'blob';
 
-export const http = async <T>(request: RequestInfo, options: Options = {}) => {
+type Options<B extends ResponseType> = { version?: number } & FetchOptions<B>;
+
+export const http = async <T, B extends ResponseType = 'json'>(
+    request: RequestInfo,
+    options: Options<B> = {}
+) => {
     const nuxtApp = useNuxtApp();
     const rc = useRuntimeConfig();
 
@@ -24,7 +29,7 @@ export const http = async <T>(request: RequestInfo, options: Options = {}) => {
     options.baseURL = `${rc.public.apiBase}/v${options.version ?? 1}/`;
 
     try {
-        return await $fetch<T>(request, options);
+        return await $fetch<T, B>(request, options);
     } catch (error) {
         if (!(error instanceof FetchError)) throw error;
 
@@ -47,7 +52,7 @@ export const http = async <T>(request: RequestInfo, options: Options = {}) => {
                 setAccessToken(response._data.accessToken);
                 options.headers.set('Authorization', `Bearer ${accessToken}`);
 
-                return await $fetch<T>(request, options);
+                return await $fetch<T, B>(request, options);
             } catch (err) {
                 setUser(null);
                 setAccessToken(null);

@@ -25,7 +25,7 @@ export const fetchInsurances = async (payload: FetchInsurancesPayload) => {
             date_of_birth: payload.questionnary.form.birthday,
             nationality_id: payload.questionnary.form.nationality_id,
         },
-        method: 'post',
+        method: 'POST',
     });
 
     return [payload.insurances[0], ...response.data];

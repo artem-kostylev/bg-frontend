@@ -17,6 +17,6 @@ export type addAppealResponse = {
 };
 
 export const addAppeal = async (body: addAppealPayload) => {
-    const response = await http<addAppealResponse>('user/support/post', { body, method: 'post' });
+    const response = await http<addAppealResponse>('user/support/post', { body, method: 'POST' });
     return response.data;
 };

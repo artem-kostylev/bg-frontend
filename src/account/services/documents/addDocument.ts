@@ -8,7 +8,7 @@ export type addDocumentResponse = {
 export const addDocument = async (form: NewDocument | Document) => {
     const result = await http<addDocumentResponse>('tourists_documents', {
         body: form,
-        method: 'post',
+        method: 'POST',
     });
     return result.data;
 };

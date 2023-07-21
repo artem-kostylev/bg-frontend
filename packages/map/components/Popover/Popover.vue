@@ -39,7 +39,7 @@ onClickOutside(floatingRef, () => (visible.value = false), { ignore: [referenceR
             <div
                 v-if="visible"
                 ref="floatingRef"
-                class="absolute bottom-full left-1/2 -translate-x-1/2 pb-1.5"
+                class="absolute bottom-full left-1/2 -translate-x-1/2 pb-1.5 z-40"
             >
                 <slot />
             </div>

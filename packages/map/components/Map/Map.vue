@@ -37,7 +37,7 @@ useScriptTag(
         map = new YMap(mapRef.value!, { location: { center: props.center, zoom: props.zoom } });
 
         map.addChild(new YMapDefaultSchemeLayer({}));
-        map.addChild(new YMapDefaultFeaturesLayer({ zIndex: 1800 }));
+        map.addChild(new YMapDefaultFeaturesLayer({}));
 
         isReady.value = true;
     },

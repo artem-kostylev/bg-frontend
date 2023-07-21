@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { LngLat, YMapMarker } from '@yandex/ymaps3-types';
-import { onBeforeUnmount, onMounted, createApp, useSlots, h } from 'vue';
+import { onBeforeUnmount, onMounted, createVNode, useSlots, ref, watch, render } from 'vue';
 import { useMap } from '@map/composables';
 import { Popover } from '@map/components';
 
@@ -14,14 +14,26 @@ const slots = useSlots();
 const { addChild, removeChild } = useMap()!;
 let marker: YMapMarker | undefined;
 
+const show = ref(false);
+
+const update = () => (show.value = !show.value);
+
+watch(show, value => {
+    marker?.update({ zIndex: value ? 1000 : 0 });
+});
+
 onMounted(() => {
     const div = document.createElement('div');
 
-    const componentRef = createApp(() => h(Popover, { placement: 'top' }, slots));
+    const componentRef = createVNode(
+        Popover,
+        { placement: 'top', modelValue: show.value, 'onUpdate:modelValue': update },
+        slots
+    );
 
-    componentRef.mount(div);
+    render(componentRef, div);
 
-    marker = new ymaps3.YMapMarker({ coordinates: props.coordinates, zIndex: 0 }, div);
+    marker = new ymaps3.YMapMarker({ coordinates: props.coordinates }, div);
 
     addChild(marker);
 });

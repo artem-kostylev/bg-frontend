@@ -6,13 +6,13 @@ export default {
 
 <script setup lang="ts">
 import { useLazyAsyncData, useRouter, useRoute } from '#imports';
-import { ref, reactive, computed, onMounted, watch } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
 import type { General, Insurance, Accommodation } from '@/booking/types';
 import { Button, Typography, Collapse, Checkbox, Divider } from '@ui/components';
 import { QuestionnaryCard, NewPriceModal } from '@/booking/components';
 import { fetchAvailableDocuments, createOrder } from '@/booking/services';
 import type { Questionnary, QuestionnaryForm } from '@/booking/types';
-import type { Document } from '@/account/types';
+import type { Document, NewDocument } from '@/account/types';
 import { formatCurrency, required } from '@/app/lib';
 import { useVuelidate } from '@vuelidate/core';
 import { sameAs } from '@vuelidate/validators';
@@ -20,6 +20,7 @@ import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/auth/stores';
 import { parseTickets } from '@/booking/lib/helpers';
 import { useMessage } from '@ui/composables';
+import { addDocument, editUserDoc } from '@/account/services';
 
 const route = useRoute();
 const router = useRouter();
@@ -160,7 +161,30 @@ const success = (index: number) => {
 
 const totalPrice = computed(() => props.general.total_price);
 
+const verifyDocuments = async () => {
+    const arrayFetchDocuments = form.questionnaries.map(questionnary => {
+        const splitDocumentNumber = questionnary.form.document_number!.split(' ');
+        questionnary.form.document_series = splitDocumentNumber[0];
+        questionnary.form.document_number = splitDocumentNumber[1];
+        return questionnary.form.id
+            ? editUserDoc(questionnary.form.id, questionnary.form as Document)
+            : addDocument(questionnary.form as NewDocument);
+    });
+    try {
+        const responses = await Promise.all(arrayFetchDocuments);
+        responses.forEach(
+            (response, index) => response?.id && (form.questionnaries[index].form.id = response.id)
+        );
+    } catch (error) {
+        let errorMessage = 'Unknown Error';
+        if (error instanceof Error) errorMessage = error.message;
+        message.danger(errorMessage);
+    }
+};
+
 const sendOrder = async () => {
+    sending.value = true;
+    !orderId.value && (await verifyDocuments());
     const { tickets, transfers } = route.query;
     let currentIndex = 0;
 
@@ -193,10 +217,9 @@ const sendOrder = async () => {
 
     orderId.value && (payload.order_id = orderId.value);
     tickets && (payload.tickets = parseTickets(tickets as string[]));
-    // transfers && (payload.transfers = JSON.parse(transfers as string));
+    transfers && (payload.transfers = JSON.parse(transfers as string));
 
     try {
-        sending.value = true;
         const response = await createOrder(payload);
 
         if (response.status === 'newprice') {
@@ -222,12 +245,6 @@ const sendOrder = async () => {
     }
 };
 
-watch(error, (value, prevValue) => {
-    if (prevValue === 'newprice' && value === 'pay') {
-        submit();
-    }
-});
-
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
 
@@ -239,18 +256,13 @@ const submit = async () => {
     await sendOrder();
 };
 
-watch(documents, value => {
-    form.questionnaries = props.general.groups.flatMap(({ tourists, tour_id }) =>
-        tourists.map(({ description }) => ({
-            label: description,
-            form: { service_insurance_id: props.insurances[0].id } as Partial<QuestionnaryForm>,
-            tour_id,
-            availableDocuments: documents.value,
-        }))
-    );
+watch(error, (value, prevValue) => {
+    if (prevValue === 'newprice' && value === 'pay') {
+        submit();
+    }
 });
 
-onMounted(() => {
+watch(documents, () => {
     form.questionnaries = props.general.groups.flatMap(({ tourists, tour_id }) =>
         tourists.map(({ description }) => ({
             label: description,
@@ -295,10 +307,9 @@ onMounted(() => {
             @success="success(index)"
             @clear-form="clearForm"
             @update-form="updateForm"
-            @auth="showAuthModal = true"
         />
     </Collapse>
-    <div v-if="currentFormIndex === form.questionnaries.length" class="flex flex-col space-y-4">
+    <div class="flex flex-col space-y-4">
         <Checkbox v-model="v$.agreeWithTerms.$model">
             Я ознакомлен, принимаю и соглашаюсь с условиями
             <a href="#" class="text-primary-500" download target="blank">

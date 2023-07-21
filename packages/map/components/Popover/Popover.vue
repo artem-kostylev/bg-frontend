@@ -1,55 +1,42 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { onClickOutside } from '@vueuse/core';
-import { useFloating, offset, flip, shift } from '@floating-ui/vue';
-import { Paper } from '@ui/components';
 import type { PopoverProps } from './popover';
 import { defaultPopoverProps } from './popover';
 
 const props = withDefaults(defineProps<PopoverProps>(), defaultPopoverProps);
 const emit = defineEmits<{ 'update:modelValue': [boolean] }>();
 
-const referenceRef = ref(null);
-const floatingRef = ref<InstanceType<typeof Paper>>();
 const open = ref(false);
+const referenceRef = ref(null);
+const floatingRef = ref<HTMLElement>();
 
 const visible = computed(() => {
     return props.modelValue === undefined ? open.value : props.modelValue;
 });
 
-const { floatingStyles } = useFloating(referenceRef, floatingRef, {
-    open: visible,
-    placement: props.placement,
-    middleware: [offset(10), flip(), shift()],
-});
-
-const show = () =>
+const show = () => {
     props.modelValue === undefined ? (open.value = true) : emit('update:modelValue', true);
-const hide = () =>
+};
+
+const hide = () => {
     props.modelValue === undefined ? (open.value = false) : emit('update:modelValue', false);
+};
+
 const toggle = () => (visible.value ? hide() : show());
 
 const vbind = computed(() => {
     return props.trigger === 'hover'
-        ? { ref: referenceRef, onMouseover: show, onMouseleave: hide }
+        ? { ref: referenceRef, onMouseover: toggle, onMouseleave: hide }
         : { ref: referenceRef, onClick: toggle };
 });
 
-onClickOutside(
-    floatingRef,
-    () => {
-        const elements = document.body.querySelectorAll('[data-clickoutside]');
-        const lastElement = elements[elements.length - 1];
-
-        if (floatingRef.value!.$el === lastElement) hide();
-    },
-    { ignore: [referenceRef] }
-);
+onClickOutside(floatingRef, () => hide(), { ignore: [referenceRef] });
 </script>
 
 <template>
-    <slot name="trigger" v-bind="{ vbind }" />
-    <Teleport to="body">
+    <div class="relative">
+        <slot name="trigger" v-bind="{ vbind }" />
         <Transition
             appear
             enter-active-class="transition ease-out duration-200"
@@ -59,16 +46,13 @@ onClickOutside(
             leave-from-class="opacity-100 translate-y-0"
             leave-to-class="opacity-0 translate-y-1"
         >
-            <div v-if="visible" class="relative z-50">
-                <Paper
-                    ref="floatingRef"
-                    :data-clickoutside="visible"
-                    class="overflow-hidden"
-                    :style="floatingStyles"
-                >
-                    <slot />
-                </Paper>
+            <div
+                v-if="visible"
+                ref="floatingRef"
+                class="absolute bottom-full left-1/2 -translate-x-1/2 pb-1.5 z-40"
+            >
+                <slot />
             </div>
         </Transition>
-    </Teleport>
+    </div>
 </template>

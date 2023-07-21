@@ -9,16 +9,23 @@ import { formatFilters } from '@/app/lib';
 type Props = {
     name: string;
     tours: Tour[];
+    view?: number;
     filters: Filters;
 };
 
 const props = defineProps<Props>();
 
+const columns = computed(() => {
+    if (props.view === 2) return '1';
+
+    return '3';
+});
+
 const filters = computed(() => formatFilters(props.filters));
 </script>
 
 <template>
-    <Grid cols="3" gap="5">
+    <Grid :cols="columns" gap="5">
         <TourCard
             v-for="tour in tours"
             :key="tour.hotel.id"

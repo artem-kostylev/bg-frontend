@@ -64,7 +64,7 @@ onBeforeUnmount(() => {
         <div
             ref="carouselRef"
             v-bind="$attrs"
-            class="carousel-snap overflow-x-auto overflow-y-hidden scrollbar-hidden snap-mandatory scroll-smooth"
+            class="overflow-x-auto overflow-y-hidden scrollbar-hidden snap-mandatory snap-x scroll-smooth"
         >
             <slot />
         </div>
@@ -94,9 +94,3 @@ onBeforeUnmount(() => {
         </div>
     </div>
 </template>
-
-<style>
-.carousel-snap {
-    scroll-snap-type: x mandatory;
-}
-</style>

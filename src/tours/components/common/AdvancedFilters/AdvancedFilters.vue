@@ -11,18 +11,20 @@ import { formatFilters, pluralize } from '@/app/lib';
 import { useNuxtData } from '#imports';
 import { useRouter } from 'vue-router';
 import type { LocationQueryRaw } from 'vue-router';
+import { useTours } from '@/tours/composables';
 
 const { data: value } = useNuxtData<FetchToursResponse>('tours');
 
 const name = useName<string>();
 const router = useRouter();
 
+const { openAdvanced } = useTours()!;
+
 const data = ref<FetchAdvancedFiltersResponse | null>(null);
 const pending = ref(false);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fields = ref<any>({});
 const initialPrice = ref({ min: 0, max: 0 });
-const show = ref(false);
 const saved = ref(false);
 
 const filters = computed(() => {
@@ -30,7 +32,7 @@ const filters = computed(() => {
 });
 
 const getAdvancedFilters = async () => {
-    if (!show.value) return;
+    if (!openAdvanced.value) return;
 
     try {
         pending.value = true;
@@ -61,7 +63,7 @@ const getAdvancedFilters = async () => {
 
 watch(fields, getAdvancedFilters, { deep: true });
 
-watch(show, value => {
+watch(openAdvanced, value => {
     if (value && !saved.value) {
         fields.value = filters.value;
         saved.value = true;
@@ -78,7 +80,7 @@ const onSearch = () => {
         query: formatFilters({ ...filters.value, ...fields.value }) as LocationQueryRaw,
     });
 
-    show.value = false;
+    openAdvanced.value = false;
 };
 
 const onClear = () => {
@@ -89,7 +91,13 @@ const onClear = () => {
 </script>
 
 <template>
-    <Modal v-model="show" title="Все фильтры" :loading="!data && pending" size="7xl" scrollable>
+    <Modal
+        v-model="openAdvanced"
+        title="Все фильтры"
+        :loading="!data && pending"
+        size="7xl"
+        scrollable
+    >
         <template #trigger="{ vbind }">
             <Button v-bind="vbind" :end-icon="SlidersIcon">Фильтры</Button>
         </template>

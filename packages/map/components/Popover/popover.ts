@@ -3,7 +3,7 @@ import type { Placement } from '@floating-ui/vue';
 export type PopoverProps = {
     placement?: Placement;
     modelValue?: boolean;
-    trigger: 'click' | 'hover';
+    trigger?: 'click' | 'hover';
 };
 
 export const defaultPopoverProps = {

@@ -1,19 +1,29 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { onClickOutside, useVModel } from '@vueuse/core';
+import { onClickOutside } from '@vueuse/core';
 import type { PopoverProps } from './popover';
 import { defaultPopoverProps } from './popover';
 
 const props = withDefaults(defineProps<PopoverProps>(), defaultPopoverProps);
 const emit = defineEmits<{ 'update:modelValue': [boolean] }>();
 
-const visible = useVModel(props, 'modelValue', emit, { passive: true });
-
+const open = ref(false);
 const referenceRef = ref(null);
 const floatingRef = ref<HTMLElement>();
 
-const toggle = () => (visible.value = !visible.value);
-const hide = () => (visible.value = false);
+const visible = computed(() => {
+    return props.modelValue === undefined ? open.value : props.modelValue;
+});
+
+const show = () => {
+    props.modelValue === undefined ? (open.value = true) : emit('update:modelValue', true);
+};
+
+const hide = () => {
+    props.modelValue === undefined ? (open.value = false) : emit('update:modelValue', false);
+};
+
+const toggle = () => (visible.value ? hide() : show());
 
 const vbind = computed(() => {
     return props.trigger === 'hover'
@@ -21,7 +31,7 @@ const vbind = computed(() => {
         : { ref: referenceRef, onClick: toggle };
 });
 
-onClickOutside(floatingRef, () => (visible.value = false), { ignore: [referenceRef] });
+onClickOutside(floatingRef, () => hide(), { ignore: [referenceRef] });
 </script>
 
 <template>

@@ -1,18 +1,15 @@
 <script setup lang="ts">
+import { useNuxtData } from '#imports';
 import { Button } from '@ui/components';
 import { DownloadArrowIcon } from '@ui/icons';
-import { useLazyAsyncData } from '#imports';
-import { fetchOrderDocuments } from '@/account/services';
 
 type Props = {
-    orderId: number;
     orderNumber: number;
-    href: string;
 };
 
-const props = defineProps<Props>();
+defineProps<Props>();
 
-const { data } = useLazyAsyncData('order-documents', () => fetchOrderDocuments(props.orderId));
+const { data } = useNuxtData<string | undefined>('order-documents');
 </script>
 
 <template>

@@ -49,7 +49,7 @@ const canShowAdvancedFilters = computed(() => {
                 <TourTypeChoose />
             </div>
             <div
-                v-if="data?.tours.length"
+                v-if="data?.tours.length || data?.alternatives?.length"
                 :class="[
                     'px-2.5 flex items-center justify-between space-x-2.5 mb-5',
                     canShowTourType ? 'md:justify-end flex-1 md:flex-none' : ' flex-1',

@@ -7,7 +7,7 @@ type FetchOrderRefundPayload = {
 
 export const fetchOrderRefund = async (payload: FetchOrderRefundPayload) => {
     return http('order/refund', {
-        method: 'PATCH',
+        method: 'POST',
         body: payload,
     });
 };

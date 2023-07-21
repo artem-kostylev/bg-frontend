@@ -90,7 +90,7 @@ const changeLogin = () => {
 
 const clearAllErrors = () => {
     clearErrors();
-    emit('clear-errors');
+    props.incorrectCode && emit('clear-errors');
 };
 </script>
 

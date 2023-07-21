@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { Tour } from '@/tours/types';
-import { formatCurrency } from '@/app/lib';
+import { formatCurrency, formatFilters } from '@/app/lib';
 import { Map, MarkerWithPopover } from '@map';
 import { ControlButtons } from './components';
 import { TourMapCard } from '@/tours/components';
-import type { FiltersRaw } from '@/app/types';
+import type { Filters } from '@/app/types';
 import { useParams, useQuery } from '@/app/composables';
 import type { RouteLocationNamedRaw } from 'vue-router';
 import { useRouter } from 'vue-router';
+import { computed } from 'vue';
 
 const params = useParams<{ id: string }>();
 const query = useQuery<{ accommodations_unikey?: string[][]; hotel_ids?: number[] }>();
@@ -17,7 +18,7 @@ type ShortTour = Tour & { qty_hotels?: number };
 
 type Props = {
     tours: ShortTour[];
-    filters: FiltersRaw;
+    filters: Filters;
     name: string;
     target?: '_blank';
 };
@@ -57,6 +58,8 @@ const onSubmit = (tour: ShortTour) => {
     const link = router.resolve(to);
     window.open(link.href, '_blank');
 };
+
+const filters = computed(() => formatFilters(props.filters));
 </script>
 
 <template>

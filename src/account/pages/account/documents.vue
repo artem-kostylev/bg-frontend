@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useLazyAsyncData, definePageMeta } from '#imports';
 import { fetchDocuments } from '@/account/services';
 import { Page } from '@/app/components';
@@ -16,6 +16,11 @@ definePageMeta({
 });
 
 const { data, pending, execute } = useLazyAsyncData('account-documents', () => fetchDocuments());
+
+const formattedDocuments = computed(() => {
+    if (!data.value) return;
+    return formatDocuments(data.value);
+});
 
 const form = ref<NewDocument>({
     last_name: '',
@@ -84,7 +89,7 @@ const meta = {
         </div>
         <Card v-else-if="data?.length" class="py-0">
             <div
-                v-for="(item, index) in formatDocuments(data)"
+                v-for="(item, index) in formattedDocuments"
                 :key="item.id"
                 class="flex flex-col space-y-2 md:grid md:grid-cols-[1fr_2fr_1fr] md:space-y-0 p-4 border-b border-secondary-200 border-dashed last:border-none first:pt-0 last:pb-0 md:items-center"
             >

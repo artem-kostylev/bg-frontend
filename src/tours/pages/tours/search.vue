@@ -3,9 +3,9 @@ import { computed, ref, watch } from 'vue';
 import { useLazyAsyncData, definePageMeta } from '#imports';
 import { TourList, TourFilters, TourMapContainer } from '@/tours/components';
 import { fetchTours } from '@/tours/services';
-import { Spin, Typography, Button } from '@ui/components';
+import { Spin, Typography, Button, Alert } from '@ui/components';
 import type { FiltersRaw } from '@/app/types';
-import { formatFilters } from '@/app/lib';
+import { pluralize } from '@/app/lib';
 import { useQuery, useName, useInfinity } from '@/app/composables';
 import { Empty, Page } from '@/app/components';
 import { MapIcon } from '@ui/icons';
@@ -30,18 +30,27 @@ const { data, pending, error, refresh } = useLazyAsyncData(
 const { targetRef, loadingMore } = useInfinity(async () => {
     const response = await fetchTours(query.value, name.value, ++page.value, sort.value);
     data.value!.has_next = response.has_next;
+
     data.value!.tours.push(...response.tours);
 });
 
-const filters = computed(() => formatFilters(data.value!.filters));
-
-watch(query, () => refresh());
+watch(query, () => name.value === 'tours-search' && refresh());
 
 const changeView = () => {
     view.value !== 3 ? view.value++ : (view.value = 1);
 };
 
 useToursProvide({ changeView, view, openAdvanced });
+
+const alertTitle = computed(() => {
+    return data.value?.tours.length
+        ? `По вашему запросу было найдено ${pluralize(data.value.tours.length, [
+              'тур',
+              'тура',
+              'туров',
+          ])}`
+        : 'По вашему запросу туры не найдены';
+});
 </script>
 
 <template>
@@ -71,14 +80,32 @@ useToursProvide({ changeView, view, openAdvanced });
                 </div>
                 <TourFilters v-show="view === 1" v-model="sort" class="mb-5" />
                 <template v-if="data.tours.length">
-                    <TourList :tours="data.tours" :name="name" :filters="filters" :view="view" />
+                    <TourList
+                        :tours="data.tours"
+                        :name="name"
+                        :filters="data.filters"
+                        :view="view"
+                    />
                     <template v-if="data.has_next">
                         <Spin v-if="loadingMore" color="primary" class="my-12 flex-1" />
                         <div v-else ref="targetRef"></div>
                     </template>
                 </template>
+                <template v-if="data.alternatives?.length">
+                    <Alert
+                        variant="warning"
+                        :title="alertTitle"
+                        text="Измените поисковый запрос или рассмотрите похожие варианты:"
+                    />
+                    <TourList
+                        :tours="data.alternatives"
+                        :name="name"
+                        :filters="data.filter_alternatives"
+                        :view="view"
+                    />
+                </template>
                 <Empty
-                    v-else
+                    v-if="!data.tours.length && !data.alternatives?.length"
                     title="По вашему запросу ничего не нашлось"
                     description="Попробуйте скорректировать поиск, изменив регион, даты заезда и выезда, количество гостей или фильтры"
                 />
@@ -94,7 +121,7 @@ useToursProvide({ changeView, view, openAdvanced });
                 <TourMapContainer
                     :tours="data.tours"
                     :name="name"
-                    :filters="filters"
+                    :filters="data.filters"
                     class="w-full h-full max-h-screen rounded-xl overflow-hidden sticky top-0"
                 />
             </div>

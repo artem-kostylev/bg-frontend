@@ -5,11 +5,11 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { useLazyAsyncData, useRoute, useRouter } from '#imports';
+import { useLazyAsyncData, useRouter, useRoute } from '#imports';
 import { ref, reactive, computed, onMounted, watch } from 'vue';
 import type { General, Insurance, Accommodation } from '@/booking/types';
-import { Button, Typography, Collapse, Checkbox, Radio, Card, Modal } from '@ui/components';
-import { QuestionnaryCard, ModalForm } from '@/booking/components';
+import { Button, Typography, Collapse, Checkbox, Divider } from '@ui/components';
+import { QuestionnaryCard, NewPriceModal } from '@/booking/components';
 import { fetchAvailableDocuments, createOrder } from '@/booking/services';
 import type { Questionnary, QuestionnaryForm } from '@/booking/types';
 import type { Document } from '@/account/types';
@@ -19,15 +19,14 @@ import { sameAs } from '@vuelidate/validators';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '@/auth/stores';
 import { parseTickets } from '@/booking/lib/helpers';
-// import { useMessage } from '@ui/composables';
+import { useMessage } from '@ui/composables';
 
 const route = useRoute();
 const router = useRouter();
 
-const { showAuthModal, isAuthenticated } = storeToRefs(useAuthStore());
+const { isAuthenticated, showAuthModal } = storeToRefs(useAuthStore());
 
 type Form = {
-    clientId?: number;
     questionnaries: Questionnary[];
     news: {};
 };
@@ -43,9 +42,9 @@ const props = defineProps<Props>();
 const sending = ref(false);
 const error = ref('');
 const newPrice = ref<number | null>(null);
-const modalForm = ref<QuestionnaryForm>();
+const orderId = ref<number | null>(null);
 
-// const message = useMessage();
+const message = useMessage();
 
 const form = reactive<Form>({
     questionnaries: [],
@@ -65,7 +64,6 @@ const { data: documents } = useLazyAsyncData('form-documents', () =>
 const formKeys: (keyof Partial<
     Omit<
         Document,
-        | 'id'
         | 'created_at'
         | 'second_name'
         | 'deleted_at'
@@ -77,6 +75,7 @@ const formKeys: (keyof Partial<
         | 'user_id'
     >
 >)[] = [
+    'id',
     'first_name',
     'last_name',
     'birthday',
@@ -94,7 +93,6 @@ const updateForm = (value: {
     doc?: Document;
     key?: keyof Omit<
         Document,
-        | 'id'
         | 'created_at'
         | 'second_name'
         | 'deleted_at'
@@ -137,12 +135,10 @@ const clearForm = (index: number) => {
 
 const currentFormIndex = ref(0);
 const collapsed = ref([0]);
-const showFormModal = ref(false);
 
 const rules = {
     agreeWithTerms: { required, sameAsTrue: sameAs(true) },
     agreeWithPersonalData: { required, sameAsTrue: sameAs(true) },
-    // clientId: { required },
     agreeWithReceiveNews: {},
 };
 
@@ -183,8 +179,9 @@ const sendOrder = async () => {
                 )
                 .map((questionnary: Questionnary) => {
                     return {
-                        ...questionnary.form,
-                        service_insurance_id: String(questionnary.form.service_insurance_id),
+                        // service_visa_id: questionnary.form,
+                        document_id: questionnary.form.id,
+                        service_insurance_id: questionnary.form.service_insurance_id,
                     };
                 }),
         };
@@ -194,13 +191,9 @@ const sendOrder = async () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const payload: any = { groups };
 
-    if (form.clientId !== undefined) {
-        payload.client =
-            form.clientId === -1 ? modalForm.value : form.questionnaries[form.clientId];
-    }
-
+    orderId.value && (payload.order_id = orderId.value);
     tickets && (payload.tickets = parseTickets(tickets as string[]));
-    transfers && (payload.transfers = JSON.parse(transfers as string));
+    // transfers && (payload.transfers = JSON.parse(transfers as string));
 
     try {
         sending.value = true;
@@ -209,22 +202,31 @@ const sendOrder = async () => {
         if (response.status === 'newprice') {
             error.value = 'newprice';
             newPrice.value = response.price;
+            orderId.value = response.order_id;
             return;
         }
 
         if (response.status === 'created') {
             router.push({ name: 'booking-pay', query: { order_id: response.order_id } });
         }
+
+        if (response.status === 'errorBGO' && response?.error?.errors.error) {
+            message.danger('Ошибка ПКУП № ' + response.error.errors.error);
+        }
     } catch (error) {
         let errorMessage = 'Unknown Error';
         if (error instanceof Error) errorMessage = error.message;
-        // eslint-disable-next-line
-        console.log(errorMessage);
-        // message.danger(errorMessage);
+        message.danger(errorMessage);
     } finally {
         sending.value = false;
     }
 };
+
+watch(error, (value, prevValue) => {
+    if (prevValue === 'newprice' && value === 'pay') {
+        submit();
+    }
+});
 
 const submit = async () => {
     if (!(await v$.value.$validate())) return;
@@ -247,26 +249,6 @@ watch(documents, value => {
         }))
     );
 });
-
-const isAdult = (dateOfBirth?: string) => {
-    if (!dateOfBirth) return true;
-
-    const now = new Date();
-    const birthDate = new Date(dateOfBirth.split('.').reverse().join('-'));
-    const ageInMilliseconds = now.getTime() - birthDate.getTime();
-    const ageInYears = ageInMilliseconds / (1000 * 60 * 60 * 24 * 365.25);
-    return ageInYears >= 18;
-};
-
-const onModalSubmit = () => {
-    showFormModal.value = false;
-};
-
-const onModalClose = () => {
-    showFormModal.value = false;
-    form.clientId = undefined;
-    modalForm.value = undefined;
-};
 
 onMounted(() => {
     form.questionnaries = props.general.groups.flatMap(({ tourists, tour_id }) =>
@@ -313,39 +295,10 @@ onMounted(() => {
             @success="success(index)"
             @clear-form="clearForm"
             @update-form="updateForm"
+            @auth="showAuthModal = true"
         />
     </Collapse>
-    <div class="border-t border-b border-secondary-200 border-dashed py-5">
-        <Typography variant="h3" class="mb-5">
-            Анкета для оформления договора
-            <span class="text-danger-600">*</span>
-        </Typography>
-        <div class="flex flex-col space-y-4">
-            <template v-for="(entity, index) in form.questionnaries" :key="index">
-                <Radio v-if="isAdult(entity.form.birthday)" v-model="form.clientId" :value="index">
-                    Использовать для анкеты данные Туриста №{{ index + 1 }}
-                </Radio>
-            </template>
-            <Modal v-model="showFormModal" persistent>
-                <template #trigger="{ vbind }">
-                    <Radio v-bind="vbind" v-model="form.clientId" :value="-1">
-                        Заполнить анкету
-                    </Radio>
-                </template>
-                <Card>
-                    <template #header>
-                        <Typography variant="h3">Анкета</Typography>
-                    </template>
-                    <ModalForm
-                        :questionnary="modalForm"
-                        @submit="onModalSubmit"
-                        @close="onModalClose"
-                    />
-                </Card>
-            </Modal>
-        </div>
-    </div>
-    <div class="flex flex-col space-y-4">
+    <div v-if="currentFormIndex === form.questionnaries.length" class="flex flex-col space-y-4">
         <Checkbox v-model="v$.agreeWithTerms.$model">
             Я ознакомлен, принимаю и соглашаюсь с условиями
             <a href="#" class="text-primary-500" download target="blank">
@@ -361,12 +314,14 @@ onMounted(() => {
             Согласен(а) на получение новостных рассылок и предложений
         </Checkbox>
     </div>
-    <div class="space-y-4">
-        <div>
+    <div class="space-y-5">
+        <Divider dashed />
+        <div class="text-2xl tracking-tight">
             Итого за тур: <span class="font-bold">{{ formatCurrency(totalPrice) }}</span>
         </div>
         <Button variant="primary" :disabled="v$.$invalid" :loading="sending" @click="submit">
             Перейти к оплате
         </Button>
     </div>
+    <NewPriceModal v-model="error" :new-price="newPrice" />
 </template>

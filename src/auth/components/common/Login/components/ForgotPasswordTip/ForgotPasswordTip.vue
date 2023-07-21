@@ -8,14 +8,13 @@ import { phoneMask } from '@/app/lib/helpers';
 type Props = {
     modelValue: boolean;
     loginInfo: LoginInfo;
-    error: boolean;
-    pending: boolean;
+    isError: boolean;
 };
 
 const props = defineProps<Props>();
 
 const tipLabel = computed(() => {
-    const passwordTip = props.error ? 'Вы ввели некорректный пароль. ' : '';
+    const passwordTip = props.isError ? 'Вы ввели некорректный пароль. ' : '';
     return `${passwordTip}Для восстановления пароля мы вышлем код на `;
 });
 
@@ -49,9 +48,7 @@ const toggle = () => {
                     }}</span>
                 </div>
                 <div class="flex justify-center mt-2.5">
-                    <Button variant="secondary" :loading="pending" @click="emit('reset-password')"
-                        >Выслать код</Button
-                    >
+                    <Button variant="secondary" @click="emit('reset-password')">Выслать код</Button>
                 </div>
             </div>
         </CollapseTransition>

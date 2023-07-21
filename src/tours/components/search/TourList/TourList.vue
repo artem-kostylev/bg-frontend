@@ -2,14 +2,15 @@
 import { computed } from 'vue';
 import { Grid } from '@ui/components';
 import { TourCard } from '@/tours/components';
-import type { FiltersRaw } from '@/app/types';
+import type { Filters } from '@/app/types';
 import type { Tour } from '@/tours/types';
+import { formatFilters } from '@/app/lib';
 
 type Props = {
     name: string;
     tours: Tour[];
-    filters: FiltersRaw;
     view?: number;
+    filters: Filters;
 };
 
 const props = defineProps<Props>();
@@ -19,6 +20,8 @@ const columns = computed(() => {
 
     return '3';
 });
+
+const filters = computed(() => formatFilters(props.filters));
 </script>
 
 <template>

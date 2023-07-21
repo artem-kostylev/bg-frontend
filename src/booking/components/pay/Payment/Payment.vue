@@ -6,7 +6,7 @@ import { watchOnce } from '@vueuse/core';
 import type { PayQuery } from '@/booking/types';
 import { fetchPaymentOrder, type FetchOrderDetailResponse } from '@/booking/services';
 import { formatCurrency } from '@/app/lib';
-// import { useMessage } from '@ui/composables';
+import { useMessage } from '@ui/composables';
 import { usePaymentOptions } from '@/booking/composables';
 
 type Props = {
@@ -63,7 +63,7 @@ const paymentMethod = ref<'url' | 'qr'>('url');
 
 const pending = ref(false);
 
-// const message = useMessage();
+const message = useMessage();
 
 const submit = async () => {
     if (pending.value) return;
@@ -89,9 +89,7 @@ const submit = async () => {
     } catch (error) {
         let errorMessage = 'Unknown Error';
         if (error instanceof Error) errorMessage = error.message;
-        // eslint-disable-next-line
-        console.log(errorMessage);
-        // message.danger(errorMessage);
+        message.danger(errorMessage);
     } finally {
         pending.value = false;
     }

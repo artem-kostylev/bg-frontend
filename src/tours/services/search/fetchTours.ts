@@ -11,7 +11,7 @@ export type FetchToursResponse = {
     filters: Filters;
     filter_alternatives: Filters;
     tours: Tour[];
-    alternatives: Tour[];
+    alternatives?: Tour[];
     has_next: boolean;
 };
 

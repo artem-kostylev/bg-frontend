@@ -8,7 +8,7 @@ export type FetchMainFiltersToResponse = {
 export const fetchMainFiltersTo = async (text: string) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const response = await http<any>(`location/search?text=${text}`, {
-        method: 'post',
+        method: 'POST',
     });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

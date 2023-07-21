@@ -18,6 +18,6 @@ export type FetchAvailableDocumentsResponse = {
 export const fetchAvailableDocuments = async (ids: number[]) => {
     return await http<FetchAvailableDocumentsResponse>('tour/available_documents', {
         body: { ids },
-        method: 'post',
+        method: 'POST',
     });
 };

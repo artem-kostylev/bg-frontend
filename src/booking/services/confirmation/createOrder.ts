@@ -40,7 +40,7 @@ export const createOrder = async (body: CreateOrderPayload) => {
         'tour/order/create' + (body.order_id ? '?confirm=1' : ''),
         {
             body,
-            method: 'post',
+            method: 'POST',
             version: 2,
         }
     );

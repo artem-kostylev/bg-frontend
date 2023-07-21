@@ -44,7 +44,7 @@ export const fetchAdvancedFilters = async (
             filters,
             filters_hidden,
         },
-        method: 'post',
+        method: 'POST',
     });
 
     return response;

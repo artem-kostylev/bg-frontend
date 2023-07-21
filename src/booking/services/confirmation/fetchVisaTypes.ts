@@ -20,6 +20,6 @@ export const fetchVisaTypes = async (entity: fetchVisaTypesPayload) => {
 
     return await http<fetchVisaTypesResponse>('tour/list_service_visa', {
         body,
-        method: 'post',
+        method: 'POST',
     });
 };

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Paper, CollapseTransition, Typography } from '@ui/components';
 import { ChevronDownIcon } from '@ui/icons';
 import type { CollapseProps } from '@ui/components/Collapse/collapse';
@@ -7,6 +7,11 @@ import type { CollapseProps } from '@ui/components/Collapse/collapse';
 const props = defineProps<CollapseProps>();
 
 const collapsed = ref(props.defaultOpen);
+
+watch(
+    () => props.defaultOpen,
+    () => (collapsed.value = props.defaultOpen)
+);
 </script>
 
 <template>

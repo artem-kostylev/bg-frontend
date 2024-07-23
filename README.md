@@ -1,26 +1,26 @@
 # bg-frontend
 
-Устанавливаем зависимости
+Installing dependencies
 ```bash
 pnpm i
 ```
-Создаем .env файл в корне проекта по подобию .env.example
+Create a .env file in the root of the project similar to .env.example
 
-Для запуска dev используем
+To launch dev we use
 ```bash
 npm run dev
 ```
-Для запуска storybook
+To launch a storybook
 ```bash
 npm run dev:storybook
 ```
 
-Так же доступы команды для проветки lint 
+Commands for checking lint are also available
 ```bash
 npm run lint
 ```
 
-и типов typescript
+and typescript types
 ```bash
 npm run typecheck
 ```
